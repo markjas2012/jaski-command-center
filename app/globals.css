@@ -24,3 +24,113 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+:root,
+[data-theme="mission"] {
+  --app-bg: #070809;
+  --panel-bg: #121416;
+  --panel-bg-soft: #0d0f11;
+  --sidebar-bg: #090806;
+  --topbar-bg: #090a0b;
+
+  --text-primary: #f4f4f5;
+  --text-secondary: #8b8d93;
+  --border-color: #292b2f;
+
+  --accent: #e8b84a;
+  --accent-text: #16120a;
+}
+
+[data-theme="executive"] {
+  --app-bg: #eef1f4;
+  --panel-bg: #ffffff;
+  --panel-bg-soft: #f7f8fa;
+  --sidebar-bg: #17202b;
+  --topbar-bg: #ffffff;
+
+  --text-primary: #17202b;
+  --text-secondary: #667085;
+  --border-color: #d9dee5;
+
+  --accent: #1f5f99;
+  --accent-text: #ffffff;
+}
+
+[data-theme="augusta"] {
+  --app-bg: #eee9dc;
+  --panel-bg: #f9f5e9;
+  --panel-bg-soft: #eee7d5;
+  --sidebar-bg: #123524;
+  --topbar-bg: #183f2d;
+
+  --text-primary: #183126;
+  --text-secondary: #6f746b;
+  --border-color: #cfc5aa;
+
+  --accent: #c59b3b;
+  --accent-text: #15261d;
+}
+
+[data-theme="midnight"] {
+  --app-bg: #07111d;
+  --panel-bg: #0e1b2a;
+  --panel-bg-soft: #0a1522;
+  --sidebar-bg: #06101b;
+  --topbar-bg: #091827;
+
+  --text-primary: #edf7ff;
+  --text-secondary: #879bad;
+  --border-color: #20364a;
+
+  --accent: #42c8f5;
+  --accent-text: #04121a;
+}
+
+[data-theme="apple"] {
+  --app-bg: #f2f2f7;
+  --panel-bg: rgba(255, 255, 255, 0.82);
+  --panel-bg-soft: rgba(246, 246, 248, 0.9);
+  --sidebar-bg: #ffffff;
+  --topbar-bg: rgba(255, 255, 255, 0.9);
+
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --border-color: #d2d2d7;
+
+  --accent: #007aff;
+  --accent-text: #ffffff;
+}
+
+html,
+body {
+  background: var(--app-bg);
+  color: var(--text-primary);
+}
+
+.jaski-sidebar {
+  background: var(--sidebar-bg);
+  border-color: var(--border-color);
+}
+
+.jaski-topbar {
+  background: var(--topbar-bg);
+  border-color: var(--border-color);
+}
+
+.jaski-panel {
+  background: var(--panel-bg);
+  border-color: var(--border-color);
+}
+
+.jaski-panel-soft {
+  background: var(--panel-bg-soft);
+  border-color: var(--border-color);
+}
+
+.jaski-muted {
+  color: var(--text-secondary);
+}
+
+.jaski-accent {
+  background: var(--accent);
+  color: var(--accent-text);
+}
