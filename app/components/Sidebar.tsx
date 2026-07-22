@@ -1,36 +1,31 @@
 import Link from "next/link";
 
-const items = [
-  { name: "Dashboard", href: "/" },
-  { name: "Swan Industries", href: "/swan" },
-  { name: "Albatross", href: "/albatross" },
-  { name: "Sales Atlas", href: "/sales-atlas" },
-  { name: "Entertainment", href: "/entertainment" },
-  { name: "Family", href: "/family" },
-  { name: "Settings", href: "/settings" },
+const navigation = [
+  { label: "Dashboard", href: "/" },
+  { label: "Calendar", href: "/calendar" },
+  { label: "Notes", href: "/notes" },
+  { label: "Favorites", href: "/favorites" },
+  { label: "Entertainment", href: "/entertainment" },
+  { label: "Family", href: "/family" },
+  { label: "Settings", href: "/settings" },
 ];
 
 export default function Sidebar() {
   return (
-    <aside className="w-72 min-h-screen bg-zinc-950 border-r border-zinc-800">
-      <div className="p-6">
-        <h1 className="text-3xl font-bold text-white">
-          JASKI
-        </h1>
-
-        <p className="text-zinc-500 mt-1">
-          Command Center
-        </p>
+    <aside className="jaski-sidebar flex min-h-screen w-60 shrink-0 flex-col border-r p-6">
+      <div className="mb-10">
+        <h1 className="text-2xl font-bold">JASKI</h1>
+        <p className="jaski-muted mt-1 text-sm">Personal Command Center</p>
       </div>
 
-      <nav className="px-4">
-        {items.map((item) => (
+      <nav className="space-y-2">
+        {navigation.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="block rounded-xl px-4 py-3 mb-2 text-zinc-300 hover:bg-zinc-800 hover:text-white transition"
+            className="block rounded-xl px-3 py-3 text-sm font-medium transition hover:bg-white/5"
           >
-            {item.name}
+            {item.label}
           </Link>
         ))}
       </nav>
