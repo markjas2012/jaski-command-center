@@ -1,10 +1,24 @@
+import Clock from "./components/Clock";
 import TodayTasks from "./components/TodayTasks";
 import Button from "./Button";
 import DashboardGrid from "./components/DashboardGrid";
 import Widget from "./components/Widget";
 import QuickNotes from "./components/QuickNotes";
+import Weather from "./components/Weather";
 export default function Home() {
+  const DISPLAY_NAME = "Jaski";
+
+  const hour = new Date().getHours();
+
+  const greeting =
+    hour < 12
+      ? "Good morning"
+      : hour < 18
+        ? "Good afternoon"
+        : "Good evening";
+
   return (
+    
     <div className="space-y-8 p-6">
       <section>
         <p className="jaski-muted text-sm font-semibold uppercase tracking-[0.2em]">
@@ -12,12 +26,16 @@ export default function Home() {
         </p>
 
         <h1 className="mt-2 text-4xl font-bold">
-          Good afternoon, Mark.
-        </h1>
+  {greeting}, {DISPLAY_NAME}.
+</h1>
 
-        <p className="jaski-muted mt-2">
-          Everything important, without the clutter.
-        </p>
+<div className="mt-2">
+  <Clock />
+</div>
+
+<p className="jaski-muted mt-2">
+  Everything important, without the clutter.
+</p>
       </section>
 
       <DashboardGrid>
@@ -25,11 +43,8 @@ export default function Home() {
                 <TodayTasks />
         </Widget>
         <Widget title="Weather">
-          <div className="space-y-1">
-            <div className="text-4xl font-bold">94°</div>
-            <div className="jaski-muted">Sunny</div>
-          </div>
-        </Widget>
+  <Weather />
+</Widget>
 
         <Widget title="Favorites">
           <div className="grid grid-cols-2 gap-3">
