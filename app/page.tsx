@@ -1,6 +1,8 @@
+import TodayTasks from "./components/TodayTasks";
 import Button from "./Button";
 import DashboardGrid from "./components/DashboardGrid";
 import Widget from "./components/Widget";
+import QuickNotes from "./components/QuickNotes";
 
 export default function Home() {
   return (
@@ -21,14 +23,8 @@ export default function Home() {
 
       <DashboardGrid>
         <Widget title="Today">
-          <ul className="space-y-2 text-sm">
-            <li>• Morning review</li>
-            <li>• Check today&apos;s calendar</li>
-            <li>• Follow up on open tasks</li>
-            <li>• Personal reminders</li>
-          </ul>
+                <TodayTasks />
         </Widget>
-
         <Widget title="Weather">
           <div className="space-y-1">
             <div className="text-4xl font-bold">94°</div>
@@ -59,11 +55,9 @@ export default function Home() {
         </Widget>
 
         <Widget title="Quick Notes">
-          <p className="jaski-muted">
-            A fast scratchpad will live here.
-          </p>
-        </Widget>
-      </DashboardGrid>
-    </div>
-  );
+    <QuickNotes />
+</Widget>
+</DashboardGrid>
+</div>
+);
 }
