@@ -3,7 +3,6 @@ import Button from "./Button";
 import DashboardGrid from "./components/DashboardGrid";
 import Widget from "./components/Widget";
 import QuickNotes from "./components/QuickNotes";
-
 export default function Home() {
   return (
     <div className="space-y-8 p-6">
