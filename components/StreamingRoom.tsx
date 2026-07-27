@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./StreamingRoom.module.css";
+import LiveStreamingRadar from "./LiveStreamingRadar";
 
 const newStreaming = [
   { service: "STREAMING", title: "New This Week", copy: "Fresh arrivals across the services you already watch.", meta: "THE MAIN EVENT" },
@@ -36,41 +37,28 @@ export default function StreamingRoom() {
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <div>
-            <p className={styles.kicker}>NEW TO STREAMING</p>
-            <h2>Start here.</h2>
-          </div>
-          <span className={styles.week}>THIS WEEK</span>
-        </div>
-
-        <div className={styles.cards}>
-          {newStreaming.map((item, index) => (
-            <article className={`${styles.card} ${index === 0 ? styles.featured : ""}`} key={item.title}>
-              <div className={styles.cardMeta}><span>{item.service}</span><span>{item.meta}</span></div>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      <LiveStreamingRadar />
 
       <section className={styles.utilityGrid}>
         <article className={styles.utility}>
-          <p className={styles.kicker}>LEAVING SOON</p>
-          <h2>Watch it before it goes.</h2>
-          <p>A future live list for worthwhile titles disappearing from your streaming services.</p>
-          <span className={styles.status}>CONTENT FEED NEXT</span>
+          <p className={styles.kicker}>YOUR SERVICES</p>
+          <h2>Go watch something.</h2>
+          <p>Fast doors to the streaming services you are most likely to use.</p>
+          <div className={styles.serviceLinks}>
+            <a href="https://www.netflix.com/" target="_blank" rel="noreferrer">Netflix ↗</a>
+            <a href="https://www.amazon.com/gp/video/storefront" target="_blank" rel="noreferrer">Prime Video ↗</a>
+            <a href="https://www.max.com/" target="_blank" rel="noreferrer">Max ↗</a>
+            <a href="https://www.hulu.com/" target="_blank" rel="noreferrer">Hulu ↗</a>
+            <a href="https://www.disneyplus.com/" target="_blank" rel="noreferrer">Disney+ ↗</a>
+            <a href="https://www.peacocktv.com/" target="_blank" rel="noreferrer">Peacock ↗</a>
+          </div>
         </article>
 
         <article className={styles.utility}>
-          <p className={styles.kicker}>IN THEATERS</p>
-          <h2>Just the highlights.</h2>
-          <p>A small blip for notable theatrical releases — no showtimes, ticket clutter, or giant theater guide.</p>
-          <span className={styles.status}>2–4 NOTABLE RELEASES</span>
+          <p className={styles.kicker}>THE POINT</p>
+          <h2>Less browsing.</h2>
+          <p>Live release coverage stays focused on what is newly available or worth noticing — not a giant catalog.</p>
+          <span className={styles.status}>STREAMING FIRST · THEATERS SECOND</span>
         </article>
       </section>
     </div>

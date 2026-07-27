@@ -1,37 +1,33 @@
-# Sprint 11.3 — Live TV Watchlist
+# Sprint 11.4.1 — Sidebar Hotfix
 
-Turns the existing personal TV tracker into a live watchlist without changing how you manage shows.
+This pack repairs the sidebar that was accidentally overwritten by the Sprint 11.4 Movies pack.
 
-## Adds
-- Each active show checks for a currently scheduled next episode.
-- Next episode season/episode and air date appear directly on the show card when available.
-- The old static **NEW THIS WEEK** box becomes **WATCHLIST RADAR**.
-- Watchlist Radar shows up to four upcoming episodes from the shows you are actually tracking.
-- Shows with no future episode posted stay quiet instead of filling the page with generic TV news.
+## Restores
+- Proper styled sidebar structure
+- Sports label
+- Hiking remains removed
+- Cooking / BBQ
+- Quick Launch
+- Notes
+- Correct active-page highlighting
 
-## Data source
-This uses TVmaze's free public API through a local Next.js route:
-`/api/tv-status`
-
-TVmaze documents single-show search plus embedded next/previous episode data. No API key is required.
+## Does NOT touch
+- TV Room
+- Live TV Watchlist
+- Movies / Streaming live-content work
+- Sports
+- Notes
+- Any API routes
+- Any CSS files
 
 ## Install
-Extract and paste into the root of `C:\Projects\jaski-homepage`.
+1. Extract this ZIP.
+2. Paste into the root of `C:\Projects\jaski-homepage`.
+3. Allow only `components\Sidebar.tsx` to replace the existing file.
+4. Refresh the browser.
 
-Allow replacement of:
-- `components\TVRoom.tsx`
-
-New files:
-- `components\LiveShowStatus.tsx`
-- `components\WatchlistRadar.tsx`
-- `components\LiveTV.module.css`
-- `app\api\tv-status\route.ts`
-
-No sidebar changes.
 No PowerShell command.
 
-Refresh `/tv`.
-
-Your existing locally saved watch list is preserved because the storage key is unchanged.
+Verify the sidebar looks normal again on `/tv` and then check `/movies`.
 
 Do not commit until verified.
