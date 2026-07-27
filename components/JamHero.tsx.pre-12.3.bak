@@ -1,6 +1,4 @@
 "use client";
-
-import DeadTodayCard from "./DeadTodayCard";
 import JamLive from "./JamLive";
 import styles from "./JamHero.module.css";
 
@@ -14,37 +12,37 @@ const quickLinks = [
 const listenNextPicks = [
   {
     title: "Grateful Dead - May 8, 1977",
-    body: "Barton Hall - Cornell University - Ithaca, New York. A legendary spring '77 show and an easy choice when you just want to put something great on.",
+    body: "Barton Hall Â· Cornell University Â· Ithaca, New York. A legendary spring '77 show and an easy choice when you just want to put something great on.",
     href: "https://archive.org/details/gd77-05-08.sbd.hicks.4982.sbeok.shnf",
   },
   {
     title: "Grateful Dead - August 27, 1972",
-    body: "Old Renaissance Faire Grounds - Veneta, Oregon. Sun-baked, loose, and expansive - one of the classic outdoor Dead shows.",
+    body: "Old Renaissance Faire Grounds Â· Veneta, Oregon. Sun-baked, loose, and expansive â€” one of the classic outdoor Dead shows.",
     href: "https://archive.org/details/gd72-08-27.sbd.braverman.16582.sbeok.shnf",
   },
   {
     title: "Grateful Dead - March 29, 1990",
-    body: "Nassau Coliseum - Uniondale, New York. Branford Marsalis joins in and the band opens up - a fantastic late-era recommendation.",
+    body: "Nassau Coliseum Â· Uniondale, New York. Branford Marsalis joins in and the band opens up â€” a fantastic late-era recommendation.",
     href: "https://archive.org/details/gd90-03-29.sbd.nawrocki.3384.sbeok.shnf",
   },
   {
     title: "Grateful Dead - September 21, 1972",
-    body: "The Spectrum - Philadelphia, Pennsylvania. Deep 1972 playing with plenty of room to wander.",
+    body: "The Spectrum Â· Philadelphia, Pennsylvania. Deep 1972 playing with plenty of room to wander.",
     href: "https://archive.org/details/gd72-09-21.sbd.masse.7296.sbeok.shnf",
   },
   {
     title: "Grateful Dead - October 9, 1989",
-    body: "Hampton Coliseum - Hampton, Virginia. The Warlocks return to Hampton with huge energy and famous song revivals.",
+    body: "Hampton Coliseum Â· Hampton, Virginia. The Warlocks return to Hampton with huge energy and famous song revivals.",
     href: "https://archive.org/details/gd89-10-09.sbd.serafin.7721.sbeok.shnf",
   },
   {
     title: "Grateful Dead - June 10, 1973",
-    body: "RFK Stadium - Washington, D.C. A huge summer '73 show with long-form improvisation and a relaxed outdoor feel.",
+    body: "RFK Stadium Â· Washington, D.C. A huge summer '73 show with long-form improvisation and a relaxed outdoor feel.",
     href: "https://archive.org/details/gd73-06-10.sbd.hollister.174.sbeok.shnf",
   },
   {
     title: "Grateful Dead - July 17, 1989",
-    body: "Alpine Valley Music Theatre - East Troy, Wisconsin. Peak summer '89 Dead: powerful, polished, and easy to recommend.",
+    body: "Alpine Valley Music Theatre Â· East Troy, Wisconsin. Peak summer '89 Dead: powerful, polished, and easy to recommend.",
     href: "https://archive.org/details/gd89-07-17.sbd.clugston.6870.sbeok.shnf",
   },
 ];
@@ -56,9 +54,26 @@ function getListenNextPick() {
   return listenNextPicks[day % listenNextPicks.length];
 }
 
-export default function JamHero() {
-  const listenNext = getListenNextPick();
+const listenNext = getListenNextPick();
 
+const spotlight = [
+  {
+    kicker: "ON THIS DAY",
+    title: "Today in Grateful Dead history",
+    body: "A daily door into one show, one date, and one good reason to hit play.",
+    href: "https://archive.org/details/GratefulDead",
+    cta: "Open the archive",
+  },
+  {
+    kicker: "LISTEN NEXT",
+    title: listenNext.title,
+    body: listenNext.body,
+    href: listenNext.href,
+    cta: "Listen on Archive",
+  },
+];
+
+export default function JamHero() {
   return (
     <main className={styles.room}>
       <section className={styles.hero}>
@@ -105,25 +120,24 @@ export default function JamHero() {
         </article>
 
         <div className={styles.spotlightGrid}>
-          <article className={styles.spotlightCard}>
-            <DeadTodayCard />
-          </article>
+          {spotlight.map((item) => (
+            <a
+              className={styles.spotlightCard}
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className={styles.cardKicker}>{item.kicker}</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              <strong>{item.cta} ↗</strong>
+            </a>
+          ))}
+              </div>
+    </section>
 
-          <a
-            className={styles.spotlightCard}
-            href={listenNext.href}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className={styles.cardKicker}>LISTEN NEXT</span>
-            <h3>{listenNext.title}</h3>
-            <p>{listenNext.body}</p>
-            <strong>Listen on Archive ↗</strong>
-          </a>
-        </div>
-      </section>
-
-      <JamLive />
-    </main>
-  );
+    <JamLive />
+  </main>
+);
 }
