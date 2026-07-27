@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CollegeFootballLive from "./CollegeFootballLive";
+import StLouisLatestScores from "./StLouisLatestScores";
 
 const teams = [
   {
@@ -99,23 +100,14 @@ export default function StLouisSports() {
         </div>
 
         <div className="sports-hero-copy">
-          <p className="sports-eyebrow">THE HOME TEAM</p>
-          <h1 id="sports-title">St. Louis<br />Sports.</h1>
+          <p className="sports-eyebrow">LATEST RESULTS</p>
+          <h1 id="sports-title">Last<br />Score.</h1>
           <p className="sports-intro">
-            Cardinals red. Blues blue. CITY red. One room for the teams that make St. Louis feel like St. Louis.
+            The latest final for the Cardinals, Blues, and CITY — right at the top of Sports.
           </p>
-          <div className="sports-hero-actions">
-            <a href="https://www.mlb.com/cardinals" target="_blank" rel="noreferrer">Cardinals ↗</a>
-            <a href="https://www.nhl.com/blues/" target="_blank" rel="noreferrer">Blues ↗</a>
-            <a href="https://www.stlcitysc.com/" target="_blank" rel="noreferrer">CITY SC ↗</a>
-          </div>
         </div>
 
-        <div className="sports-skyline" aria-hidden="true">
-          <span className="sports-arch">⌒</span>
-          <span className="sports-city-label">STL</span>
-          <span className="sports-city-sub">HOME FIELD</span>
-        </div>
+        <StLouisLatestScores />
 
         <div className="sports-hero-footer">
           <span>SPRINT 10 · SPORTS</span>

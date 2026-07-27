@@ -58,6 +58,14 @@ function scoreLine(game?: Game | null) {
   return `${away.abbreviation} ${away.score ?? ""} · ${home.abbreviation} ${home.score ?? ""}`;
 }
 
+function secWindowLabel(games: Game[]) {
+  if (!games.length) return "OPENING WEEK";
+  const first = new Date(games[0].date);
+  const now = new Date();
+  const diffDays = (first.getTime() - now.getTime()) / 86400000;
+  return diffDays > 10 ? "OPENING WEEK" : "THIS WEEK";
+}
+
 function TeamCard({ title, accent, data }: { title: string; accent: string; data: TeamBlock }) {
   return (
     <article className={styles.teamCard} style={{ ["--accent" as string]: accent }}>
@@ -134,15 +142,16 @@ export default function CollegeFootballLive() {
                 <p className={styles.label}>SEC FOOTBALL</p>
                 <h3>Games worth knowing about.</h3>
               </div>
-              <span>THIS WEEK</span>
+              <span>{secWindowLabel(data.secGames)}</span>
             </div>
 
             <div className={styles.secList}>
-              {data.secGames.length ? data.secGames.map((game) => (
+              {data.secGames.length ? data.secGames.slice(0, 6).map((game) => (
                 <div className={styles.secGame} key={game.id}>
-                  <div>
+                  <div className={styles.secGameCopy}>
                     <strong>{matchup(game)}</strong>
-                    <p>{formatWhen(game.date)}{game.venue ? ` · ${game.venue}` : ""}</p>
+                    <p>{formatWhen(game.date)}</p>
+                    {game.venue && <small>{game.venue}</small>}
                   </div>
                   <span className={styles.gameStatus}>
                     {scoreLine(game) || game.shortStatus || (game.status === "pre" ? "UPCOMING" : game.status.toUpperCase())}

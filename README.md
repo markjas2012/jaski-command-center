@@ -1,26 +1,36 @@
-# Sprint 11.1.1 — Preseason Schedule Hotfix
+# Sprint 11.2.1 — Latest St. Louis Scores
 
-Fixes the empty preseason state in Sprint 11.1.
+Updates the top Sports hero so it no longer repeats the St. Louis team section below it.
 
-## Changes
-- Ohio State now shows its 2026 opener even before the live game-week feed begins.
-- Mizzou now shows its 2026 opener even before the live game-week feed begins.
-- The recent-result area becomes a useful preseason state until games are played.
-- SEC shows opening-week games instead of an empty July window.
-- Live ESPN site data is still preferred when it is available.
-- A verified 2026 preseason fallback keeps the cards useful if ESPN's site endpoint does not publish future events through the JSON feed yet.
+## New top box
+The hero now says **LATEST RESULTS / Last Score** and shows the latest final score for:
+- Cardinals
+- Blues
+- CITY SC
 
-Verified schedule anchors used by the fallback:
-- Ohio State opens Sept. 5 vs Ball State.
-- Missouri opens Sept. 5 vs Arkansas-Pine Bluff.
-- SEC opening week includes East Carolina at Alabama, Baylor vs Auburn, Clemson at LSU, and Arkansas-Pine Bluff at Missouri.
+The lower **The St. Louis Three** section remains the permanent team launcher.
+
+## Live data
+Adds `/api/st-louis-scores`.
+
+- Cardinals: latest completed 2026 MLB game
+- Blues: latest completed 2025-26 NHL game
+- CITY SC: latest completed MLS game from the recent scoreboard window
+
+The live cards link to each team's official home.
+
+## Also includes Sprint 11.2
+The College Football polish remains included:
+- OPENING WEEK during preseason
+- THIS WEEK once the games are close
+- cleaner SEC presentation
 
 ## Install
-Extract and paste into the root of `C:\Projects\jaski-homepage`.
+Extract and paste into `C:\Projects\jaski-homepage`.
 Allow replacements.
 
-No sidebar changes.
 No PowerShell command.
+No sidebar changes.
 
 Refresh `/sports`.
 
