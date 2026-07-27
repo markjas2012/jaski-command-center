@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 type SidebarProps = {
-  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games" | "books" | "bbq";
+  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games" | "books" | "bbq" | "quick";
 };
 
 const interestLinks = [
@@ -17,7 +17,7 @@ const interestLinks = [
 ];
 
 const utilityLinks = [
-  { label: "Quick Launch", icon: "↗", href: "#" },
+  { label: "Quick Launch", icon: "↗", href: "/quick-launch", page: "quick" },
   { label: "Notes", icon: "✎", href: "#" },
   { label: "Settings", icon: "⚙", href: "#" },
 ];
@@ -41,7 +41,7 @@ export default function Sidebar({ activePage = "home" }: SidebarProps) {
         <div className="navigation-divider" />
         <div className="navigation-group">
           {utilityLinks.map((link) => (
-            <Link key={link.label} className="navigation-link" href={link.href}>
+            <Link key={link.label} className={`navigation-link ${link.page === activePage ? "active" : ""}`} href={link.href}>
               <span className="navigation-icon" aria-hidden="true">{link.icon}</span><span>{link.label}</span>
             </Link>
           ))}
