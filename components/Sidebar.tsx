@@ -1,9 +1,8 @@
 import Link from "next/link";
 
 type SidebarProps = {
-  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv";
+  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games";
 };
-
 const interestLinks = [
   { label: "Home", icon: "⌂", href: "/", page: "home" },
   { label: "Jam Room", icon: "🌹", href: "/jam", page: "jam" },
@@ -11,7 +10,7 @@ const interestLinks = [
   { label: "Golf", icon: "◌", href: "/golf", page: "golf" },
   { label: "Movies", icon: "▣", href: "/movies", page: "movies" },
   { label: "TV Shows", icon: "▤", href: "/tv", page: "tv" },
-  { label: "Video Games", icon: "◆", href: "#" },
+  { label: "Video Games", icon: "◆", href: "/games", page: "games" },
   { label: "Books", icon: "▥", href: "#" },
   { label: "Hiking", icon: "▲", href: "#" },
   { label: "Cooking / BBQ", icon: "●", href: "#" },
