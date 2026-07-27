@@ -1,7 +1,18 @@
 import Link from "next/link";
 
 type SidebarProps = {
-  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games" | "books" | "bbq" | "quick" | "notes";
+  activePage?:
+    | "home"
+    | "jam"
+    | "sports"
+    | "golf"
+    | "movies"
+    | "tv"
+    | "games"
+    | "books"
+    | "bbq"
+    | "quick"
+    | "notes";
 };
 
 const interestLinks = [
@@ -19,34 +30,61 @@ const interestLinks = [
 const utilityLinks = [
   { label: "Quick Launch", icon: "↗", href: "/quick-launch", page: "quick" },
   { label: "Notes", icon: "✎", href: "/notes", page: "notes" },
-  { label: "Settings", icon: "⚙", href: "#", page: "settings" },
 ];
 
 export default function Sidebar({ activePage = "home" }: SidebarProps) {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <div className="brand-icon" aria-hidden="true">J</div>
-        <div><p className="brand-name">JASKI</p><p className="brand-subtitle">Personal Command Center</p></div>
+        <div className="brand-icon" aria-hidden="true">
+          J
+        </div>
+        <div>
+          <p className="brand-name">JASKI</p>
+          <p className="brand-subtitle">Personal Command Center</p>
+        </div>
       </div>
+
       <nav className="sidebar-navigation" aria-label="Primary navigation">
         <p className="navigation-label">My Interests</p>
+
         <div className="navigation-group">
           {interestLinks.map((link) => (
-            <Link key={link.label} className={`navigation-link ${link.page === activePage ? "active" : ""}`} href={link.href}>
-              <span className="navigation-icon" aria-hidden="true">{link.icon}</span><span>{link.label}</span>
+            <Link
+              key={link.label}
+              className={`navigation-link ${
+                link.page === activePage ? "active" : ""
+              }`}
+              href={link.href}
+            >
+              <span className="navigation-icon" aria-hidden="true">
+                {link.icon}
+              </span>
+              <span>{link.label}</span>
             </Link>
           ))}
         </div>
+
         <div className="navigation-divider" />
+
         <div className="navigation-group">
           {utilityLinks.map((link) => (
-            <Link key={link.label} className={`navigation-link ${link.page === activePage ? "active" : ""}`} href={link.href}>
-              <span className="navigation-icon" aria-hidden="true">{link.icon}</span><span>{link.label}</span>
+            <Link
+              key={link.label}
+              className={`navigation-link ${
+                link.page === activePage ? "active" : ""
+              }`}
+              href={link.href}
+            >
+              <span className="navigation-icon" aria-hidden="true">
+                {link.icon}
+              </span>
+              <span>{link.label}</span>
             </Link>
           ))}
         </div>
       </nav>
+
       <p className="sidebar-footer">Things that make me smile.</p>
     </aside>
   );
