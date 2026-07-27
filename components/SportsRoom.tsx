@@ -1,5 +1,6 @@
 "use client";
 
+import MyTeams from "./MyTeams";
 import SportsBoard from "./SportsBoard";
 import styles from "./SportsRoom.module.css";
 
@@ -72,6 +73,7 @@ export default function SportsRoom() {
         </div>
       </section>
 
+      <MyTeams />
       <SportsBoard />
     </main>
   );
