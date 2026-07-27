@@ -1,19 +1,20 @@
-# Sprint 10.7 Sidebar change
+# Sidebar patch for Sprint 10.8
 
-In `components/Sidebar.tsx`, update the existing Video Games entry:
+Do NOT replace the whole Sidebar.tsx.
 
-```tsx
-{ label: "Video Games", icon: "◆", href: "/games", page: "games" },
-```
-
-Also add `"games"` to the `activePage` union type.
+## 1. Extend SidebarProps
+Add `"books"` to the existing activePage union.
 
 Example:
-
 ```tsx
-type SidebarProps = {
-  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games";
-};
+activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games" | "books";
 ```
 
-Do not replace your whole Sidebar.tsx if it already contains working Sprint 10 routes.
+## 2. Change only the Books entry
+Change the existing Books item so it uses:
+
+```tsx
+{ label: "Books", icon: "▦", href: "/books", page: "books" },
+```
+
+Save, then test `/books`.
