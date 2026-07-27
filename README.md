@@ -1,15 +1,23 @@
-# Sprint 10.11 — Notes
+# Sprint 10.12.2 — Sports Hotfix
 
-Adds `/notes` and wires the Notes sidebar link.
+Fixes the unstyled college-football section from 10.12.1 and renames the sidebar item from
+`St. Louis Sports` to simply `Sports`.
 
-V1:
-- light gray-blue dot-grid paper
-- freehand pen drawing
-- eraser
-- typed text mode
-- clear page
-- automatic local saving of drawing and text
+## Install
+Extract and paste into the root of `C:\Projects\jaski-homepage`.
+Allow both files in `components` to replace the existing files.
 
-Designed as a simple personal scratchpad, not a productivity system.
+No PowerShell installer and no CSS patch are required.
 
-Test before committing.
+Then refresh `/sports`.
+
+## Expected result
+- Sidebar says **Sports**
+- Existing St. Louis hero / Cardinals / Blues / CITY remain
+- College Football is a dark, styled 3-card section
+- Ohio State card uses scarlet treatment
+- Mizzou uses black/gold
+- SEC uses blue treatment
+- Sports Pulse remains below
+
+Do not commit until verified.

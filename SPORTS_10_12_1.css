@@ -1,0 +1,177 @@
+
+/* === Sprint 10.12.1 — College Sports Expansion === */
+.college-sports-section {
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(181,34,47,.08), transparent 28%),
+    radial-gradient(circle at 88% 85%, rgba(245,196,0,.06), transparent 30%),
+    #111318;
+  color: #f7f2ea;
+  padding: 34px 34px 38px;
+}
+
+.college-sports-heading { margin-bottom: 25px; }
+.college-sports-kicker {
+  margin: 0 0 16px;
+  color: #d6a85d;
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.college-sports-heading h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 38px;
+  font-weight: 500;
+}
+.college-sports-heading p:not(.college-sports-kicker) {
+  margin: 8px 0 0;
+  color: rgba(247,242,234,.5);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.college-sports-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.college-sports-card {
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 20px;
+  background: #191b21;
+  transition: transform .2s ease, border-color .2s ease;
+}
+.college-sports-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.25);
+}
+.college-sports-main-link { color: inherit; text-decoration: none; }
+.college-sports-art {
+  position: relative;
+  min-height: 172px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.college-sports-art::after {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(255,255,255,.025), 0 0 0 38px rgba(255,255,255,.018);
+}
+.college-sports-buckeyes .college-sports-art {
+  background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.14), transparent 27%), linear-gradient(135deg,#7b0d1b,#ba0c2f);
+}
+.college-sports-mizzou .college-sports-art {
+  background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.12), transparent 27%), linear-gradient(135deg,#171717,#6f5a16);
+}
+.college-sports-sec .college-sports-art {
+  background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.14), transparent 27%), linear-gradient(135deg,#17365f,#305e8c);
+}
+.college-sports-league {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  z-index: 2;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: .18em;
+  color: rgba(255,255,255,.7);
+}
+.college-sports-mark {
+  position: relative;
+  z-index: 2;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: -.04em;
+}
+.college-sports-copy { padding: 20px 20px 14px; }
+.college-sports-name {
+  color: #d6a85d;
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.college-sports-copy strong {
+  display: block;
+  margin-top: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 500;
+}
+.college-sports-copy p {
+  min-height: 50px;
+  margin: 10px 0 0;
+  color: rgba(247,242,234,.5);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.college-sports-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 20px 20px;
+}
+.college-sports-actions a {
+  padding: 10px 11px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 11px;
+  background: rgba(255,255,255,.035);
+  color: rgba(247,242,234,.82);
+  font-size: 9px;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+.college-sports-actions a:hover { background: rgba(255,255,255,.08); }
+
+.college-sports-note {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 13px;
+  background: rgba(255,255,255,.025);
+}
+.college-sports-note span {
+  flex: 0 0 auto;
+  color: #d6a85d;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: .16em;
+}
+.college-sports-note p {
+  margin: 0;
+  color: rgba(247,242,234,.43);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+@media (max-width: 1080px) {
+  .college-sports-grid { grid-template-columns: 1fr; }
+  .college-sports-card { display: grid; grid-template-columns: .38fr .62fr; }
+  .college-sports-main-link { display: contents; }
+  .college-sports-art { min-height: 215px; grid-row: 1 / span 2; }
+  .college-sports-actions { align-self: end; }
+}
+@media (max-width: 760px) {
+  .college-sports-section { padding: 24px 20px; border-radius: 24px; }
+  .college-sports-card { display: block; }
+  .college-sports-main-link { display: block; }
+  .college-sports-note { align-items: flex-start; flex-direction: column; }
+}
+/* === End Sprint 10.12.1 === */
