@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CollegeFootballLive from "./CollegeFootballLive";
 
 const teams = [
   {
@@ -222,6 +223,8 @@ export default function StLouisSports() {
           ))}
         </div>
       </section>
+
+      <CollegeFootballLive />
 
       <section className="sports-pulse" aria-labelledby="pulse-title">
         <div>
