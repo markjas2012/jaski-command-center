@@ -67,7 +67,7 @@ export default function Sidebar({ activePage = "home" }: SidebarProps) {
         </div>
       </nav>
 
-      <p className="sidebar-footer">Things that make me smile.</p>
+      <p className="sidebar-footer"></p>
     </aside>
   );
 }

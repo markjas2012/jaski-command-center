@@ -63,7 +63,7 @@ export default function FeaturedToday() {
           <p className={styles.kicker}>FEATURED TODAY</p>
           <h2 id="featured-today-title">A few things worth your attention.</h2>
           <p className={styles.subhead}>
-            Three good rabbit holes. No giant feed.
+            
           </p>
         </div>
 
