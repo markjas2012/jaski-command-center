@@ -1,5 +1,5 @@
 "use client";
-
+import JamLive from "./JamLive";
 import styles from "./JamHero.module.css";
 
 const quickLinks = [
@@ -87,19 +87,10 @@ export default function JamHero() {
               <strong>{item.cta} ↗</strong>
             </a>
           ))}
-        </div>
-      </section>
+              </div>
+    </section>
 
-      <section className={styles.foundation}>
-        <div>
-          <p className={styles.cardKicker}>ROOM DNA</p>
-          <h2>Built to grow without getting busy.</h2>
-        </div>
-        <p>
-          This foundation gives the Jam Room a permanent visual identity and reusable layout for
-          live content later: current tours, setlists, new releases, and daily archive picks.
-        </p>
-      </section>
-    </main>
-  );
+    <JamLive />
+  </main>
+);
 }
