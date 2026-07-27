@@ -13,6 +13,8 @@ type FeatureItem = {
 };
 
 type FeaturedPayload = {
+  build?: string;
+  requestId?: string;
   updatedAt: string;
   items: FeatureItem[];
 };
@@ -39,11 +41,26 @@ export default function FeaturedToday() {
 
   useEffect(() => {
     let cancelled = false;
+    const requestId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-    fetch("/api/featured-today", { cache: "no-store" })
+    fetch(`/api/featured-today?build=11.8.2&r=${requestId}`, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    })
       .then((res) => (res.ok ? res.json() : Promise.reject()))
-      .then((json) => {
-        if (!cancelled) setData(json);
+      .then((json: FeaturedPayload) => {
+        if (!cancelled) {
+          console.info(
+            "[Jaski Featured Today]",
+            "build:",
+            json.build,
+            "request:",
+            json.requestId
+          );
+          setData(json);
+        }
       })
       .catch(() => {
         if (!cancelled) setFailed(true);
@@ -62,9 +79,6 @@ export default function FeaturedToday() {
         <div>
           <p className={styles.kicker}>FEATURED TODAY</p>
           <h2 id="featured-today-title">A few things worth your attention.</h2>
-          <p className={styles.subhead}>
-            
-          </p>
         </div>
 
         <span className={styles.live}>

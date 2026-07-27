@@ -1,6 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
+const BUILD = "11.8.2";
 
 type Story = {
   title: string;
@@ -18,6 +22,62 @@ type FeatureItem = {
   date?: string;
 };
 
+type ExploreTopic = {
+  label: string;
+  query: string;
+  terms: string[];
+};
+
+const WATCH_BLOCKED_SOURCES = [
+  "screenhub",
+  "screenhub australia",
+  "the manual",
+  "comingsoon",
+  "comicbookmovie",
+  "bingeworthy",
+  "yahoo shopping",
+  "msn shopping",
+];
+
+const WATCH_PREFERRED_SOURCES = [
+  "variety",
+  "deadline",
+  "the hollywood reporter",
+  "hollywood reporter",
+  "indiewire",
+  "vulture",
+  "entertainment weekly",
+  "rolling stone",
+  "reuters",
+  "associated press",
+  "ap news",
+];
+
+const TRUSTED_SOURCE_BOOSTS: Record<string, number> = {
+  "reuters": 14,
+  "associated press": 14,
+  "ap news": 14,
+  "variety": 14,
+  "deadline": 14,
+  "the hollywood reporter": 13,
+  "hollywood reporter": 13,
+  "indiewire": 12,
+  "vulture": 11,
+  "entertainment weekly": 11,
+  "rolling stone": 10,
+  "jambase": 14,
+  "relix": 13,
+  "live for live music": 12,
+  "ign": 10,
+  "engadget": 10,
+  "the verge": 11,
+  "polygon": 10,
+  "espn": 12,
+  "pga tour": 12,
+  "golf digest": 10,
+  "golfweek": 9,
+};
+
 const JUNK_TERMS = [
   "newsletter",
   "sale",
@@ -29,9 +89,9 @@ const JUNK_TERMS = [
   "buy now",
   "best deals",
   "promo code",
-  "black friday",
   "prime day",
   "where to buy",
+  "affiliate",
 ];
 
 const WATCH_BOOST = [
@@ -47,6 +107,7 @@ const WATCH_BOOST = [
   "tv",
   "premiere",
   "release",
+  "new on",
 ];
 
 const LISTEN_BOOST = [
@@ -62,7 +123,7 @@ const LISTEN_BOOST = [
   "setlist",
 ];
 
-const EXPLORE_ROTATION = [
+const EXPLORE_ROTATION: ExploreTopic[] = [
   {
     label: "GOLF",
     query: '("PGA Tour" OR golf OR "major championship") when:7d',
@@ -85,12 +146,12 @@ const EXPLORE_ROTATION = [
   },
   {
     label: "GAMING",
-    query: '("Mortal Kombat" OR "video game" OR Xbox) when:7d',
-    terms: ["mortal kombat", "video game", "xbox", "gaming"],
+    query: '("Mortal Kombat" OR Xbox OR "video game") when:7d',
+    terms: ["mortal kombat", "xbox", "gaming", "video game"],
   },
   {
     label: "LOST",
-    query: '("LOST TV" OR "Lost series" OR Dharma) when:30d',
+    query: '("LOST TV" OR Dharma OR "Lost series") when:30d',
     terms: ["lost", "dharma"],
   },
   {
@@ -125,7 +186,6 @@ function parse(xml: string): Story[] {
     .map((match) => {
       const raw = match[1];
       const sourceMatch = raw.match(/<source[^>]*>([\s\S]*?)<\/source>/i);
-
       return {
         title: tag(raw, "title").replace(/\s+-\s+[^-]+$/, "").trim(),
         link: tag(raw, "link"),
@@ -142,12 +202,25 @@ async function news(query: string) {
     `&hl=en-US&gl=US&ceid=US:en`;
 
   const res = await fetch(url, {
-    headers: { "User-Agent": "JaskiHomepage/1.0" },
-    next: { revalidate: 3600 },
+    headers: { "User-Agent": "JaskiHomepage/11.8.2" },
+    cache: "no-store",
   });
 
   if (!res.ok) throw new Error(`Featured RSS returned ${res.status}`);
   return parse(await res.text());
+}
+
+function sourceName(story: Story) {
+  return (story.source || "").trim().toLowerCase();
+}
+
+function sourceBoost(story: Story) {
+  const source = sourceName(story);
+  let boost = 0;
+  for (const [name, points] of Object.entries(TRUSTED_SOURCE_BOOSTS)) {
+    if (source.includes(name)) boost = Math.max(boost, points);
+  }
+  return boost;
 }
 
 function ageHours(date?: string) {
@@ -155,6 +228,57 @@ function ageHours(date?: string) {
   const time = new Date(date).getTime();
   if (Number.isNaN(time)) return 999;
   return Math.max(0, (Date.now() - time) / 3_600_000);
+}
+
+function isJunk(story: Story) {
+  const haystack = `${story.title} ${story.source || ""}`.toLowerCase();
+  return JUNK_TERMS.some((term) => haystack.includes(term));
+}
+
+function isWatchBlocked(story: Story) {
+  const source = sourceName(story);
+  return WATCH_BLOCKED_SOURCES.some((name) => source.includes(name));
+}
+
+function isWatchPreferred(story: Story) {
+  const source = sourceName(story);
+  return WATCH_PREFERRED_SOURCES.some((name) => source.includes(name));
+}
+
+function scoreStory(story: Story, boosts: string[]) {
+  const haystack = `${story.title} ${story.source || ""}`.toLowerCase();
+  let score = sourceBoost(story);
+
+  for (const term of boosts) {
+    if (haystack.includes(term)) score += 8;
+  }
+
+  const hours = ageHours(story.date);
+  if (hours <= 24) score += 12;
+  else if (hours <= 72) score += 9;
+  else if (hours <= 168) score += 5;
+  else if (hours <= 336) score += 1;
+  else score -= 3;
+
+  if (story.title.length >= 35 && story.title.length <= 105) score += 3;
+  if (story.title.length > 140) score -= 4;
+
+  return score;
+}
+
+function ranked(stories: Story[], boosts: string[]) {
+  return stories
+    .filter((story) => !isJunk(story))
+    .sort((a, b) => scoreStory(b, boosts) - scoreStory(a, boosts));
+}
+
+function chooseWatch(stories: Story[]) {
+  const clean = ranked(stories, WATCH_BOOST).filter(
+    (story) => !isWatchBlocked(story)
+  );
+
+  const preferred = clean.filter(isWatchPreferred);
+  return preferred[0] || clean[0];
 }
 
 function normalizedTitle(title: string) {
@@ -166,76 +290,32 @@ function normalizedTitle(title: string) {
 }
 
 function titleWords(title: string) {
-  return new Set(
-    normalizedTitle(title)
-      .split(" ")
-      .filter((word) => word.length > 3)
-  );
+  return new Set(normalizedTitle(title).split(" ").filter((w) => w.length > 3));
 }
 
 function similarity(a: string, b: string) {
   const aw = titleWords(a);
   const bw = titleWords(b);
   if (!aw.size || !bw.size) return 0;
-
   let shared = 0;
-  for (const word of aw) {
-    if (bw.has(word)) shared++;
-  }
-
+  for (const word of aw) if (bw.has(word)) shared++;
   return shared / Math.max(aw.size, bw.size);
 }
 
-function isJunk(story: Story) {
-  const haystack = `${story.title} ${story.source || ""}`.toLowerCase();
-  return JUNK_TERMS.some((term) => haystack.includes(term));
-}
-
-function scoreStory(story: Story, boosts: string[]) {
-  const haystack = `${story.title} ${story.source || ""}`.toLowerCase();
-  let score = 0;
-
-  for (const term of boosts) {
-    if (haystack.includes(term)) score += 8;
-  }
-
-  const hours = ageHours(story.date);
-  if (hours <= 24) score += 10;
-  else if (hours <= 72) score += 7;
-  else if (hours <= 168) score += 4;
-  else if (hours <= 336) score += 1;
-
-  if ((story.source || "").length > 2) score += 1;
-  if (story.title.length >= 35 && story.title.length <= 110) score += 2;
-
-  return score;
-}
-
-function ranked(stories: Story[], boosts: string[]) {
-  return stories
-    .filter((story) => !isJunk(story))
-    .sort((a, b) => scoreStory(b, boosts) - scoreStory(a, boosts));
-}
-
-function chooseDistinct(
-  stories: Story[],
-  boosts: string[],
-  usedTitles: string[]
-) {
+function chooseDistinct(stories: Story[], boosts: string[], usedTitles: string[]) {
   const options = ranked(stories, boosts);
-
   for (const story of options) {
-    const duplicate = usedTitles.some(
-      (used) => similarity(used, story.title) >= 0.5
-    );
-    if (!duplicate) return story;
+    if (!usedTitles.some((used) => similarity(used, story.title) >= 0.5)) {
+      return story;
+    }
   }
-
   return options[0];
 }
 
-function dayIndex() {
-  return Math.floor(Date.now() / 86_400_000);
+function utcDayIndex() {
+  const now = new Date();
+  const dayStart = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.floor(dayStart / 86_400_000);
 }
 
 function fallbackItems(): FeatureItem[] {
@@ -264,9 +344,12 @@ function fallbackItems(): FeatureItem[] {
   ];
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const requestId = request.nextUrl.searchParams.get("r") || "none";
+
   try {
-    const exploreTopic = EXPLORE_ROTATION[dayIndex() % EXPLORE_ROTATION.length];
+    const exploreTopic =
+      EXPLORE_ROTATION[utcDayIndex() % EXPLORE_ROTATION.length];
 
     const [watchStories, listenStories, exploreStories] = await Promise.all([
       news(
@@ -279,42 +362,35 @@ export async function GET() {
     ]);
 
     const usedTitles: string[] = [];
-
-    const watch = chooseDistinct(watchStories, WATCH_BOOST, usedTitles);
+    const watch = chooseWatch(watchStories);
     if (watch) usedTitles.push(watch.title);
 
     const listen = chooseDistinct(listenStories, LISTEN_BOOST, usedTitles);
     if (listen) usedTitles.push(listen.title);
 
-    const explore = chooseDistinct(
-      exploreStories,
-      exploreTopic.terms,
-      usedTitles
-    );
+    const explore = chooseDistinct(exploreStories, exploreTopic.terms, usedTitles);
 
     const items: FeatureItem[] = [
       watch
         ? {
             lane: "WATCH",
             title: watch.title,
-            detail: "One current streaming story worth a look.",
+            detail: "A current streaming story from a preferred entertainment source.",
             href: watch.link,
             source: watch.source || "Streaming",
             date: watch.date,
           }
         : fallbackItems()[0],
-
       listen
         ? {
             lane: "LISTEN",
             title: listen.title,
-            detail: "One current jam-band story worth your attention.",
+            detail: "A current jam-band story worth your attention.",
             href: listen.link,
             source: listen.source || "Music",
             date: listen.date,
           }
         : fallbackItems()[1],
-
       explore
         ? {
             lane: "EXPLORE",
@@ -327,18 +403,42 @@ export async function GET() {
         : fallbackItems()[2],
     ];
 
-    return NextResponse.json({
-      updatedAt: new Date().toISOString(),
-      exploreTopic: exploreTopic.label,
-      items,
-    });
+    return NextResponse.json(
+      {
+        build: BUILD,
+        requestId,
+        updatedAt: new Date().toISOString(),
+        exploreTopic: exploreTopic.label,
+        items,
+      },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+          Pragma: "no-cache",
+          Expires: "0",
+          "X-Jaski-Build": BUILD,
+        },
+      }
+    );
   } catch (error) {
-    console.error("Featured Today intelligence error:", error);
+    console.error("Featured Today data-path error:", error);
 
-    return NextResponse.json({
-      updatedAt: new Date().toISOString(),
-      items: fallbackItems(),
-      mode: "fallback",
-    });
+    return NextResponse.json(
+      {
+        build: BUILD,
+        requestId,
+        updatedAt: new Date().toISOString(),
+        items: fallbackItems(),
+        mode: "fallback",
+      },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+          Pragma: "no-cache",
+          Expires: "0",
+          "X-Jaski-Build": BUILD,
+        },
+      }
+    );
   }
 }
