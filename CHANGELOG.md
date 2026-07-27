@@ -1,17 +1,10 @@
 # Changelog
 
-## Sprint 10 — Component 02
+## Sprint 10 · Component 03 — St. Louis Sports
 
-- Added `NewReleases.tsx`
-- Added New & Noteworthy section beneath the Jam Room hero
-- Added five curated artist cards with working listening links
-- Added CSS-generated album artwork and responsive layouts
-- Updated Jam Room footer for Component 02
-
-## Sprint 10 — Component 01
-
-- Created dedicated `/jam` route
-- Added immersive Grateful Dead history hero
-- Added Jam Room sidebar navigation
-- Made homepage Dead History card link into the room
-- Added responsive dark listening-room theme
+- Activated the St. Louis Sports sidebar route.
+- Added `/sports` as a dedicated interest destination.
+- Added a custom St. Louis sports hero and visual identity.
+- Added Cardinals, Blues, and CITY SC official team doors.
+- Added local/broader sports coverage quick links.
+- Kept the existing home dashboard and Jam Room architecture intact.

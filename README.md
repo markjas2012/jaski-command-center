@@ -1,25 +1,29 @@
-# Jaski Command Center — Sprint 10, Component 02
+# Sprint 10 · Component 03 — St. Louis Sports
 
-This build keeps the Jam Room hero and adds the first content section beneath it: **New & Noteworthy**.
+This sprint pack adds the first complete **St. Louis Sports** destination to the Jaski Personal Command Center.
 
-## Included
-
-- Everything from Sprint 10 Component 01
-- Five album-style live-music cards
-- Goose, Billy Strings, Phish, Umphrey’s McGee, and Daniel Donato
-- Working links to Nugs or LivePhish
-- Responsive 5 / 3 / 2 / 1-column layout
-- Custom record-inspired artwork made entirely in CSS
-- Entrance and hover animations
+## Adds
+- `/sports` page
+- St. Louis Sports hero
+- Cardinals, Blues, and CITY SC team cards
+- St. Louis sports coverage quick links
+- Sidebar routing + active state for St. Louis Sports
+- Responsive styling matched to the existing Sprint 10 shell
 
 ## Install
+Copy the contents of this pack into the root of `jaski-homepage` and allow the matching files to replace the existing versions.
 
-Copy the included `app` and `components` folders into the root of your current Next.js project and replace the matching files.
+This pack is designed to install directly on top of **Sprint 010 · Component 02 — New Releases**.
 
+## Verify
 Run:
 
-```bash
+```powershell
 npm run dev
 ```
 
-Open `http://localhost:3000/jam` and scroll below the hero.
+Then open:
+- `http://localhost:3000`
+- Click **St. Louis Sports** in the sidebar, or visit `http://localhost:3000/sports`
+
+No packages or dependency changes are required.

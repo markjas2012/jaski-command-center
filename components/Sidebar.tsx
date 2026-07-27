@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 type SidebarProps = {
-  activePage?: "home" | "jam";
+  activePage?: "home" | "jam" | "sports";
 };
 
 const interestLinks = [
   { label: "Home", icon: "⌂", href: "/", page: "home" },
   { label: "Jam Room", icon: "🌹", href: "/jam", page: "jam" },
-  { label: "St. Louis Sports", icon: "◉", href: "#" },
+  { label: "St. Louis Sports", icon: "◉", href: "/sports", page: "sports" },
   { label: "Golf", icon: "◌", href: "#" },
   { label: "Movies", icon: "▣", href: "#" },
   { label: "TV Shows", icon: "▤", href: "#" },
