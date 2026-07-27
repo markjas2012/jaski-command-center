@@ -1,18 +1,15 @@
-# Sprint 10.10 — Quick Launch
+# Sprint 10.11 — Notes
 
-Adds `/quick-launch` with editable shortcuts stored in browser localStorage.
+Adds `/notes` and wires the Notes sidebar link.
 
-Starter shortcuts:
-- YouTube TV
-- Plex
-- YouTube
-- Amazon
-- iCloud
-- ChatGPT
-- Facebook
-- Instagram
+V1:
+- light gray-blue dot-grid paper
+- freehand pen drawing
+- eraser
+- typed text mode
+- clear page
+- automatic local saving of drawing and text
 
-MAG Dashboard and FedEx Tracking are intentionally not included.
+Designed as a simple personal scratchpad, not a productivity system.
 
-This pack also replaces Sidebar.tsx so Quick Launch links and highlights correctly while preserving all existing rooms.
 Test before committing.

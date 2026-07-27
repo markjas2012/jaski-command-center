@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 type SidebarProps = {
-  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games" | "books" | "bbq" | "quick";
+  activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games" | "books" | "bbq" | "quick" | "notes";
 };
 
 const interestLinks = [
@@ -18,8 +18,8 @@ const interestLinks = [
 
 const utilityLinks = [
   { label: "Quick Launch", icon: "↗", href: "/quick-launch", page: "quick" },
-  { label: "Notes", icon: "✎", href: "#" },
-  { label: "Settings", icon: "⚙", href: "#" },
+  { label: "Notes", icon: "✎", href: "/notes", page: "notes" },
+  { label: "Settings", icon: "⚙", href: "#", page: "settings" },
 ];
 
 export default function Sidebar({ activePage = "home" }: SidebarProps) {
