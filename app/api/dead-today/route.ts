@@ -13,28 +13,25 @@ type ArchiveDoc = {
   downloads?: number;
 };
 
-type CuratedShow = {
-  showDate: string;
+type CuratedDate = {
+  date: string;
   venue: string;
-  href: string;
-  note: string;
+  fallbackHref: string;
+  fallbackNote: string;
 };
 
-const curatedByMonthDay: Record<string, CuratedShow> = {
+const curatedByMonthDay: Record<string, CuratedDate> = {
   "07-27": {
-    showDate: "July 27, 1994",
+    date: "1994-07-27",
     venue: "Riverport Amphitheatre - Maryland Heights, Missouri",
-    href: "https://archive.org/search?query=collection%3AGratefulDead%20AND%20date%3A1994-07-27",
-    note: "A hometown-area Grateful Dead show from this date. Open the Archive results and pick a recording.",
+    fallbackHref: "https://www.dead.net/show/july-27-1994",
+    fallbackNote: "A hometown-area Grateful Dead show from this date. Open the official show archive.",
   },
 };
 
-function prettyDate(raw?: string) {
-  if (!raw) return "";
-  const datePart = raw.slice(0, 10);
-  const d = new Date(`${datePart}T12:00:00`);
-  if (Number.isNaN(d.getTime())) return datePart;
-
+function prettyDate(raw: string) {
+  const d = new Date(`${raw.slice(0, 10)}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return raw;
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
     day: "numeric",
@@ -42,52 +39,45 @@ function prettyDate(raw?: string) {
   }).format(d);
 }
 
-function venueLine(doc: ArchiveDoc) {
+function venueLine(doc: ArchiveDoc, fallback: string) {
   const venue = String(doc.venue || "").trim();
   const place = String(doc.coverage || "").trim();
-
   if (venue && place && venue.toLowerCase() !== place.toLowerCase()) {
     return `${venue} - ${place}`;
   }
-
-  return venue || place || "";
+  return venue || place || fallback;
 }
 
-async function searchArchive(query: string) {
+async function exactArchiveDate(date: string) {
   const params = new URLSearchParams();
-  params.set("q", query);
-  params.append("fl[]", "identifier");
-  params.append("fl[]", "title");
-  params.append("fl[]", "date");
-  params.append("fl[]", "venue");
-  params.append("fl[]", "coverage");
-  params.append("fl[]", "downloads");
+  params.set("q", `collection:GratefulDead AND date:${date}`);
+  for (const field of ["identifier", "title", "date", "venue", "coverage", "downloads"]) {
+    params.append("fl[]", field);
+  }
   params.set("rows", "50");
-  params.set("page", "1");
   params.set("output", "json");
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 2500);
+  const timer = setTimeout(() => controller.abort(), 1800);
 
   try {
-    const res = await fetch(
-      `https://archive.org/advancedsearch.php?${params.toString()}`,
-      {
-        cache: "no-store",
-        signal: controller.signal,
-        headers: {
-          Accept: "application/json",
-          "User-Agent": "JaskiHomepage/12.3.5",
-        },
-      }
-    );
+    const res = await fetch(`https://archive.org/advancedsearch.php?${params.toString()}`, {
+      cache: "no-store",
+      signal: controller.signal,
+      headers: { Accept: "application/json", "User-Agent": "JaskiHomepage/12.4" },
+    });
 
-    if (!res.ok) throw new Error(`Archive HTTP ${res.status}`);
-
+    if (!res.ok) return null;
     const json = await res.json();
-    return Array.isArray(json?.response?.docs)
-      ? (json.response.docs as ArchiveDoc[])
-      : [];
+    const docs: ArchiveDoc[] = Array.isArray(json?.response?.docs) ? json.response.docs : [];
+
+    const pick = docs
+      .filter((doc) => doc.identifier)
+      .sort((a, b) => Number(b.downloads || 0) - Number(a.downloads || 0))[0];
+
+    return pick || null;
+  } catch {
+    return null;
   } finally {
     clearTimeout(timer);
   }
@@ -95,93 +85,39 @@ async function searchArchive(query: string) {
 
 export async function GET() {
   const now = new Date();
-  const mm = String(now.getMonth() + 1).padStart(2, "0");
-  const dd = String(now.getDate()).padStart(2, "0");
-  const key = `${mm}-${dd}`;
-
-  // Guarantee an immediate useful result for dates we have curated.
+  const key = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
   const curated = curatedByMonthDay[key];
+
   if (curated) {
-    return NextResponse.json(
-      {
-        ...curated,
-        live: true,
-        diagnostic: "curated-date",
-      },
-      {
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-          "X-Jaski-Sprint": "12.3.5",
-        },
-      }
-    );
-  }
-
-  // For other dates, try one fast Archive query only.
-  try {
-    const docs = await searchArchive(
-      `collection:GratefulDead AND date:????-${mm}-${dd}`
-    );
-
-    const usable = docs
-      .filter((doc) => doc.identifier)
-      .sort(
-        (a, b) => Number(b.downloads || 0) - Number(a.downloads || 0)
-      );
-
-    const pick = usable[0];
+    const pick = await exactArchiveDate(curated.date);
 
     if (pick?.identifier) {
-      return NextResponse.json(
-        {
-          showDate: prettyDate(pick.date) || "Grateful Dead - Today in history",
-          venue: venueLine(pick),
-          href: `https://archive.org/details/${pick.identifier}`,
-          note: "A real Grateful Dead performance from this date, selected from the live archive.",
-          live: true,
-          diagnostic: `archive-live:${usable.length}`,
-        },
-        {
-          headers: {
-            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-            "X-Jaski-Sprint": "12.3.5",
-          },
-        }
-      );
+      return NextResponse.json({
+        showDate: prettyDate(curated.date),
+        venue: venueLine(pick, curated.venue),
+        href: `https://archive.org/details/${pick.identifier}`,
+        note: "A real recording from this date, selected from the live Archive.",
+        live: true,
+        diagnostic: "archive-specific",
+      });
     }
 
-    return NextResponse.json(
-      {
-        showDate: "Today in Grateful Dead history",
-        venue: "",
-        href: `https://archive.org/search?query=collection%3AGratefulDead%20AND%20date%3A%3F%3F%3F%3F-${mm}-${dd}`,
-        note: "No automatic recording surfaced. Open today's Archive search.",
-        live: false,
-        diagnostic: "archive-empty",
-      },
-      {
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-          "X-Jaski-Sprint": "12.3.5",
-        },
-      }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      {
-        showDate: "Today in Grateful Dead history",
-        venue: "",
-        href: `https://archive.org/search?query=collection%3AGratefulDead%20AND%20date%3A%3F%3F%3F%3F-${mm}-${dd}`,
-        note: "The live lookup timed out. Open today's Archive search instead.",
-        live: false,
-        diagnostic: `archive-timeout:${String(error)}`,
-      },
-      {
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-          "X-Jaski-Sprint": "12.3.5",
-        },
-      }
-    );
+    return NextResponse.json({
+      showDate: prettyDate(curated.date),
+      venue: curated.venue,
+      href: curated.fallbackHref,
+      note: curated.fallbackNote,
+      live: true,
+      diagnostic: "official-show-fallback",
+    });
   }
+
+  return NextResponse.json({
+    showDate: "Today in Grateful Dead history",
+    venue: "",
+    href: "https://archive.org/details/GratefulDead",
+    note: "Open the Archive and explore a show from today's date.",
+    live: false,
+    diagnostic: "uncurated-date",
+  });
 }
