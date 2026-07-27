@@ -509,7 +509,7 @@ export default function LiveDashboard() {
           </article>
 
           <article className="reading-card sprint9-card fade-in-card">
-            <div className="reading-icon" aria-hidden="true">✝</div>
+            <div className="reading-icon" aria-hidden="true">âœ</div>
             <div>
               <p className="card-kicker">Today’s Catholic reading</p>
               <h3>Daily Mass Readings</h3>
@@ -526,7 +526,7 @@ export default function LiveDashboard() {
             </Link>
             <div className="dead-card-header">
               <span className="dead-badge">ON THIS DAY</span>
-              <span className="dead-rose" aria-hidden="true">♪</span>
+              <span className="dead-rose" aria-hidden="true">ðŸŒ¹</span>
             </div>
 
             <div>

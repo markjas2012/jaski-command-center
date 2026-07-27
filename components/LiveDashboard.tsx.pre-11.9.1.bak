@@ -316,7 +316,7 @@ export default function LiveDashboard() {
     ? "Weather temporarily unavailable"
     : weather
       ? describeWeather(weather.weatherCode)
-      : "Loading St. Louis weather…";
+      : "Loading St. Louis weatherâ€¦";
 
   const minuteAge = weather
     ? Math.max(0, Math.floor((Date.now() - weather.updatedAt.getTime()) / 60000))
@@ -345,7 +345,7 @@ export default function LiveDashboard() {
         <div>
           <p className="dashboard-eyebrow">Personal dashboard</p>
           <h1>{greeting}, Mark</h1>
-          <p className="dashboard-date">{fullDate ?? "Loading today…"}</p>
+          <p className="dashboard-date">{fullDate ?? "Loading todayâ€¦"}</p>
         </div>
 
         
@@ -494,7 +494,7 @@ export default function LiveDashboard() {
         <div className="exploration-grid">
           <article className="reflection-card sprint9-card fade-in-card">
             <div className="smile-card-top">
-              <span className="smile-mark">“</span>
+              <span className="smile-mark">â€œ</span>
               <p className="card-kicker">Today’s reflection</p>
             </div>
 
@@ -509,7 +509,7 @@ export default function LiveDashboard() {
           </article>
 
           <article className="reading-card sprint9-card fade-in-card">
-            <div className="reading-icon" aria-hidden="true">✝</div>
+            <div className="reading-icon" aria-hidden="true">âœ</div>
             <div>
               <p className="card-kicker">Today’s Catholic reading</p>
               <h3>Daily Mass Readings</h3>
@@ -526,7 +526,7 @@ export default function LiveDashboard() {
             </Link>
             <div className="dead-card-header">
               <span className="dead-badge">ON THIS DAY</span>
-              <span className="dead-rose" aria-hidden="true">♪</span>
+              <span className="dead-rose" aria-hidden="true">ðŸŒ¹</span>
             </div>
 
             <div>
