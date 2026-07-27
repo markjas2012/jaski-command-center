@@ -351,7 +351,7 @@ export default function LiveDashboard() {
         <div className="dashboard-status">
           <strong>{temperature}</strong>
           <span>{time ?? "Loading timeâ€¦"}</span>
-          <small>{weather ? `${condition} · updated ${minuteAge} min ago` : condition}</small>
+          <small>{weather ? `${condition} Â· updated ${minuteAge} min ago` : condition}</small>
         </div>
       </header>
 
@@ -407,7 +407,7 @@ export default function LiveDashboard() {
             <div className="detail-card-body">
               <p className="card-kicker">Calendar</p>
               <h2>{weekday ?? "Today"}</h2>
-              <p className="detail-card-copy">{shortDate ?? "Today"} · Your personal calendars</p>
+              <p className="detail-card-copy">{shortDate ?? "Today"} Â· Your personal calendars</p>
               <div className="card-actions">
                 <a href="https://www.icloud.com/calendar/" target="_blank" rel="noreferrer">iCloud ↗</a>
                 <a href="https://outlook.live.com/calendar/" target="_blank" rel="noreferrer">Outlook ↗</a>

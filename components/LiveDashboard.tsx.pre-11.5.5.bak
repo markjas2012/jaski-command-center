@@ -81,7 +81,7 @@ const defaultFavorites: Favorite[] = [
 const reflections: Reflection[] = [
   {
     source: "Marcus Aurelius",
-    quote: "You have power over your mind — not outside events. Realize this, and you will find strength.",
+    quote: "You have power over your mind â€” not outside events. Realize this, and you will find strength.",
     linkLabel: "Read Meditations",
     href: "https://www.gutenberg.org/ebooks/2680",
   },
@@ -111,7 +111,7 @@ const deadHistory: Record<string, DeadShow> = {
     year: 1987,
     venue: "Oakland-Alameda County Coliseum Stadium",
     city: "Oakland, California",
-    highlights: ["Jack Straw → Mississippi Half-Step", "Scarlet Begonias", "Playing in the Band"],
+    highlights: ["Jack Straw â†’ Mississippi Half-Step", "Scarlet Begonias", "Playing in the Band"],
     note: "A Dylan & the Dead night later released as View from the Vault, Volume Four.",
     archiveHref: "https://archive.org/search?query=gd1987-07-24",
     setlistHref: "https://jerrybase.com/events/19870724-01",
@@ -131,8 +131,8 @@ function buildDeadHistory(now: Date | null): DeadShow {
     year: 0,
     venue: "The Grateful Dead Archive",
     city: "Shows performed on this date",
-    highlights: ["Explore recordings", "Compare eras", "Choose today’s listen"],
-    note: "Open the archive and find a Grateful Dead performance connected to today’s date.",
+    highlights: ["Explore recordings", "Compare eras", "Choose todayâ€™s listen"],
+    note: "Open the archive and find a Grateful Dead performance connected to todayâ€™s date.",
     archiveHref: `https://archive.org/search?query=${archiveQuery}`,
     setlistHref: "https://jerrybase.com/",
   };
@@ -311,7 +311,7 @@ export default function LiveDashboard() {
   const reflection = reflections[Math.abs(dayIndex) % reflections.length];
   const deadShow = buildDeadHistory(now);
 
-  const temperature = weather ? `${weather.temperature}°` : "—";
+  const temperature = weather ? `${weather.temperature}Â°` : "â€”";
   const condition = weatherError
     ? "Weather temporarily unavailable"
     : weather
@@ -351,7 +351,7 @@ export default function LiveDashboard() {
         <div className="dashboard-status">
           <strong>{temperature}</strong>
           <span>{time ?? "Loading timeâ€¦"}</span>
-          <small>{weather ? `${condition} · updated ${minuteAge} min ago` : condition}</small>
+          <small>{weather ? `${condition} Â· updated ${minuteAge} min ago` : condition}</small>
         </div>
       </header>
 
@@ -372,18 +372,18 @@ export default function LiveDashboard() {
           </div>
 
           <div className="weather-details">
-            <div><span>High</span><strong>{weather ? `${weather.high}°` : "—"}</strong></div>
-            <div><span>Low</span><strong>{weather ? `${weather.low}°` : "—"}</strong></div>
-            <div><span>Feels like</span><strong>{weather ? `${weather.apparentTemperature}°` : "—"}</strong></div>
+            <div><span>High</span><strong>{weather ? `${weather.high}Â°` : "â€”"}</strong></div>
+            <div><span>Low</span><strong>{weather ? `${weather.low}Â°` : "â€”"}</strong></div>
+            <div><span>Feels like</span><strong>{weather ? `${weather.apparentTemperature}Â°` : "â€”"}</strong></div>
           </div>
 
           <div className="weather-extra-grid">
-            <div><span>Rain</span><strong>{weather ? `${weather.rainChance}%` : "—"}</strong></div>
-            <div><span>Humidity</span><strong>{weather ? `${weather.humidity}%` : "—"}</strong></div>
-            <div><span>Wind</span><strong>{weather ? `${weather.wind} mph` : "—"}</strong></div>
-            <div><span>UV</span><strong>{weather ? weather.uv : "—"}</strong></div>
-            <div><span>Sunrise</span><strong>{weather ? formatClockTime(weather.sunrise) : "—"}</strong></div>
-            <div><span>Sunset</span><strong>{weather ? formatClockTime(weather.sunset) : "—"}</strong></div>
+            <div><span>Rain</span><strong>{weather ? `${weather.rainChance}%` : "â€”"}</strong></div>
+            <div><span>Humidity</span><strong>{weather ? `${weather.humidity}%` : "â€”"}</strong></div>
+            <div><span>Wind</span><strong>{weather ? `${weather.wind} mph` : "â€”"}</strong></div>
+            <div><span>UV</span><strong>{weather ? weather.uv : "â€”"}</strong></div>
+            <div><span>Sunrise</span><strong>{weather ? formatClockTime(weather.sunrise) : "â€”"}</strong></div>
+            <div><span>Sunset</span><strong>{weather ? formatClockTime(weather.sunset) : "â€”"}</strong></div>
           </div>
 
           <div className="weather-hero-footer">
@@ -393,7 +393,7 @@ export default function LiveDashboard() {
             </div>
 
             <a href="https://radar.weather.gov/" target="_blank" rel="noreferrer">
-              Open radar <span aria-hidden="true">↗</span>
+              Open radar <span aria-hidden="true">â†—</span>
             </a>
           </div>
 
@@ -407,10 +407,10 @@ export default function LiveDashboard() {
             <div className="detail-card-body">
               <p className="card-kicker">Calendar</p>
               <h2>{weekday ?? "Today"}</h2>
-              <p className="detail-card-copy">{shortDate ?? "Today"} · Your personal calendars</p>
+              <p className="detail-card-copy">{shortDate ?? "Today"} Â· Your personal calendars</p>
               <div className="card-actions">
-                <a href="https://www.icloud.com/calendar/" target="_blank" rel="noreferrer">iCloud ↗</a>
-                <a href="https://outlook.live.com/calendar/" target="_blank" rel="noreferrer">Outlook ↗</a>
+                <a href="https://www.icloud.com/calendar/" target="_blank" rel="noreferrer">iCloud â†—</a>
+                <a href="https://outlook.live.com/calendar/" target="_blank" rel="noreferrer">Outlook â†—</a>
               </div>
             </div>
           </article>
@@ -421,22 +421,22 @@ export default function LiveDashboard() {
               <h2>Live PGA</h2>
               <p className="detail-card-copy">Current leaderboard, tee times, and season standings.</p>
               <div className="card-actions">
-                <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noreferrer">Leaderboard ↗</a>
-                <a href="https://www.pgatour.com/tournaments/schedule" target="_blank" rel="noreferrer">Schedule ↗</a>
-                <a href="https://www.ghin.com/" target="_blank" rel="noreferrer">GHIN ↗</a>
+                <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noreferrer">Leaderboard â†—</a>
+                <a href="https://www.pgatour.com/tournaments/schedule" target="_blank" rel="noreferrer">Schedule â†—</a>
+                <a href="https://www.ghin.com/" target="_blank" rel="noreferrer">GHIN â†—</a>
               </div>
             </div>
           </article>
 
           <article className="detail-card detail-card-live">
             <div className="detail-card-body">
-              <p className="card-kicker">What’s new</p>
+              <p className="card-kicker">Whatâ€™s new</p>
               <h2>Watch & Listen</h2>
               <p className="detail-card-copy">Fresh destinations for movies, television, games, and live music.</p>
               <div className="card-actions">
-                <a href="https://www.justwatch.com/" target="_blank" rel="noreferrer">New Releases ↗</a>
-                <a href="https://www.nugs.net/" target="_blank" rel="noreferrer">Nugs ↗</a>
-                <a href="https://www.ign.com/upcoming/games" target="_blank" rel="noreferrer">Games ↗</a>
+                <a href="https://www.justwatch.com/" target="_blank" rel="noreferrer">New Releases â†—</a>
+                <a href="https://www.nugs.net/" target="_blank" rel="noreferrer">Nugs â†—</a>
+                <a href="https://www.ign.com/upcoming/games" target="_blank" rel="noreferrer">Games â†—</a>
               </div>
             </div>
           </article>
@@ -472,13 +472,13 @@ export default function LiveDashboard() {
                   <strong>{favorite.label}</strong>
                   <span>{favorite.detail}</span>
                 </span>
-                <span className="favorite-arrow" aria-hidden="true">↗</span>
+                <span className="favorite-arrow" aria-hidden="true">â†—</span>
               </a>
 
               {editingFavorites && (
                 <div className="favorite-controls">
                   <button type="button" onClick={() => moveFavorite(index, -1)} aria-label={`Move ${favorite.label} left`}>â†</button>
-                  <button type="button" onClick={() => moveFavorite(index, 1)} aria-label={`Move ${favorite.label} right`}>→</button>
+                  <button type="button" onClick={() => moveFavorite(index, 1)} aria-label={`Move ${favorite.label} right`}>â†’</button>
                 </div>
               )}
             </div>
@@ -499,15 +499,15 @@ export default function LiveDashboard() {
           <article className="reflection-card sprint9-card fade-in-card">
             <div className="smile-card-top">
               <span className="smile-mark">â€œ</span>
-              <p className="card-kicker">Today’s reflection</p>
+              <p className="card-kicker">Todayâ€™s reflection</p>
             </div>
 
             <blockquote>{reflection.quote}</blockquote>
 
             <div className="smile-card-footer">
-              <span>— {reflection.source}</span>
+              <span>â€” {reflection.source}</span>
               <a href={reflection.href} target="_blank" rel="noreferrer">
-                {reflection.linkLabel} <span aria-hidden="true">↗</span>
+                {reflection.linkLabel} <span aria-hidden="true">â†—</span>
               </a>
             </div>
           </article>
@@ -515,18 +515,18 @@ export default function LiveDashboard() {
           <article className="reading-card sprint9-card fade-in-card">
             <div className="reading-icon" aria-hidden="true">âœ</div>
             <div>
-              <p className="card-kicker">Today’s Catholic reading</p>
+              <p className="card-kicker">Todayâ€™s Catholic reading</p>
               <h3>Daily Mass Readings</h3>
-              <p>Begin the day with today’s Scripture readings and Gospel.</p>
+              <p>Begin the day with todayâ€™s Scripture readings and Gospel.</p>
             </div>
             <a href="https://bible.usccb.org/readings/calendar" target="_blank" rel="noreferrer">
-              Open today’s readings <span aria-hidden="true">↗</span>
+              Open todayâ€™s readings <span aria-hidden="true">â†—</span>
             </a>
           </article>
 
           <article className="dead-history-card sprint9-card fade-in-card">
             <Link className="dead-room-link" href="/jam" aria-label="Open the Jam Room">
-              Enter the Jam Room <span aria-hidden="true">→</span>
+              Enter the Jam Room <span aria-hidden="true">â†’</span>
             </Link>
             <div className="dead-card-header">
               <span className="dead-badge">ON THIS DAY</span>
@@ -547,8 +547,8 @@ export default function LiveDashboard() {
             <p className="dead-note">{deadShow.note}</p>
 
             <div className="dead-actions">
-              <a href={deadShow.archiveHref} target="_blank" rel="noreferrer">Listen on Archive ↗</a>
-              <a href={deadShow.setlistHref} target="_blank" rel="noreferrer">View setlist ↗</a>
+              <a href={deadShow.archiveHref} target="_blank" rel="noreferrer">Listen on Archive â†—</a>
+              <a href={deadShow.setlistHref} target="_blank" rel="noreferrer">View setlist â†—</a>
             </div>
           </article>
         </div>

@@ -1,33 +1,29 @@
-# Sprint 11.4.1 — Sidebar Hotfix
+# Sprint 11.5.6 — Final Encoding Cleanup
 
-This pack repairs the sidebar that was accidentally overwritten by the Sprint 11.4 Movies pack.
+Tiny final cleanup for the remaining top-right weather status artifact.
 
-## Restores
-- Proper styled sidebar structure
-- Sports label
-- Hiking remains removed
-- Cooking / BBQ
-- Quick Launch
-- Notes
-- Correct active-page highlighting
+Fixes:
 
-## Does NOT touch
-- TV Room
-- Live TV Watchlist
-- Movies / Streaming live-content work
-- Sports
-- Notes
-- Any API routes
-- Any CSS files
+`Overcast Â· updated 5 min ago`
+
+to:
+
+`Overcast · updated 5 min ago`
+
+Nothing else is intentionally changed.
 
 ## Install
-1. Extract this ZIP.
-2. Paste into the root of `C:\Projects\jaski-homepage`.
-3. Allow only `components\Sidebar.tsx` to replace the existing file.
-4. Refresh the browser.
 
-No PowerShell command.
+Extract this ZIP into:
 
-Verify the sidebar looks normal again on `/tv` and then check `/movies`.
+`C:\Projects\jaski-homepage`
 
-Do not commit until verified.
+Then run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\INSTALL_SPRINT_11_5_6.ps1
+```
+
+Refresh `localhost:3000` and inspect the top-right weather status.
+
+Do not commit until it reads normally.

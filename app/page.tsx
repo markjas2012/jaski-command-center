@@ -1,6 +1,5 @@
-import Sidebar from "../components/Sidebar";
+﻿import Sidebar from "../components/Sidebar";
 import LiveDashboard from "../components/LiveDashboard";
-
 export default function Home() {
   return (
     <main className="app-shell">
@@ -8,7 +7,10 @@ export default function Home() {
 
       <section className="content-stage" aria-label="Command Center content">
         <LiveDashboard />
-      </section>
+</section>
     </main>
   );
 }
+
+
+
