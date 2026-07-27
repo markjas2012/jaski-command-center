@@ -1,37 +1,37 @@
-# Sprint 11.2.1 — Latest St. Louis Scores
+# Sprint 11.3 — Live TV Watchlist
 
-Updates the top Sports hero so it no longer repeats the St. Louis team section below it.
+Turns the existing personal TV tracker into a live watchlist without changing how you manage shows.
 
-## New top box
-The hero now says **LATEST RESULTS / Last Score** and shows the latest final score for:
-- Cardinals
-- Blues
-- CITY SC
+## Adds
+- Each active show checks for a currently scheduled next episode.
+- Next episode season/episode and air date appear directly on the show card when available.
+- The old static **NEW THIS WEEK** box becomes **WATCHLIST RADAR**.
+- Watchlist Radar shows up to four upcoming episodes from the shows you are actually tracking.
+- Shows with no future episode posted stay quiet instead of filling the page with generic TV news.
 
-The lower **The St. Louis Three** section remains the permanent team launcher.
+## Data source
+This uses TVmaze's free public API through a local Next.js route:
+`/api/tv-status`
 
-## Live data
-Adds `/api/st-louis-scores`.
-
-- Cardinals: latest completed 2026 MLB game
-- Blues: latest completed 2025-26 NHL game
-- CITY SC: latest completed MLS game from the recent scoreboard window
-
-The live cards link to each team's official home.
-
-## Also includes Sprint 11.2
-The College Football polish remains included:
-- OPENING WEEK during preseason
-- THIS WEEK once the games are close
-- cleaner SEC presentation
+TVmaze documents single-show search plus embedded next/previous episode data. No API key is required.
 
 ## Install
-Extract and paste into `C:\Projects\jaski-homepage`.
-Allow replacements.
+Extract and paste into the root of `C:\Projects\jaski-homepage`.
 
-No PowerShell command.
+Allow replacement of:
+- `components\TVRoom.tsx`
+
+New files:
+- `components\LiveShowStatus.tsx`
+- `components\WatchlistRadar.tsx`
+- `components\LiveTV.module.css`
+- `app\api\tv-status\route.ts`
+
 No sidebar changes.
+No PowerShell command.
 
-Refresh `/sports`.
+Refresh `/tv`.
+
+Your existing locally saved watch list is preserved because the storage key is unchanged.
 
 Do not commit until verified.

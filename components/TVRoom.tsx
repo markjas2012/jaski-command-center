@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import styles from "./TVRoom.module.css";
+import LiveShowStatus from "./LiveShowStatus";
+import WatchlistRadar from "./WatchlistRadar";
 
 type Show = {
   id: string;
@@ -155,7 +157,11 @@ export default function TVRoom() {
               ) : (
                 <>
                   <div className={styles.meta}><span>{show.service}</span><span>WATCHING</span></div>
-                  <div><h3>{show.title}</h3><p>Season {show.season} · Episode {show.episode}</p></div>
+                  <div>
+                    <h3>{show.title}</h3>
+                    <p>Season {show.season} · Episode {show.episode}</p>
+                    <LiveShowStatus title={show.title} />
+                  </div>
                   <div className={styles.actions}>
                     <button onClick={() => advance(show.id)}>Watched → E{show.episode + 1}</button>
                     <button onClick={() => setEditingId(show.id)}>Edit</button>
@@ -176,9 +182,7 @@ export default function TVRoom() {
           <p>{watching[0] ? `Season ${watching[0].season} · Episode ${watching[0].episode}` : "Your first active show will appear here."}</p>
         </article>
         <article className={styles.smallPanel}>
-          <p className={styles.kicker}>NEW THIS WEEK</p>
-          <h2>Worth knowing about.</h2>
-          <p>Reserved for current premieres, returning seasons, and episodes relevant to your watch list.</p>
+          <WatchlistRadar titles={watching.map((show) => show.title)} />
         </article>
       </section>
 
