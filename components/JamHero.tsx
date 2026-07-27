@@ -1,91 +1,105 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import styles from "./JamHero.module.css";
 
-type JamShow = {
-  year: number;
-  venue: string;
-  location: string;
-  songs: string[];
-  note: string;
-};
+const quickLinks = [
+  { label: "Nugs", detail: "Live shows & archives", href: "https://www.nugs.net/" },
+  { label: "Relix", detail: "Jam-band news & culture", href: "https://relix.com/" },
+  { label: "JamBase", detail: "Tour news & setlists", href: "https://www.jambase.com/" },
+  { label: "Archive", detail: "Grateful Dead recordings", href: "https://archive.org/details/GratefulDead" },
+];
 
-const history: Record<string, JamShow[]> = {
-  "07-24": [{
-    year: 1987,
-    venue: "Oakland-Alameda County Coliseum Stadium",
-    location: "Oakland, California",
-    songs: ["Jack Straw", "Mississippi Half-Step", "Scarlet Begonias"],
-    note: "A Dylan & the Dead night later released as View from the Vault, Volume Four.",
-  }],
-  "07-27": [{
-    year: 1973,
-    venue: "Grand Prix Racecourse",
-    location: "Watkins Glen, New York",
-    songs: ["The Promised Land", "Bird Song", "Playing in the Band"],
-    note: "The Dead's soundcheck at Watkins Glen became a celebrated performance in its own right.",
-  }],
-  "07-28": [{
-    year: 1973,
-    venue: "Grand Prix Racecourse",
-    location: "Watkins Glen, New York",
-    songs: ["Bertha", "Eyes of the World", "Sugar Magnolia"],
-    note: "Summer Jam at Watkins Glen brought the Dead together with the Allman Brothers Band and The Band.",
-  }],
-};
-
-function dateKey(date: Date) {
-  return `${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-}
-
-function displayDate(date: Date) {
-  return date.toLocaleDateString("en-US", { month: "long", day: "numeric" });
-}
+const spotlight = [
+  {
+    kicker: "ON THIS DAY",
+    title: "Today in Grateful Dead history",
+    body: "A daily door into one show, one date, and one good reason to hit play.",
+    href: "https://archive.org/details/GratefulDead",
+    cta: "Open the archive",
+  },
+  {
+    kicker: "LISTEN NEXT",
+    title: "One show worth your time",
+    body: "A rotating recommendation slot for a Dead show, Phish set, or Umphrey's night.",
+    href: "https://www.nugs.net/",
+    cta: "Start listening",
+  },
+];
 
 export default function JamHero() {
-  const [today, setToday] = useState(() => new Date());
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setToday(new Date()), 60_000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const show = useMemo(() => (history[dateKey(today)] ?? [])[0], [today]);
-
   return (
-    <section className="jam-hero" aria-labelledby="jam-hero-title">
-      <div className="jam-hero-glow jam-hero-glow-one" aria-hidden="true" />
-      <div className="jam-hero-glow jam-hero-glow-two" aria-hidden="true" />
-
-      <div className="jam-hero-topline">
-        <Link className="jam-back-link" href="/">← Home</Link>
-        <span className="jam-room-badge">THE JAM ROOM</span>
-      </div>
-
-      <div className="jam-hero-content">
-        <div className="jam-hero-copy">
-          <p className="jam-eyebrow">Today in Grateful Dead History</p>
-          {show ? (
-            <>
-              <h1 id="jam-hero-title" className="jam-hero-title">{displayDate(today)}, {show.year}</h1>
-              <p className="jam-venue">{show.venue}</p>
-              <p className="jam-location">{show.location}</p>
-              <div className="jam-setlist" aria-label="Featured songs">
-                {show.songs.map((song) => <span key={song}>{song}</span>)}
-              </div>
-              <p className="jam-hero-note">{show.note}</p>
-            </>
-          ) : (
-            <>
-              <h1 id="jam-hero-title" className="jam-hero-title">{displayDate(today)}</h1>
-              <p className="jam-venue">History entry coming soon.</p>
-              <p className="jam-location">The room is now date-aware and refreshes automatically.</p>
-              <p className="jam-hero-note">This date is not yet in the local verified show archive.</p>
-            </>
-          )}
+    <main className={styles.room}>
+      <section className={styles.hero}>
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>LIVE MUSIC / ARCHIVE / SETLISTS</p>
+          <h1>Jam Room.</h1>
+          <p className={styles.lede}>
+            Grateful Dead history, current jam-band news, and the next show worth putting on.
+          </p>
         </div>
-      </div>
-    </section>
+
+        <div className={styles.badge} aria-hidden="true">
+          <span className={styles.badgeLetter}>J</span>
+          <span>LISTEN DEEPER</span>
+        </div>
+
+        <div className={styles.heroFooter}>
+          <span>SPRINT 12 · ROOM 01</span>
+          <span>NO ALGORITHM. JUST GOOD SHOWS.</span>
+        </div>
+      </section>
+
+      <section className={styles.grid}>
+        <article className={styles.primaryCard}>
+          <p className={styles.cardKicker}>TONIGHT'S DOORWAY</p>
+          <h2>Put something good on.</h2>
+          <p>
+            A clean starting point for the music you already care about—without turning this into
+            another endless feed.
+          </p>
+
+          <div className={styles.linkGrid}>
+            {quickLinks.map((item) => (
+              <a key={item.label} href={item.href} target="_blank" rel="noreferrer">
+                <span className={styles.linkMark}>{item.label.slice(0, 1)}</span>
+                <span>
+                  <strong>{item.label}</strong>
+                  <small>{item.detail}</small>
+                </span>
+                <b>↗</b>
+              </a>
+            ))}
+          </div>
+        </article>
+
+        <div className={styles.spotlightGrid}>
+          {spotlight.map((item) => (
+            <a
+              className={styles.spotlightCard}
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className={styles.cardKicker}>{item.kicker}</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              <strong>{item.cta} ↗</strong>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.foundation}>
+        <div>
+          <p className={styles.cardKicker}>ROOM DNA</p>
+          <h2>Built to grow without getting busy.</h2>
+        </div>
+        <p>
+          This foundation gives the Jam Room a permanent visual identity and reusable layout for
+          live content later: current tours, setlists, new releases, and daily archive picks.
+        </p>
+      </section>
+    </main>
   );
 }

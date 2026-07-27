@@ -1,18 +1,13 @@
 import Sidebar from "../../components/Sidebar";
 import JamHero from "../../components/JamHero";
-import NewReleases from "../../components/NewReleases";
 
-export default function JamRoom() {
+export default function JamPage() {
   return (
-    <main className="app-shell jam-shell">
+    <div className="app-shell">
       <Sidebar activePage="jam" />
-
-      <section className="content-stage jam-stage" aria-label="Jam Room content">
-        <div className="jam-room-page">
-          <JamHero />
-          <NewReleases />
-        </div>
+      <section className="content-shell">
+        <JamHero />
       </section>
-    </main>
+    </div>
   );
 }
