@@ -348,7 +348,11 @@ export default function LiveDashboard() {
           <p className="dashboard-date">{fullDate ?? "Loading todayâ€¦"}</p>
         </div>
 
-        
+        <div className="dashboard-status">
+          <strong>{temperature}</strong>
+          <span>{time ?? "Loading timeâ€¦"}</span>
+          <small>{weather ? `${condition} · updated ${minuteAge} min ago` : condition}</small>
+        </div>
       </header>
 
       <div className="dashboard-divider" />
