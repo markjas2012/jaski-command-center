@@ -18,6 +18,88 @@ type FeatureItem = {
   date?: string;
 };
 
+const JUNK_TERMS = [
+  "newsletter",
+  "sale",
+  "deal",
+  "coupon",
+  "gift guide",
+  "sponsored",
+  "shopping",
+  "buy now",
+  "best deals",
+  "promo code",
+  "black friday",
+  "prime day",
+  "where to buy",
+];
+
+const WATCH_BOOST = [
+  "streaming",
+  "netflix",
+  "prime video",
+  "max",
+  "hulu",
+  "disney+",
+  "peacock",
+  "movie",
+  "series",
+  "tv",
+  "premiere",
+  "release",
+];
+
+const LISTEN_BOOST = [
+  "grateful dead",
+  "dead & company",
+  "phish",
+  "umphrey",
+  "jam band",
+  "jamband",
+  "concert",
+  "tour",
+  "live music",
+  "setlist",
+];
+
+const EXPLORE_ROTATION = [
+  {
+    label: "GOLF",
+    query: '("PGA Tour" OR golf OR "major championship") when:7d',
+    terms: ["pga", "golf", "major", "tour"],
+  },
+  {
+    label: "OHIO STATE",
+    query: '("Ohio State football" OR Buckeyes) when:7d',
+    terms: ["ohio state", "buckeyes"],
+  },
+  {
+    label: "MIZZOU",
+    query: '("Missouri Tigers" OR Mizzou) when:7d',
+    terms: ["missouri", "mizzou", "tigers"],
+  },
+  {
+    label: "BOOKS",
+    query: '("spy thriller" OR espionage novel OR "new thriller book") when:14d',
+    terms: ["spy", "thriller", "espionage", "novel", "book"],
+  },
+  {
+    label: "GAMING",
+    query: '("Mortal Kombat" OR "video game" OR Xbox) when:7d',
+    terms: ["mortal kombat", "video game", "xbox", "gaming"],
+  },
+  {
+    label: "LOST",
+    query: '("LOST TV" OR "Lost series" OR Dharma) when:30d',
+    terms: ["lost", "dharma"],
+  },
+  {
+    label: "BBQ",
+    query: '("BBQ recipe" OR grilling OR barbecue) when:7d',
+    terms: ["bbq", "grill", "barbecue", "recipe"],
+  },
+];
+
 function decode(value: string) {
   return value
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
@@ -68,16 +150,92 @@ async function news(query: string) {
   return parse(await res.text());
 }
 
-function firstUseful(stories: Story[]) {
-  return stories.find((story) => {
-    const title = story.title.toLowerCase();
-    return (
-      !title.includes("newsletter") &&
-      !title.includes("sale") &&
-      !title.includes("deal") &&
-      !title.includes("coupon")
+function ageHours(date?: string) {
+  if (!date) return 999;
+  const time = new Date(date).getTime();
+  if (Number.isNaN(time)) return 999;
+  return Math.max(0, (Date.now() - time) / 3_600_000);
+}
+
+function normalizedTitle(title: string) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function titleWords(title: string) {
+  return new Set(
+    normalizedTitle(title)
+      .split(" ")
+      .filter((word) => word.length > 3)
+  );
+}
+
+function similarity(a: string, b: string) {
+  const aw = titleWords(a);
+  const bw = titleWords(b);
+  if (!aw.size || !bw.size) return 0;
+
+  let shared = 0;
+  for (const word of aw) {
+    if (bw.has(word)) shared++;
+  }
+
+  return shared / Math.max(aw.size, bw.size);
+}
+
+function isJunk(story: Story) {
+  const haystack = `${story.title} ${story.source || ""}`.toLowerCase();
+  return JUNK_TERMS.some((term) => haystack.includes(term));
+}
+
+function scoreStory(story: Story, boosts: string[]) {
+  const haystack = `${story.title} ${story.source || ""}`.toLowerCase();
+  let score = 0;
+
+  for (const term of boosts) {
+    if (haystack.includes(term)) score += 8;
+  }
+
+  const hours = ageHours(story.date);
+  if (hours <= 24) score += 10;
+  else if (hours <= 72) score += 7;
+  else if (hours <= 168) score += 4;
+  else if (hours <= 336) score += 1;
+
+  if ((story.source || "").length > 2) score += 1;
+  if (story.title.length >= 35 && story.title.length <= 110) score += 2;
+
+  return score;
+}
+
+function ranked(stories: Story[], boosts: string[]) {
+  return stories
+    .filter((story) => !isJunk(story))
+    .sort((a, b) => scoreStory(b, boosts) - scoreStory(a, boosts));
+}
+
+function chooseDistinct(
+  stories: Story[],
+  boosts: string[],
+  usedTitles: string[]
+) {
+  const options = ranked(stories, boosts);
+
+  for (const story of options) {
+    const duplicate = usedTitles.some(
+      (used) => similarity(used, story.title) >= 0.5
     );
-  });
+    if (!duplicate) return story;
+  }
+
+  return options[0];
+}
+
+function dayIndex() {
+  return Math.floor(Date.now() / 86_400_000);
 }
 
 function fallbackItems(): FeatureItem[] {
@@ -108,21 +266,31 @@ function fallbackItems(): FeatureItem[] {
 
 export async function GET() {
   try {
+    const exploreTopic = EXPLORE_ROTATION[dayIndex() % EXPLORE_ROTATION.length];
+
     const [watchStories, listenStories, exploreStories] = await Promise.all([
       news(
-        '("what to watch streaming" OR "best movies streaming this week" OR "new on streaming") when:7d'
+        '("new on streaming" OR "what to watch streaming" OR "new movie streaming" OR "new TV streaming") when:7d'
       ),
       news(
-        '("Grateful Dead" OR "Dead & Company" OR "jam band" OR "Phish") when:7d'
+        '("Grateful Dead" OR "Dead & Company" OR Phish OR "Umphrey\'s McGee" OR jamband) when:7d'
       ),
-      news(
-        '("PGA Tour" OR "Ohio State football" OR "Missouri Tigers" OR "new spy thriller book" OR "BBQ recipe") when:7d'
-      ),
+      news(exploreTopic.query),
     ]);
 
-    const watch = firstUseful(watchStories);
-    const listen = firstUseful(listenStories);
-    const explore = firstUseful(exploreStories);
+    const usedTitles: string[] = [];
+
+    const watch = chooseDistinct(watchStories, WATCH_BOOST, usedTitles);
+    if (watch) usedTitles.push(watch.title);
+
+    const listen = chooseDistinct(listenStories, LISTEN_BOOST, usedTitles);
+    if (listen) usedTitles.push(listen.title);
+
+    const explore = chooseDistinct(
+      exploreStories,
+      exploreTopic.terms,
+      usedTitles
+    );
 
     const items: FeatureItem[] = [
       watch
@@ -140,7 +308,7 @@ export async function GET() {
         ? {
             lane: "LISTEN",
             title: listen.title,
-            detail: "Something current from the jam-band world.",
+            detail: "One current jam-band story worth your attention.",
             href: listen.link,
             source: listen.source || "Music",
             date: listen.date,
@@ -151,9 +319,9 @@ export async function GET() {
         ? {
             lane: "EXPLORE",
             title: explore.title,
-            detail: "One rotating rabbit hole from the interests already inside Jaski.",
+            detail: `${exploreTopic.label} is today's rotating rabbit hole.`,
             href: explore.link,
-            source: explore.source || "Explore",
+            source: explore.source || exploreTopic.label,
             date: explore.date,
           }
         : fallbackItems()[2],
@@ -161,10 +329,11 @@ export async function GET() {
 
     return NextResponse.json({
       updatedAt: new Date().toISOString(),
+      exploreTopic: exploreTopic.label,
       items,
     });
   } catch (error) {
-    console.error("Featured Today error:", error);
+    console.error("Featured Today intelligence error:", error);
 
     return NextResponse.json({
       updatedAt: new Date().toISOString(),

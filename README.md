@@ -1,53 +1,59 @@
-# Sprint 11.6 — Component 01: Featured Today
+# Sprint 11.6.2 — Featured Today Intelligence
 
-Upgrades the existing **Featured Today** section into the compact daily discovery row.
+Improves the three Featured Today selections without changing the UI.
 
-## Three cards only
+## WATCH
+Prioritizes:
+- streaming releases
+- Netflix
+- Prime Video
+- Max
+- Hulu
+- Disney+
+- Peacock
+- movie / TV premieres
 
-### WATCH
-One current streaming / movie / TV item worth noticing.
+## LISTEN
+Prioritizes:
+- Grateful Dead
+- Dead & Company
+- Phish
+- Umphrey's McGee
+- jam-band touring / concert stories
 
-### LISTEN
-One current Grateful Dead / Dead & Company / Phish / jam-band item.
+## EXPLORE
+Rotates by day among:
+- PGA / golf
+- Ohio State
+- Mizzou
+- spy/thriller books
+- gaming / Mortal Kombat / Xbox
+- LOST / Dharma
+- BBQ / grilling
 
-### EXPLORE
-One rotating item from the interests already represented in Jaski:
-golf, Ohio State, Mizzou, books, cooking, and similar rabbit holes.
+This prevents one topic from owning the Explore card every day.
 
-The section deliberately stays at **three cards**.
-
-## Live feed
-
+## Filtering
 Adds:
-
-`/api/featured-today`
-
-It reads fresh Google News RSS searches through the Next.js server and normalizes the results into the three Jaski cards.
-
-No API key is required.
-
-If the live source is unavailable, the section falls back to links into the existing Jaski rooms instead of breaking the homepage.
+- freshness scoring
+- junk/deal/article filtering
+- duplicate-topic filtering across the three cards
+- headline quality weighting
 
 ## Install
 
-Extract the ZIP and paste it into:
+Extract and paste into:
 
 `C:\Projects\jaski-homepage`
 
 Allow replacement of:
 
-- `components\FeaturedToday.tsx`
-- `components\FeaturedToday.module.css`
-
-New file:
-
 - `app\api\featured-today\route.ts`
 
+No UI files are changed.
 No PowerShell command.
-No homepage placement changes.
-No Sidebar changes.
-No Weather changes.
+No layout changes.
 
 Refresh `localhost:3000`.
 
-Do not commit until verified.
+Do not commit until the three cards look smarter.
