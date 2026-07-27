@@ -1,20 +1,14 @@
-# Sidebar patch for Sprint 10.8
+# Sprint 10.9.1 — Sidebar Hotfix
 
-Do NOT replace the whole Sidebar.tsx.
+In `components/Sidebar.tsx`:
 
-## 1. Extend SidebarProps
-Add `"books"` to the existing activePage union.
-
-Example:
-```tsx
-activePage?: "home" | "jam" | "sports" | "golf" | "movies" | "tv" | "games" | "books";
-```
-
-## 2. Change only the Books entry
-Change the existing Books item so it uses:
+1. Add `"bbq"` to the `activePage` union.
+2. Remove the Hiking entry completely.
+3. Set the Cooking / BBQ entry exactly to:
 
 ```tsx
-{ label: "Books", icon: "▦", href: "/books", page: "books" },
+{ label: "Cooking / BBQ", icon: "●", href: "/bbq", page: "bbq" },
 ```
 
-Save, then test `/books`.
+Do not change the existing Home, Jam Room, St. Louis Sports, Golf, Movies,
+TV Shows, Video Games, or Books entries.
