@@ -1,0 +1,308 @@
+.wrap{
+  margin-top:14px;
+  padding:26px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:22px;
+  background:linear-gradient(145deg,#15151a,#121216);
+}
+.heading,.latestHeading{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:end;
+}
+.heading p,.latestHeading p{
+  margin:0;
+  color:#d89aa1;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.18em;
+}
+.heading h2{
+  margin:7px 0 0;
+  font-family:Georgia,serif;
+  font-size:34px;
+  font-weight:500;
+}
+.heading>span,.latestHeading>span{
+  color:#777278;
+  font-size:9px;
+}
+.exclusiveGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
+}
+.exclusive{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:17px;
+  background:linear-gradient(145deg,#19171c,#151217);
+}
+.exclusiveHead{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+.exclusiveHead span{
+  color:#e6a9b2;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+.exclusiveHead h3{
+  margin:4px 0 0;
+  font-family:Georgia,serif;
+  font-size:20px;
+  font-weight:500;
+}
+.exclusiveHead>a{
+  color:#a8868b;
+  font-size:9px;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.exclusiveItems{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:15px;
+}
+.exclusiveItems>a,.exclusivePlaceholder{
+  position:relative;
+  min-height:104px;
+  display:flex;
+  flex-direction:column;
+  padding:13px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:13px;
+  color:#f6f2eb;
+  text-decoration:none;
+  background:#121216;
+}
+.exclusiveItems small{
+  color:#9c777e;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+.exclusiveItems strong{
+  margin-top:7px;
+  font-family:Georgia,serif;
+  font-size:14px;
+  line-height:1.25;
+}
+.exclusiveItems span{
+  margin-top:5px;
+  color:#777278;
+  font-size:8px;
+  line-height:1.35;
+}
+.exclusiveItems b{
+  position:absolute;
+  right:12px;
+  bottom:10px;
+  color:#dca3ab;
+  font-size:9px;
+}
+.latestHeading{
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.priorityGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:11px;
+}
+.prioritySlot{
+  position:relative;
+}
+.prioritySlot .showCard{
+  min-height:132px;
+  padding-left:42px;
+  border-color:rgba(216,154,161,.18);
+  background:linear-gradient(145deg,#17151a,#121216);
+}
+.rank{
+  position:absolute;
+  z-index:2;
+  left:14px;
+  top:14px;
+  color:#d99ca4;
+  font-family:Georgia,serif;
+  font-size:24px;
+  line-height:1;
+}
+.rotatingGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:8px;
+}
+.showCard{
+  min-height:118px;
+  display:flex;
+  flex-direction:column;
+  padding:13px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  background:#121216;
+  color:#f6f2eb;
+  text-decoration:none;
+}
+.showCard:hover,.exclusiveItems>a:hover{
+  border-color:rgba(216,154,161,.28);
+}
+.showArtist{
+  color:#d99ca4;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+.showCard strong{
+  margin-top:7px;
+  font-family:Georgia,serif;
+  font-size:14px;
+  line-height:1.25;
+}
+.showCard small{
+  margin-top:5px;
+  color:#777278;
+  font-size:8px;
+  line-height:1.35;
+}
+.showCard b{
+  margin-top:auto;
+  padding-top:12px;
+  color:#dda5ad;
+  font-size:9px;
+}
+@media(max-width:1100px){
+  .rotatingGrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:800px){
+  .exclusiveGrid{grid-template-columns:1fr}
+  .priorityGrid{grid-template-columns:1fr}
+  .rotatingGrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .wrap{padding:20px}
+  .heading,.latestHeading{align-items:flex-start;flex-direction:column}
+  .exclusiveItems,.priorityGrid{grid-template-columns:1fr}
+}
+
+
+/* Sprint 12.9 — Compact Live Bands */
+.livePrioritySlot .showCard{
+  min-height:96px;
+  padding:14px 16px 12px 40px;
+}
+.livePrioritySlot .showCard h3{
+  font-size:16px;
+  line-height:1.05;
+  margin-bottom:4px;
+}
+.livePrioritySlot .showCard p,
+.livePrioritySlot .showCard small{
+  font-size:8px;
+  line-height:1.2;
+}
+.livePrioritySlot .rank{
+  top:14px;
+}
+
+.rotatingGrid{
+  gap:7px;
+  margin-top:7px;
+}
+.rotatingGrid .showCard{
+  min-height:78px;
+  padding:12px 12px 10px;
+}
+.rotatingGrid .showCard h3{
+  font-size:13px;
+  line-height:1.05;
+  margin-bottom:3px;
+}
+.rotatingGrid .showCard p,
+.rotatingGrid .showCard small{
+  font-size:7px;
+  line-height:1.15;
+}
+.rotatingGrid .showCard a{
+  font-size:8px;
+}
+
+@media(min-width:1101px){
+  .priorityGrid{
+    gap:8px;
+  }
+  .rotatingGrid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+
+/* Sprint 13.0 — Compact Listen Now */
+.compactListenNow{gap:8px;margin-top:9px}
+.compactListenNow .exclusivePanel{padding:12px 14px;border-radius:14px}
+.compactListenNow .exclusivePanel>div:first-child{margin-bottom:7px}
+.compactListenNow .exclusivePanel h3{margin-top:2px;font-size:15px;line-height:1.05}
+.compactListenNow .exclusivePanel p{font-size:8px}
+.compactListenNow .exclusiveItems{gap:6px}
+.compactListenNow .exclusiveItem{min-height:62px;padding:9px 10px;border-radius:10px}
+.compactListenNow .exclusiveItem h4{font-size:11px;line-height:1.05;margin:2px 0}
+.compactListenNow .exclusiveItem p,.compactListenNow .exclusiveItem small{font-size:7px;line-height:1.1}
+.compactListenNow a{font-size:8px}
+
+/* Sprint 13.15 — Live Band Discovery */
+.latestHeading h3{
+  margin:5px 0 0;
+  font-family:Georgia,serif;
+  font-size:20px;
+  font-weight:500;
+}
+.rotatingGrid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:11px;
+}
+.rotatingGrid .showCard{
+  min-height:92px;
+  padding:12px 13px 10px;
+}
+.rotatingGrid .showCard strong{
+  font-size:13px;
+  margin-top:5px;
+}
+.rotatingGrid .showCard small{
+  font-size:8px;
+}
+.rotatingGrid .showCard b{
+  padding-top:8px;
+}
+@media(max-width:1100px){
+  .rotatingGrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+  .rotatingGrid{grid-template-columns:1fr}
+}
+
+/* Sprint 13.16 — discovery data quality */
+.rotatingGrid .showCard{
+  transition:border-color .15s ease, transform .15s ease;
+}
+.rotatingGrid .showCard:hover{
+  transform:translateY(-1px);
+}
+
+/* Sprint 13.17 — readability / contrast pass */
+.wrap{border-color:rgba(255,255,255,.15)!important;background:linear-gradient(145deg,#1c1b21,#17171c)!important}
+.showCard,.exclusive,.exclusiveItems>a,.exclusivePlaceholder{border-color:rgba(255,255,255,.13)!important;background:#211f25!important}
+.showCard strong,.exclusiveHead h3,.exclusiveItems strong{color:#fffdf8!important}
+.showCard small,.exclusiveItems span,.heading>span,.latestHeading>span{color:#aaa4ab!important}
+.showArtist,.exclusiveHead span,.heading p,.latestHeading p{color:#f0aeb8!important}
+.showCard b,.exclusiveItems b,.exclusiveHead>a{color:#f3b7c0!important}

@@ -1,0 +1,47 @@
+.deadHub{margin-top:14px;padding:26px;border:1px solid rgba(216,154,161,.18);border-radius:22px;background:radial-gradient(circle at 86% 8%,rgba(121,38,52,.22),transparent 30%),linear-gradient(145deg,#17161b,#120f13);box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.heroHead{display:flex;justify-content:space-between;align-items:end;gap:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.07)}
+.heroHead p,.panelHead p{margin:0;color:#d99ca5;font-size:9px;font-weight:900;letter-spacing:.17em}.heroHead h2{margin:7px 0 0;font-family:Georgia,serif;font-size:32px;font-weight:500}
+.crown{padding:8px 11px;border:1px solid rgba(216,154,161,.2);border-radius:999px;background:#21171b;color:#e1a7b0;font-size:9px;font-weight:900;letter-spacing:.1em;white-space:nowrap}
+.grid{display:grid;grid-template-columns:1.35fr .9fr .95fr;gap:10px;margin-top:16px}.panel{min-width:0;padding:18px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:linear-gradient(145deg,#19171c,#141216)}
+.panelHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.panelHead h3{margin:5px 0 0;font-family:Georgia,serif;font-size:20px;font-weight:500;line-height:1.18}
+.year{display:grid;place-items:center;min-width:58px;height:36px;padding:0 10px;border:1px solid rgba(216,154,161,.16);border-radius:11px;background:#20191d;color:#e0a8b0;font-family:Georgia,serif;font-size:16px}
+.venue{display:grid;gap:3px;margin-top:16px}.venue strong{font-family:Georgia,serif;font-size:17px;font-weight:500}.venue span,.note{color:#8e898e;font-size:9px}.note{margin:9px 0 0;line-height:1.5}
+.highlights{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}.highlights span{padding:5px 8px;border:1px solid rgba(255,255,255,.07);border-radius:999px;background:#121216;color:#c5bfc3;font-size:8px}
+.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}.actions a,.textLink{padding:9px 11px;border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#b79aa0;font-size:8px;font-weight:800;text-decoration:none}.actions .primary{border-color:rgba(216,154,161,.22);background:#241a1e;color:#e3aab2}
+.featureLink{min-height:154px;display:flex;flex-direction:column;margin-top:16px;padding:14px;border:1px solid rgba(216,154,161,.13);border-radius:13px;background:#121216;color:#f6f2eb;text-decoration:none}.featureLink small{color:#9e7a80;font-size:8px;font-weight:800}.featureLink strong{margin-top:8px;font-family:Georgia,serif;font-size:16px;line-height:1.25}.featureLink span{display:-webkit-box;margin-top:7px;overflow:hidden;color:#817c81;font-size:8px;line-height:1.45;-webkit-box-orient:vertical;-webkit-line-clamp:3}.featureLink b{margin-top:auto;padding-top:12px;color:#dda5ad;font-size:9px}.textLink{display:inline-block;margin-top:10px}
+.newsList{display:grid;gap:7px;margin-top:16px}.newsList a{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;min-height:54px;padding:11px 12px;border:1px solid rgba(255,255,255,.06);border-radius:11px;background:#121216;color:#f2ece7;text-decoration:none}.newsList strong{font-family:Georgia,serif;font-size:12px;font-weight:500;line-height:1.25}.newsList span{color:#d79da5;font-size:8px;white-space:nowrap}.featureLink:hover,.newsList a:hover,.actions a:hover,.textLink:hover{border-color:rgba(216,154,161,.3)}
+@media(max-width:1050px){.grid{grid-template-columns:1fr 1fr}.history{grid-column:1/-1}}@media(max-width:700px){.deadHub{padding:20px}.heroHead{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}.history{grid-column:auto}}
+
+
+/* Sprint 13.3 — Dead History + Setlist */
+.recording{display:grid;gap:4px;margin-top:13px;padding:10px 11px;border:1px solid rgba(216,154,161,.12);border-radius:11px;background:#121216}
+.recording span,.setlistHead span{color:#b98990;font-size:7px;font-weight:900;letter-spacing:.13em}
+.recording strong{font-family:Georgia,serif;font-size:13px;font-weight:500;line-height:1.25}
+.setlist{margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
+.setlistHead{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.setlistHead small{color:#7f797d;font-size:7px}
+.setlist ol{margin:8px 0 0 18px;padding:0;columns:2;column-gap:24px}
+.setlist li{break-inside:avoid;margin:0 0 4px;color:#d5d0d3;font-size:9px;line-height:1.25}
+@media(max-width:700px){.setlist ol{columns:1}}
+
+
+/* Sprint 13.6 — Dead.net show layer + Archive.org audio layer */
+.showVisual{position:relative;display:block;margin-top:13px;overflow:hidden;border:1px solid rgba(216,154,161,.14);border-radius:12px;background:#101014;text-decoration:none}
+.showVisual img{display:block;width:100%;max-height:180px;object-fit:cover;opacity:.88}
+.showVisual span{position:absolute;left:10px;bottom:9px;padding:4px 7px;border-radius:999px;background:rgba(12,10,13,.82);color:#e0a8b0;font-size:7px;font-weight:900;letter-spacing:.12em}
+.sourceRow{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px;padding-top:11px;border-top:1px solid rgba(255,255,255,.06)}
+.sourceRow span{padding:4px 7px;border:1px solid rgba(216,154,161,.11);border-radius:999px;color:#8f898e;font-size:6px;font-weight:900;letter-spacing:.11em}
+
+
+/* Sprint 13.9 Revised — verified set-break presentation layered on locked 13.8 */
+.setSections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:8px}
+.setSection{min-width:0}
+.setSection h4{margin:0 0 7px;color:#d99aa3;font-size:7px;font-weight:900;letter-spacing:.14em}
+.setSection ol{margin:0 0 0 18px;padding:0;columns:1}
+.setSection li{break-inside:avoid;margin:0 0 4px;color:#d5d0d3;font-size:9px;line-height:1.25}
+.setSection:last-child:nth-child(3){grid-column:1 / -1}
+@media(max-width:700px){.setSections{grid-template-columns:1fr}.setSection:last-child:nth-child(3){grid-column:auto}}
+
+/* Sprint 13.17 — readability / contrast pass */
+section{border-color:rgba(255,255,255,.15)!important}
+article{border-color:rgba(255,255,255,.13)!important}

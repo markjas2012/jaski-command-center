@@ -1,0 +1,104 @@
+.wrap{
+  margin-top:14px;
+  padding:28px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 88% 28%,rgba(240,174,184,.16),transparent 26%),
+    linear-gradient(145deg,#211f25,#19181d);
+  color:#fffaf3;
+}
+.kicker{
+  color:#f0aeb8;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.18em;
+}
+.body{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:26px;
+  margin-top:12px;
+}
+.identity{max-width:900px}
+.artist{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 8px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:999px;
+  color:#f6c1c8;
+  background:rgba(255,255,255,.04);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.identity h2{
+  margin:14px 0 0;
+  font-family:Georgia,serif;
+  font-size:34px;
+  line-height:1.05;
+  font-weight:500;
+  color:#fffdf8;
+}
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+.meta span{
+  padding-right:10px;
+  border-right:1px solid rgba(255,255,255,.13);
+  color:#c9c2c8;
+  font-size:10px;
+}
+.meta span:last-child{border-right:0}
+.identity p{
+  max-width:760px;
+  margin:15px 0 0;
+  color:#aaa3ab;
+  font-size:10px;
+  line-height:1.55;
+}
+.identity a{
+  display:inline-flex;
+  margin-top:18px;
+  padding:10px 14px;
+  border:1px solid rgba(240,174,184,.34);
+  border-radius:10px;
+  background:rgba(240,174,184,.07);
+  color:#f6c1c8;
+  text-decoration:none;
+  font-size:10px;
+  font-weight:900;
+}
+.identity a:hover{
+  border-color:rgba(240,174,184,.55);
+  background:rgba(240,174,184,.11);
+}
+.badge{
+  min-width:150px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+  color:#aaa3ab;
+  font-size:9px;
+}
+.badge span{
+  color:#f0aeb8;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.badge strong{
+  color:#fffdf8;
+  font-size:10px;
+}
+@media(max-width:760px){
+  .body{flex-direction:column}
+  .badge{align-items:flex-start}
+  .identity h2{font-size:28px}
+}

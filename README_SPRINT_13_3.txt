@@ -1,54 +1,26 @@
-JASKI HOMEPAGE — SPRINT 13.3
-SMART SPORTS BOARD
+JASKI HOMEPAGE — SPRINT 13.3 — DEAD HISTORY + SETLIST
 
-WHAT CHANGES
-------------
-The Live Board is now grouped intelligently:
+BASELINE
+Built from the full Jaski project you uploaded, with Sprint 13.2 carried forward.
 
-LIVE
-- games in progress right now
+GOAL
+Make Today in Grateful Dead History actually surface a real show for today’s calendar date and include the setlist/track list when Archive.org exposes it.
 
-TODAY
-- games scheduled for today/tonight
-
-COMING UP
-- future games that are not today
-
-Also adds:
-- NBA
-- NHL
-
-Finished games are omitted from the Smart Board to keep it focused.
-Empty sections do not render.
-
-FILES
------
-components\SportsBoard.tsx
-components\SportsBoard.module.css
-app\api\sports-board\route.ts
+WHAT CHANGED
+- Finds Grateful Dead recordings on Archive.org for today’s month/day.
+- Features the latest historical show on that calendar date.
+- Displays date/year, venue/location, and featured recording title.
+- Pulls the track list from Archive.org recording metadata and displays it as the setlist.
+- Adds a direct Listen to featured show link.
+- Keeps Other shows today for alternate years/recordings.
+- Carries forward removal of the duplicate lower “Grateful Dead · Today” strip.
+- Preserves Deadcast, adjacent news, Now Playing, Tonight, Nugs, Phish #2, and Widespread Panic #3.
 
 INSTALL
--------
-Extract into:
-
-C:\Projects\jaski-homepage
-
-Replace the included files.
-
-NO POWERSHELL COMMAND.
-
-Then press Ctrl + Shift + R on:
-
-localhost:3000/sports
+Copy the app and components folders over the matching folders in your current Jaski project.
+Allow replacement of included files.
+Run npm run dev.
+Refresh http://localhost:3000/jam
 
 VERIFY
-------
-- SMART BOARD header appears.
-- Live games, if any, appear under Live right now.
-- Today's games appear under Today & tonight.
-- Future games appear under Coming up.
-- Empty sections disappear automatically.
-- NBA/NHL appear only when there are current/upcoming games.
-- Existing Sports Room hero and Quick Board remain unchanged.
-
-Do not commit until visually verified.
+Today in Grateful Dead History should show a specific show and, when Archive.org metadata contains track titles, a setlist.

@@ -1,0 +1,92 @@
+.wrap{
+  margin-top:14px;padding:28px;border:1px solid rgba(255,255,255,.16);
+  border-radius:22px;background:linear-gradient(145deg,#1c1b21,#17171c);color:#fffaf3
+}
+.heading{display:flex;justify-content:space-between;align-items:end;gap:20px}
+.heading p{margin:0 0 8px;color:#f0aeb8;font-size:9px;font-weight:900;letter-spacing:.18em}
+.heading h2{margin:0;font-family:Georgia,serif;font-size:30px;font-weight:500;color:#fffdf8}
+.heading small{display:block;margin-top:7px;color:#bbb5bc;font-size:10px}
+.heading>span{color:#aaa3ab;font-size:9px}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.group{padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:17px;background:#1f1e24}
+.groupHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px}
+.groupHead span{color:#f0aeb8;font-size:8px;font-weight:900;letter-spacing:.12em}
+.groupHead h3{margin:5px 0 0;font-family:Georgia,serif;font-size:20px;font-weight:500;color:#fffdf8}
+.groupHead a{color:#f3b7c0;font-size:9px;text-decoration:none;white-space:nowrap}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.card{min-height:132px;display:flex;flex-direction:column;padding:14px;border:1px solid rgba(255,255,255,.13);
+  border-radius:13px;background:#25232a;color:#fffaf3;text-decoration:none}
+.card:hover{border-color:rgba(240,174,184,.5);background:#29272e}
+.meta{display:flex;justify-content:space-between;gap:10px}
+.meta span{color:#f0aeb8;font-size:8px;font-weight:900;letter-spacing:.08em}
+.meta small{color:#b4aeb5;font-size:8px;white-space:nowrap}
+.card h4{margin:12px 0 3px;font-family:Georgia,serif;font-size:15px;line-height:1.18;color:#fffdf8}
+.card strong{font-size:10px;line-height:1.25;color:#ddd6dc}
+.card p{margin:5px 0 0;color:#aaa3ab;font-size:9px}
+.card b{margin-top:auto;padding-top:12px;color:#f3b7c0;font-size:9px}
+.empty{margin:12px 0 0;color:#aaa3ab;font-size:9px}
+@media(max-width:1100px){.columns{grid-template-columns:1fr}.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}.heading{align-items:flex-start;flex-direction:column}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.wrap{padding:20px}}
+
+
+/* Sprint 13.27 — live shows polish */
+.group{
+  background:linear-gradient(145deg,#211f25,#1d1c22);
+}
+.grid{
+  align-items:stretch;
+}
+.card{
+  transition:transform .15s ease,border-color .15s ease,background .15s ease;
+}
+.card:hover{
+  transform:translateY(-1px);
+}
+.featured{
+  grid-column:span 2;
+  min-height:144px;
+  border-color:rgba(240,174,184,.34);
+  background:
+    radial-gradient(circle at 88% 18%,rgba(240,174,184,.10),transparent 28%),
+    linear-gradient(145deg,#2a272e,#211f25);
+}
+.featured h4{
+  font-size:18px;
+}
+.featured strong{
+  font-size:11px;
+}
+.featured .meta span{
+  color:#ffc0ca;
+}
+@media(max-width:1100px){
+  .featured{grid-column:span 3}
+}
+@media(max-width:800px){
+  .featured{grid-column:span 2}
+}
+@media(max-width:560px){
+  .featured{grid-column:span 1}
+}
+
+
+/* Sprint 13.28 — curated five-card snapshot */
+.group{
+  padding-bottom:16px;
+}
+.grid{
+  grid-auto-flow:row;
+}
+.featured{
+  min-height:138px;
+}
+.card:not(.featured){
+  min-height:112px;
+}
+.groupHead a{
+  font-weight:800;
+}
+@media(max-width:1100px){
+  .card:not(.featured){min-height:108px}
+}

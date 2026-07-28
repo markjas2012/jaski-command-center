@@ -1,0 +1,177 @@
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
+
+type Item = {
+  artist: string;
+  title: string;
+  venue?: string;
+  location?: string;
+  date?: string;
+  href: string;
+};
+
+const ARTISTS = [
+  "Phish",
+  "Widespread Panic",
+  "Billy Strings",
+  "The String Cheese Incident",
+  "The Disco Biscuits",
+  "Joe Russo's Almost Dead",
+];
+
+const URLS = {
+  video: "https://www.nugs.net/watch-live-music/",
+  audio: "https://www.nugs.net/recentlyadded.html",
+};
+
+function decode(value: string) {
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&#x27;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function strip(html: string) {
+  return decode(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+  );
+}
+
+function absolute(href: string) {
+  if (href.startsWith("http")) return href;
+  if (href.startsWith("/")) return `https://www.nugs.net${href}`;
+  return `https://www.nugs.net/${href}`;
+}
+
+function parseProducts(html: string, artistHint = ""): Item[] {
+  const matches = Array.from(
+    html.matchAll(/href=["']([^"']*(?:live-download|WEBCASTVARIANT)[^"']*\.html)["']/gi)
+  );
+
+  const seen = new Set<string>();
+  const out: Item[] = [];
+
+  for (const match of matches) {
+    const href = absolute(decode(match[1]));
+    if (seen.has(href)) continue;
+    seen.add(href);
+
+    const index = match.index ?? 0;
+    const chunk = strip(html.slice(Math.max(0, index - 900), index + 1200));
+
+    const dateMatch = chunk.match(/\b(\d{1,2}\/\d{1,2}\/(?:20)?\d{2})\b/);
+    const artist =
+      ARTISTS.find((name) => chunk.toLowerCase().includes(name.toLowerCase())) ||
+      artistHint ||
+      "";
+
+    // Product pages expose artist, venue and location as adjacent text.
+    // Keep the title conservative rather than inventing a venue when markup changes.
+    const beforeDate = dateMatch ? chunk.slice(0, dateMatch.index).trim() : chunk;
+    const pieces = beforeDate
+      .split(/\s{2,}| \| | · /)
+      .map((x) => x.trim())
+      .filter((x) => x.length > 2 && x.length < 100);
+
+    const venue =
+      pieces.reverse().find((x) =>
+        /arena|theatre|theater|amphithe|hall|center|centre|club|festival|pavilion|auditorium|ballroom|park|rocks|brew|stage|casino|resort/i.test(x)
+      ) || "";
+
+    out.push({
+      artist,
+      title: venue || (artist ? `${artist} — recent show` : "Recent nugs show"),
+      venue: venue || undefined,
+      date: dateMatch?.[1],
+      href,
+    });
+
+    if (out.length >= 24) break;
+  }
+
+  return out;
+}
+
+async function fetchText(url: string) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 6500);
+  try {
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal,
+      headers: {
+        "User-Agent": "Mozilla/5.0 JaskiCommandCenter/13.1",
+        Accept: "text/html,application/xhtml+xml",
+      },
+    });
+    if (!res.ok) throw new Error(`${res.status}`);
+    return await res.text();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function latestForArtist(artist: string): Promise<Item | null> {
+  try {
+    const q = encodeURIComponent(artist);
+    const html = await fetchText(`https://www.nugs.net/search/?q=${q}`);
+    const products = parseProducts(html, artist);
+
+    const dated = products
+      .map((item) => {
+        const raw = item.date || "";
+        const m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+        if (!m) return { item, time: 0 };
+        const year = Number(m[3]) < 100 ? 2000 + Number(m[3]) : Number(m[3]);
+        return {
+          item,
+          time: new Date(year, Number(m[1]) - 1, Number(m[2])).getTime(),
+        };
+      })
+      .sort((a, b) => b.time - a.time);
+
+    return dated[0]?.item ?? products[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function GET() {
+  try {
+    const [videoHtml, audioHtml, ...latest] = await Promise.all([
+      fetchText(URLS.video).catch(() => ""),
+      fetchText(URLS.audio).catch(() => ""),
+      ...ARTISTS.map((artist) => latestForArtist(artist)),
+    ]);
+
+    const latestMap: Record<string, Item | null> = {};
+    ARTISTS.forEach((artist, index) => {
+      latestMap[artist] = latest[index] ?? null;
+    });
+
+    return NextResponse.json({
+      video: videoHtml ? parseProducts(videoHtml).slice(0, 6) : [],
+      audio: audioHtml ? parseProducts(audioHtml).slice(0, 6) : [],
+      latest: latestMap,
+      updatedAt: new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        hour: "numeric",
+        minute: "2-digit",
+      }).format(new Date()),
+    });
+  } catch {
+    return NextResponse.json({
+      video: [],
+      audio: [],
+      latest: Object.fromEntries(ARTISTS.map((artist) => [artist, null])),
+      updatedAt: "",
+    });
+  }
+}

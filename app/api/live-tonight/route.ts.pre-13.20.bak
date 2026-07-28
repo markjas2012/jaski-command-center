@@ -1,0 +1,332 @@
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
+
+type LiveItem = {
+  artist: string;
+  venue?: string;
+  location?: string;
+  date?: string;
+  time?: string;
+  source: "Nugs" | "JamBase";
+  href: string;
+  action: "Watch" | "Details";
+  sortTime: number;
+};
+
+const NOW = new Date();
+const WINDOW_END = Date.now() + 45 * 24 * 60 * 60 * 1000;
+
+const NUGS_FALLBACK: LiveItem[] = [
+  {
+    artist: "Billy Strings",
+    venue: "PeoplesBank Arena",
+    location: "Hartford, CT",
+    date: "Jul 28",
+    time: "7:30 PM ET",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/?srule=newest",
+    action: "Watch",
+    sortTime: new Date("2026-07-28T19:30:00-04:00").getTime(),
+  },
+  {
+    artist: "Billy Strings",
+    venue: "Bethel Woods Center For The Arts",
+    location: "Bethel, NY",
+    date: "Jul 31",
+    time: "7:30 PM ET",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/?srule=newest",
+    action: "Watch",
+    sortTime: new Date("2026-07-31T19:30:00-04:00").getTime(),
+  },
+  {
+    artist: "Tedeschi Trucks Band",
+    venue: "Red Rocks Amphitheatre",
+    location: "Morrison, CO",
+    date: "Jul 31",
+    time: "10:00 PM ET",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/?srule=newest",
+    action: "Watch",
+    sortTime: new Date("2026-07-31T22:00:00-04:00").getTime(),
+  },
+  {
+    artist: "Billy Strings",
+    venue: "Bethel Woods Center For The Arts",
+    location: "Bethel, NY",
+    date: "Aug 1",
+    time: "7:30 PM ET",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/?srule=newest",
+    action: "Watch",
+    sortTime: new Date("2026-08-01T19:30:00-04:00").getTime(),
+  },
+  {
+    artist: "Tedeschi Trucks Band",
+    venue: "Red Rocks Amphitheatre",
+    location: "Morrison, CO",
+    date: "Aug 1",
+    time: "10:00 PM ET",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/?srule=newest",
+    action: "Watch",
+    sortTime: new Date("2026-08-01T22:00:00-04:00").getTime(),
+  },
+  {
+    artist: "The String Cheese Incident",
+    venue: "Hampton Beach Casino Ballroom",
+    location: "Hampton, NH",
+    date: "Aug 7",
+    time: "7:00 PM ET",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/?srule=newest",
+    action: "Watch",
+    sortTime: new Date("2026-08-07T19:00:00-04:00").getTime(),
+  },
+];
+
+const LOCAL_FALLBACK: LiveItem[] = [
+  {
+    artist: "Band of Horses",
+    venue: "The Factory",
+    location: "Chesterfield, MO",
+    date: "Jul 28",
+    source: "JamBase",
+    href: "https://www.jambase.com/concerts/us/missouri/concerts-in-st-louis-area",
+    action: "Details",
+    sortTime: new Date("2026-07-28T12:00:00-05:00").getTime(),
+  },
+  {
+    artist: "Lettuce",
+    venue: "Atomic Pavilion",
+    location: "St. Louis, MO",
+    date: "Aug 13",
+    source: "JamBase",
+    href: "https://www.jambase.com/concerts/us/missouri/jamband-concerts-in-st-louis-area",
+    action: "Details",
+    sortTime: new Date("2026-08-13T12:00:00-05:00").getTime(),
+  },
+  {
+    artist: "Andy Frasco & The U.N. and Kitchen Dwellers",
+    venue: "Atomic by Jamo",
+    location: "St. Louis, MO",
+    date: "Aug 14",
+    source: "JamBase",
+    href: "https://www.jambase.com/concerts/us/missouri/jamband-concerts-in-st-louis-area",
+    action: "Details",
+    sortTime: new Date("2026-08-14T12:00:00-05:00").getTime(),
+  },
+  {
+    artist: "Guns N' Roses",
+    venue: "Busch Stadium",
+    location: "St. Louis, MO",
+    date: "Aug 16",
+    time: "6:25 PM",
+    source: "JamBase",
+    href: "https://www.jambase.com/concerts/us/missouri/concerts-in-st-louis-area",
+    action: "Details",
+    sortTime: new Date("2026-08-16T18:25:00-05:00").getTime(),
+  },
+  {
+    artist: "moe.",
+    venue: "Knuckleheads Saloon",
+    location: "Kansas City, MO",
+    date: "Aug 19",
+    source: "JamBase",
+    href: "https://www.jambase.com/concerts/us/missouri/genres/jamband-concerts",
+    action: "Details",
+    sortTime: new Date("2026-08-19T12:00:00-05:00").getTime(),
+  },
+  {
+    artist: "Alabama Shakes / Tedeschi Trucks Band",
+    venue: "Hollywood Casino Amphitheatre",
+    location: "Maryland Heights, MO",
+    date: "Aug 23",
+    source: "JamBase",
+    href: "https://www.jambase.com/concerts/us/missouri/jamband-concerts-in-st-louis-area",
+    action: "Details",
+    sortTime: new Date("2026-08-23T12:00:00-05:00").getTime(),
+  },
+];
+
+function clean(value: string) {
+  return value
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;|&#038;/g, "&")
+    .replace(/&#8217;|&#39;|&apos;/g, "'")
+    .replace(/&quot;|&#8220;|&#8221;/g, '"')
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function fetchText(url: string) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 7000);
+  try {
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal,
+      headers: {
+        "User-Agent": "Mozilla/5.0 JaskiCommandCenter/13.19S",
+        Accept: "text/html,application/xhtml+xml",
+      },
+    });
+    if (!res.ok) throw new Error(`${res.status}`);
+    return await res.text();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function inWindow(time: number) {
+  if (!time) return true;
+  const start = Date.now() - 12 * 60 * 60 * 1000;
+  return time >= start && time <= WINDOW_END;
+}
+
+function unique(items: LiveItem[]) {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    const key = `${item.artist}|${item.venue}|${item.date}`.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function parseNugs(html: string): LiveItem[] {
+  const text = clean(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<(?:br|\/div|\/p|\/li|\/article|\/a|\/span|\/h\d)>/gi, "\n")
+  );
+
+  const lines = text.split(/\n+/).map((x) => x.trim()).filter(Boolean);
+  const out: LiveItem[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const dm = lines[i].match(/^(\d{1,2}\/\d{1,2}\/2026)\s*\|\s*(.+)$/);
+    if (!dm) continue;
+
+    const dateRaw = dm[1];
+    const time = dm[2];
+    const [month, day, year] = dateRaw.split("/").map(Number);
+    const sortTime = new Date(year, month - 1, day, 12).getTime();
+    if (!inWindow(sortTime)) continue;
+
+    const candidates = lines.slice(Math.max(0, i - 8), i).filter((x) =>
+      x.length >= 2 &&
+      x.length <= 100 &&
+      !/upcoming|livestream|watch|view all|showing|results|included with|subscription/i.test(x)
+    );
+
+    const artist = candidates.at(-3) || "";
+    const venue = candidates.at(-2) || "";
+    const location = candidates.at(-1) || "";
+
+    if (!artist || !venue || !location) continue;
+
+    out.push({
+      artist,
+      venue,
+      location,
+      date: new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(sortTime)),
+      time,
+      source: "Nugs",
+      href: "https://www.nugs.net/watch-live-music/?srule=newest",
+      action: "Watch",
+      sortTime,
+    });
+  }
+
+  return unique(out).sort((a, b) => a.sortTime - b.sortTime);
+}
+
+function parseJamBase(html: string, fallbackHref: string): LiveItem[] {
+  // JamBase's text layout is quite stable even when its JSON-LD changes.
+  const text = clean(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<(?:br|\/div|\/p|\/li|\/article|\/a|\/span|\/h\d)>/gi, "\n")
+  );
+  const lines = text.split(/\n+/).map((x) => x.trim()).filter(Boolean);
+  const out: LiveItem[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const dateLine = lines[i].match(/^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+•?\s*(Jul|Aug|Sep)\s+(\d{1,2})(?:,\s*2026)?(?:\s+•\s+(.+))?$/i)
+      || lines[i].match(/^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jul|Aug|Sep)\s+(\d{1,2}),?\s*2026?(?:\s+(.+))?$/i);
+    if (!dateLine) continue;
+
+    const monthName = dateLine[1];
+    const day = Number(dateLine[2]);
+    const sortTime = Date.parse(`${monthName} ${day}, 2026 12:00:00`);
+    if (!inWindow(sortTime)) continue;
+
+    const artist = lines[i + 1] || "";
+    const venue = lines[i + 2] || "";
+    const location = lines[i + 3] || "";
+
+    if (!artist || !venue || !/,\s*(MO|IL)\b/i.test(location)) continue;
+    if (/tickets|calendar|top concerts|find tickets/i.test(artist)) continue;
+
+    out.push({
+      artist,
+      venue,
+      location,
+      date: `${monthName} ${day}`,
+      time: dateLine[3]?.trim(),
+      source: "JamBase",
+      href: fallbackHref,
+      action: "Details",
+      sortTime,
+    });
+  }
+
+  return unique(out).sort((a, b) => a.sortTime - b.sortTime);
+}
+
+async function getNugs() {
+  try {
+    const html = await fetchText("https://www.nugs.net/watch-live-music/?srule=newest");
+    const parsed = parseNugs(html);
+    return parsed.length >= 2 ? parsed.slice(0, 6) : NUGS_FALLBACK.filter((x) => inWindow(x.sortTime)).slice(0, 6);
+  } catch {
+    return NUGS_FALLBACK.filter((x) => inWindow(x.sortTime)).slice(0, 6);
+  }
+}
+
+async function getLocal() {
+  const sources = [
+    "https://www.jambase.com/concerts/us/missouri/jamband-concerts-in-st-louis-area",
+    "https://www.jambase.com/concerts/us/missouri/genres/jamband-concerts",
+    "https://www.jambase.com/concerts/us/missouri/concerts-in-st-louis-area",
+  ];
+
+  try {
+    const htmls = await Promise.all(sources.map((url) => fetchText(url).catch(() => "")));
+    const parsed = unique(
+      htmls.flatMap((html, index) => html ? parseJamBase(html, sources[index]) : [])
+    ).sort((a, b) => a.sortTime - b.sortTime);
+
+    return parsed.length >= 2 ? parsed.slice(0, 6) : LOCAL_FALLBACK.filter((x) => inWindow(x.sortTime)).slice(0, 6);
+  } catch {
+    return LOCAL_FALLBACK.filter((x) => inWindow(x.sortTime)).slice(0, 6);
+  }
+}
+
+export async function GET() {
+  const [nugs, local] = await Promise.all([getNugs(), getLocal()]);
+
+  return NextResponse.json({
+    updatedAt: new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(new Date()),
+    nugs: nugs.map(({ sortTime, ...item }) => item),
+    local: local.map(({ sortTime, ...item }) => item),
+  });
+}

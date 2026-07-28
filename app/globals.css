@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --page-background: #e7edf5;
   --sidebar-background: rgba(237, 243, 250, 0.72);
   --sidebar-border: rgba(255, 255, 255, 0.76);
@@ -568,7 +568,7 @@ textarea {
 }
 
 
-/* Sprint 005 — useful launch actions */
+/* Sprint 005 â€” useful launch actions */
 
 .detail-card-live {
   align-items: stretch;
@@ -614,7 +614,7 @@ textarea {
 }
 
 
-/* Sprint 006 — Favorites Dock */
+/* Sprint 006 â€” Favorites Dock */
 
 .favorites-section {
   margin-top: 28px;
@@ -744,7 +744,7 @@ textarea {
 }
 
 
-/* Sprint 007 — Things That Make Me Smile */
+/* Sprint 007 â€” Things That Make Me Smile */
 
 .smile-section {
   margin-top: 28px;
@@ -956,7 +956,7 @@ textarea {
 }
 
 
-/* Sprint 008 — Living Dashboard */
+/* Sprint 008 â€” Living Dashboard */
 
 .dashboard {
   transition:
@@ -1057,7 +1057,7 @@ textarea {
   }
 }
 
-/* Sprint 009 — Morning Ritual */
+/* Sprint 009 â€” Morning Ritual */
 
 .dashboard-morning {
   background: linear-gradient(145deg, rgba(255, 252, 245, 0.2), rgba(238, 246, 255, 0.08));
@@ -1249,7 +1249,7 @@ textarea {
   position: absolute;
   left: 0;
   color: #e46d72;
-  content: "•";
+  content: "â€¢";
 }
 
 .dead-note {
@@ -1314,7 +1314,7 @@ textarea {
   }
 }
 
-/* Sprint 10 · Component 01 · Jam Room Hero */
+/* Sprint 10 Â· Component 01 Â· Jam Room Hero */
 .dead-room-link {
   display: inline-flex;
   align-items: center;
@@ -1582,7 +1582,7 @@ textarea {
   .jam-poster { min-height: 320px; }
 }
 
-/* Sprint 10 — Component 02: New & Noteworthy */
+/* Sprint 10 â€” Component 02: New & Noteworthy */
 
 .jam-room-page {
   display: grid;
@@ -1826,7 +1826,7 @@ textarea {
   .release-art { min-height: 230px; }
 }
 
-/* Sprint 10 · Component 03 — St. Louis Sports */
+/* Sprint 10 Â· Component 03 â€” St. Louis Sports */
 .sports-shell { background: #121419; }
 .sports-stage { background: #aeb3bb; }
 .sports-page { display: grid; gap: 22px; width: 100%; }
@@ -1924,3 +1924,4 @@ textarea {
   .sports-pulse { grid-template-columns: 1fr; }
   .sports-pulse-links { grid-template-columns: 1fr; }
 }
+

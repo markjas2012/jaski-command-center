@@ -1,0 +1,27 @@
+"use client";
+
+import DeadTodayCard from "./DeadTodayCard";
+import JamListen from "./JamListen";
+import JamLive from "./JamLive";
+import JamUtility from "./JamUtility";
+import styles from "./JamHero.module.css";
+
+export default function JamHero() {
+  return (
+    <main className={styles.room}>
+      <section className={styles.hero}>
+        <h1>Jam Room.</h1>
+      </section>
+
+      <JamListen />
+
+      <section className={styles.deadSection}>
+        <DeadTodayCard />
+      </section>
+
+      {/* Everything below this point is intentionally preserved from 12.4. */}
+      <JamLive />
+      <JamUtility />
+    </main>
+  );
+}

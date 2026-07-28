@@ -1,0 +1,102 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import styles from "./JamTonight.module.css";
+
+type LiveItem = {
+  artist: string;
+  title: string;
+  venue?: string;
+  location?: string;
+  date?: string;
+  time?: string;
+  source: string;
+  href: string;
+  action?: "Watch" | "Listen" | "Details";
+};
+
+type Feed = {
+  updatedAt?: string;
+  items: LiveItem[];
+};
+
+const fallback: LiveItem[] = [
+  {
+    artist: "JamBase",
+    title: "Concerts & tour dates",
+    source: "JamBase",
+    href: "https://www.jambase.com/concerts",
+    action: "Details",
+  },
+  {
+    artist: "Nugs",
+    title: "Livestreams & recent shows",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/",
+    action: "Watch",
+  },
+  {
+    artist: "Relix",
+    title: "Shows, festivals & music news",
+    source: "Relix",
+    href: "https://relix.com/",
+    action: "Details",
+  },
+];
+
+export default function JamTonight() {
+  const [feed, setFeed] = useState<Feed | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/live-tonight", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data) => active && setFeed(data))
+      .catch(() => active && setFeed({ updatedAt: "", items: fallback }));
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const items = feed?.items?.length ? feed.items.slice(0, 6) : fallback;
+
+  return (
+    <section className={styles.wrap}>
+      <div className={styles.heading}>
+        <div>
+          <p>TONIGHT</p>
+          <h2>See what’s happening live.</h2>
+          <small>Tonight and upcoming shows, streams and direct links.</small>
+        </div>
+        <span>{feed?.updatedAt ? `Updated ${feed.updatedAt}` : "Live listings"}</span>
+      </div>
+
+      <div className={styles.grid}>
+        {items.map((item) => (
+          <a
+            key={`${item.source}-${item.href}-${item.title}`}
+            className={styles.card}
+            href={item.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className={styles.meta}>
+              <span>{item.source}</span>
+              <small>{[item.date, item.time].filter(Boolean).join(" · ") || "Upcoming"}</small>
+            </div>
+
+            <h3>{item.artist || item.title}</h3>
+            <strong>{item.artist ? item.title : ""}</strong>
+
+            {(item.venue || item.location) && (
+              <p>{[item.venue, item.location].filter(Boolean).join(" · ")}</p>
+            )}
+
+            <b>{item.action || "Details"} ↗</b>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}

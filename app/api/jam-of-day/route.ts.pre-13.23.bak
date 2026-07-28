@@ -1,0 +1,156 @@
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
+
+type Candidate = {
+  artist: string;
+  date?: string;
+  venue?: string;
+  location?: string;
+  title?: string;
+  source?: string;
+  href: string;
+  weight: number;
+  why?: string;
+  highlights?: string[];
+  artwork?: string;
+};
+
+const candidates: Candidate[] = [
+  {
+    artist: "Grateful Dead",
+    date: "May 8, 1977",
+    venue: "Barton Hall",
+    location: "Ithaca, NY",
+    title: "Cornell ’77",
+    source: "ARCHIVE.ORG",
+    href: "https://archive.org/details/gd77-05-08.sbd.hicks.4982.sbeok.shnf",
+    weight: 6,
+    why: "One of the defining live Dead recordings: patient, spacious playing with the band completely locked in.",
+    highlights: ["Scarlet Begonias → Fire on the Mountain", "Morning Dew", "Not Fade Away"],
+  },
+  {
+    artist: "Grateful Dead",
+    date: "August 27, 1972",
+    venue: "Old Renaissance Faire Grounds",
+    location: "Veneta, OR",
+    title: "Sunshine Daydream",
+    source: "ARCHIVE.ORG",
+    href: "https://archive.org/details/gd1972-08-27.sbd.miller.110412.flac16",
+    weight: 6,
+    why: "A hot, loose outdoor show with some of the band's most exploratory 1972 playing.",
+    highlights: ["Dark Star", "Playing in the Band", "Bird Song"],
+  },
+  {
+    artist: "Grateful Dead",
+    date: "February 18, 1971",
+    venue: "Capitol Theatre",
+    location: "Port Chester, NY",
+    title: "Beautiful Jam",
+    source: "ARCHIVE.ORG",
+    href: "https://archive.org/details/gd1971-02-18.sbd.miller.111793.flac16",
+    weight: 6,
+    why: "The famous Beautiful Jam emerges naturally out of Dark Star — lyrical, patient and unlike anything else in the catalog.",
+    highlights: ["Dark Star", "Beautiful Jam", "Wharf Rat"],
+  },
+  {
+    artist: "Phish",
+    date: "December 31, 1995",
+    venue: "Madison Square Garden",
+    location: "New York, NY",
+    title: "New Year’s Eve 1995",
+    source: "PHISH.IN",
+    href: "https://phish.in/1995-12-31",
+    weight: 5,
+    why: "Peak mid-’90s Phish: precision, weirdness and huge improvisation on the band's biggest stage.",
+    highlights: ["Reba", "Mike's Song", "You Enjoy Myself"],
+  },
+  {
+    artist: "Phish",
+    date: "November 17, 1997",
+    venue: "McNichols Sports Arena",
+    location: "Denver, CO",
+    title: "Denver ’97",
+    source: "PHISH.IN",
+    href: "https://phish.in/1997-11-17",
+    weight: 5,
+    why: "The fall ’97 funk sound at full strength — deep grooves, patient transitions and monster second-set energy.",
+    highlights: ["Ghost", "Tweezer", "Johnny B. Goode"],
+  },
+  {
+    artist: "Widespread Panic",
+    date: "April 3, 1996",
+    venue: "Von Braun Civic Center",
+    location: "Huntsville, AL",
+    title: "Huntsville ’96",
+    source: "PANICSTREAMS",
+    href: "https://www.panicstream.com/vault/widespread-panic-04031996-huntsville-al/",
+    weight: 4,
+    why: "Classic Panic in Alabama: heavy Southern groove, huge room energy and the band stretching songs without losing the pulse.",
+    highlights: ["Driving Song", "Chilly Water", "Can't Find My Way Home"],
+  },
+  {
+    artist: "Billy Strings",
+    title: "Latest live recording",
+    source: "NUGS",
+    href: "https://www.nugs.net/billy-strings-concerts-live-downloads-in-mp3-flac-or-online-music-streaming/",
+    weight: 2,
+    why: "A rotating chance to hear what one of the Jam Room's best current live acts is doing right now.",
+    highlights: ["Latest show", "Extended jams", "Bluegrass fire"],
+  },
+  {
+    artist: "The String Cheese Incident",
+    title: "Latest live recording",
+    source: "NUGS",
+    href: "https://www.nugs.net/the-string-cheese-incident-concerts-live-downloads-in-mp3-flac-or-online-music-streaming/",
+    weight: 2,
+    why: "Cheese can move from bluegrass to funk to electronic improv in a single set — perfect discovery territory.",
+    highlights: ["Latest show", "Big transitions", "Dance-floor jams"],
+  },
+  {
+    artist: "Goose",
+    title: "Latest live recording",
+    source: "BANDCAMP",
+    href: "https://goosetheband.bandcamp.com/",
+    weight: 2,
+    why: "A current snapshot of Goose's evolving live sound, with polished songs opening into patient improvisation.",
+    highlights: ["Latest show", "Extended improv", "Modern jam"],
+  },
+  {
+    artist: "Umphrey's McGee",
+    title: "Latest live recording",
+    source: "NUGS",
+    href: "https://www.nugs.net/umphreys-mcgee-concerts-live-downloads-in-mp3-flac-or-online-music-streaming/",
+    weight: 2,
+    why: "For the days when the Jam Room needs precision, heaviness and left-turn improvisation.",
+    highlights: ["Latest show", "Jimmy Stewart", "Prog-meets-jam"],
+  },
+];
+
+function weightedPool() {
+  return candidates.flatMap((candidate) =>
+    Array.from({ length: candidate.weight }, () => candidate)
+  );
+}
+
+function dayIndex() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now.getTime() - start.getTime();
+  return Math.floor(diff / 86400000);
+}
+
+export async function GET() {
+  const pool = weightedPool();
+  const index = dayIndex() % pool.length;
+  const pick = pool[index];
+
+  return NextResponse.json({
+    updatedAt: new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      month: "short",
+      day: "numeric",
+    }).format(new Date()),
+    pick,
+  });
+}

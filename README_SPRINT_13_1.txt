@@ -1,45 +1,21 @@
-JASKI HOMEPAGE — SPRINT 13.1
-SPORTS ROOM FOUNDATION
+JASKI HOMEPAGE — SPRINT 13.1 — FEED CLEANUP
 
-Purpose
--------
-Create the permanent Sports Room foundation using the same room philosophy
-that worked for the Jam Room.
+BASELINE
+Built directly from Sprint 13.0 Compact Listen Now.
 
-Adds
-----
-- Dedicated Sports Room identity.
-- Quick links for ESPN, MLB, NFL, and NCAA.
-- "Tonight" and "Scores" utility cards.
-- Clear separation between Sports and the dedicated Golf Room.
-- Reusable visual structure for live sports content later.
+GOAL
+Clean bad RSS/feed text without changing the layout.
 
-Does not change
----------------
-- Homepage
-- Jam Room
-- Golf Room
-- Favorites
-- Featured Today
-- Weather
-- Other sidebar rooms
+CHANGES
+- Strips leaked HTML tags from feed titles/descriptions.
+- Normalizes whitespace and common HTML entities.
+- Adds a UI-level safety net so raw markup cannot appear in cards.
+- Preserves the exact 13.0 compact layout.
+- Preserves Phish #2, Widespread Panic #3, and the Grateful Dead centerpiece.
+- No intentional visual redesign.
 
-Install
--------
-Extract into:
+INSTALL
+Copy over the current project, allow replacement, refresh localhost:3000.
 
-C:\Projects\jaski-homepage
-
-Add/replace:
-
-app\sports\page.tsx
-components\SportsRoom.tsx
-components\SportsRoom.module.css
-
-No PowerShell command.
-
-Then open:
-
-http://localhost:3000/sports
-
-Do not commit until visually verified.
+VERIFY
+The NUGS.NET High Sierra card should no longer display raw <div class="venue"... markup.

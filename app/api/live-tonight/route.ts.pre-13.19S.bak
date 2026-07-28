@@ -1,0 +1,229 @@
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
+
+type LiveItem = {
+  artist: string;
+  venue?: string;
+  location?: string;
+  date?: string;
+  time?: string;
+  source: "Nugs" | "JamBase";
+  href: string;
+  action: "Watch" | "Details";
+  sortTime: number;
+};
+
+const MONTH_MS = 45 * 24 * 60 * 60 * 1000;
+
+function decode(v: string) {
+  return v
+    .replace(/&amp;|&#038;/g, "&")
+    .replace(/&#8217;|&#39;|&apos;/g, "'")
+    .replace(/&quot;|&#8220;|&#8221;/g, '"')
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function textLines(html: string) {
+  return decode(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<(?:br|\/p|\/div|\/li|\/h\d|\/a|\/span)>/gi, "\n")
+      .replace(/<[^>]+>/g, " ")
+  )
+    .split(/\n+/)
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
+
+function absolute(href: string, base: string) {
+  if (href.startsWith("http")) return href;
+  if (href.startsWith("/")) return `${base}${href}`;
+  return `${base}/${href}`;
+}
+
+async function fetchText(url: string) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 7500);
+  try {
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal,
+      headers: { "User-Agent": "Mozilla/5.0 JaskiCommandCenter/13.19R" },
+    });
+    if (!res.ok) throw new Error(`${res.status}`);
+    return await res.text();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function parseMDY(value: string) {
+  const m = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!m) return 0;
+  return new Date(Number(m[3]), Number(m[1]) - 1, Number(m[2])).getTime();
+}
+
+function parseMonthDay(value: string) {
+  const year = new Date().getFullYear();
+  const t = Date.parse(`${value}, ${year}`);
+  return Number.isNaN(t) ? 0 : t;
+}
+
+function inWindow(t: number) {
+  if (!t) return true;
+  const now = Date.now() - 12 * 60 * 60 * 1000;
+  return t >= now && t <= Date.now() + MONTH_MS;
+}
+
+function unique(items: LiveItem[]) {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    const k = `${item.artist}|${item.venue}|${item.date}`.toLowerCase();
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
+async function nugsUpcoming(): Promise<LiveItem[]> {
+  try {
+    const html = await fetchText("https://www.nugs.net/watch-live-music/");
+    const lines = textLines(html);
+    const items: LiveItem[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const m = lines[i].match(/^(\d{1,2}\/\d{1,2}\/\d{4})\s*\|\s*(.+)$/);
+      if (!m) continue;
+
+      const date = m[1];
+      const time = m[2];
+      const sortTime = parseMDY(date);
+      if (!inWindow(sortTime)) continue;
+
+      const previous = lines.slice(Math.max(0, i - 5), i).filter((x) =>
+        !/^(upcoming|recent|watch livestreams|view all|live hd video|showing|results?)$/i.test(x)
+      );
+
+      const location = previous.at(-1) || "";
+      const venue = previous.at(-2) || "";
+      const artist = previous.at(-3) || "";
+
+      if (!artist || !venue || !location) continue;
+      if (artist.length > 90 || venue.length > 120 || location.length > 80) continue;
+
+      // Product-card links are hard to associate reliably from flattened markup,
+      // so use the Nugs livestream listing page as the stable direct destination.
+      items.push({
+        artist,
+        venue,
+        location,
+        date,
+        time,
+        source: "Nugs",
+        href: "https://www.nugs.net/watch-live-music/",
+        action: "Watch",
+        sortTime,
+      });
+    }
+
+    return unique(items).sort((a, b) => a.sortTime - b.sortTime).slice(0, 8);
+  } catch {
+    return [];
+  }
+}
+
+function extractJsonLd(html: string): any[] {
+  const blocks = Array.from(html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi));
+  const out: any[] = [];
+  for (const block of blocks) {
+    try {
+      const data = JSON.parse(block[1].trim());
+      out.push(data);
+    } catch {}
+  }
+  return out;
+}
+
+function walkEvents(node: any, out: any[]) {
+  if (!node) return;
+  if (Array.isArray(node)) {
+    node.forEach((x) => walkEvents(x, out));
+    return;
+  }
+  if (typeof node !== "object") return;
+
+  const type = node["@type"];
+  if (type === "MusicEvent" || type === "Event" || (Array.isArray(type) && type.some((x) => x === "MusicEvent" || x === "Event"))) {
+    out.push(node);
+  }
+  Object.values(node).forEach((x) => walkEvents(x, out));
+}
+
+function eventToItem(event: any): LiveItem | null {
+  const start = event.startDate ? new Date(event.startDate) : null;
+  const sortTime = start && !Number.isNaN(start.getTime()) ? start.getTime() : 0;
+  if (!inWindow(sortTime)) return null;
+
+  const venue = event.location?.name || "";
+  const address = event.location?.address || {};
+  const city = address.addressLocality || "";
+  const region = address.addressRegion || "";
+  const location = [city, region].filter(Boolean).join(", ");
+  const artist =
+    event.performer?.name ||
+    (Array.isArray(event.performer) ? event.performer[0]?.name : "") ||
+    event.name ||
+    "";
+
+  const href = event.url || event.offers?.url || "https://www.jambase.com/concerts/us/missouri";
+
+  if (!artist) return null;
+
+  return {
+    artist: decode(String(artist)),
+    venue: venue ? decode(String(venue)) : undefined,
+    location: location || undefined,
+    date: sortTime ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(sortTime)) : undefined,
+    time: sortTime ? new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(new Date(sortTime)) : undefined,
+    source: "JamBase",
+    href,
+    action: "Details",
+    sortTime,
+  };
+}
+
+async function jamBaseArea(): Promise<LiveItem[]> {
+  const urls = [
+    "https://www.jambase.com/concerts/us/missouri",
+    "https://www.jambase.com/concerts/us/missouri/concerts-in-st-louis-area",
+  ];
+
+  try {
+    const htmls = await Promise.all(urls.map((url) => fetchText(url).catch(() => "")));
+    const events: any[] = [];
+    htmls.forEach((html) => extractJsonLd(html).forEach((node) => walkEvents(node, events)));
+
+    const parsed = events.map(eventToItem).filter(Boolean) as LiveItem[];
+    return unique(parsed).sort((a, b) => a.sortTime - b.sortTime).slice(0, 10);
+  } catch {
+    return [];
+  }
+}
+
+export async function GET() {
+  const [nugs, local] = await Promise.all([nugsUpcoming(), jamBaseArea()]);
+
+  return NextResponse.json({
+    updatedAt: new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(new Date()),
+    nugs: nugs.map(({ sortTime, ...x }) => x),
+    local: local.map(({ sortTime, ...x }) => x),
+  });
+}

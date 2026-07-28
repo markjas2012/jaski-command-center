@@ -1,48 +1,21 @@
-JASKI HOMEPAGE — SPRINT 13.2
-LIVE SPORTS BOARD
+JASKI HOMEPAGE — SPRINT 13.2 — REMOVE DUPLICATE DEAD TODAY
 
-Adds a real live/current sports board beneath the Sports Room foundation.
+BASELINE
+Built from the full current jaski-homepage project you uploaded.
 
-WHAT IT DOES
-------------
-- Pulls current scoreboard data for:
-  MLB
-  NFL
-  NCAA football
-- Shows up to six current/upcoming games.
-- Displays matchup, status, score/time, and TV network when available.
-- Falls back to useful league links if a feed is unavailable.
-- Keeps Golf out of the Sports Room.
-- Removes the temporary "ROOM RULE" footer from Sprint 13.1.
-- Does not touch Jam Room or Homepage.
+CHANGE
+Removed the standalone “GRATEFUL DEAD · TODAY” block from components/JamLive.tsx.
 
-FILES
------
-components\SportsBoard.tsx
-components\SportsBoard.module.css
-components\SportsRoom.tsx
-app\api\sports-board\route.ts
+PRESERVED
+- NOW PLAYING news cards
+- Today in Grateful Dead History in the dedicated Grateful Dead section
+- Grateful Deadcast and Dead-adjacent content
+- Tonight links
+- Listen Now
+- Phish #2 / Widespread Panic #3 hierarchy
+- All feed/API behavior
 
 INSTALL
--------
-Extract into:
-
-C:\Projects\jaski-homepage
-
-Choose REPLACE for SportsRoom.tsx.
-
-No PowerShell command.
-
-Then Ctrl+Shift+R on:
-
-localhost:3000/sports
-
-VERIFY
-------
-- Sports Room hero remains intact.
-- Quick Board remains intact.
-- A new LIVE BOARD / Today & tonight section appears below.
-- Current/upcoming games populate when feeds respond.
-- No ROOM RULE section at the bottom.
-
-Do not commit until visually verified.
+Copy the components folder from this pack over the matching components folder in your current project.
+Allow JamLive.tsx to be replaced.
+Refresh localhost:3000.

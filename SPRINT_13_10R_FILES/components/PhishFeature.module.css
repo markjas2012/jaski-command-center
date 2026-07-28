@@ -1,0 +1,10 @@
+.shell{margin-top:12px;padding:22px 24px;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:linear-gradient(120deg,#111116,#171219);color:#f4eff0}
+.head{display:flex;align-items:center;justify-content:space-between;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,.07)}
+.head p,.grid p{margin:0;color:#d99aa3;font-size:8px;font-weight:900;letter-spacing:.14em}
+.head h2{margin:5px 0 2px;font-family:Georgia,serif;font-size:31px;font-weight:500}
+.head span{font-size:13px}.head b{padding:7px 11px;border:1px solid rgba(217,154,163,.22);border-radius:999px;color:#e3a7af;font-size:10px}
+.grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:10px;margin-top:14px}
+.grid article{min-height:145px;padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(10,10,14,.42)}
+.grid h3{margin:6px 0 8px;font-family:Georgia,serif;font-size:18px}.grid span{display:block;margin-bottom:20px;color:#969096;font-size:11px;line-height:1.45}
+.grid a{color:#e4a4ad;font-size:9px;font-weight:800;text-decoration:none}.links{display:flex;flex-wrap:wrap;gap:12px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.grid article{min-height:0}}

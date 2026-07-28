@@ -1,48 +1,31 @@
-JASKI HOMEPAGE — SPRINT 13.5
-WORTH WATCHING
+JASKI HOMEPAGE — SPRINT 13.5 — SPERTILO-STYLE LOOKUP
 
-Adds a curated layer between MY TEAMS and SMART BOARD.
+BASELINE
+Built directly from Sprint 13.4.
 
-WHAT IT DOES
-------------
-- Uses the existing /api/my-teams and /api/sports-board data.
-- Shows only 1–3 games that deserve attention.
-- St. Louis Cardinals / Blues get first priority when LIVE or playing TODAY.
-- Then prioritizes live games, followed by today's notable games.
-- Does NOT promote distant NEXT UP games just to fill space.
-- Removes duplicate St. Louis games when the same matchup appears in both feeds.
-- If nothing is compelling, it says so instead of manufacturing recommendations.
+WHY
+The public Grateful Dead Time Machine project (eichblatt/deadstream) proves the reliable model:
+resolve a performance date, then choose a preferred recording ("best tape") for that show.
 
-FILES
------
-components\WorthWatching.tsx        NEW
-components\WorthWatching.module.css NEW
-components\SportsRoom.tsx           REPLACE
+THIS SPRINT
+- Stops depending on wildcard date matching.
+- Builds explicit Archive.org date queries for every Grateful Dead touring year, 1965–1995.
+- Resolves all shows matching today's month/day.
+- Chooses the latest historical performance date for that calendar day.
+- Chooses a preferred tape for that show using source-quality scoring:
+  matrix > soundboard/SBD > pre-FM/FM > audience.
+- Uses downloads only as a tie-breaker.
+- Penalizes obvious incomplete/partial recordings.
+- Keeps the existing venue, recording, setlist, Listen, and Other Shows Today UI.
+- Carries forward Sprint 13.2 duplicate removal and all later Jam Room work.
+
+NOTE
+This implements the proven Time Machine workflow in Jaski without copying Spertilo/deadstream source code.
 
 INSTALL
--------
-1. Extract this ZIP directly into:
-
-   C:\Projects\jaski-homepage
-
-2. Choose REPLACE when Windows asks about SportsRoom.tsx.
-
-3. Do NOT stop the npm run dev terminal.
-
-4. In the browser press Ctrl + Shift + R on:
-
-   http://localhost:3000/sports
-
-VERIFY
-------
-Page order should now be:
-
-Quick Board
-MY TEAMS — St. Louis first.
-WORTH WATCHING — Don't scan the whole board.
-SMART BOARD — What's happening now.
-
-Worth Watching should display no more than 3 cards.
-The full My Teams and Smart Board sections should remain unchanged.
-
-Do not commit until visually verified.
+Copy app and components over the current project.
+Allow replacement of included files.
+Run:
+  npm run dev
+Refresh:
+  http://localhost:3000/jam

@@ -1,0 +1,56 @@
+.wrap{
+  margin-top:14px;padding:24px 26px;border:1px solid rgba(255,255,255,.16);
+  border-radius:22px;background:radial-gradient(circle at 88% 26%,rgba(240,174,184,.16),transparent 27%),linear-gradient(145deg,#211f25,#19181d);
+  color:#fffaf3
+}
+.kickerRow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.kicker,.source{color:#f0aeb8;font-size:9px;font-weight:900;letter-spacing:.14em}
+.source{font-size:8px;letter-spacing:.08em}
+.body{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:22px;align-items:start;margin-top:12px}
+.artwork,.artworkFallback{
+  width:150px;height:150px;border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;
+  background:#201e24;box-shadow:0 10px 24px rgba(0,0,0,.15)
+}
+.artwork img{width:100%;height:100%;object-fit:cover;display:block}
+.artworkFallback{position:relative;display:flex;align-items:flex-end;padding:13px}
+.artworkFallback:before,.artworkFallback:after{content:"";position:absolute;inset:auto;border-radius:50%}
+.dead{background:radial-gradient(circle at 35% 32%,rgba(223,112,124,.30),transparent 31%),linear-gradient(145deg,#3a2028,#18181d)}
+.dead:before{width:82px;height:82px;left:34px;top:22px;border:1px solid rgba(255,230,220,.28)}
+.dead:after{width:46px;height:46px;left:52px;top:40px;border:1px dashed rgba(255,230,220,.38)}
+.phish{background:radial-gradient(circle at 70% 25%,rgba(91,143,188,.34),transparent 31%),linear-gradient(145deg,#1b2937,#18181d)}
+.phish:before{width:98px;height:42px;left:26px;top:32px;border:1px solid rgba(220,239,255,.30);border-radius:50%}
+.panic{background:radial-gradient(circle at 32% 31%,rgba(196,119,70,.33),transparent 31%),linear-gradient(145deg,#39271e,#18181d)}
+.panic:before{width:74px;height:74px;right:26px;top:22px;border:1px solid rgba(255,224,196,.28)}
+.discovery{background:radial-gradient(circle at 68% 28%,rgba(177,132,188,.30),transparent 33%),linear-gradient(145deg,#30263a,#18181d)}
+.discovery:before{width:88px;height:88px;left:31px;top:20px;border:1px solid rgba(244,225,255,.24)}
+.visualMark{position:relative;z-index:2}
+.visualMark span{display:block;color:#f5c4ca;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.visualMark strong{display:block;margin-top:4px;color:#fffdf8;font-family:Georgia,serif;font-size:13px;line-height:1.05}
+.identity{min-width:0}
+.artist{display:inline-flex;padding:5px 8px;border:1px solid rgba(255,255,255,.15);border-radius:999px;color:#f6c1c8;background:rgba(255,255,255,.04);font-size:8px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.identity h2{margin:11px 0 0;font-family:Georgia,serif;font-size:31px;line-height:1.04;font-weight:500;color:#fffdf8}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.meta span{padding-right:10px;border-right:1px solid rgba(255,255,255,.13);color:#c9c2c8;font-size:9px}
+.meta span:last-child{border-right:0}
+.why{margin-top:13px;max-width:860px}
+.why strong,.highlights>strong{color:#f0aeb8;font-size:8px;font-weight:900;letter-spacing:.11em}
+.why p{margin:5px 0 0;color:#bbb5bc;font-size:10px;line-height:1.45}
+.highlights{margin-top:11px}
+.highlights>div{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+.highlights span,.highlights a{
+  padding:5px 8px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(255,255,255,.035);
+  color:#ddd6dc;font-size:8px;text-decoration:none
+}
+.highlights a{border-color:rgba(240,174,184,.25);color:#f3bbc2}
+.highlights a:hover{border-color:rgba(240,174,184,.48);background:rgba(240,174,184,.07)}
+.listen{display:inline-flex;margin-top:14px;padding:9px 13px;border:1px solid rgba(240,174,184,.34);border-radius:10px;background:rgba(240,174,184,.07);color:#f6c1c8;text-decoration:none;font-size:9px;font-weight:900}
+.listen:hover{border-color:rgba(240,174,184,.55);background:rgba(240,174,184,.11)}
+.dateBadge{min-width:94px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;color:#aaa3ab;font-size:8px}
+.dateBadge span{color:#f0aeb8;font-weight:900;letter-spacing:.08em}
+.dateBadge strong{color:#fffdf8;font-size:9px}
+@media(max-width:900px){
+  .body{grid-template-columns:120px minmax(0,1fr)}.dateBadge{display:none}.artwork,.artworkFallback{width:120px;height:120px}
+}
+@media(max-width:620px){
+  .wrap{padding:20px}.body{grid-template-columns:1fr}.artwork,.artworkFallback{width:100%;height:170px}.identity h2{font-size:27px}
+}
