@@ -102,6 +102,16 @@ type Leader = { position: string; name: string; score: string; thru: string; tod
 type GolfData = { tournament: string; status: string; leaders: Leader[]; updated?: string; error?: string };
 type FedExRow = { rank: number; name: string; points: string };
 type FedExData = { standings: FedExRow[]; available: boolean; updated?: string };
+type NextEventData = {
+  available: boolean;
+  name?: string;
+  dateLabel?: string;
+  venue?: string;
+  location?: string;
+  daysUntil?: number;
+  href?: string;
+  updated?: string;
+};
 
 
 function FedExCupMark({ compact = false }: { compact?: boolean }) {
@@ -116,6 +126,7 @@ function FedExCupMark({ compact = false }: { compact?: boolean }) {
 export default function GolfRoom() {
   const [golf, setGolf] = useState<GolfData | null>(null);
   const [fedex, setFedex] = useState<FedExData | null>(null);
+  const [nextEvent, setNextEvent] = useState<NextEventData | null>(null);
 
   const now = new Date();
   const upcoming = events
@@ -155,14 +166,29 @@ export default function GolfRoom() {
       }
     };
 
+    const loadNextEvent = async () => {
+      try {
+        const res = await fetch("/api/golf-next-event", { cache: "no-store" });
+        const data = await res.json();
+        if (active) setNextEvent(data);
+      } catch {
+        if (active) setNextEvent({ available: false });
+      }
+    };
+
     load();
     loadFedEx();
+    loadNextEvent();
+
     const timer = window.setInterval(load, 120000);
     const fedexTimer = window.setInterval(loadFedEx, 900000);
+    const nextEventTimer = window.setInterval(loadNextEvent, 1800000);
+
     return () => {
       active = false;
       window.clearInterval(timer);
       window.clearInterval(fedexTimer);
+      window.clearInterval(nextEventTimer);
     };
   }, []);
 
@@ -236,6 +262,41 @@ export default function GolfRoom() {
 
           <a className={styles.textLink} href="https://www.pgatour.com/fedexcup/official" target="_blank" rel="noreferrer">Open full FedEx Cup standings ↗</a>
         </article>
+      </section>
+
+      <section className={styles.comingPanel}>
+        <div>
+          <p className={styles.kicker}>COMING UP</p>
+          <h2>Next on Tour.</h2>
+        </div>
+
+        {nextEvent?.available ? (
+          <a
+            className={styles.comingCard}
+            href={nextEvent.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className={styles.comingWhen}>
+              <strong>{nextEvent.daysUntil === 0 ? "TODAY" : `${nextEvent.daysUntil} DAYS`}</strong>
+              <span>until first tee</span>
+            </div>
+
+            <div className={styles.comingMain}>
+              <small>{nextEvent.dateLabel}</small>
+              <h3>{nextEvent.name}</h3>
+              <p>
+                {[nextEvent.venue, nextEvent.location].filter(Boolean).join(" · ")}
+              </p>
+            </div>
+
+            <b className={styles.comingArrow}>↗</b>
+          </a>
+        ) : (
+          <div className={styles.comingEmpty}>
+            Next PGA TOUR event will appear here when the schedule feed updates.
+          </div>
+        )}
       </section>
 
       <section className={styles.eventsPanel}>

@@ -1,42 +1,31 @@
-Sprint 14.6 — Big Events / Majors
+Sprint 14.7.2 — Targeted Schedule Fix
 
-Built directly on the committed Sprint 14.5.9 Golf Room.
+Built directly on Sprint 14.7.1.
 
-What changes:
-- Turns "Circle these weeks" into a functional event calendar.
-- Adds dates and venues for:
-  The Masters
-  PGA Championship
-  U.S. Open
-  The Open
-  THE PLAYERS
-  WM Phoenix Open
-  Ryder Cup
-  Presidents Cup
-- Automatically labels cards LIVE, NEXT UP, UPCOMING, or COMPLETE based on the current date.
-- Automatically highlights the next event worth watching.
-- Keeps every event card linked to its official site.
-- Preserves the live weekly leaderboard, FedEx Cup standings, branding, and Links & Resources.
-
-2026 dates used:
-- WM Phoenix Open: Feb 5–8
-- THE PLAYERS: Mar 12–15
-- Masters: Apr 9–12
-- PGA Championship: May 14–17
-- U.S. Open: Jun 18–21
-- The Open: Jul 16–19
-- Presidents Cup matches: Sep 24–27
-- Ryder Cup competition: Sep 17–19, 2027
+Fixes:
+- Stops relying on a generic PGA TOUR page-data parser that returned no event.
+- Checks the live PGA TOUR schedule page for the current late-season event names.
+- Uses a verified 2026 PGA TOUR late-season schedule fallback if the live page changes or blocks parsing.
+- Returns the next event with name, dates, course, location, countdown, and link.
+- Preserves all approved Golf Room UI and all working feeds.
 
 Install:
-Copy the components folder into:
+Copy BOTH folders into:
   C:\Projects\jaski-homepage
 
-Choose Replace when prompted.
+Choose Merge/Replace when prompted.
 
-Refresh:
+First check:
+  http://localhost:3000/api/golf-next-event
+
+Expected on July 28, 2026:
+- available: true
+- Rocket Classic
+- Jul 30–Aug 2 · 2026
+- Detroit Golf Club
+- Detroit, MI
+
+Then refresh:
   http://localhost:3000/golf
-
-On July 28, 2026, Presidents Cup should be highlighted as NEXT UP.
 
 Do not commit until visually verified.
