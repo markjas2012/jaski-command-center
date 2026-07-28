@@ -1,31 +1,40 @@
-Sprint 14.7.2 — Targeted Schedule Fix
+Sprint 14.11 — Final Functionality Pass
 
-Built directly on Sprint 14.7.1.
+Built directly on Sprint 14.10.
 
-Fixes:
-- Stops relying on a generic PGA TOUR page-data parser that returned no event.
-- Checks the live PGA TOUR schedule page for the current late-season event names.
-- Uses a verified 2026 PGA TOUR late-season schedule fallback if the live page changes or blocks parsing.
-- Returns the next event with name, dates, course, location, countdown, and link.
-- Preserves all approved Golf Room UI and all working feeds.
+This is a resilience/testing sprint, not a redesign.
+
+Changes:
+- All four live client feeds now reject non-200 responses cleanly.
+- Adds useful official fallback links when:
+  leaderboard is unavailable
+  FedEx Cup standings are unavailable
+  golf news is unavailable
+  Next on Tour is unavailable
+- External tournament/resource logos now degrade gracefully instead of showing broken-image boxes.
+- Adds scripts/golf-room-smoke-test.mjs to check all four Golf Room APIs at once.
+- No layout redesign.
+- No changes to working data logic, event dates, or locked Golf Room hierarchy.
 
 Install:
 Copy BOTH folders into:
   C:\Projects\jaski-homepage
 
+  components
+  scripts
+
 Choose Merge/Replace when prompted.
 
-First check:
-  http://localhost:3000/api/golf-next-event
-
-Expected on July 28, 2026:
-- available: true
-- Rocket Classic
-- Jul 30–Aug 2 · 2026
-- Detroit Golf Club
-- Detroit, MI
-
-Then refresh:
+Refresh:
   http://localhost:3000/golf
+
+Optional one-command API check from the project terminal:
+  node scripts/golf-room-smoke-test.mjs
+
+Expected:
+  PASS leaderboard
+  PASS FedEx Cup
+  PASS next event
+  PASS golf news
 
 Do not commit until visually verified.

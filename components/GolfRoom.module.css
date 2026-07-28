@@ -59,3 +59,52 @@
 .comingMain{display:grid;gap:4px}.comingMain small{font-size:8px;letter-spacing:.14em;color:#d6df82;font-weight:800}.comingMain h3{font-family:Georgia,serif;font-size:21px;margin:0}.comingMain p{margin:0;color:#9faaa2;font-size:10px}
 .comingArrow{color:#dfe98a;text-align:right}.comingEmpty{padding:18px;border:1px solid rgba(255,255,255,.08);border-radius:14px;color:#9fa9a2;font-size:10px}
 @media(max-width:760px){.comingCard{grid-template-columns:1fr}.comingWhen{border-right:0;border-bottom:1px solid rgba(255,255,255,.08);padding:0 0 12px}.comingArrow{display:none}}
+
+/* Sprint 14.8 — Golf News + Next on Tour side-by-side */
+.golfNowGrid{display:grid;grid-template-columns:minmax(0,3fr) minmax(320px,2fr);gap:14px}
+.newsPanel,.nextPanel{background:linear-gradient(135deg,#101d14,#17281c);border:1px solid rgba(225,206,120,.12);border-radius:24px;padding:22px}
+.newsHeader{display:flex;justify-content:space-between;gap:16px;align-items:end}.newsHeader h2,.nextPanel h2{font-family:Georgia,serif;font-size:28px;margin:0 0 14px}.newsHeader>span{font-size:8px;letter-spacing:.12em;color:#8d998f;margin-bottom:15px}
+.newsList{display:grid;border:1px solid rgba(221,204,111,.15);border-radius:15px;overflow:hidden;background:rgba(3,12,7,.18)}
+.newsStory{display:grid;grid-template-columns:28px 1fr 18px;gap:11px;align-items:start;color:inherit;text-decoration:none;padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.055)}.newsStory:last-child{border-bottom:0}.newsStory:hover{background:rgba(255,255,255,.025)}
+.newsRank{font-family:Georgia,serif;font-size:13px;color:#dfe98a;padding-top:2px}.newsCopy{display:grid;gap:3px;min-width:0}.newsCopy small{font-size:7px;letter-spacing:.12em;color:#9ea9a0;text-transform:uppercase}.newsCopy strong{font-family:Georgia,serif;font-size:14px;line-height:1.25}.newsCopy p{margin:0;color:#98a49b;font-size:9px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.newsStory>b{color:#dfe98a;font-size:10px}.newsEmpty,.nextEmpty{padding:18px;border:1px solid rgba(255,255,255,.08);border-radius:14px;color:#9fa9a2;font-size:10px}
+.nextPanel{display:flex;flex-direction:column}.nextCard{flex:1;min-height:172px;display:grid;grid-template-rows:auto 1fr auto;gap:14px;color:inherit;text-decoration:none;border:1px solid rgba(221,204,111,.22);border-radius:16px;background:linear-gradient(145deg,rgba(220,231,137,.07),rgba(255,255,255,.018));padding:18px}.nextCard:hover{border-color:rgba(223,233,138,.45)}
+.nextCountdown{display:grid;gap:2px}.nextCountdown strong{font-family:Georgia,serif;font-size:29px;color:#e3e990}.nextCountdown span{font-size:8px;color:#9ca79f;letter-spacing:.14em}
+.nextDetails{align-self:end;display:grid;gap:5px}.nextDetails small{font-size:8px;letter-spacing:.12em;color:#d6df82;font-weight:800}.nextDetails h3{font-family:Georgia,serif;font-size:23px;line-height:1.05;margin:0}.nextDetails p{margin:0;color:#9faaa2;font-size:10px;line-height:1.4}
+.nextArrow{justify-self:end;color:#dfe98a}
+@media(max-width:1000px){.golfNowGrid{grid-template-columns:1fr}.nextCard{min-height:140px}.newsHeader>span{display:none}}
+@media(max-width:760px){.newsStory{grid-template-columns:24px 1fr 14px}.newsCopy p{display:none}}
+
+
+/* Sprint 14.9 — Big Events calendar intelligence */
+.eventCard{padding-right:34px}
+.eventMeta{display:flex;justify-content:space-between;gap:10px;align-items:end;margin-top:4px}
+.eventCountdown{font-family:Arial,Helvetica,sans-serif!important;font-size:7px!important;font-weight:800;letter-spacing:.12em;color:#8f9b91!important;white-space:nowrap}
+.eventCardNext .eventCountdown{color:#e5eb91!important}
+.eventArrow{position:absolute;right:13px;bottom:12px;color:#dfe98a;font-size:10px;opacity:.72}
+.eventCard:hover .eventArrow{opacity:1;transform:translate(1px,-1px)}
+.eventCardPast .eventCountdown{color:#737f76!important}
+@media(max-width:760px){.eventMeta{align-items:start;flex-direction:column;gap:3px}.eventArrow{right:11px;bottom:10px}}
+
+
+/* Sprint 14.10 — Golf Room final polish */
+.feedFooter{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-top:6px}
+.feedFooter .textLink{margin-top:10px}
+.feedFooter>span{font-size:8px;letter-spacing:.08em;color:#7f8c83;white-space:nowrap}
+.nextFooter{display:flex;justify-content:space-between;gap:10px;align-items:center;align-self:end}
+.nextFooter>span{font-size:8px;letter-spacing:.08em;color:#7f8c83}
+.nextFooter .nextArrow{justify-self:auto}
+@media(max-width:760px){.feedFooter{align-items:flex-start;flex-direction:column}.nextFooter>span{display:none}}
+
+
+/* Sprint 14.11 — final functionality pass */
+.leaderEmpty,.fedexEmpty,.newsEmpty,.nextEmpty{display:grid;gap:7px}
+.leaderEmpty a,.fedexEmpty a,.newsEmpty a,.nextEmpty a{color:#dfe98a;text-decoration:none;font-weight:700;font-size:9px}
+.leaderEmpty a:hover,.fedexEmpty a:hover,.newsEmpty a:hover,.nextEmpty a:hover{text-decoration:underline}
+
+.logoBox{position:relative;overflow:hidden}
+.logoBox>span{position:absolute;inset:0;display:grid;place-items:center;font-family:Georgia,serif;font-size:18px;font-weight:700;color:#536047;z-index:0}
+.logoBox>img{position:relative;z-index:1;background:#eef0e8}
+
+.resourceLogo{position:relative;display:grid;place-items:center;width:22px;height:22px}
+.resourceLogo>b{position:absolute;inset:0;display:grid;place-items:center;border-radius:6px;background:rgba(211,216,112,.09);color:#dfe98a;font-size:9px;z-index:0}
+.resourceLogo>img{position:relative;z-index:1;width:22px;height:22px;object-fit:contain;border-radius:6px;background:#f2f2ee}

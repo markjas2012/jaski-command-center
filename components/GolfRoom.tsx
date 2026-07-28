@@ -112,6 +112,17 @@ type NextEventData = {
   href?: string;
   updated?: string;
 };
+type NewsStory = {
+  headline: string;
+  description: string;
+  href: string;
+  source: string;
+};
+type GolfNewsData = {
+  stories: NewsStory[];
+  available: boolean;
+  updated?: string;
+};
 
 
 function FedExCupMark({ compact = false }: { compact?: boolean }) {
@@ -123,34 +134,88 @@ function FedExCupMark({ compact = false }: { compact?: boolean }) {
   );
 }
 
+
+function centralDayNumber(date: Date) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+
+  const year = Number(parts.find((p) => p.type === "year")?.value);
+  const month = Number(parts.find((p) => p.type === "month")?.value);
+  const day = Number(parts.find((p) => p.type === "day")?.value);
+
+  return Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+}
+
+function isoDayNumber(value: string) {
+  const [year, month, day] = value.slice(0, 10).split("-").map(Number);
+  return Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+}
+
+function updatedLabel(value?: string) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date);
+}
+
+
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`${url} returned ${response.status}`);
+  }
+  return response.json() as Promise<T>;
+}
+
 export default function GolfRoom() {
   const [golf, setGolf] = useState<GolfData | null>(null);
   const [fedex, setFedex] = useState<FedExData | null>(null);
   const [nextEvent, setNextEvent] = useState<NextEventData | null>(null);
+  const [golfNews, setGolfNews] = useState<GolfNewsData | null>(null);
 
   const now = new Date();
+  const todayDay = centralDayNumber(now);
+
   const upcoming = events
-    .filter((event) => new Date(event.end).getTime() >= now.getTime())
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+    .filter((event) => isoDayNumber(event.end) >= todayDay)
+    .sort((a, b) => isoDayNumber(a.start) - isoDayNumber(b.start));
   const nextEventName = upcoming[0]?.name ?? "";
 
   const eventState = (event: (typeof events)[number]) => {
-    const start = new Date(event.start).getTime();
-    const end = new Date(event.end).getTime();
-    const current = now.getTime();
+    const startDay = isoDayNumber(event.start);
+    const endDay = isoDayNumber(event.end);
 
-    if (current >= start && current <= end) return "LIVE";
+    if (todayDay >= startDay && todayDay <= endDay) return "LIVE";
     if (event.name === nextEventName) return "NEXT UP";
-    if (current > end) return "COMPLETE";
+    if (todayDay > endDay) return "COMPLETE";
     return "UPCOMING";
+  };
+
+  const eventCountdown = (event: (typeof events)[number]) => {
+    const startDay = isoDayNumber(event.start);
+    const endDay = isoDayNumber(event.end);
+
+    if (todayDay > endDay) return "FINAL";
+    if (todayDay >= startDay) return "IN PROGRESS";
+
+    const days = Math.max(1, startDay - todayDay);
+    return days === 1 ? "1 DAY" : `${days} DAYS`;
   };
 
   useEffect(() => {
     let active = true;
     const load = async () => {
       try {
-        const res = await fetch("/api/golf-leaderboard", { cache: "no-store" });
-        const data = await res.json();
+        const data = await fetchJson<GolfData>("/api/golf-leaderboard");
         if (active) setGolf(data);
       } catch {
         if (active) setGolf({ tournament: "PGA TOUR", status: "Leaderboard unavailable", leaders: [] });
@@ -158,8 +223,7 @@ export default function GolfRoom() {
     };
     const loadFedEx = async () => {
       try {
-        const res = await fetch("/api/fedex-cup", { cache: "no-store" });
-        const data = await res.json();
+        const data = await fetchJson<FedExData>("/api/fedex-cup");
         if (active) setFedex(data);
       } catch {
         if (active) setFedex({ standings: [], available: false });
@@ -168,27 +232,38 @@ export default function GolfRoom() {
 
     const loadNextEvent = async () => {
       try {
-        const res = await fetch("/api/golf-next-event", { cache: "no-store" });
-        const data = await res.json();
+        const data = await fetchJson<NextEventData>("/api/golf-next-event");
         if (active) setNextEvent(data);
       } catch {
         if (active) setNextEvent({ available: false });
       }
     };
 
+    const loadGolfNews = async () => {
+      try {
+        const data = await fetchJson<GolfNewsData>("/api/golf-news");
+        if (active) setGolfNews(data);
+      } catch {
+        if (active) setGolfNews({ stories: [], available: false });
+      }
+    };
+
     load();
     loadFedEx();
     loadNextEvent();
+    loadGolfNews();
 
     const timer = window.setInterval(load, 120000);
     const fedexTimer = window.setInterval(loadFedEx, 900000);
     const nextEventTimer = window.setInterval(loadNextEvent, 1800000);
+    const newsTimer = window.setInterval(loadGolfNews, 900000);
 
     return () => {
       active = false;
       window.clearInterval(timer);
       window.clearInterval(fedexTimer);
       window.clearInterval(nextEventTimer);
+      window.clearInterval(newsTimer);
     };
   }, []);
 
@@ -214,7 +289,7 @@ export default function GolfRoom() {
           <div className={styles.liveBoard}>
             <div className={styles.liveHead}>
               <div><span className={styles.liveDot}></span><strong>{golf?.tournament || "Loading PGA TOUR..."}</strong></div>
-              <small>{golf?.status || "Updating leaderboard"}</small>
+              <small>{golf?.status || "Updating leaderboard"}{golf?.updated ? ` · ${updatedLabel(golf.updated)}` : ""}</small>
             </div>
             {golf?.leaders?.length ? (
               <div className={styles.leaderRows}>
@@ -229,7 +304,14 @@ export default function GolfRoom() {
                 ))}
               </div>
             ) : (
-              <div className={styles.leaderEmpty}>{golf?.error || "Fetching this week's leaderboard..."}</div>
+              <div className={styles.leaderEmpty}>
+                <span>{golf?.error || "Fetching this week's leaderboard..."}</span>
+                {golf ? (
+                  <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noreferrer">
+                    Open PGA TOUR leaderboard ↗
+                  </a>
+                ) : null}
+              </div>
             )}
           </div>
           <div className={styles.quickGrid}>
@@ -255,48 +337,99 @@ export default function GolfRoom() {
               ))
             ) : (
               <div className={styles.fedexEmpty}>
-                {fedex ? "Official standings are available from PGA TOUR." : "Loading FedEx Cup standings..."}
+                <span>{fedex ? "Live FedEx Cup standings are temporarily unavailable." : "Loading FedEx Cup standings..."}</span>
+                {fedex ? (
+                  <a href="https://www.pgatour.com/fedexcup/official" target="_blank" rel="noreferrer">
+                    Open official standings ↗
+                  </a>
+                ) : null}
               </div>
             )}
           </div>
 
-          <a className={styles.textLink} href="https://www.pgatour.com/fedexcup/official" target="_blank" rel="noreferrer">Open full FedEx Cup standings ↗</a>
+          <div className={styles.feedFooter}>
+            <a className={styles.textLink} href="https://www.pgatour.com/fedexcup/official" target="_blank" rel="noreferrer">Open full FedEx Cup standings ↗</a>
+            {fedex?.updated ? <span>Updated {updatedLabel(fedex.updated)}</span> : null}
+          </div>
         </article>
       </section>
 
-      <section className={styles.comingPanel}>
-        <div>
+      <section className={styles.golfNowGrid}>
+        <article className={styles.newsPanel}>
+          <div className={styles.newsHeader}>
+            <div>
+              <p className={styles.kicker}>GOLF NEWS</p>
+              <h2>What matters.</h2>
+            </div>
+            <span>PGA TOUR · MAJORS · TEAM GOLF{golfNews?.updated ? ` · ${updatedLabel(golfNews.updated)}` : ""}</span>
+          </div>
+
+          {golfNews?.available && golfNews.stories.length ? (
+            <div className={styles.newsList}>
+              {golfNews.stories.map((story, index) => (
+                <a
+                  className={styles.newsStory}
+                  href={story.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={`${story.headline}-${index}`}
+                >
+                  <div className={styles.newsRank}>{String(index + 1).padStart(2, "0")}</div>
+                  <div className={styles.newsCopy}>
+                    <small>{story.source}</small>
+                    <strong>{story.headline}</strong>
+                    {story.description ? <p>{story.description}</p> : null}
+                  </div>
+                  <b>↗</b>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.newsEmpty}>
+              <span>Golf news is temporarily unavailable.</span>
+              <a href="https://www.espn.com/golf/" target="_blank" rel="noreferrer">
+                Open ESPN Golf ↗
+              </a>
+            </div>
+          )}
+        </article>
+
+        <article className={styles.nextPanel}>
           <p className={styles.kicker}>COMING UP</p>
           <h2>Next on Tour.</h2>
-        </div>
 
-        {nextEvent?.available ? (
-          <a
-            className={styles.comingCard}
-            href={nextEvent.href}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className={styles.comingWhen}>
-              <strong>{nextEvent.daysUntil === 0 ? "TODAY" : `${nextEvent.daysUntil} DAYS`}</strong>
-              <span>until first tee</span>
+          {nextEvent?.available ? (
+            <a
+              className={styles.nextCard}
+              href={nextEvent.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div className={styles.nextCountdown}>
+                <strong>{nextEvent.daysUntil === 0 ? "TODAY" : `${nextEvent.daysUntil} DAYS`}</strong>
+                <span>UNTIL FIRST TEE</span>
+              </div>
+
+              <div className={styles.nextDetails}>
+                <small>{nextEvent.dateLabel}</small>
+                <h3>{nextEvent.name}</h3>
+                <p>{[nextEvent.venue, nextEvent.location].filter(Boolean).join(" · ")}</p>
+              </div>
+
+              <div className={styles.nextFooter}>
+                {nextEvent?.updated ? <span>Updated {updatedLabel(nextEvent.updated)}</span> : <span />}
+                <b className={styles.nextArrow}>↗</b>
+              </div>
+            </a>
+          ) : (
+            <div className={styles.nextEmpty}>
+              <span>Next-event details are temporarily unavailable.</span>
+              <a href="https://www.pgatour.com/schedule" target="_blank" rel="noreferrer">
+                Open PGA TOUR schedule ↗
+              </a>
             </div>
-
-            <div className={styles.comingMain}>
-              <small>{nextEvent.dateLabel}</small>
-              <h3>{nextEvent.name}</h3>
-              <p>
-                {[nextEvent.venue, nextEvent.location].filter(Boolean).join(" · ")}
-              </p>
-            </div>
-
-            <b className={styles.comingArrow}>↗</b>
-          </a>
-        ) : (
-          <div className={styles.comingEmpty}>
-            Next PGA TOUR event will appear here when the schedule feed updates.
-          </div>
-        )}
+          )}
+        </article>
       </section>
 
       <section className={styles.eventsPanel}>
@@ -321,7 +454,7 @@ export default function GolfRoom() {
                 rel="noreferrer"
                 key={event.name}
               >
-                <div className={styles.logoBox}><img src={event.logo} alt="" /></div>
+                <div className={styles.logoBox}><img src={event.logo} alt="" onError={(e) => { e.currentTarget.style.display = "none"; }} /><span>{event.name.slice(0, 1)}</span></div>
                 <div className={styles.eventBody}>
                   <div className={styles.eventTopline}>
                     <small>{event.tag}</small>
@@ -329,8 +462,12 @@ export default function GolfRoom() {
                   </div>
                   <strong>{event.name}</strong>
                   <span>{event.detail}</span>
-                  <b className={styles.eventDate}>{event.dateLabel}</b>
+                  <div className={styles.eventMeta}>
+                    <b className={styles.eventDate}>{event.dateLabel}</b>
+                    <span className={styles.eventCountdown}>{eventCountdown(event)}</span>
+                  </div>
                 </div>
+                <span className={styles.eventArrow}>↗</span>
               </a>
             );
           })}
@@ -342,7 +479,7 @@ export default function GolfRoom() {
         <div className={styles.linksGrid}>
           {links.map((item) => (
             <a href={item.href} target="_blank" rel="noreferrer" key={item.label}>
-              <img src={item.logo} alt="" /><strong>{item.label}</strong><small>{item.sub}</small><span>↗</span>
+              <span className={styles.resourceLogo}><img src={item.logo} alt="" onError={(e) => { e.currentTarget.style.display = "none"; }} /><b>{item.label.slice(0, 1)}</b></span><strong>{item.label}</strong><small>{item.sub}</small><span>↗</span>
             </a>
           ))}
         </div>
