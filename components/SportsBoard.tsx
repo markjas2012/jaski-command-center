@@ -65,7 +65,7 @@ function Section({
           <p>{eyebrow}</p>
           <h3>{title}</h3>
         </div>
-        <span>{games.length} {games.length === 1 ? "game" : "games"}</span>
+        <span>Showing {games.length} {games.length === 1 ? "game" : "games"}</span>
       </div>
 
       <div className={styles.grid}>
