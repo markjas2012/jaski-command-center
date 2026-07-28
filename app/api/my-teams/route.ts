@@ -4,6 +4,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+const DISPLAY_TIME_ZONE = "America/Chicago";
+
 type TeamCard = {
   team: string;
   league: string;
@@ -33,6 +35,7 @@ type Event = {
       state?: string;
       completed?: boolean;
       shortDetail?: string;
+      detail?: string;
       description?: string;
     };
   };
@@ -60,10 +63,33 @@ const configs = [
   },
 ];
 
-function sameDay(a: Date, b: Date) {
-  return a.getFullYear() === b.getFullYear()
-    && a.getMonth() === b.getMonth()
-    && a.getDate() === b.getDate();
+function dayKey(date: Date) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: DISPLAY_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
+function sameDisplayDay(a: Date, b: Date) {
+  return dayKey(a) === dayKey(b);
+}
+
+function statusText(event: Event) {
+  const type = event.status?.type;
+  return `${type?.shortDetail || ""} ${type?.detail || ""} ${type?.description || ""}`.toLowerCase();
+}
+
+function isUnavailable(event: Event) {
+  if (event.status?.type?.completed) return true;
+  const text = statusText(event);
+  return (
+    text.includes("postponed") ||
+    text.includes("canceled") ||
+    text.includes("cancelled") ||
+    text.includes("final")
+  );
 }
 
 function findStLouis(event: Event) {
@@ -95,6 +121,7 @@ function gameDetail(event: Event) {
     const d = new Date(event.date);
     if (!Number.isNaN(d.getTime())) {
       return new Intl.DateTimeFormat("en-US", {
+        timeZone: DISPLAY_TIME_ZONE,
         weekday: "short",
         month: "short",
         day: "numeric",
@@ -107,6 +134,18 @@ function gameDetail(event: Event) {
   return "Open for game details";
 }
 
+function isUsableCandidate(event: Event, now: Date) {
+  if (isUnavailable(event)) return false;
+  if (event.status?.type?.state === "in") return true;
+
+  const start = event.date ? new Date(event.date) : null;
+  if (!start || Number.isNaN(start.getTime())) return false;
+
+  // Keep today's scheduled/delayed game, or a genuinely future game.
+  // Drop stale non-final events from prior dates so they cannot become "NEXT UP".
+  return sameDisplayDay(start, now) || start.getTime() > now.getTime();
+}
+
 async function loadTeam(config: typeof configs[number]): Promise<TeamCard> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 2200);
@@ -117,7 +156,7 @@ async function loadTeam(config: typeof configs[number]): Promise<TeamCard> {
       signal: controller.signal,
       headers: {
         Accept: "application/json",
-        "User-Agent": "JaskiHomepage/13.4",
+        "User-Agent": "JaskiHomepage/13.6",
       },
     });
 
@@ -125,7 +164,8 @@ async function loadTeam(config: typeof configs[number]): Promise<TeamCard> {
 
     const json = await res.json();
     const events: Event[] = Array.isArray(json?.events) ? json.events : [];
-    const relevant = events.filter(findStLouis);
+    const now = new Date();
+    const relevant = events.filter(findStLouis).filter((event) => isUsableCandidate(event, now));
 
     if (!relevant.length) {
       return {
@@ -134,29 +174,25 @@ async function loadTeam(config: typeof configs[number]): Promise<TeamCard> {
         mark: config.mark,
         state: "OFF",
         headline: `St. Louis ${config.team}`,
-        detail: "No game on the current board. Open the team page for the schedule.",
+        detail: "No current game on the board. Open the team page for the schedule.",
         href: config.href,
       };
     }
 
-    const now = new Date();
+    const ranked = [...relevant].sort((a, b) => {
+      const aLive = a.status?.type?.state === "in" ? 0 : 1;
+      const bLive = b.status?.type?.state === "in" ? 0 : 1;
+      if (aLive !== bLive) return aLive - bLive;
 
-    const ranked = relevant
-      .filter((event) => !event.status?.type?.completed)
-      .sort((a, b) => {
-        const aLive = a.status?.type?.state === "in" ? 0 : 1;
-        const bLive = b.status?.type?.state === "in" ? 0 : 1;
-        if (aLive !== bLive) return aLive - bLive;
+      const at = a.date ? new Date(a.date).getTime() : Number.MAX_SAFE_INTEGER;
+      const bt = b.date ? new Date(b.date).getTime() : Number.MAX_SAFE_INTEGER;
+      return at - bt;
+    });
 
-        const at = a.date ? new Date(a.date).getTime() : Number.MAX_SAFE_INTEGER;
-        const bt = b.date ? new Date(b.date).getTime() : Number.MAX_SAFE_INTEGER;
-        return at - bt;
-      });
-
-    const event = ranked[0] || relevant[0];
+    const event = ranked[0];
     const start = event.date ? new Date(event.date) : null;
     const isLive = event.status?.type?.state === "in";
-    const isToday = Boolean(start && !Number.isNaN(start.getTime()) && sameDay(start, now));
+    const isToday = Boolean(start && !Number.isNaN(start.getTime()) && sameDisplayDay(start, now));
 
     return {
       team: config.team,
@@ -188,6 +224,7 @@ export async function GET() {
   return NextResponse.json(
     {
       updatedAt: new Intl.DateTimeFormat("en-US", {
+        timeZone: DISPLAY_TIME_ZONE,
         hour: "numeric",
         minute: "2-digit",
       }).format(new Date()),
@@ -196,7 +233,7 @@ export async function GET() {
     {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "X-Jaski-Sprint": "13.4",
+        "X-Jaski-Sprint": "13.6",
       },
     }
   );

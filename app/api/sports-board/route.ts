@@ -4,6 +4,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+const DISPLAY_TIME_ZONE = "America/Chicago";
+
 type Bucket = "LIVE" | "TODAY" | "COMING UP";
 
 type Game = {
@@ -16,6 +18,10 @@ type Game = {
   start?: string;
 };
 
+type CandidateGame = Game & {
+  unavailable: boolean;
+};
+
 type EspnEvent = {
   name?: string;
   shortName?: string;
@@ -24,12 +30,23 @@ type EspnEvent = {
     type?: {
       state?: string;
       completed?: boolean;
+      name?: string;
       shortDetail?: string;
       detail?: string;
       description?: string;
     };
   };
   competitions?: Array<{
+    status?: {
+      type?: {
+        state?: string;
+        completed?: boolean;
+        name?: string;
+        shortDetail?: string;
+        detail?: string;
+        description?: string;
+      };
+    };
     broadcasts?: Array<{ names?: string[] }>;
     competitors?: Array<{
       team?: { displayName?: string; shortDisplayName?: string };
@@ -67,26 +84,69 @@ const feeds = [
   },
 ];
 
-function sameLocalDay(a: Date, b: Date) {
+function dayKey(date: Date) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: DISPLAY_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
+function sameDisplayDay(a: Date, b: Date) {
+  return dayKey(a) === dayKey(b);
+}
+
+function statusText(event: EspnEvent) {
+  const eventType = event.status?.type;
+  const competitionType = event.competitions?.[0]?.status?.type;
+
+  return [
+    eventType?.name,
+    eventType?.shortDetail,
+    eventType?.detail,
+    eventType?.description,
+    competitionType?.name,
+    competitionType?.shortDetail,
+    competitionType?.detail,
+    competitionType?.description,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function hasUnavailableStatus(text: string) {
   return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
+    text.includes("postponed") ||
+    text.includes("canceled") ||
+    text.includes("cancelled") ||
+    text.includes("suspended") ||
+    text.includes("abandoned") ||
+    text.includes("final")
   );
 }
 
-function classify(event: EspnEvent): Bucket | null {
-  const state = event.status?.type?.state;
-  const completed = Boolean(event.status?.type?.completed);
+function isUnavailable(event: EspnEvent) {
+  if (event.status?.type?.completed) return true;
+  if (event.competitions?.[0]?.status?.type?.completed) return true;
+  return hasUnavailableStatus(statusText(event));
+}
 
-  if (completed) return null;
+function classify(event: EspnEvent): Bucket | null {
+  if (isUnavailable(event)) return null;
+
+  const state = event.status?.type?.state;
   if (state === "in") return "LIVE";
 
   const start = event.date ? new Date(event.date) : null;
-  if (!start || Number.isNaN(start.getTime())) return "COMING UP";
+  if (!start || Number.isNaN(start.getTime())) return null;
 
   const now = new Date();
-  return sameLocalDay(start, now) ? "TODAY" : "COMING UP";
+  if (sameDisplayDay(start, now)) return "TODAY";
+  if (start.getTime() > now.getTime()) return "COMING UP";
+
+  return null;
 }
 
 function formatDetail(event: EspnEvent) {
@@ -108,6 +168,7 @@ function formatDetail(event: EspnEvent) {
   const date = event.date ? new Date(event.date) : null;
   if (date && !Number.isNaN(date.getTime())) {
     return new Intl.DateTimeFormat("en-US", {
+      timeZone: DISPLAY_TIME_ZONE,
       weekday: "short",
       month: "short",
       day: "numeric",
@@ -119,7 +180,7 @@ function formatDetail(event: EspnEvent) {
   return "Open for details";
 }
 
-async function loadFeed(feed: typeof feeds[number]): Promise<Game[]> {
+async function loadFeed(feed: typeof feeds[number]): Promise<CandidateGame[]> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 2200);
 
@@ -129,7 +190,7 @@ async function loadFeed(feed: typeof feeds[number]): Promise<Game[]> {
       signal: controller.signal,
       headers: {
         Accept: "application/json",
-        "User-Agent": "JaskiHomepage/13.3",
+        "User-Agent": "JaskiHomepage/13.6.3",
       },
     });
 
@@ -139,7 +200,8 @@ async function loadFeed(feed: typeof feeds[number]): Promise<Game[]> {
 
     return events
       .map((event) => {
-        const bucket = classify(event);
+        const unavailable = isUnavailable(event);
+        const bucket = unavailable ? null : classify(event);
         if (!bucket) return null;
 
         return {
@@ -153,9 +215,10 @@ async function loadFeed(feed: typeof feeds[number]): Promise<Game[]> {
           href: event.links?.[0]?.href || feed.fallback,
           bucket,
           start: event.date,
-        } satisfies Game;
+          unavailable,
+        } satisfies CandidateGame;
       })
-      .filter((game): game is Game => Boolean(game))
+      .filter((game): game is CandidateGame => Boolean(game))
       .slice(0, 6);
   } catch {
     return [];
@@ -166,11 +229,19 @@ async function loadFeed(feed: typeof feeds[number]): Promise<Game[]> {
 
 export async function GET() {
   const results = await Promise.all(feeds.map(loadFeed));
-  const games = results.flat();
+
+  // Final production gate: an event ESPN marks unavailable can never reach
+  // the public games array, regardless of any upstream classification path.
+  const games: Game[] = results
+    .flat()
+    .filter((game) => !game.unavailable)
+    .filter((game) => !hasUnavailableStatus(`${game.status} ${game.detail}`.toLowerCase()))
+    .map(({ unavailable: _unavailable, ...game }) => game);
 
   return NextResponse.json(
     {
       updatedAt: new Intl.DateTimeFormat("en-US", {
+        timeZone: DISPLAY_TIME_ZONE,
         hour: "numeric",
         minute: "2-digit",
       }).format(new Date()),
@@ -179,7 +250,7 @@ export async function GET() {
     {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "X-Jaski-Sprint": "13.3",
+        "X-Jaski-Sprint": "13.6.3",
       },
     }
   );
