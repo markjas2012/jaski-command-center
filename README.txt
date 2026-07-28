@@ -1,14 +1,36 @@
-Sprint 11.9.2 — Remaining Icon Repair
+Sprint 14.4.3 — Leaderboard Position Fix
 
-Purpose:
-- Fix the remaining corrupted symbol on the Catholic Reading card.
-- Fix the remaining corrupted symbol on the Grateful Dead card.
-- Preserve all other Sprint 11.9 / 11.9.1 work.
+Built on the approved 14.4.1 Golf Room design and FedEx Cup fix.
 
-Install from the jaski-homepage project root:
+Production changes:
+- Removes the temporary 14.4.2 diagnostic.
+- Uses ESPN's actual competitor `order` field as the displayed leaderboard position.
+- Sorts every returned golfer by that official `order`.
+- Keeps each golfer's score attached to the same ESPN competitor object.
+- Shows F for completed events.
+- Does not invent a Today score when ESPN does not expose a reliable explicit value.
+- Preserves the Golf Room layout, branding, FedEx Cup treatment, Big Events, and Links & Resources.
 
-powershell -ExecutionPolicy Bypass -File .\INSTALL_SPRINT_11_9_2.ps1
+Install:
+Copy BOTH folders into:
+  C:\Projects\jaski-homepage
 
-Then refresh localhost:3000.
+  app
+  components
 
-Do not commit until the two symbols are visually verified.
+Choose Merge/Replace when Windows prompts.
+
+Refresh:
+  http://localhost:3000/golf
+
+Use Ctrl+Shift+R if needed.
+
+Optional API check:
+  http://localhost:3000/api/golf-leaderboard
+
+Expected for a completed tournament:
+- leaderboard rows sorted by ESPN order
+- official tournament score beside the correct golfer
+- Thru shows F
+
+Do not commit until visually verified.
