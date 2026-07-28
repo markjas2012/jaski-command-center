@@ -82,11 +82,6 @@ const feeds = [
     url: "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
     fallback: "https://www.nhl.com/schedule",
   },
-  {
-    league: "MLS",
-    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
-    fallback: "https://www.mlssoccer.com/schedule/scores",
-  },
 ];
 
 function dayKey(date: Date) {
@@ -195,7 +190,7 @@ async function loadFeed(feed: typeof feeds[number]): Promise<CandidateGame[]> {
       signal: controller.signal,
       headers: {
         Accept: "application/json",
-        "User-Agent": "JaskiHomepage/14.1",
+        "User-Agent": "JaskiHomepage/13.6.3",
       },
     });
 
@@ -255,7 +250,7 @@ export async function GET() {
     {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "X-Jaski-Sprint": "14.1",
+        "X-Jaski-Sprint": "13.6.3",
       },
     }
   );

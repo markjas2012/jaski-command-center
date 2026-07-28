@@ -11,8 +11,6 @@ type TeamCard = {
   headline: string;
   detail: string;
   href: string;
-  record?: string;
-  recent?: string;
 };
 
 type Payload = {
@@ -55,7 +53,6 @@ export default function MyTeams() {
         <div>
           <p>MY TEAMS</p>
           <h2>St. Louis first.</h2>
-          <small>Next game, record, and the latest result when the feed has it.</small>
         </div>
         <span>{data?.updatedAt ? `Updated ${data.updatedAt}` : "Cardinals · Blues · CITY SC · Mizzou"}</span>
       </div>
@@ -83,26 +80,9 @@ export default function MyTeams() {
               </span>
               <h3>{item.headline}</h3>
               <p>{item.detail}</p>
-
-              {(item.record || item.recent) ? (
-                <div className={styles.meta}>
-                  {item.record ? (
-                    <span>
-                      <small>RECORD</small>
-                      <b>{item.record}</b>
-                    </span>
-                  ) : null}
-                  {item.recent ? (
-                    <span>
-                      <small>LAST</small>
-                      <b>{item.recent}</b>
-                    </span>
-                  ) : null}
-                </div>
-              ) : null}
             </div>
 
-            <b className={styles.open}>Open ↗</b>
+            <b>Open ↗</b>
           </a>
         ))}
       </div>

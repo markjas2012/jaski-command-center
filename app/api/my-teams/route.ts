@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-const DISPLAY_TIME_ZONE = "America/Chicago";
+const TZ = "America/Chicago";
 
 type TeamCard = {
   team: string;
@@ -14,226 +14,242 @@ type TeamCard = {
   headline: string;
   detail: string;
   href: string;
+  record?: string;
+  recent?: string;
 };
 
-type Competitor = {
-  homeAway?: string;
-  score?: string;
-  team?: {
-    abbreviation?: string;
-    shortDisplayName?: string;
-    displayName?: string;
-  };
-};
-
-type Event = {
-  shortName?: string;
-  name?: string;
-  date?: string;
-  status?: {
-    type?: {
-      state?: string;
-      completed?: boolean;
-      shortDetail?: string;
-      detail?: string;
-      description?: string;
-    };
-  };
-  competitions?: Array<{
-    broadcasts?: Array<{ names?: string[] }>;
-    competitors?: Competitor[];
-  }>;
-  links?: Array<{ href?: string }>;
-};
+type Event = any;
 
 const configs = [
   {
-    team: "Cardinals",
-    league: "MLB",
-    mark: "STL",
-    scoreboard: "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard",
-    href: "https://www.espn.com/mlb/team/_/name/stl/st-louis-cardinals",
+    team:"Cardinals", league:"MLB", mark:"STL", ids:["STL"], names:["st. louis cardinals"],
+    scoreboard:"https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard",
+    href:"https://www.espn.com/mlb/team/_/name/stl/st-louis-cardinals"
   },
   {
-    team: "Blues",
-    league: "NHL",
-    mark: "STL",
-    scoreboard: "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
-    href: "https://www.espn.com/nhl/team/_/name/stl/st-louis-blues",
+    team:"Blues", league:"NHL", mark:"STL", ids:["STL"], names:["st. louis blues"],
+    scoreboard:"https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
+    href:"https://www.espn.com/nhl/team/_/name/stl/st-louis-blues"
+  },
+  {
+    team:"CITY SC", league:"MLS", mark:"CITY", ids:["STL"], names:["st. louis city sc","st louis city sc"],
+    scoreboard:"https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
+    href:"https://www.espn.com/soccer/club/_/id/21812/st-louis-city-sc"
+  },
+  {
+    team:"Mizzou", league:"NCAA", mark:"M", ids:["MIZ"], names:["missouri tigers"],
+    scoreboard:"https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
+    href:"https://www.espn.com/college-football/team/_/id/142/missouri-tigers"
   },
 ];
 
-function dayKey(date: Date) {
+function dayKey(d: Date) {
   return new Intl.DateTimeFormat("en-CA", {
-    timeZone: DISPLAY_TIME_ZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(date);
+    timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit"
+  }).format(d);
 }
 
-function sameDisplayDay(a: Date, b: Date) {
+function sameDay(a: Date, b: Date) {
   return dayKey(a) === dayKey(b);
 }
 
-function statusText(event: Event) {
-  const type = event.status?.type;
-  return `${type?.shortDetail || ""} ${type?.detail || ""} ${type?.description || ""}`.toLowerCase();
+function competitors(e: Event) {
+  return e.competitions?.[0]?.competitors || [];
 }
 
-function isUnavailable(event: Event) {
-  if (event.status?.type?.completed) return true;
-  const text = statusText(event);
-  return (
-    text.includes("postponed") ||
-    text.includes("canceled") ||
-    text.includes("cancelled") ||
-    text.includes("final")
-  );
+function ownCompetitor(e: Event, c: any) {
+  return competitors(e).find((x: any) => {
+    const ab = (x.team?.abbreviation || "").toUpperCase();
+    const name = (x.team?.displayName || "").toLowerCase();
+    return c.ids.includes(ab) || c.names.some((n: string) => name.includes(n));
+  });
 }
 
-function findStLouis(event: Event) {
-  const competitors = event.competitions?.[0]?.competitors || [];
-  return competitors.some(
-    (c) =>
-      c.team?.abbreviation?.toUpperCase() === "STL" ||
-      c.team?.displayName?.toLowerCase().includes("st. louis")
-  );
+function matches(e: Event, c: any) {
+  return Boolean(ownCompetitor(e, c));
 }
 
-function gameDetail(event: Event) {
-  const competition = event.competitions?.[0];
-  const teams = competition?.competitors || [];
-  const network = competition?.broadcasts?.[0]?.names?.join(", ");
+function statusText(e: Event) {
+  const t = e.status?.type;
+  const ct = e.competitions?.[0]?.status?.type;
+  return `${t?.shortDetail || ""} ${t?.detail || ""} ${t?.description || ""} ${ct?.shortDetail || ""}`.toLowerCase();
+}
 
-  const score =
-    teams.length === 2 && teams.some((t) => t.score && t.score !== "0")
-      ? teams
-          .map((t) => `${t.team?.shortDisplayName || t.team?.displayName || "Team"} ${t.score || ""}`.trim())
-          .join(" · ")
-      : "";
+function isCanceled(e: Event) {
+  return /postponed|canceled|cancelled|suspended|abandoned/.test(statusText(e));
+}
+
+function isCompleted(e: Event) {
+  return Boolean(e.status?.type?.completed || e.competitions?.[0]?.status?.type?.completed || /\bfinal\b/.test(statusText(e)));
+}
+
+function recordFor(e: Event, c: any) {
+  const own = ownCompetitor(e, c);
+  const records = own?.records || [];
+  return records.find((r: any) => r?.type === "total")?.summary
+    || records.find((r: any) => r?.summary)?.summary
+    || "";
+}
+
+function scoreFor(e: Event, c: any) {
+  const own = ownCompetitor(e, c);
+  const opp = competitors(e).find((x: any) => x !== own);
+  if (!own || !opp) return "";
+
+  const ownName = own.team?.shortDisplayName || own.team?.displayName || c.team;
+  const oppName = opp.team?.shortDisplayName || opp.team?.displayName || "Opponent";
+  const ownScore = own.score ?? "";
+  const oppScore = opp.score ?? "";
+
+  if (ownScore === "" || oppScore === "") return "";
+
+  const a = Number(ownScore);
+  const b = Number(oppScore);
+  const result = Number.isFinite(a) && Number.isFinite(b) ? (a > b ? "W" : a < b ? "L" : "T") : "";
+
+  return `${result ? `${result} · ` : ""}${ownName} ${ownScore} · ${oppName} ${oppScore}`;
+}
+
+function detail(e: Event) {
+  const comp = e.competitions?.[0];
+  const cs = comp?.competitors || [];
+  const network = comp?.broadcasts?.[0]?.names?.join(", ");
+  const score = cs.length === 2 && cs.some((x: any) => x.score && x.score !== "0")
+    ? cs.map((x: any) => `${x.team?.shortDisplayName || x.team?.displayName || "Team"} ${x.score || ""}`.trim()).join(" · ")
+    : "";
 
   if (score && network) return `${score} · ${network}`;
   if (score) return score;
+  if (network && e.date) {
+    const d = new Date(e.date);
+    if (!Number.isNaN(d.getTime())) {
+      const when = new Intl.DateTimeFormat("en-US", {
+        timeZone: TZ, weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit"
+      }).format(d);
+      return `${when} · ${network}`;
+    }
+  }
   if (network) return network;
 
-  if (event.date) {
-    const d = new Date(event.date);
+  if (e.date) {
+    const d = new Date(e.date);
     if (!Number.isNaN(d.getTime())) {
       return new Intl.DateTimeFormat("en-US", {
-        timeZone: DISPLAY_TIME_ZONE,
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
+        timeZone: TZ, weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit"
       }).format(d);
     }
   }
 
-  return "Open for game details";
+  return "Open for details";
 }
 
-function isUsableCandidate(event: Event, now: Date) {
-  if (isUnavailable(event)) return false;
-  if (event.status?.type?.state === "in") return true;
-
-  const start = event.date ? new Date(event.date) : null;
-  if (!start || Number.isNaN(start.getTime())) return false;
-
-  // Keep today's scheduled/delayed game, or a genuinely future game.
-  // Drop stale non-final events from prior dates so they cannot become "NEXT UP".
-  return sameDisplayDay(start, now) || start.getTime() > now.getTime();
+function nextCandidates(events: Event[], c: any, now: Date) {
+  return events
+    .filter((e) => matches(e, c) && !isCanceled(e) && !isCompleted(e))
+    .filter((e) => {
+      if (e.status?.type?.state === "in") return true;
+      const d = e.date ? new Date(e.date) : null;
+      return Boolean(d && !Number.isNaN(d.getTime()) && (sameDay(d, now) || d.getTime() > now.getTime()));
+    })
+    .sort((a, b) => {
+      const al = a.status?.type?.state === "in" ? 0 : 1;
+      const bl = b.status?.type?.state === "in" ? 0 : 1;
+      if (al !== bl) return al - bl;
+      return new Date(a.date || 8640000000000000).getTime() - new Date(b.date || 8640000000000000).getTime();
+    });
 }
 
-async function loadTeam(config: typeof configs[number]): Promise<TeamCard> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 2200);
+function recentResult(events: Event[], c: any) {
+  const recent = events
+    .filter((e) => matches(e, c) && isCompleted(e) && !isCanceled(e))
+    .sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime())[0];
 
+  return recent ? scoreFor(recent, c) : "";
+}
+
+async function load(c: any): Promise<TeamCard> {
   try {
-    const res = await fetch(config.scoreboard, {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 2600);
+
+    const res = await fetch(c.scoreboard, {
       cache: "no-store",
       signal: controller.signal,
-      headers: {
-        Accept: "application/json",
-        "User-Agent": "JaskiHomepage/13.6",
-      },
+      headers: { "User-Agent": "JaskiHomepage/14.2" },
     });
 
-    if (!res.ok) throw new Error("scoreboard unavailable");
+    clearTimeout(timer);
+    if (!res.ok) throw new Error();
 
     const json = await res.json();
     const events: Event[] = Array.isArray(json?.events) ? json.events : [];
     const now = new Date();
-    const relevant = events.filter(findStLouis).filter((event) => isUsableCandidate(event, now));
 
-    if (!relevant.length) {
+    const candidates = nextCandidates(events, c, now);
+    const event = candidates[0];
+    const recent = recentResult(events, c);
+
+    if (!event) {
+      // If the active scoreboard has no upcoming event, still surface a record
+      // from the most recent matching event when ESPN provides one.
+      const matching = events.filter((e) => matches(e, c));
+      const record = matching.map((e) => recordFor(e, c)).find(Boolean) || "";
+
       return {
-        team: config.team,
-        league: config.league,
-        mark: config.mark,
+        team: c.team,
+        league: c.league,
+        mark: c.mark,
         state: "OFF",
-        headline: `St. Louis ${config.team}`,
+        headline: c.team,
         detail: "No current game on the board. Open the team page for the schedule.",
-        href: config.href,
+        href: c.href,
+        record,
+        recent,
       };
     }
 
-    const ranked = [...relevant].sort((a, b) => {
-      const aLive = a.status?.type?.state === "in" ? 0 : 1;
-      const bLive = b.status?.type?.state === "in" ? 0 : 1;
-      if (aLive !== bLive) return aLive - bLive;
-
-      const at = a.date ? new Date(a.date).getTime() : Number.MAX_SAFE_INTEGER;
-      const bt = b.date ? new Date(b.date).getTime() : Number.MAX_SAFE_INTEGER;
-      return at - bt;
-    });
-
-    const event = ranked[0];
-    const start = event.date ? new Date(event.date) : null;
-    const isLive = event.status?.type?.state === "in";
-    const isToday = Boolean(start && !Number.isNaN(start.getTime()) && sameDisplayDay(start, now));
+    const d = event.date ? new Date(event.date) : null;
+    const live = event.status?.type?.state === "in";
+    const today = Boolean(d && !Number.isNaN(d.getTime()) && sameDay(d, now));
 
     return {
-      team: config.team,
-      league: config.league,
-      mark: config.mark,
-      state: isLive ? "LIVE" : isToday ? "TODAY" : "NEXT",
-      headline: event.shortName || event.name || `St. Louis ${config.team}`,
-      detail: gameDetail(event),
-      href: event.links?.[0]?.href || config.href,
+      team: c.team,
+      league: c.league,
+      mark: c.mark,
+      state: live ? "LIVE" : today ? "TODAY" : "NEXT",
+      headline: event.shortName || event.name || c.team,
+      detail: detail(event),
+      href: event.links?.[0]?.href || c.href,
+      record: recordFor(event, c),
+      recent,
     };
   } catch {
     return {
-      team: config.team,
-      league: config.league,
-      mark: config.mark,
+      team: c.team,
+      league: c.league,
+      mark: c.mark,
       state: "OFF",
-      headline: `St. Louis ${config.team}`,
-      detail: "Open the team page for scores, schedule, and news.",
-      href: config.href,
+      headline: c.team,
+      detail: "Open the team page for schedule, scores and news.",
+      href: c.href,
     };
-  } finally {
-    clearTimeout(timer);
   }
 }
 
 export async function GET() {
-  const teams = await Promise.all(configs.map(loadTeam));
+  const teams = await Promise.all(configs.map(load));
 
   return NextResponse.json(
     {
       updatedAt: new Intl.DateTimeFormat("en-US", {
-        timeZone: DISPLAY_TIME_ZONE,
-        hour: "numeric",
-        minute: "2-digit",
+        timeZone: TZ, hour: "numeric", minute: "2-digit"
       }).format(new Date()),
       teams,
     },
     {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "X-Jaski-Sprint": "13.6",
+        "X-Jaski-Sprint": "14.2",
       },
     }
   );

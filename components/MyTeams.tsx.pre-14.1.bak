@@ -11,8 +11,6 @@ type TeamCard = {
   headline: string;
   detail: string;
   href: string;
-  record?: string;
-  recent?: string;
 };
 
 type Payload = {
@@ -21,10 +19,24 @@ type Payload = {
 };
 
 const fallback: TeamCard[] = [
-  { team:"Cardinals", league:"MLB", mark:"STL", state:"NEXT", headline:"St. Louis Cardinals", detail:"Scores, schedule and the next game.", href:"https://www.espn.com/mlb/team/_/name/stl/st-louis-cardinals" },
-  { team:"Blues", league:"NHL", mark:"STL", state:"OFF", headline:"St. Louis Blues", detail:"Scores, schedule and the next game.", href:"https://www.espn.com/nhl/team/_/name/stl/st-louis-blues" },
-  { team:"CITY SC", league:"MLS", mark:"CITY", state:"NEXT", headline:"St. Louis CITY SC", detail:"Matches, table and the next fixture.", href:"https://www.espn.com/soccer/club/_/id/21812/st-louis-city-sc" },
-  { team:"Mizzou", league:"NCAA", mark:"M", state:"NEXT", headline:"Missouri Tigers", detail:"Football first when the Tigers are on the board.", href:"https://www.espn.com/college-football/team/_/id/142/missouri-tigers" },
+  {
+    team: "Cardinals",
+    league: "MLB",
+    mark: "STL",
+    state: "NEXT",
+    headline: "St. Louis Cardinals",
+    detail: "Open the Cardinals schedule and scoreboard.",
+    href: "https://www.espn.com/mlb/team/_/name/stl/st-louis-cardinals",
+  },
+  {
+    team: "Blues",
+    league: "NHL",
+    mark: "STL",
+    state: "OFF",
+    headline: "St. Louis Blues",
+    detail: "Open the Blues schedule and team page.",
+    href: "https://www.espn.com/nhl/team/_/name/stl/st-louis-blues",
+  },
 ];
 
 function stateLabel(state: TeamCard["state"]) {
@@ -55,9 +67,8 @@ export default function MyTeams() {
         <div>
           <p>MY TEAMS</p>
           <h2>St. Louis first.</h2>
-          <small>Next game, record, and the latest result when the feed has it.</small>
         </div>
-        <span>{data?.updatedAt ? `Updated ${data.updatedAt}` : "Cardinals · Blues · CITY SC · Mizzou"}</span>
+        <span>{data?.updatedAt ? `Updated ${data.updatedAt}` : "Cardinals · Blues"}</span>
       </div>
 
       <div className={styles.grid}>
@@ -83,26 +94,9 @@ export default function MyTeams() {
               </span>
               <h3>{item.headline}</h3>
               <p>{item.detail}</p>
-
-              {(item.record || item.recent) ? (
-                <div className={styles.meta}>
-                  {item.record ? (
-                    <span>
-                      <small>RECORD</small>
-                      <b>{item.record}</b>
-                    </span>
-                  ) : null}
-                  {item.recent ? (
-                    <span>
-                      <small>LAST</small>
-                      <b>{item.recent}</b>
-                    </span>
-                  ) : null}
-                </div>
-              ) : null}
             </div>
 
-            <b className={styles.open}>Open ↗</b>
+            <b>Open ↗</b>
           </a>
         ))}
       </div>
