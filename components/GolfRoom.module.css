@@ -28,3 +28,23 @@
 .fedPurple{color:#4d148c}.fedOrange{color:#ff6600}
 .fedexMarkCompact{min-width:34px;width:34px;height:34px;padding:2px;border-radius:10px}
 .fedexMarkCompact>div{font-size:9px;letter-spacing:-.6px}.fedexMarkCompact small{font-size:5px;letter-spacing:.1em;margin-top:1px}
+
+/* Sprint 14.5 — compact FedEx Cup chase */
+.fedexStandings{margin:18px 0 6px;border:1px solid rgba(221,204,111,.16);border-radius:14px;overflow:hidden;background:rgba(3,12,7,.22)}
+.fedexRow{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.055);font-size:11px}
+.fedexRow:last-child{border-bottom:0}.fedexRow>b{color:#dfe98a}.fedexRow>strong{font-size:11px}.fedexRow>span{color:#aab4ac;font-size:9px}
+.fedexEmpty{padding:18px 12px;color:#9eaaa1;font-size:10px;line-height:1.5}
+
+/* Sprint 14.6 — Big Events / Majors live calendar treatment */
+.eventCard{position:relative;min-height:112px;transition:border-color .15s ease,background .15s ease,transform .15s ease}
+.eventCard:hover{border-color:rgba(223,233,138,.42);background:rgba(255,255,255,.035);transform:translateY(-1px)}
+.eventBody{display:grid;gap:3px;min-width:0;flex:1}
+.eventTopline{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.eventTopline small{margin:0}
+.eventState,.eventStateHot{font-style:normal;font-family:Arial,Helvetica,sans-serif;font-size:7px;font-weight:800;letter-spacing:.13em;white-space:nowrap}
+.eventState{color:#7e8b82}.eventStateHot{color:#e5eb91}
+.eventDate{margin-top:6px;font-family:Arial,Helvetica,sans-serif;font-size:9px;letter-spacing:.08em;color:#cbd48a}
+.eventCardNext{border-color:rgba(225,231,128,.55);background:linear-gradient(135deg,rgba(211,216,112,.075),rgba(255,255,255,.025));box-shadow:inset 0 0 0 1px rgba(225,231,128,.08)}
+.eventCardNext:before{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:2px;border-radius:2px;background:#dce789}
+.eventCardPast{opacity:.72}
+@media(max-width:760px){.eventCard{min-height:96px}}

@@ -16,18 +16,92 @@ const links = [
 ];
 
 const events = [
-  { tag: "MAJOR", name: "The Masters", detail: "Major championship", href: "https://www.masters.com/", logo: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Masters_Tournament.svg" },
-  { tag: "MAJOR", name: "PGA Championship", detail: "Major championship", href: "https://www.pgachampionship.com/", logo: "https://www.google.com/s2/favicons?domain=pgachampionship.com&sz=128" },
-  { tag: "MAJOR", name: "U.S. Open", detail: "Major championship", href: "https://www.usopen.com/", logo: "https://www.google.com/s2/favicons?domain=usopen.com&sz=128" },
-  { tag: "MAJOR", name: "The Open", detail: "Major championship", href: "https://www.theopen.com/", logo: "https://images.seeklogo.com/logo-png/46/1/the-open-championship-logo-png_seeklogo-462121.png" },
-  { tag: "THE PLAYERS", name: "The Players", detail: "PGA TOUR", href: "https://www.theplayers.com/", logo: "https://www.google.com/s2/favicons?domain=theplayers.com&sz=128" },
-  { tag: "PGA TOUR", name: "WM Phoenix Open", detail: "PGA TOUR", href: "https://wmphoenixopen.com/", logo: "https://images.seeklogo.com/logo-png/52/1/waste-management-inc-logo-png_seeklogo-528215.png" },
-  { tag: "TEAM EVENT", name: "Ryder Cup", detail: "Team event", href: "https://www.rydercup.com/", logo: "https://www.google.com/s2/favicons?domain=rydercup.com&sz=128" },
-  { tag: "TEAM EVENT", name: "Presidents Cup", detail: "Team event", href: "https://www.presidentscup.com/", logo: "https://www.google.com/s2/favicons?domain=presidentscup.com&sz=128" },
+  {
+    tag: "MAJOR",
+    name: "The Masters",
+    detail: "Augusta National",
+    dateLabel: "APR 9–12 · 2026",
+    start: "2026-04-09T00:00:00",
+    end: "2026-04-12T23:59:59",
+    href: "https://www.masters.com/",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Masters_Tournament.svg",
+  },
+  {
+    tag: "MAJOR",
+    name: "PGA Championship",
+    detail: "Aronimink Golf Club",
+    dateLabel: "MAY 14–17 · 2026",
+    start: "2026-05-14T00:00:00",
+    end: "2026-05-17T23:59:59",
+    href: "https://www.pgachampionship.com/",
+    logo: "https://www.google.com/s2/favicons?domain=pgachampionship.com&sz=128",
+  },
+  {
+    tag: "MAJOR",
+    name: "U.S. Open",
+    detail: "Shinnecock Hills",
+    dateLabel: "JUN 18–21 · 2026",
+    start: "2026-06-18T00:00:00",
+    end: "2026-06-21T23:59:59",
+    href: "https://www.usopen.com/",
+    logo: "https://www.google.com/s2/favicons?domain=usopen.com&sz=128",
+  },
+  {
+    tag: "MAJOR",
+    name: "The Open",
+    detail: "Royal Birkdale",
+    dateLabel: "JUL 16–19 · 2026",
+    start: "2026-07-16T00:00:00",
+    end: "2026-07-19T23:59:59",
+    href: "https://www.theopen.com/",
+    logo: "https://images.seeklogo.com/logo-png/46/1/the-open-championship-logo-png_seeklogo-462121.png",
+  },
+  {
+    tag: "THE PLAYERS",
+    name: "The Players",
+    detail: "TPC Sawgrass",
+    dateLabel: "MAR 12–15 · 2026",
+    start: "2026-03-12T00:00:00",
+    end: "2026-03-15T23:59:59",
+    href: "https://www.theplayers.com/",
+    logo: "https://www.google.com/s2/favicons?domain=theplayers.com&sz=128",
+  },
+  {
+    tag: "PGA TOUR",
+    name: "WM Phoenix Open",
+    detail: "TPC Scottsdale",
+    dateLabel: "FEB 5–8 · 2026",
+    start: "2026-02-05T00:00:00",
+    end: "2026-02-08T23:59:59",
+    href: "https://wmphoenixopen.com/",
+    logo: "https://images.seeklogo.com/logo-png/52/1/waste-management-inc-logo-png_seeklogo-528215.png",
+  },
+  {
+    tag: "TEAM EVENT",
+    name: "Ryder Cup",
+    detail: "Adare Manor · Ireland",
+    dateLabel: "SEP 17–19 · 2027",
+    start: "2027-09-17T00:00:00",
+    end: "2027-09-19T23:59:59",
+    href: "https://www.rydercup.com/",
+    logo: "https://www.google.com/s2/favicons?domain=rydercup.com&sz=128",
+  },
+  {
+    tag: "TEAM EVENT",
+    name: "Presidents Cup",
+    detail: "Medinah Country Club",
+    dateLabel: "SEP 24–27 · 2026",
+    start: "2026-09-24T00:00:00",
+    end: "2026-09-27T23:59:59",
+    href: "https://www.presidentscup.com/",
+    logo: "https://www.google.com/s2/favicons?domain=presidentscup.com&sz=128",
+  },
 ];
 
 type Leader = { position: string; name: string; score: string; thru: string; today?: string };
 type GolfData = { tournament: string; status: string; leaders: Leader[]; updated?: string; error?: string };
+type FedExRow = { rank: number; name: string; points: string };
+type FedExData = { standings: FedExRow[]; available: boolean; updated?: string };
 
 
 function FedExCupMark({ compact = false }: { compact?: boolean }) {
@@ -41,6 +115,24 @@ function FedExCupMark({ compact = false }: { compact?: boolean }) {
 
 export default function GolfRoom() {
   const [golf, setGolf] = useState<GolfData | null>(null);
+  const [fedex, setFedex] = useState<FedExData | null>(null);
+
+  const now = new Date();
+  const upcoming = events
+    .filter((event) => new Date(event.end).getTime() >= now.getTime())
+    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+  const nextEventName = upcoming[0]?.name ?? "";
+
+  const eventState = (event: (typeof events)[number]) => {
+    const start = new Date(event.start).getTime();
+    const end = new Date(event.end).getTime();
+    const current = now.getTime();
+
+    if (current >= start && current <= end) return "LIVE";
+    if (event.name === nextEventName) return "NEXT UP";
+    if (current > end) return "COMPLETE";
+    return "UPCOMING";
+  };
 
   useEffect(() => {
     let active = true;
@@ -53,9 +145,25 @@ export default function GolfRoom() {
         if (active) setGolf({ tournament: "PGA TOUR", status: "Leaderboard unavailable", leaders: [] });
       }
     };
+    const loadFedEx = async () => {
+      try {
+        const res = await fetch("/api/fedex-cup", { cache: "no-store" });
+        const data = await res.json();
+        if (active) setFedex(data);
+      } catch {
+        if (active) setFedex({ standings: [], available: false });
+      }
+    };
+
     load();
+    loadFedEx();
     const timer = window.setInterval(load, 120000);
-    return () => { active = false; window.clearInterval(timer); };
+    const fedexTimer = window.setInterval(loadFedEx, 900000);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+      window.clearInterval(fedexTimer);
+    };
   }, []);
 
   return (
@@ -108,20 +216,63 @@ export default function GolfRoom() {
 
         <article className={`${styles.panel} ${styles.fedex}`}>
           <p className={styles.kicker}>SEASON LONG</p>
-          <div className={styles.fedexHead}><div><h2>Chase for the FedEx Cup.</h2><p className={styles.copy}>Keep the points race visible without turning the room into a statistics wall.</p></div><FedExCupMark /></div>
-          <a className={styles.textLink} href="https://www.pgatour.com/fedexcup" target="_blank" rel="noreferrer">Open FedEx Cup standings ↗</a>
+          <div className={styles.fedexHead}><div><h2>Chase for the FedEx Cup.</h2><p className={styles.copy}>The top of the points race, without turning the room into a statistics wall.</p></div><FedExCupMark /></div>
+
+          <div className={styles.fedexStandings}>
+            {fedex?.available && fedex.standings.length ? (
+              fedex.standings.map((player) => (
+                <div className={styles.fedexRow} key={`${player.rank}-${player.name}`}>
+                  <b>{player.rank}</b>
+                  <strong>{player.name}</strong>
+                  <span>{player.points} pts</span>
+                </div>
+              ))
+            ) : (
+              <div className={styles.fedexEmpty}>
+                {fedex ? "Official standings are available from PGA TOUR." : "Loading FedEx Cup standings..."}
+              </div>
+            )}
+          </div>
+
+          <a className={styles.textLink} href="https://www.pgatour.com/fedexcup/official" target="_blank" rel="noreferrer">Open full FedEx Cup standings ↗</a>
         </article>
       </section>
 
       <section className={styles.eventsPanel}>
-        <div className={styles.sectionHead}><div><p className={styles.kicker}>THE BIG EVENTS</p><h2>Circle these weeks.</h2></div><span>Majors first. Then the ones worth making time for.</span></div>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.kicker}>THE BIG EVENTS</p>
+            <h2>Circle these weeks.</h2>
+          </div>
+          <span>Majors first. Then the events worth clearing the calendar for.</span>
+        </div>
+
         <div className={styles.eventGrid}>
-          {events.map((event) => (
-            <a className={styles.eventCard} href={event.href} target="_blank" rel="noreferrer" key={event.name}>
-              <div className={styles.logoBox}><img src={event.logo} alt="" /></div>
-              <div><small>{event.tag}</small><strong>{event.name}</strong><span>{event.detail}</span></div>
-            </a>
-          ))}
+          {events.map((event) => {
+            const state = eventState(event);
+            const isNext = state === "NEXT UP" || state === "LIVE";
+
+            return (
+              <a
+                className={`${styles.eventCard} ${isNext ? styles.eventCardNext : ""} ${state === "COMPLETE" ? styles.eventCardPast : ""}`}
+                href={event.href}
+                target="_blank"
+                rel="noreferrer"
+                key={event.name}
+              >
+                <div className={styles.logoBox}><img src={event.logo} alt="" /></div>
+                <div className={styles.eventBody}>
+                  <div className={styles.eventTopline}>
+                    <small>{event.tag}</small>
+                    <em className={isNext ? styles.eventStateHot : styles.eventState}>{state}</em>
+                  </div>
+                  <strong>{event.name}</strong>
+                  <span>{event.detail}</span>
+                  <b className={styles.eventDate}>{event.dateLabel}</b>
+                </div>
+              </a>
+            );
+          })}
         </div>
       </section>
 
