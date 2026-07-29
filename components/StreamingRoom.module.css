@@ -1160,3 +1160,79 @@
     animation:none !important;
   }
 }
+
+/* =========================================================
+   SPRINT 15.13 — STREAMING PRODUCTION FINISH
+   Scope: final presentation cleanup only. All locked content,
+   artwork, ordering, service accents, and responsive rules stay.
+   ========================================================= */
+
+/* Remove the internal sprint/checkpoint label from the finished UI
+   while retaining the right-side editorial signoff. */
+.footer > :first-child{
+  display:none;
+}
+.footer{
+  justify-content:flex-end;
+}
+
+/* Give interactive cards one consistent, restrained response. */
+.watchCard,
+.newCard,
+.serviceCard,
+.continueCard,
+.libraryCard{
+  transform:translateY(0);
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease,
+    background-color .18s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .watchCard:hover,
+  .newCard:hover,
+  .continueCard:hover,
+  .libraryCard:hover{
+    transform:translateY(-2px);
+    border-color:rgba(179,108,255,.38);
+    box-shadow:0 14px 34px rgba(0,0,0,.22);
+  }
+
+  .serviceCard:hover{
+    transform:translateY(-2px);
+  }
+}
+
+/* Slightly strengthen section separation without changing geometry. */
+.tonight,
+.newComing,
+.services,
+.continueWatching,
+.libraryShelf{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.035),
+    0 10px 28px rgba(11,8,38,.055);
+}
+
+/* Keep touch devices calm: no sticky hover movement. */
+@media (hover:none){
+  .watchCard,
+  .newCard,
+  .serviceCard,
+  .continueCard,
+  .libraryCard{
+    transform:none;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .watchCard,
+  .newCard,
+  .serviceCard,
+  .continueCard,
+  .libraryCard{
+    transform:none !important;
+  }
+}
