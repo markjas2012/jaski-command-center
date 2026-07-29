@@ -33,6 +33,7 @@ type TeamCard = {
   team: string;
   league: string;
   mark: string;
+  logo?: string;
   state: "LIVE" | "TODAY" | "FINAL" | "NEXT" | "OFF";
   headline: string;
   detail: string;
@@ -43,25 +44,29 @@ type TeamCard = {
 
 const CENTRAL_TZ = "America/Chicago";
 
-const identity: Record<ApiTeam["key"], { league: string; mark: string; href: string }> = {
+const identity: Record<ApiTeam["key"], { league: string; mark: string; href: string; logo: string }> = {
   cardinals: {
     league: "MLB",
     mark: "STL",
+    logo: "https://a.espncdn.com/i/teamlogos/mlb/500/stl.png",
     href: "https://www.espn.com/mlb/team/_/name/stl/st-louis-cardinals",
   },
   blues: {
     league: "NHL",
     mark: "STL",
+    logo: "https://a.espncdn.com/i/teamlogos/nhl/500/stl.png",
     href: "https://www.espn.com/nhl/team/_/name/stl/st-louis-blues",
   },
   city: {
     league: "MLS",
     mark: "CITY",
+    logo: "https://a.espncdn.com/i/teamlogos/soccer/500/21812.png",
     href: "https://www.espn.com/soccer/club/_/id/21812/st-louis-city-sc",
   },
   mizzou: {
     league: "NCAA",
     mark: "M",
+    logo: "https://a.espncdn.com/i/teamlogos/ncaa/500/142.png",
     href: "https://www.espn.com/college-football/team/_/id/142/missouri-tigers",
   },
 };
@@ -125,6 +130,7 @@ function toCard(team: ApiTeam): TeamCard {
     team: team.shortName,
     league: meta.league,
     mark: meta.mark,
+    logo: meta.logo,
     state,
     headline: team.label === "NO GAME" ? team.shortName : matchup(team),
     detail: team.label === "NO GAME" ? "No scheduled game found in the current feed." : detailFor(team),
@@ -200,7 +206,22 @@ export default function MyTeams() {
             className={styles.card}
           >
             <div className={styles.identity}>
-              <span className={styles.mark}>{item.mark}</span>
+              <span className={styles.mark}>
+                {item.logo ? (
+                  <img
+                    src={item.logo}
+                    alt=""
+                    aria-hidden="true"
+                    style={{ width: "38px", height: "38px", objectFit: "contain", display: "block" }}
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                      const fallback = event.currentTarget.nextElementSibling as HTMLElement | null;
+                      if (fallback) fallback.style.display = "inline";
+                    }}
+                  />
+                ) : null}
+                <span style={{ display: item.logo ? "none" : "inline" }}>{item.mark}</span>
+              </span>
               <div>
                 <small>{item.league}</small>
                 <strong>{item.team}</strong>
