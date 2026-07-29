@@ -1,26 +1,22 @@
-JASKI COMMAND CENTER
-SPRINT 15.14 — STREAMING FINAL DETAIL PASS
+JASKI COMMAND CENTER — SPRINT 16.1a
+JASKI ARCADE IDENTITY PASS
 
-BASELINE
-- Built directly on locked Sprint 15.13.
-- No content, artwork, card order, service list, layout structure, or locked section is redesigned.
+Purpose
+-------
+Give the Video Games page its permanent page identity without redesigning the
+approved Sprint 16.1 foundation.
 
-THIS SPRINT
-- Adds a final readability pass to artwork titles over bright imagery.
-- Adds restrained, on-brand keyboard focus states to interactive cards and Resume buttons.
-- Keeps mouse hover behavior from 15.13 intact.
-- Improves Resume button target/readability without changing layout geometry.
-- Adds clean section scroll offsets for future navigation/deep linking.
-- Keeps the decorative hero signal non-selectable.
-- Preserves reduced-motion and touch behavior.
+Changes
+-------
+- Hero title: Jaski Arcade
+- Sidebar destination remains Video Games
+- Major News, Upcoming Releases, Jaski Game Server, Xbox, and Steam remain intact
+- No layout, styling, or section changes
 
-INSTALL
-1. Extract this ZIP.
-2. Double-click INSTALL_SPRINT_15_14.cmd.
-3. Open http://localhost:3000/streaming
-4. Hard refresh with Ctrl + Shift + R.
-5. Confirm the desktop page still looks like locked 15.13.
-6. Tab through interactive elements and confirm the purple focus ring is clean and obvious.
+Install
+-------
+1. Make sure Sprint 16.1 is already installed.
+2. Double-click INSTALL_SPRINT_16_1a.cmd.
+3. Hard refresh the page with Ctrl+Shift+R.
 
-Backup:
-C:\Projects\jaski-homepage\_sprint_backups\15.14_Streaming_Final_Detail_Pass
+The installer backs up the current GamingRoom.tsx before replacing it.

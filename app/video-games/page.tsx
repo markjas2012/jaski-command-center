@@ -1,5 +1,5 @@
 import GamingRoom from "../../components/GamingRoom";
 
-export default function GamesPage() {
+export default function VideoGamesPage() {
   return <GamingRoom />;
 }
