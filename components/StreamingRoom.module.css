@@ -937,3 +937,109 @@
   background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 38%);
   pointer-events:none;
 }
+
+/* =========================================================
+   SPRINT 15.11 — MY SERVICES POLISH
+   Scope: service shelf only. Locked streaming sections above
+   remain untouched.
+   ========================================================= */
+.services{
+  position:relative;
+  overflow:hidden;
+}
+.services:after{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  right:-115px;
+  top:-150px;
+  border:1px solid rgba(143,116,255,.08);
+  border-radius:50%;
+  pointer-events:none;
+}
+.serviceGrid{
+  position:relative;
+  z-index:1;
+  gap:10px;
+}
+.serviceCard{
+  position:relative;
+  overflow:hidden;
+  min-height:76px;
+  isolation:isolate;
+}
+.serviceCard:before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:2px;
+  background:var(--service-accent,#856cff);
+  opacity:.62;
+  transition:opacity .16s ease,box-shadow .16s ease;
+}
+.serviceCard:after{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  left:-42px;
+  top:-42px;
+  border-radius:50%;
+  background:var(--service-glow,rgba(132,104,255,.08));
+  filter:blur(10px);
+  opacity:.52;
+  z-index:-1;
+  pointer-events:none;
+}
+.serviceCard:hover:before{
+  opacity:1;
+  box-shadow:0 0 14px var(--service-accent,#856cff);
+}
+.serviceMark{
+  position:relative;
+  border-color:color-mix(in srgb,var(--service-accent,#856cff) 34%,transparent);
+  background:color-mix(in srgb,var(--service-accent,#856cff) 10%,transparent);
+  color:var(--service-accent,#c9a7ff);
+  transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease;
+}
+.serviceCard:hover .serviceMark{
+  transform:scale(1.035);
+  border-color:color-mix(in srgb,var(--service-accent,#856cff) 55%,transparent);
+  background:color-mix(in srgb,var(--service-accent,#856cff) 14%,transparent);
+  box-shadow:0 0 18px color-mix(in srgb,var(--service-accent,#856cff) 14%,transparent);
+}
+.serviceArrow{
+  opacity:.72;
+  transform:translateX(0);
+  transition:transform .16s ease,opacity .16s ease,text-shadow .16s ease;
+}
+.serviceCard:hover .serviceArrow{
+  opacity:1;
+  transform:translateX(2px);
+}
+.serviceText small{
+  opacity:.9;
+}
+
+/* Brand accents follow the existing card order:
+   YouTube TV, YouTube, Paramount+, Max,
+   Disney+, Hulu, ESPN, Discovery+,
+   Peacock, Prime Video, Netflix, Apple TV. */
+.serviceCard:nth-child(1){--service-accent:#ff3158;--service-glow:rgba(255,49,88,.12)}
+.serviceCard:nth-child(2){--service-accent:#ff3b4f;--service-glow:rgba(255,59,79,.12)}
+.serviceCard:nth-child(3){--service-accent:#7e76ff;--service-glow:rgba(126,118,255,.12)}
+.serviceCard:nth-child(4){--service-accent:#8d78ff;--service-glow:rgba(141,120,255,.12)}
+.serviceCard:nth-child(5){--service-accent:#7997ff;--service-glow:rgba(121,151,255,.12)}
+.serviceCard:nth-child(6){--service-accent:#53d98b;--service-glow:rgba(83,217,139,.11)}
+.serviceCard:nth-child(7){--service-accent:#ff4b62;--service-glow:rgba(255,75,98,.11)}
+.serviceCard:nth-child(8){--service-accent:#8aa0ff;--service-glow:rgba(138,160,255,.11)}
+.serviceCard:nth-child(9){--service-accent:#b69cff;--service-glow:rgba(182,156,255,.11)}
+.serviceCard:nth-child(10){--service-accent:#77a7ff;--service-glow:rgba(119,167,255,.11)}
+.serviceCard:nth-child(11){--service-accent:#ff3f62;--service-glow:rgba(255,63,98,.12)}
+.serviceCard:nth-child(12){--service-accent:#a895ff;--service-glow:rgba(168,149,255,.11)}
+
+@media(max-width:620px){
+  .serviceGrid{grid-template-columns:1fr}
+  .serviceCard{min-height:72px}
+}

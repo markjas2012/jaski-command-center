@@ -1,30 +1,27 @@
 JASKI COMMAND CENTER
-SPRINT 15.10a — NEW & COMING ARTWORK PASS
+SPRINT 15.11 — MY SERVICES POLISH
 
 BASELINE
-- Built directly on Sprint 15.10.
-- 15.9a locked sections remain protected.
+- Built directly on locked Sprint 15.10a.
 - Continue Watching remains unchanged.
 - Already Yours remains unchanged.
-- New & Coming layout, text, badges, spacing, and hover behavior remain unchanged.
+- New & Coming remains unchanged.
 
-THIS REPAIR
-- Replaces the five New & Coming gradient placeholders with title artwork:
-  1. Deadpool & Wolverine
-  2. Alien: Earth
-  3. Mayor of Kingstown
-  4. The Instigators
-  5. Wednesday
-- Preserves the existing dark readability shade and card treatment.
-- Artwork is loaded from TMDB's image CDN, so internet access is required for the images.
+THIS SPRINT
+- Polishes the existing “Where you watch.” / My Services shelf.
+- Preserves all 12 services and the current 4-column desktop layout.
+- Adds restrained per-service accent cues without turning the page into a rainbow grid.
+- Gives each card a thin accent rail, soft ambient glow, refined icon tile, and cleaner hover response.
+- Improves the single-column mobile fallback below 620px.
+- No service names, links, ordering, page structure, or locked streaming content are changed.
 
 INSTALL
 1. Extract this ZIP.
-2. Double-click INSTALL_SPRINT_15_10a.cmd.
+2. Double-click INSTALL_SPRINT_15_11.cmd.
 3. Open http://localhost:3000/streaming
 4. Hard refresh with Ctrl + Shift + R.
-5. Confirm all five New & Coming cards have artwork.
-6. Confirm Continue Watching and Already Yours are unchanged.
+5. Inspect only the “Where you watch.” shelf.
+6. Confirm New & Coming, Continue Watching, and Already Yours remain unchanged.
 
 Backup:
-C:\Projects\jaski-homepage\_sprint_backups\15.10a_New_and_Coming_Artwork
+C:\Projects\jaski-homepage\_sprint_backups\15.11_My_Services_Polish
