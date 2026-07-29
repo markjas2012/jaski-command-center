@@ -6,8 +6,7 @@ type SidebarProps = {
     | "jam"
     | "sports"
     | "golf"
-    | "movies"
-    | "tv"
+    | "streaming"
     | "games"
     | "books"
     | "bbq"
@@ -20,8 +19,7 @@ const interestLinks = [
   { label: "Jam Room", icon: "🌹", href: "/jam", page: "jam" },
   { label: "Sports", icon: "◉", href: "/sports", page: "sports" },
   { label: "Golf", icon: "○", href: "/golf", page: "golf" },
-  { label: "Movies", icon: "▣", href: "/movies", page: "movies" },
-  { label: "TV Shows", icon: "▤", href: "/tv", page: "tv" },
+  { label: "Streaming", icon: "▣", href: "/streaming", page: "streaming" },
   { label: "Video Games", icon: "◆", href: "/games", page: "games" },
   { label: "Books", icon: "▥", href: "/books", page: "books" },
   { label: "Cooking / BBQ", icon: "●", href: "/bbq", page: "bbq" },
