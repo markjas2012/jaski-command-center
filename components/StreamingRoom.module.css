@@ -517,3 +517,271 @@
 .serviceCard:hover .serviceArrow{
   text-shadow:0 0 12px rgba(168,140,255,.65);
 }
+
+
+.continueWatching{
+  margin-top:18px;
+  padding:24px 24px 26px;
+  border:1px solid rgba(96,105,240,.18);
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 88% 100%,rgba(72,92,255,.08),transparent 34%),
+    linear-gradient(135deg,rgba(8,8,24,.98),rgba(11,11,31,.98));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+.continueGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.continueCard{
+  min-height:150px;
+  display:grid;
+  grid-template-columns:128px 1fr;
+  overflow:hidden;
+  border:1px solid rgba(127,111,255,.18);
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(26,24,56,.78),rgba(13,14,35,.84));
+}
+.continueArt{
+  min-height:150px;
+  border-right:1px solid rgba(127,111,255,.12);
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.04),rgba(7,7,18,.32)),
+    linear-gradient(145deg,#1b2034,#3a375f);
+}
+.continueOne{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.05),rgba(7,7,18,.35)),
+    linear-gradient(145deg,#17202e 0%,#4d5968 58%,#121522 100%);
+}
+.continueTwo{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.05),rgba(7,7,18,.35)),
+    linear-gradient(145deg,#251b16 0%,#66513d 58%,#15131a 100%);
+}
+.continueThree{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.05),rgba(7,7,18,.35)),
+    linear-gradient(145deg,#1e1928 0%,#5b4472 58%,#13131c 100%);
+}
+.continueBody{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:16px;
+}
+.continueMeta{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:rgba(169,177,235,.46);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.13em;
+}
+.continueBody h3{
+  margin:10px 0 4px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  font-weight:500;
+}
+.continueBody p{
+  margin:0;
+  color:rgba(225,226,250,.52);
+  font-size:10px;
+}
+.progressTrack{
+  height:5px;
+  margin-top:16px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(255,255,255,.07);
+}
+.progressTrack span{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#6f7dff,#b36cff);
+  box-shadow:0 0 12px rgba(179,108,255,.28);
+}
+.continueFooter{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:10px;
+}
+.continueFooter small{
+  color:rgba(180,187,235,.48);
+  font-size:8px;
+}
+.continueFooter button{
+  padding:7px 10px;
+  border:1px solid rgba(156,114,255,.48);
+  border-radius:9px;
+  background:rgba(25,18,54,.74);
+  color:#e5dcff;
+  font-size:8px;
+  font-weight:900;
+}
+@media(max-width:1100px){
+  .continueGrid{grid-template-columns:1fr}
+}
+
+
+.libraryShelf{
+  margin-top:18px;
+  padding:24px 24px 26px;
+  border:1px solid rgba(116,95,245,.18);
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 12% 100%,rgba(112,76,255,.08),transparent 36%),
+    linear-gradient(135deg,rgba(8,8,24,.98),rgba(11,11,31,.98));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+.libraryGrid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+}
+.libraryCard{
+  position:relative;
+  min-height:190px;
+  overflow:hidden;
+  border:1px solid rgba(127,111,255,.18);
+  border-radius:16px;
+  background:#15152b;
+  box-shadow:0 10px 24px rgba(0,0,0,.14);
+}
+.libraryCard:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 70% 20%,rgba(255,255,255,.10),transparent 25%),
+    linear-gradient(180deg,rgba(255,255,255,.03),transparent 44%);
+}
+.libraryOne{background:linear-gradient(145deg,#11151e 0%,#343a4f 48%,#12121b 100%)}
+.libraryTwo{background:linear-gradient(145deg,#241a13 0%,#64432a 48%,#15131a 100%)}
+.libraryThree{background:linear-gradient(145deg,#211915 0%,#4b3529 48%,#141318 100%)}
+.libraryFour{background:linear-gradient(145deg,#151821 0%,#41475d 48%,#11121a 100%)}
+.libraryFive{background:linear-gradient(145deg,#1b1d22 0%,#55503e 48%,#12131a 100%)}
+.libraryShade{
+  position:absolute;
+  inset:auto 0 0;
+  height:70%;
+  background:linear-gradient(180deg,transparent,rgba(7,7,18,.94));
+}
+.libraryTop,.libraryBottom{
+  position:absolute;
+  z-index:2;
+  right:14px;
+  left:14px;
+}
+.libraryTop{
+  top:13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:rgba(223,224,250,.54);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+.ownedBadge{
+  padding:4px 6px;
+  border:1px solid rgba(168,140,255,.35);
+  border-radius:999px;
+  color:#cbb7ff;
+  background:rgba(119,76,255,.10);
+  box-shadow:0 0 12px rgba(119,76,255,.08);
+}
+.libraryBottom{
+  bottom:13px;
+}
+.libraryBottom small{
+  display:block;
+  margin-bottom:5px;
+  color:#9b8cff;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+.libraryBottom h3{
+  margin:0 0 6px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:20px;
+  font-weight:500;
+  line-height:1.05;
+}
+.libraryBottom span{
+  color:rgba(225,226,250,.50);
+  font-size:9px;
+}
+@media(max-width:1250px){
+  .libraryGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:850px){
+  .libraryGrid{grid-template-columns:1fr}
+}
+
+
+/* Sprint 15.9 — artwork pass only */
+.continueOne{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.20) 50%,rgba(7,7,18,.72) 100%),
+    url("https://image.tmdb.org/t/p/w780/n5FPNMJ0eRoiQrKGfUQQRAZeaxg.jpg") center/cover no-repeat;
+}
+.continueTwo{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.20) 50%,rgba(7,7,18,.72) 100%),
+    url("https://image.tmdb.org/t/p/w500/31GlRQMiDunO8cl3NxTz34U64rf.jpg") center/cover no-repeat;
+}
+.continueThree{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.20) 50%,rgba(7,7,18,.72) 100%),
+    url("https://image.tmdb.org/t/p/w780/39bifj2FNytJ2m1cqOBcWMTKgmV.jpg") center/cover no-repeat;
+}
+
+/* Already Yours artwork */
+.libraryOne{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.16) 45%,rgba(7,7,18,.91) 100%),
+    url("https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg") center 18%/cover no-repeat;
+}
+.libraryTwo{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.16) 45%,rgba(7,7,18,.91) 100%),
+    url("https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg") center 18%/cover no-repeat;
+}
+.libraryThree{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.16) 45%,rgba(7,7,18,.91) 100%),
+    url("https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg") center 18%/cover no-repeat;
+}
+.libraryFour{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.16) 45%,rgba(7,7,18,.91) 100%),
+    url("https://image.tmdb.org/t/p/w500/umSVjVdbVwtx5ryCA2QXL44Durm.jpg") center 18%/cover no-repeat;
+}
+.libraryFive{
+  background:
+    linear-gradient(180deg,rgba(7,7,18,.02) 0%,rgba(7,7,18,.16) 45%,rgba(7,7,18,.91) 100%),
+    url("https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg") center 18%/cover no-repeat;
+}
+.continueArt,
+.libraryCard{
+  background-color:#15152b;
+}
+.continueArt{
+  background-position:center;
+}
+.libraryBottom h3,
+.libraryBottom small,
+.libraryBottom span,
+.continueBody h3{
+  text-shadow:0 2px 14px rgba(0,0,0,.72);
+}

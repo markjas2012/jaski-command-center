@@ -1,20 +1,21 @@
 JASKI COMMAND CENTER
-SPRINT 15.6b — LOCAL SERVICE LOGOS
+SPRINT 15.9a — CONTINUE WATCHING ARTWORK REPAIR
 
-SURGICAL REPAIR ONLY
-- Replaces remote service-icon URLs with local SVG assets.
-- Prevents broken logo images when third-party icon CDNs fail.
-- Keeps all 12 working service launch links.
-- Keeps My Services layout, spacing, hover states, and service order unchanged.
+TINY REPAIR SPRINT ONLY
+- Replaces the broken Silo artwork source.
+- Replaces the broken Mayor of Kingstown artwork source.
+- Leaves the working Reacher artwork untouched.
+- Leaves every layout, card size, progress bar, badge, label, title, service, and section position unchanged.
 - No new sections.
-- No changes to Hero, Worth Watching, or New & Coming.
+- No recommendation changes.
+- No live account integrations.
 
 INSTALL
 1. Extract this ZIP.
-2. Double-click INSTALL_SPRINT_15_6B.cmd.
+2. Double-click INSTALL_SPRINT_15_9a.cmd.
 3. Open http://localhost:3000/streaming
 4. Hard refresh with Ctrl + Shift + R.
-5. Verify all 12 service marks appear and launch links still work.
+5. Confirm Silo, Reacher, and Mayor of Kingstown all show artwork.
 
 Backup:
-C:\Projects\jaski-homepage\_sprint_backups\15.6b_Local_Service_Logos
+C:\Projects\jaski-homepage\_sprint_backups\15.9a_Continue_Watching_Artwork_Repair

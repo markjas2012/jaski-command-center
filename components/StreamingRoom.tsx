@@ -276,6 +276,156 @@ export default function StreamingRoom() {
         </div>
       </section>
 
+
+      <section className={styles.continueWatching}>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.sectionEyebrow}>CONTINUE WATCHING</p>
+            <h2>Pick up where you left off.</h2>
+            <p className={styles.sectionCopy}>A few things already in progress — no digging through apps.</p>
+          </div>
+          <span className={styles.pickCount}>3 IN PROGRESS</span>
+        </div>
+
+        <div className={styles.continueGrid}>
+          <article className={styles.continueCard}>
+            <div className={styles.continueArt + " " + styles.continueOne} />
+            <div className={styles.continueBody}>
+              <div className={styles.continueMeta}>
+                <span>APPLE TV</span>
+                <span>SERIES</span>
+              </div>
+              <h3>Silo</h3>
+              <p>Season 1 · Episode 7</p>
+              <div className={styles.progressTrack}>
+                <span style={{ width: "68%" }} />
+              </div>
+              <div className={styles.continueFooter}>
+                <small>68% watched</small>
+                <button type="button">Resume</button>
+              </div>
+            </div>
+          </article>
+
+          <article className={styles.continueCard}>
+            <div className={styles.continueArt + " " + styles.continueTwo} />
+            <div className={styles.continueBody}>
+              <div className={styles.continueMeta}>
+                <span>PRIME VIDEO</span>
+                <span>SERIES</span>
+              </div>
+              <h3>Reacher</h3>
+              <p>Season 3 · Episode 4</p>
+              <div className={styles.progressTrack}>
+                <span style={{ width: "42%" }} />
+              </div>
+              <div className={styles.continueFooter}>
+                <small>42% watched</small>
+                <button type="button">Resume</button>
+              </div>
+            </div>
+          </article>
+
+          <article className={styles.continueCard}>
+            <div className={styles.continueArt + " " + styles.continueThree} />
+            <div className={styles.continueBody}>
+              <div className={styles.continueMeta}>
+                <span>PARAMOUNT+</span>
+                <span>SERIES</span>
+              </div>
+              <h3>Mayor of Kingstown</h3>
+              <p>Season 3 · Episode 2</p>
+              <div className={styles.progressTrack}>
+                <span style={{ width: "31%" }} />
+              </div>
+              <div className={styles.continueFooter}>
+                <small>31% watched</small>
+                <button type="button">Resume</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+
+      <section className={styles.libraryShelf}>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.sectionEyebrow}>FROM YOUR LIBRARY</p>
+            <h2>Already yours.</h2>
+            <p className={styles.sectionCopy}>Movies and shows you own — separate from whatever happens to be streaming this month.</p>
+          </div>
+          <span className={styles.pickCount}>5 OWNED</span>
+        </div>
+
+        <div className={styles.libraryGrid}>
+          <article className={`${styles.libraryCard} ${styles.libraryOne}`}>
+            <div className={styles.libraryShade} />
+            <div className={styles.libraryTop}>
+              <span>APPLE TV</span>
+              <span className={styles.ownedBadge}>OWNED</span>
+            </div>
+            <div className={styles.libraryBottom}>
+              <small>MOVIE</small>
+              <h3>The Dark Knight</h3>
+              <span>Purchased</span>
+            </div>
+          </article>
+
+          <article className={`${styles.libraryCard} ${styles.libraryTwo}`}>
+            <div className={styles.libraryShade} />
+            <div className={styles.libraryTop}>
+              <span>PRIME VIDEO</span>
+              <span className={styles.ownedBadge}>OWNED</span>
+            </div>
+            <div className={styles.libraryBottom}>
+              <small>MOVIE</small>
+              <h3>Gladiator</h3>
+              <span>Purchased</span>
+            </div>
+          </article>
+
+          <article className={`${styles.libraryCard} ${styles.libraryThree}`}>
+            <div className={styles.libraryShade} />
+            <div className={styles.libraryTop}>
+              <span>APPLE TV</span>
+              <span className={styles.ownedBadge}>OWNED</span>
+            </div>
+            <div className={styles.libraryBottom}>
+              <small>MOVIE</small>
+              <h3>The Godfather</h3>
+              <span>Purchased</span>
+            </div>
+          </article>
+
+          <article className={`${styles.libraryCard} ${styles.libraryFour}`}>
+            <div className={styles.libraryShade} />
+            <div className={styles.libraryTop}>
+              <span>PRIME VIDEO</span>
+              <span className={styles.ownedBadge}>OWNED</span>
+            </div>
+            <div className={styles.libraryBottom}>
+              <small>MOVIE</small>
+              <h3>Heat</h3>
+              <span>Purchased</span>
+            </div>
+          </article>
+
+          <article className={`${styles.libraryCard} ${styles.libraryFive}`}>
+            <div className={styles.libraryShade} />
+            <div className={styles.libraryTop}>
+              <span>APPLE TV</span>
+              <span className={styles.ownedBadge}>OWNED</span>
+            </div>
+            <div className={styles.libraryBottom}>
+              <small>MOVIE</small>
+              <h3>Top Gun: Maverick</h3>
+              <span>Purchased</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
     </div>
   );
 }
