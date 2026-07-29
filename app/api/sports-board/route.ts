@@ -16,6 +16,7 @@ type Game = {
   href: string;
   bucket: Bucket;
   start?: string;
+  logos?: string[];
 };
 
 type CandidateGame = Game & {
@@ -49,7 +50,12 @@ type EspnEvent = {
     };
     broadcasts?: Array<{ names?: string[] }>;
     competitors?: Array<{
-      team?: { displayName?: string; shortDisplayName?: string };
+      team?: {
+        displayName?: string;
+        shortDisplayName?: string;
+        logo?: string;
+        logos?: Array<{ href?: string }>;
+      };
       score?: string;
     }>;
   }>;
@@ -185,6 +191,18 @@ function formatDetail(event: EspnEvent) {
   return "Open for details";
 }
 
+function teamLogos(event: EspnEvent) {
+  const competitors = event.competitions?.[0]?.competitors || [];
+
+  return competitors
+    .map((competitor) => {
+      const team = competitor.team;
+      return team?.logo || team?.logos?.[0]?.href || "";
+    })
+    .filter((value): value is string => Boolean(value))
+    .slice(0, 2);
+}
+
 async function loadFeed(feed: typeof feeds[number]): Promise<CandidateGame[]> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 2200);
@@ -195,7 +213,7 @@ async function loadFeed(feed: typeof feeds[number]): Promise<CandidateGame[]> {
       signal: controller.signal,
       headers: {
         Accept: "application/json",
-        "User-Agent": "JaskiHomepage/14.1",
+        "User-Agent": "JaskiHomepage/14.6",
       },
     });
 
@@ -220,6 +238,7 @@ async function loadFeed(feed: typeof feeds[number]): Promise<CandidateGame[]> {
           href: event.links?.[0]?.href || feed.fallback,
           bucket,
           start: event.date,
+          logos: teamLogos(event),
           unavailable,
         } satisfies CandidateGame;
       })
@@ -255,7 +274,7 @@ export async function GET() {
     {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "X-Jaski-Sprint": "14.1",
+        "X-Jaski-Sprint": "14.6",
       },
     }
   );

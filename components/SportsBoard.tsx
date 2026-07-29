@@ -13,6 +13,7 @@ type Game = {
   href: string;
   bucket: Bucket;
   start?: string;
+  logos?: string[];
 };
 
 type SportsPayload = {
@@ -79,9 +80,26 @@ function Section({
           >
             <div className={styles.topline}>
               <span>{game.league}</span>
-              <b>{game.status}</b>
+              <b>{game.bucket === "next" || game.bucket === "today" ? (formatCentralStart(game.start) || centralizeEspnLabel(game.status)) : centralizeEspnLabel(game.status)}</b>
             </div>
-            <h4>{game.title}</h4>
+            <div className={styles.matchup}>
+              {game.logos?.length ? (
+                <div className={styles.logos} aria-hidden="true">
+                  {game.logos.slice(0, 2).map((logo, logoIndex) => (
+                    <span className={styles.logoShell} key={`${logo}-${logoIndex}`}>
+                      <img
+                        src={logo}
+                        alt=""
+                        onError={(event) => {
+                          event.currentTarget.parentElement?.remove();
+                        }}
+                      />
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+              <h4>{game.title}</h4>
+            </div>
             <p>{game.detail}</p>
             <strong>Open ↗</strong>
           </a>
@@ -89,6 +107,74 @@ function Section({
       </div>
     </section>
   );
+}
+
+
+
+function centralizeEspnLabel(value?: string) {
+  if (!value) return "";
+
+  const match = value.match(
+    /^(\d{1,2})\/(\d{1,2})\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)\s*(EDT|EST)$/i
+  );
+
+  if (!match) return value;
+
+  const [, monthText, dayText, hourText, minuteText, ampm, easternZone] = match;
+  let hour = Number(hourText);
+
+  if (ampm.toUpperCase() === "PM" && hour !== 12) hour += 12;
+  if (ampm.toUpperCase() === "AM" && hour === 12) hour = 0;
+
+  // ESPN's Eastern label is one hour ahead of St. Louis in both daylight
+  // and standard time for these U.S. sports schedules.
+  hour -= 1;
+  if (hour < 0) hour += 24;
+
+  const centralAmpm = hour >= 12 ? "PM" : "AM";
+  let displayHour = hour % 12;
+  if (displayHour === 0) displayHour = 12;
+
+  const centralZone = easternZone.toUpperCase() === "EST" ? "CST" : "CDT";
+  return `${Number(monthText)}/${Number(dayText)} - ${displayHour}:${minuteText} ${centralAmpm} ${centralZone}`;
+}
+
+function formatCentralStart(start?: string) {
+  if (!start) return "";
+
+  const date = new Date(start);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const now = new Date();
+
+  const sameDay = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date) === new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+
+  const time = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  }).format(date);
+
+  if (sameDay) return time;
+
+  const day = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    month: "numeric",
+    day: "numeric",
+  }).format(date);
+
+  return `${day} · ${time}`;
 }
 
 export default function SportsBoard() {

@@ -1,23 +1,18 @@
 JASKI COMMAND CENTER
-SPRINT 14.5 — SPORTS ROOM TEAM IDENTITY & FINAL POLISH
+SPRINT 14.7a — CENTRAL TIME LABEL REPAIR
 
-Built from the exact working Sprint 14.3a MyTeams component and Sprint 14.4 Worth Watching component.
+This is a surgical repair for Sprint 14.7.
 
-WHAT THIS SPRINT DOES
-- Adds Cardinals, Blues, CITY SC, and Mizzou team logos to My Teams.
-- Carries the relevant team logo into Worth Watching when a St. Louis team is selected.
-- Preserves the existing 14.3 live-data wiring and Central-time formatting.
-- Preserves the approved 2x2 My Teams layout and 14.4 Worth Watching ranking logic.
-- Uses graceful text marks if a logo fails to load.
-- Does not alter the Jam Room, Sports Room shell, Smart Board, or global CSS.
+The upper-right schedule labels on Smart Board cards were still displaying ESPN's
+Eastern-time strings, such as "8/6 - 8:00 PM EDT".
+
+14.7a changes ONLY SportsBoard.tsx and converts those EDT/EST labels to CDT/CST.
+Logos, layout, game selection, network labels, links, Worth Watching, My Teams,
+and the Jam Room are untouched.
 
 INSTALL
-1. Extract this ZIP.
-2. Double-click INSTALL_SPRINT_14_5.cmd.
-3. Hard refresh http://localhost:3000/sports with Ctrl+Shift+R.
-4. Verify all four team cards and Worth Watching.
-5. If approved, commit to GitHub as the Sports Room final-polish milestone.
-
-BACKUP
-The installer backs up replaced files to:
-C:\Projects\jaski-homepage\_sprint_backups\14.5_Sports_Team_Identity
+1. Extract ZIP.
+2. Double-click INSTALL_SPRINT_14_7A.cmd.
+3. Hard refresh /sports with Ctrl + Shift + R.
+4. Confirm the upper-right labels show CDT/CST.
+5. Do not commit until approved.

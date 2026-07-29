@@ -14,6 +14,7 @@ type BoardGame = {
   bucket: Bucket;
   start?: string;
   logo?: string;
+  logos?: string[];
 };
 
 type StlTeam = {
@@ -47,6 +48,8 @@ type Pick = {
   reason: string;
   score: number;
   start?: string;
+  logo?: string;
+  logos?: string[];
 };
 
 const CENTRAL_TZ = "America/Chicago";
@@ -178,6 +181,7 @@ function rankBoardGame(game: BoardGame): Pick | null {
     reason: local ? "ST. LOUIS FIRST" : live ? "LIVE NOW" : "ON TODAY",
     score,
     start: game.start,
+    logos: game.logos,
   };
 }
 
@@ -196,6 +200,45 @@ function sameGame(a: Pick, b: Pick) {
   if (a.league === b.league && overlap >= 2) return true;
 
   return isStLouisText(a.title) && isStLouisText(b.title) && a.league === b.league;
+}
+
+
+function formatCentralStart(start?: string) {
+  if (!start) return "";
+
+  const date = new Date(start);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const now = new Date();
+
+  const sameDay = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date) === new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+
+  const time = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  }).format(date);
+
+  if (sameDay) return time;
+
+  const day = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    month: "numeric",
+    day: "numeric",
+  }).format(date);
+
+  return `${day} · ${time}`;
 }
 
 export default function WorthWatching() {
@@ -286,13 +329,40 @@ export default function WorthWatching() {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 {pick.logo ? (
-                  <img src={pick.logo} alt="" aria-hidden="true" style={{ width: "28px", height: "28px", objectFit: "contain", flex: "0 0 auto" }} />
+                  <img
+                    src={pick.logo}
+                    alt=""
+                    aria-hidden="true"
+                    style={{ width: "28px", height: "28px", objectFit: "contain", flex: "0 0 auto" }}
+                  />
+                ) : pick.logos?.length ? (
+                  <span style={{ display: "flex", alignItems: "center", flex: "0 0 auto" }} aria-hidden="true">
+                    {pick.logos.slice(0, 2).map((logo, logoIndex) => (
+                      <span
+                        key={`${logo}-${logoIndex}`}
+                        style={{
+                          display: "flex",
+                          width: "30px",
+                          height: "30px",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          marginRight: logoIndex === 0 && pick.logos && pick.logos.length > 1 ? "-6px" : "0",
+                          border: "1px solid rgba(255,255,255,.08)",
+                          borderRadius: "50%",
+                          background: "#20293a",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <img src={logo} alt="" style={{ width: "23px", height: "23px", objectFit: "contain" }} />
+                      </span>
+                    ))}
+                  </span>
                 ) : null}
                 <h3>{pick.title}</h3>
               </div>
               <p>{pick.detail}</p>
               <div className={styles.footer}>
-                <strong>{pick.status}</strong>
+                <strong>{pick.start ? (formatCentralStart(pick.start) || pick.status) : pick.status}</strong>
                 <span>Open ↗</span>
               </div>
             </a>
