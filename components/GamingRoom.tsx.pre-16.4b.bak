@@ -34,37 +34,6 @@ type Release = {
   href: string;
 };
 
-
-const scoreUpcomingGame = (game: RawgGame) => {
-  let score = 0;
-
-  const name = game.name?.toLowerCase() ?? "";
-  const genres = (game.genres ?? []).map((genre) => genre.name.toLowerCase());
-  const platforms = (game.parent_platforms ?? []).map((platform) => platform.platform.name.toLowerCase());
-
-  // Prefer broadly relevant console / PC releases.
-  if (platforms.some((platform) => ["playstation", "xbox", "pc", "nintendo"].includes(platform))) score += 4;
-
-  // Favor the genres that most often represent major commercial releases.
-  if (genres.some((genre) => ["action", "adventure", "role-playing-games-rpg", "shooter", "sports", "fighting", "racing", "strategy"].includes(genre))) score += 3;
-
-  // Small bias toward titles that look like established / premium releases.
-  if (name.includes("marvel")) score += 2;
-  if (name.includes("star wars")) score += 2;
-  if (name.includes("grand theft auto")) score += 3;
-  if (name.includes("metal gear")) score += 2;
-  if (name.includes("madden")) score += 2;
-  if (name.includes("mafia")) score += 2;
-
-  // De-prioritize obvious simulator / novelty / demo-style listings.
-  if (name.includes("simulator")) score -= 3;
-  if (name.includes("demo")) score -= 4;
-  if (name.includes("prologue")) score -= 3;
-
-  return score;
-};
-
-
 const FALLBACK_RELEASES: Release[] = [
   { id: "fallback-1", date: "AUG 04", title: "Beast of Reincarnation", platforms: ["PS5", "XBOX", "PC"], note: "Action RPG", image: null, href: "https://rawg.io/" },
   { id: "fallback-2", date: "AUG 06", title: "Marvel Tōkon: Fighting Souls", platforms: ["PS5", "PC"], note: "Fighting", image: null, href: "https://rawg.io/" },
@@ -116,14 +85,8 @@ async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boole
     const data = (await response.json()) as { results?: RawgGame[] };
     const releases = (data.results ?? [])
       .filter((game) => game.name && game.released && game.background_image)
-      .map((game) => ({ game, relevance: scoreUpcomingGame(game) }))
-      .sort((a, b) => {
-        if (b.relevance !== a.relevance) return b.relevance - a.relevance;
-        return (a.game.released ?? "").localeCompare(b.game.released ?? "");
-      })
-      .slice(0, 18)
-      .sort((a, b) => (a.game.released ?? "").localeCompare(b.game.released ?? ""))
-      .map(({ game }): Release => {
+      .sort((a, b) => (a.released ?? "").localeCompare(b.released ?? ""))
+      .map((game): Release => {
         const platforms = Array.from(new Set((game.platforms ?? []).map((item) => compactPlatform(item.platform?.name)).filter(Boolean))) as string[];
         return {
           id: game.id,

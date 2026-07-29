@@ -38,21 +38,12 @@
 .releaseBody{display:flex;flex:1;flex-direction:column;padding:15px 15px 16px}
 .releaseBody h3{margin:7px 0 14px;font-size:20px}
 .badges{margin-top:auto}
-.beast{background-image:none}
-.tokon{background-image:none}
-.madden{background-image:none}
-.metalgear{background-image:none}
-.zerocompany{background-image:none}
-.releaseWolverine{background-image:none}
+.beast{background-image:linear-gradient(180deg,rgba(3,8,16,.02),rgba(3,8,16,.10)),url("https://www.notebookcheck.net/fileadmin/Notebooks/News/_nc5/Beast-of-Reincarnation-release-date.jpg")}
+.tokon{background-image:linear-gradient(180deg,rgba(3,8,16,.01),rgba(3,8,16,.08)),url("https://www.fightersgeneration.com/news2025/char/marvel-tokon-fighting-souls-key-art.jpg")}
+.madden{background-image:linear-gradient(180deg,rgba(3,8,16,.01),rgba(3,8,16,.08)),url("https://s25.q4cdn.com/103200307/files/doc_multimedia/2026/7/1001117187/Madden-NFL-27-Cover.jpg")}
+.metalgear{background-image:linear-gradient(180deg,rgba(3,8,16,.01),rgba(3,8,16,.08)),url("https://www.play-asia.com/blog/wp-content/uploads/2026/06/metal-gear-solid-master-collection-vol-2.jpg")}
+.zerocompany{background-image:linear-gradient(180deg,rgba(3,8,16,.01),rgba(3,8,16,.08)),url("https://m.media-amazon.com/images/M/MV5BNmU0MjRiOTctM2Q4OS00Mzg3LTk4OWQtMDA5N2MyNjA4YjZiXkEyXkFqcGc@._V1_.jpg")}
+.releaseWolverine{background-image:linear-gradient(180deg,rgba(3,8,16,.02),rgba(3,8,16,.10)),url("https://commons.wikimedia.org/wiki/Special:Redirect/file/WolverinePS5logo.jpg");background-position:center center;background-color:#151b22}
 @media(max-width:1050px){.releaseCard{min-height:240px}.releaseArt{height:128px;flex-basis:128px}}
 @media(max-width:820px){.releaseCard{min-height:0}.releaseArt{height:170px;flex-basis:170px}}
 @media(prefers-reduced-motion:reduce){.releaseCard{transition:none}.releaseCard:hover{transform:none}}
-
-
-/* Sprint 16.4 — RAWG live Coming Soon */
-.releaseCard{color:inherit;text-decoration:none}
-.releaseArtFallback{background:radial-gradient(circle at 70% 20%,rgba(64,176,255,.16),transparent 35%),linear-gradient(135deg,#0b1830,#07101e)}
-.releaseSource{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(92,163,245,.13);color:rgba(145,185,230,.52);font-size:7px;font-weight:900;letter-spacing:.13em}
-.releaseSource a{color:#69cdfb;text-decoration:none}
-.releaseSource a:hover{text-decoration:underline}
-@media(max-width:820px){.releaseSource{align-items:flex-start;flex-direction:column}}

@@ -10,142 +10,13 @@ type NewsItem = {
   artLabel: string;
 };
 
-type RawgPlatform = {
-  platform?: { name?: string };
-};
-
-type RawgGame = {
-  id: number;
-  name: string;
-  released?: string | null;
-  background_image?: string | null;
-  genres?: { name?: string }[];
-  platforms?: RawgPlatform[];
-  slug?: string;
-};
-
 type Release = {
-  id: number | string;
   date: string;
   title: string;
   platforms: string[];
   note: string;
-  image: string | null;
-  href: string;
+  art: string;
 };
-
-
-const scoreUpcomingGame = (game: RawgGame) => {
-  let score = 0;
-
-  const name = game.name?.toLowerCase() ?? "";
-  const genres = (game.genres ?? []).map((genre) => genre.name.toLowerCase());
-  const platforms = (game.parent_platforms ?? []).map((platform) => platform.platform.name.toLowerCase());
-
-  // Prefer broadly relevant console / PC releases.
-  if (platforms.some((platform) => ["playstation", "xbox", "pc", "nintendo"].includes(platform))) score += 4;
-
-  // Favor the genres that most often represent major commercial releases.
-  if (genres.some((genre) => ["action", "adventure", "role-playing-games-rpg", "shooter", "sports", "fighting", "racing", "strategy"].includes(genre))) score += 3;
-
-  // Small bias toward titles that look like established / premium releases.
-  if (name.includes("marvel")) score += 2;
-  if (name.includes("star wars")) score += 2;
-  if (name.includes("grand theft auto")) score += 3;
-  if (name.includes("metal gear")) score += 2;
-  if (name.includes("madden")) score += 2;
-  if (name.includes("mafia")) score += 2;
-
-  // De-prioritize obvious simulator / novelty / demo-style listings.
-  if (name.includes("simulator")) score -= 3;
-  if (name.includes("demo")) score -= 4;
-  if (name.includes("prologue")) score -= 3;
-
-  return score;
-};
-
-
-const FALLBACK_RELEASES: Release[] = [
-  { id: "fallback-1", date: "AUG 04", title: "Beast of Reincarnation", platforms: ["PS5", "XBOX", "PC"], note: "Action RPG", image: null, href: "https://rawg.io/" },
-  { id: "fallback-2", date: "AUG 06", title: "Marvel Tōkon: Fighting Souls", platforms: ["PS5", "PC"], note: "Fighting", image: null, href: "https://rawg.io/" },
-  { id: "fallback-3", date: "AUG 13", title: "Madden NFL 27", platforms: ["PS5", "XBOX", "SWITCH 2", "PC"], note: "Sports", image: null, href: "https://rawg.io/" },
-  { id: "fallback-4", date: "AUG 27", title: "Metal Gear Solid Master Collection Vol. 2", platforms: ["PS5", "XBOX", "SWITCH 2", "SWITCH", "PC"], note: "Collection", image: null, href: "https://rawg.io/" },
-  { id: "fallback-5", date: "AUG 27", title: "Star Wars: Zero Company", platforms: ["PS5", "XBOX", "PC"], note: "Tactics", image: null, href: "https://rawg.io/" },
-  { id: "fallback-6", date: "SEP 15", title: "Marvel’s Wolverine", platforms: ["PS5"], note: "Action", image: null, href: "https://rawg.io/" },
-];
-
-function formatReleaseDate(value?: string | null) {
-  if (!value) return "TBA";
-  const date = new Date(`${value}T12:00:00Z`);
-  return new Intl.DateTimeFormat("en-US", { month: "short", day: "2-digit", timeZone: "UTC" })
-    .format(date)
-    .toUpperCase();
-}
-
-function compactPlatform(name?: string) {
-  if (!name) return null;
-  const lower = name.toLowerCase();
-  if (lower.includes("playstation 5")) return "PS5";
-  if (lower.includes("playstation 4")) return "PS4";
-  if (lower.includes("xbox series")) return "XBOX";
-  if (lower === "xbox one") return "XBOX ONE";
-  if (lower.includes("nintendo switch 2")) return "SWITCH 2";
-  if (lower === "nintendo switch") return "SWITCH";
-  if (lower === "pc") return "PC";
-  return null;
-}
-
-async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boolean }> {
-  const apiKey = process.env.RAWG_API_KEY;
-  if (!apiKey) return { releases: FALLBACK_RELEASES, live: false };
-
-  const today = new Date();
-  const end = new Date(today);
-  end.setUTCDate(end.getUTCDate() + 120);
-  const iso = (date: Date) => date.toISOString().slice(0, 10);
-  const url = new URL("https://api.rawg.io/api/games");
-  url.searchParams.set("key", apiKey);
-  url.searchParams.set("dates", `${iso(today)},${iso(end)}`);
-  url.searchParams.set("ordering", "-added");
-  url.searchParams.set("page_size", "40");
-  url.searchParams.set("exclude_additions", "true");
-
-  try {
-    const response = await fetch(url, { next: { revalidate: 21600 } });
-    if (!response.ok) throw new Error(`RAWG ${response.status}`);
-    const data = (await response.json()) as { results?: RawgGame[] };
-    const releases = (data.results ?? [])
-      .filter((game) => game.name && game.released && game.background_image)
-      .map((game) => ({ game, relevance: scoreUpcomingGame(game) }))
-      .sort((a, b) => {
-        if (b.relevance !== a.relevance) return b.relevance - a.relevance;
-        return (a.game.released ?? "").localeCompare(b.game.released ?? "");
-      })
-      .slice(0, 18)
-      .sort((a, b) => (a.game.released ?? "").localeCompare(b.game.released ?? ""))
-      .map(({ game }): Release => {
-        const platforms = Array.from(new Set((game.platforms ?? []).map((item) => compactPlatform(item.platform?.name)).filter(Boolean))) as string[];
-        return {
-          id: game.id,
-          date: formatReleaseDate(game.released),
-          title: game.name,
-          platforms: platforms.slice(0, 5),
-          note: game.genres?.[0]?.name ?? "Upcoming",
-          image: game.background_image ?? null,
-          href: game.slug ? `https://rawg.io/games/${game.slug}` : "https://rawg.io/",
-        };
-      })
-      .filter((game) => game.platforms.length > 0)
-      .slice(0, 6);
-
-    return releases.length >= 3
-      ? { releases, live: true }
-      : { releases: FALLBACK_RELEASES, live: false };
-  } catch (error) {
-    console.error("RAWG upcoming releases failed:", error);
-    return { releases: FALLBACK_RELEASES, live: false };
-  }
-}
 
 const news: NewsItem[] = [
   {
@@ -177,11 +48,16 @@ const news: NewsItem[] = [
   },
 ]
 
+const releases: Release[] = [
+  { date: "AUG 04", title: "Beast of Reincarnation", platforms: ["PS5", "XBOX", "PC"], note: "Action RPG", art: "beast" },
+  { date: "AUG 06", title: "Marvel Tōkon: Fighting Souls", platforms: ["PS5", "PC"], note: "Fighting", art: "tokon" },
+  { date: "AUG 13", title: "Madden NFL 27", platforms: ["PS5", "XBOX", "SWITCH 2", "PC"], note: "Sports", art: "madden" },
+  { date: "AUG 27", title: "Metal Gear Solid Master Collection Vol. 2", platforms: ["PS5", "XBOX", "SWITCH 2", "SWITCH", "PC"], note: "Collection", art: "metalgear" },
+  { date: "AUG 27", title: "Star Wars: Zero Company", platforms: ["PS5", "XBOX", "PC"], note: "Tactics", art: "zerocompany" },
+  { date: "SEP 15", title: "Marvel’s Wolverine", platforms: ["PS5"], note: "Action", art: "releaseWolverine" },
+];
 
-
-export default async function GamingRoom() {
-  const { releases, live } = await getUpcomingReleases();
-
+export default function GamingRoom() {
   return (
     <main className={styles.room}>
       <section className={styles.hero}>
@@ -249,12 +125,8 @@ export default async function GamingRoom() {
         </div>
         <div className={styles.releaseGrid}>
           {releases.map((game) => (
-            <a className={styles.releaseCard} href={game.href} target="_blank" rel="noreferrer" key={game.id}>
-              <div
-                className={`${styles.releaseArt} ${!game.image ? styles.releaseArtFallback : ""}`}
-                style={game.image ? { backgroundImage: `linear-gradient(180deg,rgba(3,8,16,.02),rgba(3,8,16,.10)),url(${JSON.stringify(game.image)})` } : undefined}
-                aria-hidden="true"
-              >
+            <article className={styles.releaseCard} key={`${game.date}-${game.title}`}>
+              <div className={`${styles.releaseArt} ${styles[game.art]}`} aria-hidden="true">
                 <span className={styles.releaseDate}>{game.date}</span>
               </div>
               <div className={styles.releaseBody}>
@@ -264,12 +136,8 @@ export default async function GamingRoom() {
                   {game.platforms.map((platform) => <span key={platform}>{platform}</span>)}
                 </div>
               </div>
-            </a>
+            </article>
           ))}
-        </div>
-        <div className={styles.releaseSource}>
-          <span>{live ? "LIVE RELEASE DATA" : "FALLBACK RELEASE LIST"}</span>
-          <a href="https://rawg.io/" target="_blank" rel="noreferrer">Data & artwork via RAWG ↗</a>
         </div>
       </section>
 
