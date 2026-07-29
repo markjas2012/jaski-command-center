@@ -1236,3 +1236,80 @@
     transform:none !important;
   }
 }
+
+/* =========================================================
+   SPRINT 15.14 — STREAMING FINAL DETAIL PASS
+   Scope: last-mile consistency only. Preserve locked content,
+   artwork, layout, service accents, responsive behavior, and
+   production finish from Sprint 15.13.
+   ========================================================= */
+
+/* Keep section rhythm consistent from top to bottom. */
+.tonight,
+.newComing,
+.services,
+.continueWatching,
+.libraryShelf{
+  scroll-margin-top:18px;
+}
+
+/* Give artwork titles a consistent reading edge over bright images. */
+.watchCard h3,
+.newCard h3,
+.libraryCard h3{
+  text-shadow:0 2px 14px rgba(0,0,0,.58);
+}
+
+/* Keep metadata readable without making it visually louder. */
+.watchCard small,
+.newCard small,
+.libraryCard small,
+.continueCard small{
+  text-rendering:optimizeLegibility;
+}
+
+/* Final keyboard treatment: visible, restrained, and on-brand. */
+.watchCard:focus-visible,
+.newCard:focus-visible,
+.serviceCard:focus-visible,
+.continueCard:focus-visible,
+.libraryCard:focus-visible,
+.continueFooter button:focus-visible{
+  outline:2px solid rgba(179,108,255,.88);
+  outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(179,108,255,.10);
+}
+
+/* Button finish: slightly stronger target/readability with no geometry change. */
+.continueFooter button{
+  min-height:30px;
+  text-shadow:0 1px 8px rgba(0,0,0,.28);
+}
+
+/* Prevent text selection from making the decorative hero signal feel interactive. */
+.signal,
+.signalRing,
+.play{
+  user-select:none;
+}
+
+/* Maintain clean focus behavior for mouse/touch users. */
+@media (hover:hover) and (pointer:fine){
+  .watchCard:focus-visible,
+  .newCard:focus-visible,
+  .serviceCard:focus-visible,
+  .continueCard:focus-visible,
+  .libraryCard:focus-visible{
+    transform:translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .watchCard:focus-visible,
+  .newCard:focus-visible,
+  .serviceCard:focus-visible,
+  .continueCard:focus-visible,
+  .libraryCard:focus-visible{
+    transform:none !important;
+  }
+}
