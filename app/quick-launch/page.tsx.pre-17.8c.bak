@@ -56,29 +56,24 @@ export default function QuickLaunchPage() {
   const [draftLabel, setDraftLabel] = useState("");
   const [draftUrl, setDraftUrl] = useState("");
   const [adding, setAdding] = useState(false);
-  const [storageReady, setStorageReady] = useState(false);
 
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
 
-      if (saved) {
-        const parsed = JSON.parse(saved) as unknown;
-        if (Array.isArray(parsed) && parsed.every(validShortcut)) {
-          setShortcuts(parsed);
-        }
+      const parsed = JSON.parse(saved) as unknown;
+      if (Array.isArray(parsed) && parsed.every(validShortcut)) {
+        setShortcuts(parsed);
       }
     } catch {
       // Keep clean defaults if storage is malformed.
-    } finally {
-      setStorageReady(true);
     }
   }, []);
 
   useEffect(() => {
-    if (!storageReady) return;
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(shortcuts));
-  }, [shortcuts, storageReady]);
+  }, [shortcuts]);
 
   function beginEdit(item: Shortcut) {
     setEditingId(item.id);

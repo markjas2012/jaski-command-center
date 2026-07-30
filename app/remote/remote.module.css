@@ -1,0 +1,211 @@
+.room {
+  min-height: 100%;
+  padding: clamp(24px, 4vw, 44px);
+  border-radius: 26px;
+  color: #eef5ff;
+  background:
+    radial-gradient(circle at 82% 10%, rgba(70, 127, 230, 0.2), transparent 28%),
+    linear-gradient(145deg, #0d1626 0%, #111d31 52%, #0d1524 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 22px 4px 34px;
+  border-bottom: 1px solid rgba(177, 205, 255, 0.14);
+}
+
+.eyebrow {
+  margin: 0;
+  color: #80b9ff;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+}
+
+.hero h1 {
+  margin: 8px 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 7vw, 84px);
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.lead {
+  max-width: 620px;
+  margin: 0;
+  color: rgba(226, 238, 255, 0.72);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.heroMark {
+  display: grid;
+  width: 94px;
+  height: 94px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(123, 177, 255, 0.32);
+  border-radius: 28px;
+  color: #eef6ff;
+  background: rgba(60, 112, 204, 0.14);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+}
+
+.statusPanel {
+  margin-top: 30px;
+  padding: 28px;
+  border: 1px solid rgba(177, 205, 255, 0.14);
+  border-radius: 22px;
+  background: rgba(5, 12, 24, 0.28);
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.sectionHeading h2 {
+  margin: 7px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 500;
+}
+
+.refresh {
+  padding: 9px 14px;
+  border: 1px solid rgba(132, 185, 255, 0.26);
+  border-radius: 10px;
+  color: #eef6ff;
+  background: rgba(69, 122, 216, 0.12);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.message,
+.emptyState p,
+.serviceCard p {
+  color: rgba(226, 238, 255, 0.65);
+}
+
+.emptyState {
+  padding: 28px;
+  border: 1px dashed rgba(177, 205, 255, 0.18);
+  border-radius: 18px;
+  text-align: center;
+}
+
+.emptyState strong {
+  font-size: 17px;
+}
+
+.emptyState p {
+  max-width: 620px;
+  margin: 8px auto 0;
+  line-height: 1.6;
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.serviceCard {
+  padding: 20px;
+  border: 1px solid rgba(177, 205, 255, 0.14);
+  border-radius: 18px;
+  background: rgba(14, 29, 50, 0.66);
+}
+
+.serviceTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #7f8b9d;
+}
+
+.online {
+  background: #77d69a;
+}
+
+.offline {
+  background: #f08b8b;
+}
+
+.configured {
+  background: #8dbdff;
+}
+
+.statusLabel {
+  color: rgba(226, 238, 255, 0.58);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.serviceCard h3 {
+  margin: 13px 0 6px;
+  font-size: 20px;
+}
+
+.serviceCard p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 4px 0;
+  color: rgba(226, 238, 255, 0.55);
+  font-size: 12px;
+}
+
+.footer a {
+  color: #a9d0ff;
+  text-decoration: none;
+  font-weight: 750;
+}
+
+@media (max-width: 900px) {
+  .serviceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    align-items: flex-start;
+  }
+
+  .heroMark {
+    width: 66px;
+    height: 66px;
+    border-radius: 20px;
+    font-size: 28px;
+  }
+
+  .sectionHeading,
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

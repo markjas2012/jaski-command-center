@@ -8,25 +8,26 @@ type SidebarProps = {
     | "golf"
     | "streaming"
     | "games"
-    | "food"
-    
-    | "food"| "quick"
+    | "books"
+    | "bbq"
+    | "quick"
     | "notes";
 };
 
 const interestLinks = [
-  { label: "Home", icon: "\u2302", href: "/", page: "home" },
-  { label: "Jam Room", icon: "\u266B", href: "/jam", page: "jam" },
-  { label: "Sports", icon: "\u25C9", href: "/sports", page: "sports" },
-  { label: "Golf", icon: "\u25CB", href: "/golf", page: "golf" },
-  { label: "Streaming", icon: "\u25A3", href: "/streaming", page: "streaming" },
-  { label: "Video Games", icon: "\u25C6", href: "/games", page: "games" },
-  { label: "Food", icon: "\u25CF", href: "/food", page: "food" },
+  { label: "Home", icon: "⌂", href: "/", page: "home" },
+  { label: "Jam Room", icon: "🌹", href: "/jam", page: "jam" },
+  { label: "Sports", icon: "◉", href: "/sports", page: "sports" },
+  { label: "Golf", icon: "○", href: "/golf", page: "golf" },
+  { label: "Streaming", icon: "▣", href: "/streaming", page: "streaming" },
+  { label: "Video Games", icon: "◆", href: "/games", page: "games" },
+  { label: "Books", icon: "▥", href: "/books", page: "books" },
+  { label: "Cooking / BBQ", icon: "●", href: "/bbq", page: "bbq" },
 ];
 
 const utilityLinks = [
-  { label: "Quick Launch", icon: "\u2197", href: "/quick-launch", page: "quick" },
-  { label: "Notes", icon: "\u270E", href: "/notes", page: "notes" },
+  { label: "Quick Launch", icon: "↗", href: "/quick-launch", page: "quick" },
+  { label: "Notes", icon: "✎", href: "/notes", page: "notes" },
 ];
 
 export default function Sidebar({ activePage = "home" }: SidebarProps) {
@@ -68,6 +69,3 @@ export default function Sidebar({ activePage = "home" }: SidebarProps) {
     </aside>
   );
 }
-
-
-

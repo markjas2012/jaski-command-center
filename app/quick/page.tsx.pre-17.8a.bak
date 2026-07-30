@@ -1,0 +1,170 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import Sidebar from "../../components/Sidebar";
+import styles from "./quick.module.css";
+
+type LaunchItem = {
+  id: string;
+  label: string;
+  href: string;
+  kind: "jaski" | "web";
+};
+
+const DEFAULT_ITEMS: LaunchItem[] = [
+  { id: "home", label: "Home", href: "/", kind: "jaski" },
+  { id: "jam", label: "Jam Room", href: "/jam", kind: "jaski" },
+  { id: "sports", label: "Sports", href: "/sports", kind: "jaski" },
+  { id: "golf", label: "Golf", href: "/golf", kind: "jaski" },
+  { id: "games", label: "Video Games", href: "/games", kind: "jaski" },
+  { id: "streaming", label: "Streaming", href: "/streaming", kind: "jaski" },
+  { id: "food", label: "Food", href: "/food", kind: "jaski" },
+  { id: "remote", label: "Remote", href: "/remote", kind: "jaski" },
+  { id: "youtube-tv", label: "YouTube TV", href: "https://tv.youtube.com/", kind: "web" },
+  { id: "plex", label: "Plex", href: "https://app.plex.tv/", kind: "web" },
+  { id: "nugs", label: "Nugs", href: "https://www.nugs.net/", kind: "web" },
+  { id: "audible", label: "Audible", href: "https://www.audible.com/library/", kind: "web" },
+  { id: "pga-tour", label: "PGA Tour", href: "https://www.pgatour.com/", kind: "web" },
+];
+
+const STORAGE_KEY = "jaski.quickLaunch.v1";
+
+function isSafeHref(value: string) {
+  return value.startsWith("/") || value.startsWith("https://") || value.startsWith("http://");
+}
+
+export default function QuickLaunchPage() {
+  const [items, setItems] = useState<LaunchItem[]>(DEFAULT_ITEMS);
+  const [editing, setEditing] = useState(false);
+  const [label, setLabel] = useState("");
+  const [href, setHref] = useState("");
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+      const parsed = JSON.parse(saved) as LaunchItem[];
+      if (Array.isArray(parsed) && parsed.every((item) => item?.id && item?.label && isSafeHref(item?.href || ""))) {
+        setItems(parsed);
+      }
+    } catch {
+      // Keep the real defaults if browser storage is malformed.
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
+
+  const jaskiItems = useMemo(() => items.filter((item) => item.kind === "jaski"), [items]);
+  const webItems = useMemo(() => items.filter((item) => item.kind === "web"), [items]);
+
+  function move(id: string, direction: -1 | 1) {
+    setItems((current) => {
+      const index = current.findIndex((item) => item.id === id);
+      const nextIndex = index + direction;
+      if (index < 0 || nextIndex < 0 || nextIndex >= current.length) return current;
+      const copy = [...current];
+      [copy[index], copy[nextIndex]] = [copy[nextIndex], copy[index]];
+      return copy;
+    });
+  }
+
+  function remove(id: string) {
+    setItems((current) => current.filter((item) => item.id !== id));
+  }
+
+  function addItem(event: React.FormEvent) {
+    event.preventDefault();
+    const cleanLabel = label.trim();
+    const cleanHref = href.trim();
+    if (!cleanLabel || !isSafeHref(cleanHref)) return;
+
+    setItems((current) => [
+      ...current,
+      {
+        id: `custom-${Date.now()}`,
+        label: cleanLabel,
+        href: cleanHref,
+        kind: cleanHref.startsWith("/") ? "jaski" : "web",
+      },
+    ]);
+    setLabel("");
+    setHref("");
+  }
+
+  function renderItem(item: LaunchItem) {
+    const external = !item.href.startsWith("/");
+    return (
+      <article className={styles.launchCard} key={item.id}>
+        <a
+          className={styles.launchLink}
+          href={item.href}
+          target={external ? "_blank" : undefined}
+          rel={external ? "noreferrer" : undefined}
+        >
+          <span className={styles.badge}>{item.label.slice(0, 1).toUpperCase()}</span>
+          <span>
+            <strong>{item.label}</strong>
+            <small>{external ? "Open service" : "Open in Jaski"}</small>
+          </span>
+          <span className={styles.arrow} aria-hidden="true">→</span>
+        </a>
+
+        {editing && (
+          <div className={styles.controls}>
+            <button type="button" onClick={() => move(item.id, -1)} aria-label={`Move ${item.label} earlier`}>↑</button>
+            <button type="button" onClick={() => move(item.id, 1)} aria-label={`Move ${item.label} later`}>↓</button>
+            <button type="button" onClick={() => remove(item.id)}>Remove</button>
+          </div>
+        )}
+      </article>
+    );
+  }
+
+  return (
+    <main className="app-shell">
+      <Sidebar activePage="home" />
+
+      <section className="content-stage" aria-label="Quick Launch">
+        <div className={styles.page}>
+          <header className={styles.hero}>
+            <div>
+              <p className={styles.eyebrow}>QUICK LAUNCH</p>
+              <h1>Open what you need.</h1>
+              <p>Jaski rooms and everyday services in one editable launchpad.</p>
+            </div>
+            <button type="button" className={styles.editButton} onClick={() => setEditing((value) => !value)}>
+              {editing ? "Done" : "Edit"}
+            </button>
+          </header>
+
+          <section className={styles.section}>
+            <p className={styles.eyebrow}>JASKI</p>
+            <div className={styles.grid}>{jaskiItems.map(renderItem)}</div>
+          </section>
+
+          <section className={styles.section}>
+            <p className={styles.eyebrow}>EVERYDAY</p>
+            <div className={styles.grid}>{webItems.map(renderItem)}</div>
+          </section>
+
+          {editing && (
+            <section className={styles.editor}>
+              <div>
+                <p className={styles.eyebrow}>ADD A DESTINATION</p>
+                <h2>Add something you actually use.</h2>
+              </div>
+              <form onSubmit={addItem}>
+                <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Name" aria-label="Destination name" />
+                <input value={href} onChange={(e) => setHref(e.target.value)} placeholder="https://… or /jaski-route" aria-label="Destination URL" />
+                <button type="submit">Add</button>
+              </form>
+              <button type="button" className={styles.reset} onClick={() => setItems(DEFAULT_ITEMS)}>Restore defaults</button>
+            </section>
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}

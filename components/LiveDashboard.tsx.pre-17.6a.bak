@@ -52,24 +52,6 @@ type Reflection = {
   href: string;
 };
 
-const ST_LOUIS_WEATHER_URL =
-  "https://api.open-meteo.com/v1/forecast?latitude=38.6270&longitude=-90.1994&current=temperature_2m,apparent_temperature,weather_code,is_day,relative_humidity_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago&forecast_days=1";
-
-const defaultFavorites: Favorite[] = [
-  { label: "YouTube TV", detail: "Live television", href: "https://tv.youtube.com/", mark: "Y" },
-  { label: "Plex", detail: "Personal media", href: "https://app.plex.tv/", mark: "P" },
-  { label: "Nugs", detail: "Live music", href: "https://www.nugs.net/", mark: "N" },
-  { label: "Audible", detail: "Audiobook library", href: "https://www.audible.com/library/", mark: "A" },
-  { label: "PGA Tour", detail: "Leaderboard", href: "https://www.pgatour.com/leaderboard", mark: "G" },
-];
-
-const reflections: Reflection[] = [
-  { source: "Marcus Aurelius", quote: "You have power over your mind — not outside events. Realize this, and you will find strength.", linkLabel: "Read Meditations", href: "https://www.gutenberg.org/ebooks/2680" },
-  { source: "Marcus Aurelius", quote: "The happiness of your life depends upon the quality of your thoughts.", linkLabel: "Read Meditations", href: "https://www.gutenberg.org/ebooks/2680" },
-  { source: "Epictetus", quote: "It is not things themselves that trouble us, but our judgments about them.", linkLabel: "Explore Stoicism", href: "https://www.gutenberg.org/ebooks/45109" },
-  { source: "Seneca", quote: "It is not that we have a short time to live, but that we waste much of it.", linkLabel: "Read Seneca", href: "https://www.gutenberg.org/ebooks/41476" },
-];
-
 function describeWeather(code: number) {
   if (code === 0) return "Clear skies";
   if (code === 1) return "Mostly clear";
@@ -393,9 +375,6 @@ export default function LiveDashboard() {
           </div>
 
           <div className="favorites-tools">
-            <a className="home-remote-link" href="/remote" aria-label="Open Remote">
-              Remote
-            </a>
             <button type="button" onClick={() => setEditingFavorites((value) => !value)}>
               {editingFavorites ? "Done" : "Edit Favorites"}
             </button>
@@ -421,7 +400,7 @@ export default function LiveDashboard() {
 
               {editingFavorites && (
                 <div className="favorite-controls">
-                  <button type="button" onClick={() => moveFavorite(index, -1)} aria-label={`Move ${favorite.label} left`}>←</button>
+                  <button type="button" onClick={() => moveFavorite(index, -1)} aria-label={`Move ${favorite.label} left`}>â†</button>
                   <button type="button" onClick={() => moveFavorite(index, 1)} aria-label={`Move ${favorite.label} right`}>→</button>
                 </div>
               )}

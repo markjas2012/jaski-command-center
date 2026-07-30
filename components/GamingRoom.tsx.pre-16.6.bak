@@ -1,5 +1,4 @@
 import styles from "./GamingRoom.module.css";
-import MyArcade from "./MyArcade";
 
 type NewsItem = {
   source: string;
@@ -326,8 +325,6 @@ export default async function GamingRoom() {
           </a>
         </div>
       </section>
-
-      <MyArcade />
 
       <section className={styles.panel}>
         <div className={styles.sectionHead}>

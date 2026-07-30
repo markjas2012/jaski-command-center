@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --page-background: #e7edf5;
   --sidebar-background: rgba(237, 243, 250, 0.72);
   --sidebar-border: rgba(255, 255, 255, 0.76);
@@ -1015,7 +1015,6 @@ textarea {
 }
 
 .favorites-tools button,
-.home-remote-link,
 .favorite-controls button {
   min-height: 32px;
   padding: 7px 11px;
@@ -1041,13 +1040,6 @@ textarea {
 .favorite-controls button {
   flex: 1;
 }
-
-.home-remote-link {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-}
-
 
 @media (max-width: 1180px) {
   .weather-extra-grid {
@@ -1933,7 +1925,3 @@ textarea {
   .sports-pulse-links { grid-template-columns: 1fr; }
 }
 
-
-/* Sprint 17.8a: Games keeps its immersive layout but always has a Home escape. */
-.jaski-games-home{position:fixed;top:18px;left:18px;z-index:2147483000;display:inline-flex;align-items:center;padding:9px 12px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(5,10,18,.86);box-shadow:0 8px 28px rgba(0,0,0,.24);color:#fff!important;text-decoration:none!important;font-size:12px;font-weight:800;line-height:1;backdrop-filter:blur(12px)}
-.jaski-games-home:hover{background:rgba(12,24,42,.96)}

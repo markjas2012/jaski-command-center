@@ -1,5 +1,4 @@
 import styles from "./GamingRoom.module.css";
-import MyArcade from "./MyArcade";
 
 type NewsItem = {
   source: string;
@@ -22,7 +21,6 @@ type RawgGame = {
   background_image?: string | null;
   genres?: { name?: string }[];
   platforms?: RawgPlatform[];
-  parent_platforms?: RawgPlatform[];
   slug?: string;
 };
 
@@ -275,59 +273,22 @@ export default async function GamingRoom() {
         </div>
       </section>
 
-      <section className={`${styles.panel} ${styles.serverPanel} ${styles.serverHub}`}>
-        <div className={styles.serverHubTop}>
-          <div className={styles.serverCopy}>
-            <p className={styles.sectionEyebrow}>JASKI GAME SERVER</p>
-            <h2>The arcade is online.</h2>
-            <p>
-              One front door for the home game server: Moonlight handles remote play, Playnite keeps the arcade
-              experience full-screen, and RetroArch runs the classic library behind it.
-            </p>
-            <span className={styles.status}><i /> REMOTE PLAY READY</span>
-          </div>
-
-          <div className={styles.serverVisual} aria-hidden="true">
-            <div className={styles.serverCore}>J</div>
-            <span>GAME SERVER</span>
-            <small>MOONLIGHT / RETROARCH</small>
-          </div>
+      <section className={`${styles.panel} ${styles.serverPanel}`}>
+        <div className={styles.serverCopy}>
+          <p className={styles.sectionEyebrow}>JASKI GAME SERVER</p>
+          <h2>Your arcade is being built.</h2>
+          <p>
+            Placeholder for the emulator and game-streaming project. This becomes the front door for your library,
+            Moonlight, RetroArch, server status, and remote play as the project comes online.
+          </p>
+          <span className={styles.status}><i /> PROJECT IN PROGRESS</span>
         </div>
-
-        <div className={styles.serverRoute} aria-label="Jaski Game Server flow">
-          <div className={styles.serverRouteStep}>
-            <small>01 / CONNECT</small>
-            <strong>Moonlight</strong>
-            <p>Open Moonlight on Apple TV or iPad and connect to the paired game server.</p>
-          </div>
-          <span className={styles.serverRouteArrow} aria-hidden="true">→</span>
-          <div className={styles.serverRouteStep}>
-            <small>02 / ARCADE</small>
-            <strong>Playnite</strong>
-            <p>Choose Arcade for the full-screen launcher and controller-first library.</p>
-          </div>
-          <span className={styles.serverRouteArrow} aria-hidden="true">→</span>
-          <div className={styles.serverRouteStep}>
-            <small>03 / CLASSICS</small>
-            <strong>RetroArch</strong>
-            <p>Launch the retro library with the controller mapping already working through Moonlight.</p>
-          </div>
-        </div>
-
-        <div className={styles.serverLinks}>
-          <a href="https://moonlight-stream.org/" target="_blank" rel="noreferrer">
-            <span>M</span><div><small>REMOTE PLAY</small><strong>Moonlight</strong></div><b>↗</b>
-          </a>
-          <a href="https://playnite.link/" target="_blank" rel="noreferrer">
-            <span>P</span><div><small>FRONT END</small><strong>Playnite</strong></div><b>↗</b>
-          </a>
-          <a href="https://www.retroarch.com/" target="_blank" rel="noreferrer">
-            <span>R</span><div><small>RETRO CORE</small><strong>RetroArch</strong></div><b>↗</b>
-          </a>
+        <div className={styles.serverVisual} aria-hidden="true">
+          <div className={styles.serverCore}>J</div>
+          <span>GAME SERVER</span>
+          <small>COMING ONLINE</small>
         </div>
       </section>
-
-      <MyArcade />
 
       <section className={styles.panel}>
         <div className={styles.sectionHead}>

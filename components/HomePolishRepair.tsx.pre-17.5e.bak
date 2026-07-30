@@ -1,0 +1,163 @@
+"use client";
+
+import { useEffect } from "react";
+
+export default function HomePolishRepair() {
+  useEffect(() => {
+    let applying = false;
+
+    const exactText = (text: string) =>
+      Array.from(document.querySelectorAll<HTMLElement>("body *")).find(
+        (el) => el.children.length === 0 && el.textContent?.trim() === text
+      );
+
+    const applyRepairs = () => {
+      if (applying) return;
+      applying = true;
+
+      try {
+        // Kindle -> Audible.
+        const kindle = exactText("Kindle");
+        if (kindle) {
+          kindle.textContent = "Audible";
+
+          const tile = kindle.closest("a");
+          if (tile) {
+            tile.setAttribute("href", "https://www.audible.com/library/");
+            tile.setAttribute("target", "_blank");
+            tile.setAttribute("rel", "noreferrer");
+          }
+
+          const parent = kindle.parentElement;
+          if (parent) {
+            const subtitle = Array.from(parent.querySelectorAll<HTMLElement>("*")).find(
+              (el) => el.children.length === 0 && el.textContent?.trim() === "Your library"
+            );
+            if (subtitle) subtitle.textContent = "Audiobook library";
+          }
+
+          const card = kindle.closest("a, article, div");
+          if (card) {
+            const badge = Array.from(card.querySelectorAll<HTMLElement>("*")).find(
+              (el) => el.children.length === 0 && el.textContent?.trim() === "K"
+            );
+            if (badge) badge.textContent = "A";
+          }
+        }
+
+        // Clean GD action text. Unicode escapes keep source ASCII-safe.
+        const gdActions = [
+          "Explore recordings",
+          "Compare eras",
+          "Choose today's listen",
+        ];
+
+        for (const action of gdActions) {
+          const matches = Array.from(document.querySelectorAll<HTMLElement>("body *"))
+            .filter(
+              (el) =>
+                el.children.length === 0 &&
+                (el.textContent || "").includes(action)
+            );
+
+          for (const el of matches) {
+            const clean = "\u2022 " + action;
+            if (el.textContent !== clean) {
+              el.textContent = clean;
+            }
+          }
+        }
+
+        // Keep the live weather icon repaired even after the widget refreshes.
+        const weatherLabel = exactText("LIVE WEATHER");
+        if (weatherLabel) {
+          let weatherCard: HTMLElement | null = weatherLabel.parentElement;
+
+          while (
+            weatherCard &&
+            weatherCard !== document.body &&
+            !(
+              (weatherCard.textContent || "").includes("HIGH") &&
+              (weatherCard.textContent || "").includes("LOW") &&
+              (weatherCard.textContent || "").includes("FEELS LIKE")
+            )
+          ) {
+            weatherCard = weatherCard.parentElement;
+          }
+
+          if (weatherCard && weatherCard !== document.body) {
+            const candidates = Array.from(
+              weatherCard.querySelectorAll<HTMLElement>("div, span")
+            ).filter((el) => {
+              const rect = el.getBoundingClientRect();
+              const style = getComputedStyle(el);
+
+              return (
+                rect.width >= 60 &&
+                rect.width <= 140 &&
+                rect.height >= 60 &&
+                rect.height <= 140 &&
+                Math.abs(rect.width - rect.height) < 18 &&
+                style.backgroundColor !== "rgba(0, 0, 0, 0)"
+              );
+            });
+
+            const iconBox = candidates.find((el) => {
+              const txt = (el.textContent || "").trim();
+              return txt.length <= 3;
+            });
+
+            if (iconBox) {
+              const current = (iconBox.textContent || "").trim();
+              if (current !== "\u2600") {
+                iconBox.replaceChildren();
+
+                const sun = document.createElement("span");
+                sun.textContent = "\u2600";
+                sun.setAttribute("aria-hidden", "true");
+                sun.style.fontSize = "40px";
+                sun.style.lineHeight = "1";
+                sun.style.color = "white";
+                sun.style.display = "grid";
+                sun.style.placeItems = "center";
+                sun.style.width = "100%";
+                sun.style.height = "100%";
+                sun.style.pointerEvents = "none";
+
+                iconBox.appendChild(sun);
+                iconBox.setAttribute("aria-label", "Clear skies");
+              }
+            }
+          }
+        }
+      } finally {
+        applying = false;
+      }
+    };
+
+    // Initial repair after hydration.
+    applyRepairs();
+
+    // Re-apply after live widgets redraw themselves.
+    let scheduled = false;
+    const observer = new MutationObserver(() => {
+      if (scheduled) return;
+      scheduled = true;
+
+      requestAnimationFrame(() => {
+        scheduled = false;
+        applyRepairs();
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return null;
+}
