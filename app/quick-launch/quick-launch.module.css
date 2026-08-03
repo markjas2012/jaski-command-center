@@ -1,10 +1,12 @@
 .page {
+  position: relative;
   min-height: 100%;
   padding: clamp(28px, 4vw, 48px);
   border-radius: 26px;
   background:
-    radial-gradient(circle at 88% 5%, rgba(78, 119, 198, 0.12), transparent 22%),
-    #10131a;
+    radial-gradient(circle at 88% 5%, rgba(74, 129, 226, 0.18), transparent 25%),
+    radial-gradient(circle at 10% 90%, rgba(33, 76, 151, 0.1), transparent 28%),
+    linear-gradient(145deg, #0c1019 0%, #111827 52%, #0c111b 100%);
   color: #f3f6fa;
 }
 
@@ -75,8 +77,18 @@
 }
 
 .row {
+  position: relative;
   grid-template-columns: 1fr auto;
   gap: 20px;
+  padding: 0 10px;
+  border-radius: 12px;
+  transition: background 170ms ease, transform 170ms ease, box-shadow 170ms ease;
+}
+
+.row:hover {
+  background: linear-gradient(90deg, rgba(65, 115, 203, 0.09), rgba(255, 255, 255, 0.018));
+  box-shadow: inset 2px 0 0 rgba(111, 164, 255, 0.42);
+  transform: translateX(2px);
 }
 
 .identity {
@@ -86,18 +98,33 @@
   min-width: 0;
 }
 
-.initial {
+.logoHolder {
+  position: relative;
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid rgba(144,185,255,0.2);
   border-radius: 9px;
   background: rgba(93,137,210,0.08);
   color: #acd0ff;
-  font-size: 12px;
+  overflow: hidden;
+  font-size: 11px;
   font-weight: 850;
+}
+
+.logoHolder img {
+  position: absolute;
+  inset: 5px;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.logoFallback {
+  color: #acd0ff;
 }
 
 .identity strong,
@@ -120,11 +147,50 @@
 }
 
 .actions {
+  position: relative;
+  align-items: center;
   justify-content: flex-end;
 }
 
-.actions button:last-child {
-  color: rgba(240,245,252,0.45);
+.menuWrap {
+  position: relative;
+}
+
+.menuTrigger {
+  min-width: 35px;
+  letter-spacing: 0.08em;
+}
+
+.actionMenu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 7px);
+  right: 0;
+  width: 126px;
+  padding: 5px;
+  border: 1px solid rgba(145, 183, 246, 0.2);
+  border-radius: 11px;
+  background: rgba(13, 19, 31, 0.98);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(18px);
+}
+
+.actionMenu button {
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.actionMenu button:hover,
+.actionMenu button:focus-visible {
+  background: rgba(107, 157, 241, 0.12);
+  outline: none;
+}
+
+.actionMenu .removeAction {
+  color: #ff9eaa;
 }
 
 .editorRow {

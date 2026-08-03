@@ -57,6 +57,7 @@ export default function QuickLaunchPage() {
   const [draftUrl, setDraftUrl] = useState("");
   const [adding, setAdding] = useState(false);
   const [storageReady, setStorageReady] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -80,7 +81,30 @@ export default function QuickLaunchPage() {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(shortcuts));
   }, [shortcuts, storageReady]);
 
+  useEffect(() => {
+    if (!openMenuId) return;
+
+    function dismissOnOutsideClick(event: MouseEvent) {
+      const target = event.target;
+      if (target instanceof Element && !target.closest("[data-quick-menu]")) {
+        setOpenMenuId(null);
+      }
+    }
+
+    function dismissOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpenMenuId(null);
+    }
+
+    document.addEventListener("mousedown", dismissOnOutsideClick);
+    document.addEventListener("keydown", dismissOnEscape);
+    return () => {
+      document.removeEventListener("mousedown", dismissOnOutsideClick);
+      document.removeEventListener("keydown", dismissOnEscape);
+    };
+  }, [openMenuId]);
+
   function beginEdit(item: Shortcut) {
+    setOpenMenuId(null);
     setEditingId(item.id);
     setDraftLabel(item.label);
     setDraftUrl(item.url);
@@ -104,6 +128,7 @@ export default function QuickLaunchPage() {
   }
 
   function removeShortcut(id: string) {
+    setOpenMenuId(null);
     setShortcuts((current) => current.filter((item) => item.id !== id));
     if (editingId === id) setEditingId(null);
   }
@@ -126,9 +151,30 @@ export default function QuickLaunchPage() {
   }
 
   function resetDefaults() {
+    setOpenMenuId(null);
     setShortcuts(DEFAULT_SHORTCUTS);
     setEditingId(null);
     setAdding(false);
+  }
+
+  function logoUrl(item: Shortcut) {
+    const knownLogos: Record<string, string> = {
+      "together-cu": "https://www.togethercu.org/favicon.ico",
+      mag: "https://www.google.com/s2/favicons?domain=exostar.com&sz=64",
+      timeforce: "https://www.google.com/s2/favicons?domain=timeforce.com&sz=64",
+      outlook: "https://outlook.office.com/favicon.ico",
+      "cnb-stl": "https://www.cnbstl.com/favicon.ico",
+    };
+
+    if (knownLogos[item.id]) return knownLogos[item.id];
+    if (!item.url) return "";
+
+    try {
+      const domain = new URL(item.url).hostname;
+      return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`;
+    } catch {
+      return "";
+    }
   }
 
   return (
@@ -191,8 +237,17 @@ export default function QuickLaunchPage() {
               return (
                 <article className={styles.row} key={item.id}>
                   <div className={styles.identity}>
-                    <span className={styles.initial} aria-hidden="true">
-                      {item.label.slice(0, 1).toUpperCase()}
+                    <span className={styles.logoHolder} aria-hidden="true">
+                      <span className={styles.logoFallback}>{item.label.slice(0, 1).toUpperCase()}</span>
+                      {logoUrl(item) ? (
+                        <img
+                          src={logoUrl(item)}
+                          alt=""
+                          onError={(event) => {
+                            event.currentTarget.style.display = "none";
+                          }}
+                        />
+                      ) : null}
                     </span>
                     <span>
                       <strong>{item.label}</strong>
@@ -204,7 +259,7 @@ export default function QuickLaunchPage() {
                     </span>
                   </div>
 
-                  <div className={styles.actions}>
+                  <div className={styles.actions} data-quick-menu>
                     {item.url ? (
                       <a href={item.url} target="_blank" rel="noreferrer">
                         Open
@@ -214,12 +269,24 @@ export default function QuickLaunchPage() {
                         Set URL
                       </button>
                     )}
-                    <button type="button" onClick={() => beginEdit(item)}>
-                      Edit
-                    </button>
-                    <button type="button" onClick={() => removeShortcut(item.id)}>
-                      Remove
-                    </button>
+                    <div className={styles.menuWrap}>
+                      <button
+                        className={styles.menuTrigger}
+                        type="button"
+                        aria-label={`More actions for ${item.label}`}
+                        aria-expanded={openMenuId === item.id}
+                        aria-controls={`quick-menu-${item.id}`}
+                        onClick={() => setOpenMenuId((current) => current === item.id ? null : item.id)}
+                      >
+                        <span aria-hidden="true">•••</span>
+                      </button>
+                      {openMenuId === item.id && (
+                        <div className={styles.actionMenu} id={`quick-menu-${item.id}`} role="menu">
+                          <button type="button" role="menuitem" onClick={() => beginEdit(item)}>Edit</button>
+                          <button className={styles.removeAction} type="button" role="menuitem" onClick={() => removeShortcut(item.id)}>Remove</button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </article>
               );

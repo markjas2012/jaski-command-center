@@ -38,13 +38,6 @@ type WeatherState = {
   updatedAt: Date;
 };
 
-type Favorite = {
-  label: string;
-  detail: string;
-  href: string;
-  mark: string;
-};
-
 type Reflection = {
   source: string;
   quote: string;
@@ -54,14 +47,6 @@ type Reflection = {
 
 const ST_LOUIS_WEATHER_URL =
   "https://api.open-meteo.com/v1/forecast?latitude=38.6270&longitude=-90.1994&current=temperature_2m,apparent_temperature,weather_code,is_day,relative_humidity_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago&forecast_days=1";
-
-const defaultFavorites: Favorite[] = [
-  { label: "YouTube TV", detail: "Live television", href: "https://tv.youtube.com/", mark: "Y" },
-  { label: "Plex", detail: "Personal media", href: "https://app.plex.tv/", mark: "P" },
-  { label: "Nugs", detail: "Live music", href: "https://www.nugs.net/", mark: "N" },
-  { label: "Audible", detail: "Audiobook library", href: "https://www.audible.com/library/", mark: "A" },
-  { label: "PGA Tour", detail: "Leaderboard", href: "https://www.pgatour.com/leaderboard", mark: "G" },
-];
 
 const reflections: Reflection[] = [
   { source: "Marcus Aurelius", quote: "You have power over your mind — not outside events. Realize this, and you will find strength.", linkLabel: "Read Meditations", href: "https://www.gutenberg.org/ebooks/2680" },
@@ -135,43 +120,12 @@ export default function LiveDashboard() {
   const [now, setNow] = useState<Date | null>(null);
   const [weather, setWeather] = useState<WeatherState | null>(null);
   const [weatherError, setWeatherError] = useState(false);
-  const [favorites, setFavorites] = useState<Favorite[]>(defaultFavorites);
-  const [editingFavorites, setEditingFavorites] = useState(false);
 
   useEffect(() => {
     setNow(new Date());
     const timer = window.setInterval(() => setNow(new Date()), 1000);
     return () => window.clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem("jaski-favorites");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved) as Favorite[];
-        const allowed = new Set(defaultFavorites.map((favorite) => favorite.label));
-        const migrated = parsed
-          .map((favorite) =>
-            favorite.label === "Kindle"
-              ? { label: "Audible", detail: "Audiobook library", href: "https://www.audible.com/library/", mark: "A" }
-              : favorite
-          )
-          .filter((favorite) => allowed.has(favorite.label));
-
-        for (const favorite of defaultFavorites) {
-          if (!migrated.some((item) => item.label === favorite.label)) migrated.push(favorite);
-        }
-
-        setFavorites(migrated);
-      } catch {
-        setFavorites(defaultFavorites);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem("jaski-favorites", JSON.stringify(favorites));
-  }, [favorites]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -244,12 +198,6 @@ export default function LiveDashboard() {
   const weekday = now?.toLocaleDateString("en-US", { weekday: "long" });
   const shortDate = now?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
-  const time = now?.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-
   const dayIndex = now
     ? Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() / 86400000)
     : 0;
@@ -262,24 +210,6 @@ export default function LiveDashboard() {
     : weather
       ? describeWeather(weather.weatherCode)
       : "Loading St. Louis weather…";
-
-  const minuteAge = weather
-    ? Math.max(0, Math.floor((Date.now() - weather.updatedAt.getTime()) / 60000))
-    : 0;
-
-  function moveFavorite(index: number, direction: -1 | 1) {
-    setFavorites((current) => {
-      const next = [...current];
-      const target = index + direction;
-      if (target < 0 || target >= next.length) return current;
-      [next[index], next[target]] = [next[target], next[index]];
-      return next;
-    });
-  }
-
-  function resetFavorites() {
-    setFavorites(defaultFavorites);
-  }
 
   const hour = now?.getHours() ?? 12;
   const dayPart = hour < 11 ? "morning" : hour < 17 ? "afternoon" : hour < 21 ? "evening" : "night";
@@ -298,181 +228,82 @@ export default function LiveDashboard() {
 
       <div className="dashboard-divider" />
 
-      <section className="dashboard-layout" aria-label="Dashboard overview">
-        <article className="weather-hero">
-          <div className="weather-hero-top">
-            <div>
-              <p className="card-kicker">Live weather</p>
-              <h2>{temperature}</h2>
-              <p className="weather-condition">{condition}</p>
-            </div>
-
+      <section className="home-command-grid" aria-label="Today at a glance">
+        <article className="weather-compact">
+          <div className="weather-compact-main">
             <div className="weather-icon-wrap">
               <WeatherIcon code={weather?.weatherCode ?? 2} isDay={weather?.isDay ?? true} />
             </div>
-          </div>
-
-          <div className="weather-details">
-            <div><span>High</span><strong>{weather ? `${weather.high}°` : "—"}</strong></div>
-            <div><span>Low</span><strong>{weather ? `${weather.low}°` : "—"}</strong></div>
-            <div><span>Feels like</span><strong>{weather ? `${weather.apparentTemperature}°` : "—"}</strong></div>
-          </div>
-
-          <div className="weather-extra-grid">
-            <div><span>Rain</span><strong>{weather ? `${weather.rainChance}%` : "—"}</strong></div>
-            <div><span>Humidity</span><strong>{weather ? `${weather.humidity}%` : "—"}</strong></div>
-            <div><span>Wind</span><strong>{weather ? `${weather.wind} mph` : "—"}</strong></div>
-            <div><span>UV</span><strong>{weather ? weather.uv : "—"}</strong></div>
-            <div><span>Sunrise</span><strong>{weather ? formatClockTime(weather.sunrise) : "—"}</strong></div>
-            <div><span>Sunset</span><strong>{weather ? formatClockTime(weather.sunset) : "—"}</strong></div>
-          </div>
-
-          <div className="weather-hero-footer">
             <div>
-              <strong>St. Louis, Missouri</strong>
-              <span>Updates every 15 minutes</span>
+              <p className="card-kicker">St. Louis weather</p>
+              <div className="weather-temperature-row">
+                <h2>{temperature}</h2>
+                <p>{condition}</p>
+              </div>
             </div>
-
-            <a href="https://radar.weather.gov/" target="_blank" rel="noreferrer">
-              Open radar <span aria-hidden="true">↗</span>
-            </a>
           </div>
 
-          <a className="weather-attribution" href="https://open-meteo.com/" target="_blank" rel="noreferrer">
-            Weather data by Open-Meteo
+          <div className="weather-compact-stats">
+            <div><span>High / Low</span><strong>{weather ? `${weather.high}° / ${weather.low}°` : "—"}</strong></div>
+            <div><span>Feels like</span><strong>{weather ? `${weather.apparentTemperature}°` : "—"}</strong></div>
+            <div><span>Rain</span><strong>{weather ? `${weather.rainChance}%` : "—"}</strong></div>
+            <div><span>Sun</span><strong>{weather ? `${formatClockTime(weather.sunrise)} · ${formatClockTime(weather.sunset)}` : "—"}</strong></div>
+          </div>
+
+          <a className="weather-radar-link" href="https://radar.weather.gov/" target="_blank" rel="noreferrer">
+            Open radar <span aria-hidden="true">↗</span>
           </a>
         </article>
 
-        <div className="detail-card-grid">
-          <article className="detail-card detail-card-live">
-            <div className="detail-card-body">
-              <p className="card-kicker">Calendar</p>
-              <h2>{weekday ?? "Today"}</h2>
-              <p className="detail-card-copy">{shortDate ?? "Today"} · Your personal calendars</p>
-              <div className="card-actions">
-                <a href="https://www.icloud.com/calendar/" target="_blank" rel="noreferrer">iCloud ↗</a>
-                <a href="https://outlook.live.com/calendar/" target="_blank" rel="noreferrer">Outlook ↗</a>
-              </div>
-            </div>
-          </article>
+        <article className="today-calendar-card">
+          <div>
+            <p className="card-kicker">Today</p>
+            <h2>{weekday ?? "Today"}</h2>
+            <p>{shortDate ?? "Today"} · Your calendars</p>
+          </div>
+          <div className="calendar-actions">
+            <a href="https://calendar.google.com/" target="_blank" rel="noreferrer">Google Calendar ↗</a>
+            <a href="https://outlook.live.com/calendar/" target="_blank" rel="noreferrer">Outlook Calendar ↗</a>
+          </div>
+        </article>
 
-          <article className="detail-card detail-card-live">
-            <div className="detail-card-body">
-              <p className="card-kicker">Golf</p>
-              <h2>Live PGA</h2>
-              <p className="detail-card-copy">Current leaderboard, tee times, and season standings.</p>
-              <div className="card-actions">
-                <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noreferrer">Leaderboard ↗</a>
-                <a href="https://www.pgatour.com/tournaments/schedule" target="_blank" rel="noreferrer">Schedule ↗</a>
-                <a href="https://www.ghin.com/" target="_blank" rel="noreferrer">GHIN ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <article className="detail-card detail-card-live">
-            <div className="detail-card-body">
-              <p className="card-kicker">What’s new</p>
-              <h2>Watch & Listen</h2>
-              <p className="detail-card-copy">Fresh destinations for movies, television, games, and live music.</p>
-              <div className="card-actions">
-                <a href="https://www.justwatch.com/" target="_blank" rel="noreferrer">New Releases ↗</a>
-                <a href="https://www.nugs.net/" target="_blank" rel="noreferrer">Nugs ↗</a>
-                <a href="https://www.ign.com/upcoming/games" target="_blank" rel="noreferrer">Games ↗</a>
-              </div>
-            </div>
-          </article>
-        </div>
+        <nav className="home-utility-card" aria-label="Daily tools">
+          <p className="card-kicker">Daily tools</p>
+          <a href="/remote"><span className="utility-mark">R</span><span><strong>Remote</strong><small>Control your rooms</small></span><b>→</b></a>
+          <a href="/quick-launch"><span className="utility-mark">Q</span><span><strong>Quick Launch</strong><small>Your favorite shortcuts</small></span><b>→</b></a>
+          <a href="/notes"><span className="utility-mark">N</span><span><strong>Notes</strong><small>Open your notebook</small></span><b>→</b></a>
+          <a href="https://www.audible.com/library/" target="_blank" rel="noreferrer"><span className="utility-mark">A</span><span><strong>Audible</strong><small>Your audiobook library</small></span><b>↗</b></a>
+          <button type="button" className="utility-placeholder" title="Grocery list connection coming later"><span className="utility-mark">G</span><span><strong>Grocery List</strong><small>Connection coming later</small></span><b>·</b></button>
+        </nav>
       </section>
+
       <FeaturedToday />
 
-      <section className="favorites-section" aria-labelledby="favorites-title">
-        <div className="favorites-heading">
-          <div>
-            <p className="dashboard-eyebrow">One-click access</p>
-            <h2 id="favorites-title">Favorites</h2>
-          </div>
-
-          <div className="favorites-tools">
-            <a className="home-remote-link" href="/remote" aria-label="Open Remote">
-              Remote
-            </a>
-            <button type="button" onClick={() => setEditingFavorites((value) => !value)}>
-              {editingFavorites ? "Done" : "Edit Favorites"}
-            </button>
-            {editingFavorites && (
-              <button type="button" onClick={resetFavorites}>
-                Reset
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="favorites-grid">
-          {favorites.map((favorite, index) => (
-            <div className="favorite-wrap" key={favorite.label}>
-              <a className="favorite-tile" href={favorite.href} target="_blank" rel="noreferrer">
-                <span className="favorite-mark" aria-hidden="true">{favorite.mark}</span>
-                <span className="favorite-copy">
-                  <strong>{favorite.label}</strong>
-                  <span>{favorite.detail}</span>
-                </span>
-                <span className="favorite-arrow" aria-hidden="true">↗</span>
-              </a>
-
-              {editingFavorites && (
-                <div className="favorite-controls">
-                  <button type="button" onClick={() => moveFavorite(index, -1)} aria-label={`Move ${favorite.label} left`}>←</button>
-                  <button type="button" onClick={() => moveFavorite(index, 1)} aria-label={`Move ${favorite.label} right`}>→</button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="smile-section exploration-section" aria-labelledby="smile-title">
-        <div className="smile-heading">
+      <section className="ritual-compact" aria-labelledby="ritual-title">
+        <div className="ritual-heading">
           <div>
             <p className="dashboard-eyebrow">Your daily ritual</p>
-            <h2 id="smile-title">Things Worth Exploring Today</h2>
+            <h2 id="ritual-title">A quiet start.</h2>
           </div>
           <p>Wisdom and faith for the day ahead.</p>
         </div>
 
-        <div className="exploration-grid">
-          <article className="reflection-card sprint9-card fade-in-card">
-            <div className="smile-card-top">
-              <span className="smile-mark">“</span>
-              <p className="card-kicker">Today’s reflection</p>
-            </div>
-
-            <blockquote>{reflection.quote}</blockquote>
-
-            <div className="smile-card-footer">
-              <span>— {reflection.source}</span>
-              <a href={reflection.href} target="_blank" rel="noreferrer">
-                {reflection.linkLabel} <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </article>
-
-          <article className="reading-card sprint9-card fade-in-card">
-            <div className="reading-icon" aria-hidden="true">✝</div>
+        <div className="ritual-compact-grid">
+          <article className="ritual-reflection">
             <div>
-              <p className="card-kicker">Today’s Catholic reading</p>
-              <h3>Daily Mass Readings</h3>
-              <p>Begin the day with today’s Scripture readings and Gospel.</p>
+              <p className="card-kicker">Today’s reflection · {reflection.source}</p>
+              <blockquote>{reflection.quote}</blockquote>
             </div>
-            <a href="https://bible.usccb.org/readings/calendar" target="_blank" rel="noreferrer">
-              Open today’s readings <span aria-hidden="true">↗</span>
-            </a>
+            <a href={reflection.href} target="_blank" rel="noreferrer">{reflection.linkLabel} ↗</a>
           </article>
 
-
+          <a className="ritual-reading" href="https://bible.usccb.org/readings/calendar" target="_blank" rel="noreferrer">
+            <span className="ritual-cross" aria-hidden="true">✝</span>
+            <span><small>Today’s Catholic reading</small><strong>Daily Mass Readings</strong></span>
+            <b>↗</b>
+          </a>
         </div>
       </section>
     </div>
   );
 }
-
-

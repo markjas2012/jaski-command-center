@@ -9,8 +9,7 @@ type SidebarProps = {
     | "streaming"
     | "games"
     | "food"
-    
-    | "food"| "quick"
+    | "quick"
     | "notes";
 };
 
@@ -22,11 +21,6 @@ const interestLinks = [
   { label: "Streaming", icon: "\u25A3", href: "/streaming", page: "streaming" },
   { label: "Video Games", icon: "\u25C6", href: "/games", page: "games" },
   { label: "Food", icon: "\u25CF", href: "/food", page: "food" },
-];
-
-const utilityLinks = [
-  { label: "Quick Launch", icon: "\u2197", href: "/quick-launch", page: "quick" },
-  { label: "Notes", icon: "\u270E", href: "/notes", page: "notes" },
 ];
 
 export default function Sidebar({ activePage = "home" }: SidebarProps) {
@@ -52,16 +46,6 @@ export default function Sidebar({ activePage = "home" }: SidebarProps) {
           ))}
         </div>
 
-        <div className="navigation-divider" />
-
-        <div className="navigation-group">
-          {utilityLinks.map((link) => (
-            <Link key={link.label} className={`navigation-link ${link.page === activePage ? "active" : ""}`} href={link.href}>
-              <span className="navigation-icon" aria-hidden="true">{link.icon}</span>
-              <span>{link.label}</span>
-            </Link>
-          ))}
-        </div>
       </nav>
 
       <p className="sidebar-footer"></p>
