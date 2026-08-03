@@ -176,16 +176,34 @@ export default function LiveDashboard() {
   const greeting = useMemo(() => {
     const hour = now?.getHours() ?? 12;
     const day = now?.getDay();
+    const fallback = hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : "Good Evening";
 
-    if (weather?.rainChance && weather.rainChance >= 65) return "Rain may be part of the plan";
-    if (weather && weather.temperature >= 58 && weather.temperature <= 78 && weather.wind <= 14) {
-      return day === 6 || day === 0 ? "Beautiful day to get outside" : "Great weather ahead";
-    }
+    if (!weather) return fallback;
+
+    const code = weather.weatherCode;
+    const storming = [95, 96, 99].includes(code);
+    const raining = [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code);
+    const snowing = [71, 73, 75, 77, 85, 86].includes(code);
+    const pleasant =
+      weather.isDay &&
+      [0, 1, 2].includes(code) &&
+      weather.temperature >= 58 &&
+      weather.temperature <= 80 &&
+      weather.apparentTemperature <= 84 &&
+      weather.wind <= 16 &&
+      weather.rainChance < 40;
+
+    if (storming) return "Stormy skies in St. Louis";
+    if (snowing) return "A snowy St. Louis day";
+    if (raining) return hour < 12 ? "A rainy start in St. Louis" : "Rainy skies in St. Louis";
+    if (weather.temperature >= 90 || weather.apparentTemperature >= 92) return "A hot day ahead";
+    if (weather.temperature >= 84 || weather.apparentTemperature >= 85) return "A warm day ahead";
+    if (weather.temperature <= 32) return "A cold St. Louis day";
+    if (pleasant) return day === 6 || day === 0 ? "Beautiful day to get outside" : "Great weather ahead";
+    if (weather.rainChance >= 70 && hour < 18) return "Keep an eye on the rain";
     if (day === 5 && hour >= 12) return "Happy Friday";
     if (day === 6 || day === 0) return "Enjoy your weekend";
-    if (hour < 12) return "Good Morning";
-    if (hour < 17) return "Good Afternoon";
-    return "Good Evening";
+    return fallback;
   }, [now, weather]);
 
   const fullDate = now?.toLocaleDateString("en-US", {

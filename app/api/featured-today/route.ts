@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-const BUILD = "11.8.2";
+const BUILD = "17.14c";
 
 type Story = {
   title: string;
@@ -37,6 +37,9 @@ const WATCH_BLOCKED_SOURCES = [
   "bingeworthy",
   "yahoo shopping",
   "msn shopping",
+  "screen rant",
+  "we got this covered",
+  "bgr",
 ];
 
 const WATCH_PREFERRED_SOURCES = [
@@ -48,6 +51,8 @@ const WATCH_PREFERRED_SOURCES = [
   "vulture",
   "entertainment weekly",
   "rolling stone",
+  "the wrap",
+  "av club",
   "reuters",
   "associated press",
   "ap news",
@@ -76,6 +81,10 @@ const TRUSTED_SOURCE_BOOSTS: Record<string, number> = {
   "pga tour": 12,
   "golf digest": 10,
   "golfweek": 9,
+  "the athletic": 11,
+  "st. louis post-dispatch": 11,
+  "stltoday": 11,
+  "jambands.com": 13,
 };
 
 const JUNK_TERMS = [
@@ -92,6 +101,9 @@ const JUNK_TERMS = [
   "prime day",
   "where to buy",
   "affiliate",
+  "review roundup",
+  "explained ending",
+  "every movie and show",
 ];
 
 const WATCH_BOOST = [
@@ -121,6 +133,9 @@ const LISTEN_BOOST = [
   "tour",
   "live music",
   "setlist",
+  "festival",
+  "album",
+  "new music",
 ];
 
 const EXPLORE_ROTATION: ExploreTopic[] = [
@@ -254,14 +269,18 @@ function scoreStory(story: Story, boosts: string[]) {
   }
 
   const hours = ageHours(story.date);
-  if (hours <= 24) score += 12;
-  else if (hours <= 72) score += 9;
-  else if (hours <= 168) score += 5;
-  else if (hours <= 336) score += 1;
-  else score -= 3;
+  if (hours <= 18) score += 18;
+  else if (hours <= 48) score += 13;
+  else if (hours <= 96) score += 8;
+  else if (hours <= 168) score += 3;
+  else if (hours <= 336) score -= 3;
+  else score -= 10;
 
   if (story.title.length >= 35 && story.title.length <= 105) score += 3;
-  if (story.title.length > 140) score -= 4;
+  if (story.title.length > 125) score -= 7;
+
+  const clickbait = ["you won't believe", "what happens next", "fans are shocked", "breaks the internet"];
+  if (clickbait.some((term) => haystack.includes(term))) score -= 18;
 
   return score;
 }
@@ -353,10 +372,10 @@ export async function GET(request: NextRequest) {
 
     const [watchStories, listenStories, exploreStories] = await Promise.all([
       news(
-        '("new on streaming" OR "what to watch streaming" OR "new movie streaming" OR "new TV streaming") when:7d'
+        '("new on streaming" OR "streaming premiere" OR "new movie streaming" OR "new TV streaming") (Variety OR Deadline OR "Hollywood Reporter" OR IndieWire OR Vulture OR "Entertainment Weekly") when:7d'
       ),
       news(
-        '("Grateful Dead" OR "Dead & Company" OR Phish OR "Umphrey\'s McGee" OR jamband) when:7d'
+        '("Grateful Dead" OR "Dead & Company" OR Phish OR "Umphrey\'s McGee" OR Goose OR jamband) (JamBase OR Relix OR "Live For Live Music" OR Jambands) when:7d'
       ),
       news(exploreTopic.query),
     ]);

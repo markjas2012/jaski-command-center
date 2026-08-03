@@ -43,7 +43,7 @@ export default function FeaturedToday() {
     let cancelled = false;
     const requestId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-    fetch(`/api/featured-today?build=11.8.2&r=${requestId}`, {
+    fetch(`/api/featured-today?build=17.14c&r=${requestId}`, {
       cache: "no-store",
       headers: {
         "Cache-Control": "no-cache",
