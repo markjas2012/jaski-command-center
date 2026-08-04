@@ -1,5 +1,4 @@
 import styles from "./GamingRoom.module.css";
-import MyArcade from "./MyArcade";
 
 type NewsItem = {
   source: string;
@@ -112,9 +111,15 @@ async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boole
   url.searchParams.set("page_size", "40");
   url.searchParams.set("exclude_additions", "true");
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
   try {
-    const response = await fetch(url, { next: { revalidate: 21600 } });
-    if (!response.ok) throw new Error(`RAWG ${response.status}`);
+    const response = await fetch(url, {
+      next: { revalidate: 21600 },
+      signal: controller.signal,
+    });
+    if (!response.ok) return { releases: FALLBACK_RELEASES, live: false };
     const data = (await response.json()) as { results?: RawgGame[] };
     const releases = (data.results ?? [])
       .filter((game) => game.name && game.released && game.background_image)
@@ -143,9 +148,10 @@ async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boole
     return releases.length >= 3
       ? { releases, live: true }
       : { releases: FALLBACK_RELEASES, live: false };
-  } catch (error) {
-    console.error("RAWG upcoming releases failed:", error);
+  } catch {
     return { releases: FALLBACK_RELEASES, live: false };
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -186,28 +192,27 @@ export default async function GamingRoom() {
 
   return (
     <main className={styles.room}>
-      <section className={styles.hero}>
+      <section className={`${styles.hero} ${styles.compactHero}`}>
         <div className={styles.gridGlow} />
-        <p className={styles.eyebrow}>VIDEO GAMES / COMMAND CENTER</p>
-        <div className={styles.heroCopy}>
-          <p className={styles.kicker}>PLAY NEXT</p>
-          <h1>Jaski Arcade</h1>
-          <p className={styles.lede}>
-            The big stories, what is coming next, and a home for the game server we are building.
-          </p>
-        </div>
-        <div className={styles.heroMark} aria-hidden="true">
-          <span>+</span>
-          <strong>PLAY</strong>
-          <small>JASKI GAMING</small>
-        </div>
-        <div className={styles.heroFooter}>
-          <span>ALL PLATFORMS</span>
-          <span>NO ENDLESS FEED.</span>
+        <div className={styles.heroBar}>
+          <div className={styles.compactHeroCopy}>
+            <p className={styles.eyebrow}>VIDEO GAMES / COMMAND CENTER</p>
+            <h1>Jaski Arcade</h1>
+            <p className={styles.lede}>What matters, what is next, and one front door to play.</p>
+          </div>
+          <a className={styles.playniteLaunch} href="https://playnite.link/" target="_blank" rel="noreferrer">
+            <span className={styles.playniteIcon}>P</span>
+            <div>
+              <small>JASKI GAME SERVER</small>
+              <strong>Launch Playnite</strong>
+              <p>Your controller-first arcade.</p>
+            </div>
+            <b>OPEN ↗</b>
+          </a>
         </div>
       </section>
 
-      <section className={styles.panel}>
+      <section className={`${styles.panel} ${styles.newsPanel}`}>
         <div className={styles.sectionHead}>
           <div>
             <p className={styles.sectionEyebrow}>MAJOR NEWS</p>
@@ -240,17 +245,74 @@ export default async function GamingRoom() {
         </div>
       </section>
 
-      <section className={styles.panel}>
+      <section className={`${styles.panel} ${styles.fightPanel}`}>
+        <div className={styles.fightDecor} aria-hidden="true">
+          <span className={styles.tourneyFlyer}>TOURNEY<br /><b>SAT 9PM</b><br />STREET FIGHTER<br />KILLER INSTINCT</span>
+          <span className={styles.rulesFlyer}>KEEP IT<br /><b>CASUAL</b><br /><small>NO SALT<br />NO CHEATING<br />JUST GAMES</small></span>
+          <span className={styles.smileySticker}>:)</span>
+        </div>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.sectionEyebrow}>FIGHT NIGHT</p>
+            <h2>The tournament desk.</h2>
+            <p className={styles.sectionCopy}>Fighting-game news, brackets, and live streams without the endless feed.</p>
+          </div>
+          <span className={styles.count}>FGC / ESPORTS</span>
+        </div>
+
+        <div className={styles.fightGrid}>
+          <a className={`${styles.fightCard} ${styles.fightFeatured}`} href="https://www.start.gg/search/tournaments" target="_blank" rel="noreferrer">
+            <div className={styles.fightTop}><span>TOURNAMENTS</span><b>START.GG</b></div>
+            <h3>Find the next bracket.</h3>
+            <p>Major events and community tournaments for Mortal Kombat, Killer Instinct, Street Fighter, Tekken, and more.</p>
+            <div className={styles.gameTags}><span>MK</span><span>KI</span><span>SF</span><span>TEKKEN</span><span>SOULCALIBUR</span></div>
+            <strong className={styles.fightAction}>BROWSE EVENTS ↗</strong>
+          </a>
+
+          <div className={`${styles.fightCard} ${styles.eventHubsCard}`}>
+            <div className={styles.fightTop}><span>FIGHT LAB</span><b>EVENTHUBS</b></div>
+            <h3>Know the matchup.</h3>
+            <p>Tier boards, tournament results, and the changes shaping the fighting games you follow.</p>
+            <div className={styles.eventHubsLinks}>
+              <a href="https://www.eventhubs.com/tiers/" target="_blank" rel="noreferrer">
+                <span><small>RANKINGS</small>Tier Lists</span><b>↗</b>
+              </a>
+              <a href="https://www.eventhubs.com/news/" target="_blank" rel="noreferrer">
+                <span><small>RESULTS + NEWS</small>FGC Headlines</span><b>↗</b>
+              </a>
+            </div>
+            <a className={styles.eventHubsLaunch} href="https://www.eventhubs.com/" target="_blank" rel="noreferrer">
+              <span className={styles.eventHubsIcon}>E</span>
+              <span><small>FIGHTING GAME HUB</small><strong>Open EventHubs</strong></span>
+              <b>OPEN ↗</b>
+            </a>
+          </div>
+
+          <div className={`${styles.fightCard} ${styles.twitchCard}`}>
+            <div className={styles.fightTop}><span>WATCH LIVE</span><b>TWITCH</b></div>
+            <h3>Enter the arena.</h3>
+            <p>Jump directly to the fighting-game directories currently worth checking.</p>
+            <div className={styles.twitchLinks}>
+              <a href="https://www.twitch.tv/directory/category/mortal-kombat-1" target="_blank" rel="noreferrer">Mortal Kombat <span>↗</span></a>
+              <a href="https://www.twitch.tv/directory/category/street-fighter-6" target="_blank" rel="noreferrer">Street Fighter 6 <span>↗</span></a>
+              <a href="https://www.twitch.tv/directory/category/tekken-8" target="_blank" rel="noreferrer">Tekken 8 <span>↗</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.panel} ${styles.releasePanel}`}>
+        <div className={styles.releaseMarks} aria-hidden="true"><span>♛</span><b>ϟ</b></div>
         <div className={styles.sectionHead}>
           <div>
             <p className={styles.sectionEyebrow}>UPCOMING RELEASES</p>
             <h2>Coming soon.</h2>
             <p className={styles.sectionCopy}>A cross-platform look at the next games worth knowing about.</p>
           </div>
-          <span className={styles.count}>6 PICKS</span>
+          <span className={styles.count}>3 PICKS</span>
         </div>
         <div className={styles.releaseGrid}>
-          {releases.map((game) => (
+          {releases.slice(0, 3).map((game) => (
             <a className={styles.releaseCard} href={game.href} target="_blank" rel="noreferrer" key={game.id}>
               <div
                 className={`${styles.releaseArt} ${!game.image ? styles.releaseArtFallback : ""}`}
@@ -275,81 +337,6 @@ export default async function GamingRoom() {
         </div>
       </section>
 
-      <section className={`${styles.panel} ${styles.serverPanel} ${styles.serverHub}`}>
-        <div className={styles.serverHubTop}>
-          <div className={styles.serverCopy}>
-            <p className={styles.sectionEyebrow}>JASKI GAME SERVER</p>
-            <h2>The arcade is online.</h2>
-            <p>
-              One front door for the home game server: Moonlight handles remote play, Playnite keeps the arcade
-              experience full-screen, and RetroArch runs the classic library behind it.
-            </p>
-            <span className={styles.status}><i /> REMOTE PLAY READY</span>
-          </div>
-
-          <div className={styles.serverVisual} aria-hidden="true">
-            <div className={styles.serverCore}>J</div>
-            <span>GAME SERVER</span>
-            <small>MOONLIGHT / RETROARCH</small>
-          </div>
-        </div>
-
-        <div className={styles.serverRoute} aria-label="Jaski Game Server flow">
-          <div className={styles.serverRouteStep}>
-            <small>01 / CONNECT</small>
-            <strong>Moonlight</strong>
-            <p>Open Moonlight on Apple TV or iPad and connect to the paired game server.</p>
-          </div>
-          <span className={styles.serverRouteArrow} aria-hidden="true">→</span>
-          <div className={styles.serverRouteStep}>
-            <small>02 / ARCADE</small>
-            <strong>Playnite</strong>
-            <p>Choose Arcade for the full-screen launcher and controller-first library.</p>
-          </div>
-          <span className={styles.serverRouteArrow} aria-hidden="true">→</span>
-          <div className={styles.serverRouteStep}>
-            <small>03 / CLASSICS</small>
-            <strong>RetroArch</strong>
-            <p>Launch the retro library with the controller mapping already working through Moonlight.</p>
-          </div>
-        </div>
-
-        <div className={styles.serverLinks}>
-          <a href="https://moonlight-stream.org/" target="_blank" rel="noreferrer">
-            <span>M</span><div><small>REMOTE PLAY</small><strong>Moonlight</strong></div><b>↗</b>
-          </a>
-          <a href="https://playnite.link/" target="_blank" rel="noreferrer">
-            <span>P</span><div><small>FRONT END</small><strong>Playnite</strong></div><b>↗</b>
-          </a>
-          <a href="https://www.retroarch.com/" target="_blank" rel="noreferrer">
-            <span>R</span><div><small>RETRO CORE</small><strong>RetroArch</strong></div><b>↗</b>
-          </a>
-        </div>
-      </section>
-
-      <MyArcade />
-
-      <section className={styles.panel}>
-        <div className={styles.sectionHead}>
-          <div>
-            <p className={styles.sectionEyebrow}>QUICK LAUNCH</p>
-            <h2>Jump in.</h2>
-            <p className={styles.sectionCopy}>The two gaming destinations that matter here.</p>
-          </div>
-        </div>
-        <div className={styles.launchGrid}>
-          <a className={styles.launchCard} href="https://www.xbox.com/" target="_blank" rel="noreferrer">
-            <div className={styles.launchIcon}>X</div>
-            <div><small>XBOX</small><strong>Xbox</strong><p>Console, Game Pass & cloud gaming</p></div>
-            <span>↗</span>
-          </a>
-          <a className={styles.launchCard} href="https://store.steampowered.com/" target="_blank" rel="noreferrer">
-            <div className={styles.launchIcon}>S</div>
-            <div><small>PC</small><strong>Steam</strong><p>Your PC library and storefront</p></div>
-            <span>↗</span>
-          </a>
-        </div>
-      </section>
     </main>
   );
 }

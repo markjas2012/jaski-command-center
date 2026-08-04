@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150" role="img" aria-label="FIGHT! graffiti">
+  <defs>
+    <filter id="rough" x="-12%" y="-35%" width="125%" height="175%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.025 0.22" numOctaves="2" seed="11" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" result="distorted"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
+      <feFlood flood-color="#00bff3" flood-opacity=".34"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="distorted"/></feMerge>
+    </filter>
+  </defs>
+  <g transform="translate(10 2) skewX(-9)" filter="url(#rough)">
+    <text x="10" y="113" fill="#18c7ff" stroke="#73e5ff" stroke-width="1.2" paint-order="stroke" font-family="Arial Black,Arial,sans-serif" font-size="116" font-weight="900" font-style="italic" letter-spacing="3">FIGHT!</text>
+    <path d="M33 126 L520 118 M88 136 L555 128" stroke="#18c7ff" stroke-width="5" stroke-linecap="round" opacity=".58"/>
+    <path d="M116 120v22 M267 117v28 M440 112v23" stroke="#18c7ff" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+  </g>
+</svg>
