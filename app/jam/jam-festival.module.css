@@ -98,26 +98,21 @@
 .festival :global(section[class*="hero"] h1) {
   position: relative;
   z-index: 2;
-  min-width: min(790px, 72vw);
+  width: min(1050px, 78vw);
+  min-width: 0;
+  aspect-ratio: 1800 / 266;
   margin: -4px auto 0;
-  padding: 11px 78px 15px;
-  border: 6px solid #78502d;
-  border-radius: 5px 5px 15px 15px;
-  color: #214a38;
-  background:
-    radial-gradient(circle at 8% 34%, #df7450 0 8px, transparent 9px),
-    radial-gradient(circle at 13% 70%, #e4b63f 0 6px, transparent 7px),
-    radial-gradient(circle at 91% 66%, #77528f 0 9px, transparent 10px),
-    repeating-linear-gradient(2deg, rgba(98,71,33,.025) 0 1px, transparent 1px 5px),
-    linear-gradient(100deg, rgba(247,229,180,.97), rgba(239,215,155,.97));
-  box-shadow: 0 10px 19px rgba(46,38,24,.38), inset 0 0 28px rgba(115,74,31,.15);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(48px, 5.2vw, 76px);
-  font-weight: 700;
-  letter-spacing: -.055em;
-  text-align: center;
-  text-shadow: 3px 3px 0 rgba(235,171,62,.72), -2px -1px 0 rgba(117,72,132,.28);
-  transform: rotate(-.3deg);
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  color: transparent;
+  background: url("/jam-festival/jam-room-psychedelic-banner.webp") center / 100% 100% no-repeat;
+  box-shadow: 0 12px 22px rgba(46,38,24,.32);
+  font-size: 0;
+  line-height: 0;
+  text-indent: -9999px;
+  transform: rotate(-.15deg);
 }
 
 /* Canvas bulletin boards shared by every Jam component. */
@@ -395,7 +390,7 @@
 
 @media (max-width: 900px) {
   .festival :global(section[class*="hero"]) { min-height: 260px; margin-inline: 4px; padding-inline: 34px; }
-  .festival :global(section[class*="hero"] h1) { min-width: min(660px, 78vw); padding-inline: 38px; }
+  .festival :global(section[class*="hero"] h1) { width: 82vw; min-width: 0; padding: 0; }
   .festival :global(main[class*="room"] > section:not([class*="hero"])) { border-width: 4px !important; }
   .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)) { min-height: 300px; background-size: 195px auto, auto !important; }
 }
@@ -403,7 +398,7 @@
 @media (max-width: 620px) {
   .festival :global(main[class*="room"]) { padding: 12px 8px 24px; }
   .festival :global(section[class*="hero"]) { min-height: 205px; padding: 10px 18px 20px; background-position: center bottom; }
-  .festival :global(section[class*="hero"] h1) { min-width: 0; width: 88%; padding: 8px 20px 10px; font-size: 40px; }
+  .festival :global(section[class*="hero"] h1) { min-width: 0; width: 94%; padding: 0; font-size: 0; }
   .festival :global(section[class*="deadHub"] > div[class*="grid"]) { padding: 10px 8px 16px !important; }
   .festival :global(main[class*="room"] > section:nth-of-type(3)),
   .festival :global(main[class*="room"] > section:nth-of-type(4)) { background-size: 210px auto, auto, auto !important; }
