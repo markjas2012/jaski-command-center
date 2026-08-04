@@ -85,9 +85,9 @@ function Exclusive({
         {(items.length ? items.slice(0, 2) : [null, null]).map((item, index) =>
           item ? (
             <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
-              <small>{item.artist || "NUGS"}</small>
-              <strong>{item.venue || item.title}</strong>
-              <span>{[item.location, item.date].filter(Boolean).join(" · ") || "Recently added"}</span>
+              <small>NUGS</small>
+              <strong>{item.artist || item.title}</strong>
+              <span>{[item.venue, item.location, item.date].filter(Boolean).join(" · ") || "Recently added"}</span>
               <b>↗</b>
             </a>
           ) : (
@@ -172,3 +172,4 @@ export default function JamListen() {
     </section>
   );
 }
+

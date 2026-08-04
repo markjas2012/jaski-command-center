@@ -83,6 +83,44 @@ function cleanCandidate(value?: string) {
     .trim();
 }
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function pickArtist(rawHtml: string, rawHref: string, artistHint = "") {
+  if (artistHint) return artistHint;
+
+  // Nugs links the artist name directly to each product. Read that exact
+  // anchor before falling back to nearby tile metadata so adjacent releases
+  // cannot lend each other the wrong artist.
+  const hrefPattern = escapeRegExp(rawHref);
+  const linked = rawHtml.match(
+    new RegExp(`href=["\']${hrefPattern}["\'][^>]*>([\\s\\S]{0,500}?)<\\/a>`, "i")
+  );
+  const linkedText = cleanCandidate(linked?.[1]);
+
+  const invalid = /^(buy|listen|download|watch|details|view|mp3|flac|cd|nugs)$/i;
+  if (linkedText && linkedText.length <= 100 && !invalid.test(linkedText)) {
+    return linkedText;
+  }
+
+  const metadataPatterns = [
+    /class=["\'][^"\']*(?:artist-name|product-artist|tile-artist|artist)[^"\']*["\'][^>]*>([\s\S]{0,220}?)<\//gi,
+    /(?:data-artist|data-artist-name)=["\']([^"\']{2,120})["\']/gi,
+  ];
+
+  for (const pattern of metadataPatterns) {
+    for (const match of rawHtml.matchAll(pattern)) {
+      const candidate = cleanCandidate(match[1]);
+      if (candidate && candidate.length <= 100 && !invalid.test(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
+  return "";
+}
+
 function pickVenue(rawHtml: string, plain: string, artist: string) {
   const attributePatterns = [
     /(?:data-(?:name|title)|aria-label|title)=["']([^"']{4,140})["']/gi,
@@ -132,8 +170,8 @@ function parseProducts(html: string, artistHint = ""): Item[] {
     const chunk = strip(rawChunk);
     const dateMatch = chunk.match(/\b(\d{1,2}\/\d{1,2}\/(?:20)?\d{2})\b/);
     const artist =
+      pickArtist(rawChunk, match[1], artistHint) ||
       KNOWN_ARTISTS.find((name) => chunk.toLowerCase().includes(name.toLowerCase())) ||
-      artistHint ||
       "";
 
     const venue = pickVenue(rawChunk, chunk, artist);
