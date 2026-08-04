@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360">
+  <defs>
+    <filter id="rough"><feTurbulence baseFrequency=".035" numOctaves="2" seed="8" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#rough)">
+    <g stroke="#76518a" stroke-width="13" opacity=".38">
+      <circle cx="116" cy="105" r="49"/><circle cx="116" cy="105" r="18"/>
+      <circle cx="396" cy="251" r="56"/><circle cx="396" cy="251" r="21"/>
+    </g>
+    <g stroke="#db714f" stroke-width="10" opacity=".33">
+      <circle cx="330" cy="92" r="37"/><circle cx="330" cy="92" r="13"/>
+      <circle cx="210" cy="268" r="43"/><circle cx="210" cy="268" r="16"/>
+    </g>
+    <path d="M32 199c62-55 121-55 177 0-56 55-115 55-177 0zm177 0 46-38v76z" stroke="#3d7438" stroke-width="9" opacity=".3"/>
+    <path d="M296 171c58-48 112-48 164 0-52 48-106 48-164 0zm164 0 40-32v64z" stroke="#d39a33" stroke-width="8" opacity=".28"/>
+    <path d="M66 320q89-58 178 0M277 36q85 52 170 0" stroke="#477e68" stroke-width="7" opacity=".23"/>
+  </g>
+</svg>

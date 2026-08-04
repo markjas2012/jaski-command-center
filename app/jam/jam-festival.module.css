@@ -1,0 +1,414 @@
+.festival {
+  --jam-ink: #19372b;
+  --jam-green: #3d7438;
+  --jam-moss: #6d8a35;
+  --jam-sun: #f0bd45;
+  --jam-coral: #db714f;
+  --jam-purple: #76518a;
+  --jam-paper: #f2e4bd;
+  --jam-paper-deep: #ddc88e;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(131, 204, 231, .74) 0 260px, rgba(221, 237, 180, .82) 510px, rgba(75, 121, 51, .74) 100%),
+    url("/jam-festival/festival-backdrop.svg") top center / 100% auto repeat-y;
+}
+
+/* Bring the navigation into the same room instead of leaving one blue element. */
+.festivalShell :global(.sidebar) {
+  border-color: rgba(79,105,54,.24);
+  background:
+    linear-gradient(rgba(251,246,223,.94), rgba(238,228,191,.95)),
+    url("/jam-festival/festival-backdrop.svg") 18% top / auto 100%;
+  box-shadow: 12px 0 34px rgba(63,75,39,.12), inset 0 0 28px rgba(118,89,42,.08);
+}
+.festivalShell :global(.brand-icon) {
+  background: linear-gradient(145deg, #4e8c45, #2f6336);
+  box-shadow: 0 8px 18px rgba(50,95,48,.24);
+}
+.festivalShell :global(.navigation-link.active) {
+  color: #fffaf0;
+  background: linear-gradient(90deg, #4b8a42, #719b3b);
+  box-shadow: 0 9px 22px rgba(66,111,46,.22);
+}
+
+.festival::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 14% 9%, rgba(255,255,255,.72), transparent 18%),
+    radial-gradient(circle at 83% 18%, rgba(255,203,75,.26), transparent 23%),
+    repeating-linear-gradient(112deg, transparent 0 72px, rgba(77,87,36,.025) 73px 75px);
+  content: "";
+}
+
+/* Preserve the existing data components; reskin only inside the Jam route. */
+.festival :global(main[class*="room"]) {
+  position: relative;
+  padding: 20px 18px 34px;
+  color: var(--jam-ink);
+}
+
+.festival :global(main[class*="room"])::before {
+  position: absolute;
+  top: 175px;
+  right: 22px;
+  left: 22px;
+  height: 14px;
+  opacity: .72;
+  background: repeating-linear-gradient(90deg, #d45158 0 36px, #efb73f 36px 72px, #4d8b63 72px 108px, #72518c 108px 144px);
+  clip-path: polygon(0 0, 3% 100%, 6% 0, 9% 100%, 12% 0, 15% 100%, 18% 0, 21% 100%, 24% 0, 27% 100%, 30% 0, 33% 100%, 36% 0, 39% 100%, 42% 0, 45% 100%, 48% 0, 51% 100%, 54% 0, 57% 100%, 60% 0, 63% 100%, 66% 0, 69% 100%, 72% 0, 75% 100%, 78% 0, 81% 100%, 84% 0, 87% 100%, 90% 0, 93% 100%, 96% 0, 100% 100%);
+  content: "";
+}
+
+/* Festival entrance banner */
+.festival :global(section[class*="hero"]) {
+  min-height: 330px;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 12px 24px;
+  padding: 14px 76px 30px;
+  overflow: visible;
+  border: 8px solid #75502d;
+  border-radius: 10px;
+  color: var(--jam-ink);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(24,54,35,.08)),
+    url("/jam-festival/festival-stage-refined.webp") center 48% / cover no-repeat;
+  box-shadow: 0 13px 0 rgba(65,45,26,.28), 0 25px 42px rgba(46,64,27,.24), inset 0 0 32px rgba(20,45,27,.28);
+}
+
+.festival :global(section[class*="hero"])::before,
+.festival :global(section[class*="hero"])::after {
+  position: absolute;
+  top: -22px;
+  bottom: -30px;
+  width: 18px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4d321f, #b17a42 42%, #5a3922);
+  box-shadow: inset 2px 0 rgba(255,255,255,.2), 5px 7px 12px rgba(46,38,24,.25);
+  content: "";
+}
+.festival :global(section[class*="hero"])::before { left: -14px; transform: rotate(-1.5deg); }
+.festival :global(section[class*="hero"])::after { right: -14px; transform: rotate(1.5deg); }
+
+.festival :global(section[class*="hero"] h1) {
+  position: relative;
+  z-index: 2;
+  min-width: min(790px, 72vw);
+  margin: -4px auto 0;
+  padding: 11px 78px 15px;
+  border: 6px solid #78502d;
+  border-radius: 5px 5px 15px 15px;
+  color: #214a38;
+  background:
+    radial-gradient(circle at 8% 34%, #df7450 0 8px, transparent 9px),
+    radial-gradient(circle at 13% 70%, #e4b63f 0 6px, transparent 7px),
+    radial-gradient(circle at 91% 66%, #77528f 0 9px, transparent 10px),
+    repeating-linear-gradient(2deg, rgba(98,71,33,.025) 0 1px, transparent 1px 5px),
+    linear-gradient(100deg, rgba(247,229,180,.97), rgba(239,215,155,.97));
+  box-shadow: 0 10px 19px rgba(46,38,24,.38), inset 0 0 28px rgba(115,74,31,.15);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 5.2vw, 76px);
+  font-weight: 700;
+  letter-spacing: -.055em;
+  text-align: center;
+  text-shadow: 3px 3px 0 rgba(235,171,62,.72), -2px -1px 0 rgba(117,72,132,.28);
+  transform: rotate(-.3deg);
+}
+
+/* Canvas bulletin boards shared by every Jam component. */
+.festival :global(main[class*="room"] > section:not([class*="hero"])),
+.festival :global(main[class*="room"] > div) {
+  position: relative;
+  border: 7px solid rgba(91,62,35,.86) !important;
+  border-radius: 14px !important;
+  color: var(--jam-ink) !important;
+  background:
+    linear-gradient(rgba(245,230,192,.96), rgba(229,209,158,.97)),
+    repeating-linear-gradient(0deg, transparent 0 5px, rgba(105,82,44,.05) 6px 7px) !important;
+  box-shadow: 0 18px 34px rgba(46,64,27,.22), inset 0 0 34px rgba(106,75,32,.12) !important;
+}
+
+/* The content components sit one level below several wrapper sections. */
+.festival :global(section[class*="deadHub"]),
+.festival :global(section[class*="shell"]),
+.festival :global(section[class*="wrap"]) {
+  position: relative;
+  border: 9px ridge #80603a !important;
+  border-radius: 13px !important;
+  color: var(--jam-ink) !important;
+  background:
+    linear-gradient(rgba(244,229,190,.97), rgba(226,205,151,.98)),
+    repeating-linear-gradient(0deg, transparent 0 6px, rgba(99,75,39,.05) 7px 8px) !important;
+  box-shadow:
+    0 18px 30px rgba(53,64,34,.22),
+    inset 0 0 0 2px rgba(248,231,178,.6),
+    inset 0 0 42px rgba(120,83,35,.13) !important;
+}
+
+.festival :global(section[class*="deadHub"])::before,
+.festival :global(section[class*="shell"])::before,
+.festival :global(section[class*="wrap"])::before {
+  position: absolute;
+  top: -7px;
+  right: 18px;
+  left: 18px;
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #5c3a22, #bf8b4e 18%, #6e4829 38%, #c99a5b 62%, #5a3922);
+  box-shadow: inset 0 2px rgba(255,255,255,.2), 0 3px 4px rgba(52,35,21,.18);
+  content: "";
+}
+
+.festival :global(main[class*="room"] > section:nth-of-type(3n)) {
+  transform: rotate(.12deg);
+}
+.festival :global(main[class*="room"] > section:nth-of-type(3n + 1)) {
+  transform: rotate(-.1deg);
+}
+
+.festival :global(main[class*="room"] h2),
+.festival :global(main[class*="room"] h3),
+.festival :global(main[class*="room"] h4),
+.festival :global(main[class*="room"] strong) { color: #19372b !important; }
+
+.festival :global(main[class*="room"] p),
+.festival :global(main[class*="room"] small),
+.festival :global(main[class*="room"] span) { color: #5d694b; }
+
+.festival :global(main[class*="room"] a),
+.festival :global(main[class*="room"] b) { color: #356a39 !important; }
+
+/* Inner cards: sun-faded posters mounted to the boards. */
+.festival :global(main[class*="room"] article),
+.festival :global(main[class*="room"] a[class*="story"]),
+.festival :global(main[class*="room"] a[class*="card"]),
+.festival :global(main[class*="room"] div[class*="group"]) {
+  border-color: rgba(70,82,45,.28) !important;
+  color: var(--jam-ink) !important;
+  background:
+    linear-gradient(145deg, rgba(255,249,226,.88), rgba(232,217,179,.91)),
+    repeating-linear-gradient(6deg, transparent 0 8px, rgba(70,82,45,.035) 9px 10px) !important;
+  box-shadow: 0 7px 13px rgba(55,60,36,.11), inset 0 0 18px rgba(130,91,42,.08) !important;
+}
+
+.festival :global(main[class*="room"] [class*="featureLink"]),
+.festival :global(main[class*="room"] [class*="recording"]),
+.festival :global(main[class*="room"] [class*="setBlock"]),
+.festival :global(main[class*="room"] [class*="showCard"]),
+.festival :global(main[class*="room"] [class*="exclusive"]),
+.festival :global(main[class*="room"] [class*="newsList"] a),
+.festival :global(main[class*="room"] [class*="exclusiveItems"] > a) {
+  border-color: rgba(75,98,50,.25) !important;
+  color: var(--jam-ink) !important;
+  background:
+    linear-gradient(145deg, rgba(255,250,228,.94), rgba(235,220,180,.95)),
+    repeating-linear-gradient(4deg, transparent 0 7px, rgba(89,74,43,.04) 8px 9px) !important;
+  box-shadow: 0 4px 8px rgba(66,65,38,.08) !important;
+}
+
+.festival :global(main[class*="room"] li),
+.festival :global(main[class*="room"] [class*="setBlock"] span),
+.festival :global(main[class*="room"] [class*="featureLink"] span),
+.festival :global(main[class*="room"] [class*="newsList"] strong),
+.festival :global(main[class*="room"] [class*="recording"] strong) {
+  color: #314536 !important;
+}
+
+.festival :global(main[class*="room"] [class*="featureLink"] small),
+.festival :global(main[class*="room"] [class*="sourceRow"] span),
+.festival :global(main[class*="room"] [class*="showMeta"]),
+.festival :global(main[class*="room"] [class*="locationLine"]) {
+  color: #68705a !important;
+}
+
+.festival :global(main[class*="room"] article:nth-child(3n + 1)) { border-top: 4px solid var(--jam-coral) !important; }
+.festival :global(main[class*="room"] article:nth-child(3n + 2)) { border-top: 4px solid var(--jam-purple) !important; }
+.festival :global(main[class*="room"] article:nth-child(3n)) { border-top: 4px solid var(--jam-moss) !important; }
+
+.festival :global(main[class*="room"] a:hover) {
+  filter: saturate(1.12);
+}
+
+/* Hand-painted labels and buttons. */
+.festival :global(main[class*="room"] p[class]),
+.festival :global(main[class*="room"] [class*="source"]),
+.festival :global(main[class*="room"] [class*="featureLabel"]) {
+  color: #7d3f55 !important;
+}
+
+.festival :global(main[class*="room"] [class*="crown"]),
+.festival :global(main[class*="room"] [class*="dateBadge"]),
+.festival :global(main[class*="room"] [class*="year"]) {
+  border-color: rgba(71,105,48,.34) !important;
+  color: #345f36 !important;
+  background: rgba(239,203,86,.22) !important;
+}
+
+/* Grateful Dead hub: three handmade festival notice boards tied to one rail. */
+.festival :global(section[class*="deadHub"] > div[class*="grid"]) {
+  position: relative;
+  gap: 16px !important;
+  padding: 12px 12px 15px !important;
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, rgba(91,61,31,.9), rgba(183,132,70,.94) 3%, rgba(104,70,36,.9) 6%, transparent 6% 94%, rgba(104,70,36,.9) 94% 97%, rgba(183,132,70,.94) 97%),
+    repeating-linear-gradient(90deg, transparent 0 49px, rgba(83,55,29,.12) 50px 51px);
+}
+
+.festival :global(section[class*="deadHub"] > div[class*="grid"] > article) {
+  position: relative;
+  overflow: hidden;
+  border-right: 2px solid rgba(96,67,35,.35) !important;
+  border-bottom: 5px solid #7b5937 !important;
+  border-left: 2px solid rgba(96,67,35,.35) !important;
+  border-radius: 14px 14px 7px 7px !important;
+  box-shadow:
+    0 12px 16px rgba(61,49,28,.16),
+    inset 0 0 28px rgba(118,82,38,.12) !important;
+}
+
+.festival :global(section[class*="deadHub"] > div[class*="grid"] > article)::before {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  width: 11px;
+  height: 11px;
+  z-index: 3;
+  border: 2px solid rgba(88,57,28,.55);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f3d79a 0 18%, #9d6c38 48%, #49301d 100%);
+  box-shadow: 0 2px 3px rgba(55,35,19,.32);
+  content: "";
+}
+
+/* The refined magic-mushroom garden beneath the Deadcast panel. */
+.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)) {
+  min-height: 322px;
+  padding-bottom: 188px !important;
+  background-image:
+    url("/jam-festival/mushroom-garden.webp"),
+    linear-gradient(145deg, rgba(255,249,226,.9), rgba(232,217,179,.94)) !important;
+  background-repeat: no-repeat !important;
+  background-position: center calc(100% - 8px), center !important;
+  background-size: 214px auto, auto !important;
+}
+
+.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2))::after {
+  position: absolute;
+  right: 12%;
+  bottom: 9px;
+  left: 12%;
+  height: 8px;
+  border-radius: 50%;
+  opacity: .28;
+  background: #31482d;
+  filter: blur(5px);
+  content: "";
+}
+
+/* Wildflower beds visually finish the history and family boards. */
+.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)),
+.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3)) {
+  padding-bottom: 72px !important;
+  background-image:
+    url("/jam-festival/wildflower-border.webp"),
+    linear-gradient(145deg, rgba(255,249,226,.92), rgba(232,217,179,.95)) !important;
+  background-repeat: no-repeat !important;
+  background-position: center bottom, center !important;
+  background-size: 100% 92px, auto !important;
+}
+
+.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3))::after {
+  position: absolute;
+  right: 24px;
+  bottom: 42px;
+  width: 58px;
+  height: 58px;
+  border: 8px double rgba(110,73,133,.24);
+  border-radius: 50% 44% 53% 42%;
+  content: "";
+  transform: rotate(18deg);
+}
+
+/* Compact the long archive content without hiding any songs or actions. */
+.festival :global(section[class*="deadHub"] [class*="setlist"]),
+.festival :global(section[class*="deadHub"] [class*="setList"]) {
+  line-height: 1.24 !important;
+}
+.festival :global(section[class*="deadHub"] [class*="setlist"] li),
+.festival :global(section[class*="deadHub"] [class*="setList"] li) {
+  margin-block: 1px !important;
+}
+
+/* Band-specific, hand-painted backdrop marks for the next two featured sections. */
+.festival :global(main[class*="room"] > section:nth-of-type(3)) {
+  background:
+    url("/jam-festival/phish-iconography.svg") right 34px top 22px / 300px auto no-repeat,
+    linear-gradient(rgba(244,229,190,.97), rgba(226,205,151,.98)),
+    repeating-linear-gradient(0deg, transparent 0 6px, rgba(99,75,39,.05) 7px 8px) !important;
+}
+
+.festival :global(main[class*="room"] > section:nth-of-type(4)) {
+  background:
+    url("/jam-festival/panic-iconography.svg") right 28px top 18px / 310px auto no-repeat,
+    linear-gradient(rgba(244,229,190,.97), rgba(226,205,151,.98)),
+    repeating-linear-gradient(0deg, transparent 0 6px, rgba(99,75,39,.05) 7px 8px) !important;
+}
+
+.festival :global(main[class*="room"] > section:nth-of-type(3) > div[class*="grid"]),
+.festival :global(main[class*="room"] > section:nth-of-type(4) > div[class*="grid"]) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Small hand-painted category plaques similar to the approved rendering. */
+.festival :global(section[class*="deadHub"] [class*="heroHead"] p),
+.festival :global(section[class*="deadHub"] [class*="panelHead"] > div > p),
+.festival :global(section[class*="shell"] [class*="head"] p),
+.festival :global(section[class*="wrap"] [class*="heading"] p) {
+  display: inline-flex;
+  padding: 5px 10px;
+  border-radius: 3px 3px 7px 3px;
+  color: #fff8e6 !important;
+  background: linear-gradient(90deg, #315f37, #4a793d);
+  box-shadow: 2px 3px 0 rgba(61,50,28,.18);
+  letter-spacing: .13em;
+}
+
+/* Softer psychedelic flourishes without sacrificing readability. */
+.festival :global(main[class*="room"] > section:nth-last-child(2))::after {
+  position: absolute;
+  right: 20px;
+  bottom: 12px;
+  width: 92px;
+  height: 92px;
+  border: 9px double rgba(118,81,138,.17);
+  border-radius: 50% 45% 54% 42%;
+  content: "";
+  transform: rotate(18deg);
+}
+
+@media (max-width: 900px) {
+  .festival :global(section[class*="hero"]) { min-height: 260px; margin-inline: 4px; padding-inline: 34px; }
+  .festival :global(section[class*="hero"] h1) { min-width: min(660px, 78vw); padding-inline: 38px; }
+  .festival :global(main[class*="room"] > section:not([class*="hero"])) { border-width: 4px !important; }
+  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)) { min-height: 300px; background-size: 195px auto, auto !important; }
+}
+
+@media (max-width: 620px) {
+  .festival :global(main[class*="room"]) { padding: 12px 8px 24px; }
+  .festival :global(section[class*="hero"]) { min-height: 205px; padding: 10px 18px 20px; background-position: center bottom; }
+  .festival :global(section[class*="hero"] h1) { min-width: 0; width: 88%; padding: 8px 20px 10px; font-size: 40px; }
+  .festival :global(section[class*="deadHub"] > div[class*="grid"]) { padding: 10px 8px 16px !important; }
+  .festival :global(main[class*="room"] > section:nth-of-type(3)),
+  .festival :global(main[class*="room"] > section:nth-of-type(4)) { background-size: 210px auto, auto, auto !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .festival :global(main[class*="room"] > section) { transform: none !important; }
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#75c5e8"/><stop offset=".58" stop-color="#d8edbf"/><stop offset="1" stop-color="#5f994e"/></linearGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="13"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .12 0"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <g fill="#fff" opacity=".63"><ellipse cx="240" cy="100" rx="150" ry="45"/><ellipse cx="375" cy="110" rx="110" ry="36"/><ellipse cx="1270" cy="155" rx="165" ry="48"/></g>
+  <path d="M0 560Q180 440 360 545T720 525T1080 548T1600 500V900H0Z" fill="#538a47" opacity=".72"/>
+  <path d="M0 665Q260 560 515 660T1015 638T1600 620V900H0Z" fill="#3c713c" opacity=".72"/>
+  <g stroke="#e8ae39" stroke-width="5" fill="none" opacity=".65"><path d="M0 190Q400 280 800 185T1600 205"/></g>
+  <g fill="#d95c58" opacity=".75"><path d="M95 209l25 38 25-31Z"/><path d="M335 233l27 39 25-32Z"/><path d="M810 184l28 40 25-34Z"/><path d="M1290 220l27 38 25-31Z"/></g>
+  <rect width="1600" height="900" filter="url(#grain)" opacity=".32"/>
+</svg>
