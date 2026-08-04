@@ -401,7 +401,7 @@ export default async function StreamingRoom() {
         <div className={styles.heroCopy}>
           <p className={styles.kicker}>STREAMING</p>
           <h1>What are we watching?</h1>
-          <p className={styles.lede}>Your services, your library, and the things actually worth watching - without browsing ten apps first.</p>
+          <p className={styles.lede}>Your services and the things actually worth watching - without browsing ten apps first.</p>
         </div>
         <div className={styles.signal} aria-hidden="true">
           <span className={styles.signalRing} />
@@ -475,7 +475,7 @@ export default async function StreamingRoom() {
             ["ESPN","SPORTS","https://www.espn.com/watch/","/streaming-logos/espn.svg"],
             ["Discovery+","STREAMING","https://www.discoveryplus.com/","/streaming-logos/discoveryplus.svg"],
             ["Peacock","STREAMING","https://www.peacocktv.com/","/streaming-logos/peacock.svg"],
-            ["Prime Video","STREAMING","https://www.primevideo.com/","/streaming-logos/primevideo.svg"],
+            ["Prime Video","LIBRARY + VIDEO","https://www.primevideo.com/","/streaming-logos/primevideo.svg"],
             ["Netflix","STREAMING","https://www.netflix.com/","/streaming-logos/netflix.svg"],
             ["Apple TV","LIBRARY + TV","https://tv.apple.com/","/streaming-logos/appletv.svg"],
           ].map(([name,kind,href,logo]) => (
@@ -488,32 +488,6 @@ export default async function StreamingRoom() {
         </div>
       </section>
 
-      <section className={styles.libraryShelf}>
-        <div className={styles.sectionHead}>
-          <div>
-            <p className={styles.sectionEyebrow}>FROM YOUR LIBRARY</p>
-            <h2>Already yours.</h2>
-            <p className={styles.sectionCopy}>Movies and shows you own - separate from whatever happens to be streaming this month.</p>
-          </div>
-          <span className={styles.pickCount}>5 OWNED</span>
-        </div>
-
-        <div className={styles.libraryGrid}>
-          {[
-            ["The Dark Knight","APPLE TV",styles.libraryOne],
-            ["Gladiator","PRIME VIDEO",styles.libraryTwo],
-            ["The Godfather","APPLE TV",styles.libraryThree],
-            ["Heat","PRIME VIDEO",styles.libraryFour],
-            ["Top Gun: Maverick","APPLE TV",styles.libraryFive],
-          ].map(([title,service,art]) => (
-            <article className={`${styles.libraryCard} ${art}`} key={title}>
-              <div className={styles.libraryShade} />
-              <div className={styles.libraryTop}><span>{service}</span><span className={styles.ownedBadge}>OWNED</span></div>
-              <div className={styles.libraryBottom}><small>MOVIE</small><h3>{title}</h3><span>Purchased</span></div>
-            </article>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

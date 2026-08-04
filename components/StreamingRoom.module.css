@@ -159,6 +159,236 @@
   .footer{right:28px;left:28px}
 }
 
+/* Sprint 17.18c — rendered movie-palace depth. The imagery supplies the
+   architecture; every title, card, link, and modal remains live HTML. */
+.hero{
+  min-height:318px;
+  background-image:
+    linear-gradient(90deg,rgba(3,3,13,.70) 0%,rgba(4,4,16,.49) 48%,rgba(5,3,18,.18) 76%),
+    url("/streaming-theater/movie-palace-hero.webp");
+  background-size:100% 100%;
+  background-position:center;
+  background-repeat:no-repeat;
+  border-color:rgba(224,184,99,.48);
+  box-shadow:
+    inset 0 0 0 3px rgba(24,12,40,.68),
+    inset 0 0 70px rgba(40,18,83,.20),
+    0 15px 38px rgba(26,12,58,.20);
+}
+.hero:before,.hero:after{display:none}
+.heroCopy{margin-top:48px;margin-left:116px;max-width:660px}
+.eyebrow{margin-left:116px}
+.glowOne{
+  inset:0;
+  width:auto;
+  height:auto;
+  border-radius:0;
+  background:linear-gradient(90deg,rgba(1,2,10,.52),transparent 70%);
+  filter:none;
+}
+.glowTwo{display:none}
+.signal{top:70px;right:88px;background:rgba(7,5,24,.61)}
+.footer{bottom:15px}
+
+.tonight{
+  isolation:isolate;
+  min-height:520px;
+  background:
+    linear-gradient(90deg,rgba(4,5,15,.97) 0%,rgba(5,5,17,.94) 46%,rgba(7,5,20,.59) 73%,rgba(7,5,20,.43)),
+    url("/streaming-theater/movie-palace-balcony.webp") center top / 100% 285px no-repeat,
+    linear-gradient(145deg,#060713,#100a21 64%,#170d2c);
+}
+.tonight:before{display:none}
+.tonight:after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:0;
+  right:0;
+  left:0;
+  height:285px;
+  pointer-events:none;
+  border-bottom:1px solid rgba(219,178,100,.34);
+  box-shadow:inset 0 -30px 44px rgba(5,5,16,.68);
+}
+.tonight>.sectionHead,.tonight>.worthShelves{
+  position:relative;
+  z-index:1;
+}
+.tonight>.sectionHead{max-width:46%;min-height:150px}
+.worthShelves{
+  margin-top:24px;
+  padding:14px;
+  border:1px solid rgba(216,179,107,.22);
+  border-radius:18px;
+  background:rgba(5,5,16,.82);
+  box-shadow:0 18px 42px rgba(0,0,0,.34),inset 0 1px rgba(255,227,162,.05);
+  backdrop-filter:blur(5px);
+}
+
+@media(max-width:1050px){
+  .heroCopy,.eyebrow{margin-left:48px}
+  .tonight>.sectionHead{max-width:62%}
+}
+@media(max-width:820px){
+  .hero{min-height:390px;background-size:auto 100%;background-position:center}
+  .heroCopy,.eyebrow{margin-left:0}
+  .tonight{background-size:auto 230px}
+  .tonight>.sectionHead{max-width:100%;min-height:120px}
+}
+
+/* ========================================================================== */
+/* SPRINT 17.18b — THEATER ARCHITECTURE DETAIL PASS                           */
+/* Physical proscenium detail layered over the proven 17.18a presentation.    */
+/* ========================================================================== */
+
+.hero{
+  background-image:
+    url("/streaming-theater/proscenium-frame.svg"),
+    linear-gradient(90deg,rgba(7,7,18,.98),rgba(14,10,31,.92) 48%,rgba(31,15,54,.90)),
+    repeating-linear-gradient(90deg,transparent 0 46px,rgba(255,255,255,.018) 47px 48px);
+  background-position:center,center,center;
+  background-size:100% 100%,cover,auto;
+  background-repeat:no-repeat;
+  border-color:rgba(229,195,124,.62);
+  box-shadow:
+    inset 0 0 0 4px rgba(7,7,18,.82),
+    inset 0 0 0 6px rgba(255,227,162,.16),
+    inset 0 -58px 82px rgba(49,20,78,.25),
+    0 18px 42px rgba(21,12,54,.2);
+}
+.hero:before{
+  top:11px;
+  right:9%;
+  left:9%;
+  height:8px;
+  background:
+    radial-gradient(circle,#fff1bb 0 2.2px,#bd8331 2.8px 3.4px,transparent 3.8px) 0 0/27px 8px repeat-x;
+  filter:drop-shadow(0 0 8px rgba(255,203,106,.76));
+}
+.heroCopy{
+  margin-left:42px;
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  min-height:34px;
+  margin-left:-12px;
+  padding:0 25px;
+  border:1px solid rgba(216,179,107,.56);
+  border-radius:5px 16px 5px 16px;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(151,97,255,.20),transparent 66%),
+    linear-gradient(180deg,rgba(32,21,57,.95),rgba(12,10,27,.96));
+  box-shadow:
+    inset 0 0 0 2px rgba(255,227,162,.05),
+    0 0 18px rgba(118,70,238,.18);
+}
+.kicker:before,.kicker:after{
+  content:"✦";
+  color:rgba(255,224,155,.62);
+  font-size:8px;
+}
+.kicker:before{margin-right:12px}
+.kicker:after{margin-left:12px}
+.signal{
+  right:97px;
+  border:2px solid rgba(216,179,107,.48);
+  box-shadow:
+    0 0 40px rgba(105,69,255,.24),
+    0 0 0 5px rgba(9,8,24,.9),
+    0 0 0 7px rgba(216,179,107,.17),
+    0 0 0 12px rgba(9,8,24,.72),
+    0 0 0 13px rgba(163,118,255,.13),
+    inset 0 0 58px rgba(63,39,143,.30);
+}
+.signalRing{
+  inset:9px;
+  border-color:rgba(255,225,157,.20);
+  box-shadow:inset 0 0 24px rgba(91,61,201,.16);
+}
+.glowTwo{
+  z-index:1;
+  left:auto;
+  right:14px;
+  bottom:43px;
+  width:440px;
+  height:130px;
+  border-radius:0;
+  background:linear-gradient(90deg,transparent,rgba(97,174,255,.10) 38%,rgba(151,90,255,.20) 76%,rgba(213,161,255,.34));
+  clip-path:polygon(0 44%,100% 0,100% 100%,0 58%);
+  filter:blur(7px);
+  transform:none;
+  opacity:.78;
+}
+
+/* Balcony rail and illuminated poster niches establish the next room below. */
+.tonight{
+  padding-top:30px;
+  background-image:
+    url("/streaming-theater/balcony-niches.svg"),
+    radial-gradient(ellipse at 86% 0%,rgba(99,65,204,.105),transparent 30%),
+    linear-gradient(135deg,rgba(8,8,20,.985),rgba(15,11,29,.985) 58%,rgba(21,12,38,.98));
+  background-position:center top,center,center;
+  background-size:100% 100%,cover,cover;
+  background-repeat:no-repeat;
+  border-color:rgba(216,179,107,.38);
+  box-shadow:
+    inset 0 0 0 4px rgba(7,7,18,.55),
+    inset 0 0 0 5px rgba(216,179,107,.10),
+    inset 0 1px 0 rgba(255,227,162,.10),
+    0 16px 34px rgba(15,8,39,.14);
+}
+.tonight:before{
+  top:10px;
+  right:4%;
+  left:4%;
+  height:7px;
+  background:
+    radial-gradient(circle,#f5d996 0 1.8px,#8d6429 2.2px 2.8px,transparent 3.1px) 0 0/31px 7px repeat-x;
+  filter:drop-shadow(0 0 6px rgba(255,198,89,.48));
+}
+.worthShelf{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(216,179,107,.20);
+  border-radius:15px;
+  background:
+    linear-gradient(90deg,rgba(6,6,15,.88),rgba(18,12,34,.70)),
+    radial-gradient(ellipse at 78% 0%,rgba(135,82,255,.12),transparent 35%);
+  box-shadow:inset 0 0 0 3px rgba(9,8,22,.58),inset 0 1px 0 rgba(255,225,160,.055);
+}
+.worthShelf:after{
+  content:"";
+  position:absolute;
+  top:14px;
+  right:18px;
+  width:86px;
+  height:122px;
+  border:1px solid rgba(216,179,107,.18);
+  border-radius:46px 46px 8px 8px;
+  background:
+    radial-gradient(circle at 50% 16%,rgba(151,94,255,.42),transparent 22%),
+    linear-gradient(180deg,rgba(76,44,145,.15),rgba(7,7,18,.04));
+  box-shadow:inset 0 0 18px rgba(110,72,214,.10),0 0 16px rgba(129,79,245,.06);
+  opacity:.34;
+  pointer-events:none;
+}
+.worthShelfHead,.liveCardRow{position:relative;z-index:1}
+
+@media(max-width:1050px){
+  .heroCopy{margin-left:16px}
+  .signal{right:52px}
+  .worthShelf:after{opacity:.18}
+}
+@media(max-width:820px){
+  .heroCopy{margin-left:0}
+  .kicker{margin-left:0;padding:0 15px}
+  .signal{right:-34px}
+  .glowTwo{right:-90px;width:350px}
+  .worthShelf:after{display:none}
+}
+
 
 .tonight{
   margin-top:18px;
@@ -1606,4 +1836,319 @@
   .detailContent{
     padding:18px;
   }
+}
+
+/* ========================================================================== */
+/* SPRINT 17.18a — HYBRID MOVIE PALACE                                        */
+/* Cool projector atmosphere + warm Fox/Fillmore marquee light.               */
+/* Deliberately appended so the proven Streaming Room data/layout stays intact.*/
+/* ========================================================================== */
+
+.room{
+  --cinema-ink:#070712;
+  --cinema-navy:#0b0b1d;
+  --cinema-aubergine:#19102b;
+  --cinema-violet:#8b5cff;
+  --cinema-blue:#67b7ff;
+  --cinema-gold:#d8b36b;
+  --cinema-champagne:#ffe3a2;
+  position:relative;
+  isolation:isolate;
+  padding:14px 16px 28px;
+  background:
+    radial-gradient(ellipse at 78% 2%,rgba(97,83,218,.13),transparent 30%),
+    linear-gradient(180deg,rgba(12,11,29,.035),transparent 36%);
+}
+
+/* Compact marquee: roughly half the height of the previous hero. */
+.hero{
+  min-height:318px;
+  padding:30px 38px 28px;
+  border:1px solid rgba(216,179,107,.48);
+  border-radius:24px;
+  background:
+    linear-gradient(90deg,rgba(7,7,18,.98),rgba(14,10,31,.92) 48%,rgba(31,15,54,.90)),
+    repeating-linear-gradient(90deg,transparent 0 46px,rgba(255,255,255,.018) 47px 48px),
+    #080814;
+  box-shadow:
+    inset 0 0 0 5px rgba(7,7,18,.78),
+    inset 0 0 0 6px rgba(255,227,162,.12),
+    inset 0 -56px 80px rgba(49,20,78,.24),
+    0 18px 42px rgba(21,12,54,.18);
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  z-index:1;
+  top:10px;
+  right:18px;
+  left:18px;
+  height:7px;
+  border-radius:999px;
+  background:
+    radial-gradient(circle,#ffe9aa 0 2px,#bf8c3a 2.5px 3px,transparent 3.5px) 0 0/25px 7px repeat-x;
+  filter:drop-shadow(0 0 7px rgba(255,203,106,.68));
+  opacity:.88;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  right:-6%;
+  bottom:-41%;
+  width:59%;
+  height:96%;
+  border:1px solid rgba(139,92,255,.14);
+  border-radius:50%;
+  transform:rotate(-9deg);
+  box-shadow:0 0 80px rgba(94,61,196,.09),inset 0 0 70px rgba(78,52,159,.05);
+}
+.glowOne{
+  top:-45px;
+  right:10%;
+  width:430px;
+  height:240px;
+  background:rgba(113,72,255,.20);
+  filter:blur(62px);
+}
+.glowTwo{
+  left:32%;
+  bottom:-70px;
+  width:520px;
+  height:175px;
+  background:linear-gradient(90deg,rgba(72,149,255,.12),rgba(173,72,255,.17));
+  filter:blur(58px);
+  transform:rotate(-5deg);
+}
+.eyebrow{
+  color:#b8c9ff;
+  text-shadow:0 0 12px rgba(103,183,255,.34);
+}
+.heroCopy{
+  max-width:690px;
+  margin-top:54px;
+}
+.kicker{
+  margin-bottom:10px;
+  color:#c7a3ff;
+  text-shadow:0 0 18px rgba(139,92,255,.7);
+}
+.hero h1{
+  max-width:650px;
+  font-size:clamp(46px,4.6vw,70px);
+  line-height:.94;
+  text-shadow:0 2px 20px rgba(164,129,255,.12);
+}
+.lede{
+  max-width:640px;
+  margin-top:17px;
+  font-size:14px;
+  line-height:1.45;
+}
+.signal{
+  top:64px;
+  right:72px;
+  width:176px;
+  height:176px;
+  border-color:rgba(255,227,162,.24);
+  background:
+    radial-gradient(circle,rgba(115,70,231,.18),rgba(8,7,25,.56) 67%),
+    rgba(8,7,25,.38);
+  box-shadow:
+    0 0 34px rgba(105,69,255,.18),
+    0 0 0 8px rgba(255,220,147,.018),
+    inset 0 0 58px rgba(63,39,143,.24);
+}
+.signalRing{inset:12px;border-color:rgba(103,183,255,.18)}
+.play{margin-bottom:7px;font-size:28px;color:#b184ff}
+.signal strong{font-size:29px}
+.signal small{margin-top:7px;font-size:7px}
+.footer{
+  right:38px;
+  bottom:18px;
+  left:38px;
+  padding-top:12px;
+  border-color:rgba(216,179,107,.20);
+  color:rgba(255,227,162,.42);
+}
+
+/* The remaining rooms read as dark screening salons rather than blue panels. */
+.tonight,.newComing,.services,.libraryShelf{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(216,179,107,.23);
+  background:
+    radial-gradient(ellipse at 86% 0%,rgba(99,65,204,.105),transparent 30%),
+    linear-gradient(135deg,rgba(8,8,20,.985),rgba(15,11,29,.985) 58%,rgba(21,12,38,.98));
+  box-shadow:
+    inset 0 1px 0 rgba(255,227,162,.055),
+    inset 0 0 50px rgba(104,63,191,.035),
+    0 14px 32px rgba(15,8,39,.10);
+}
+.tonight:before,.newComing:before,.services:before,.libraryShelf:before{
+  content:"";
+  position:absolute;
+  top:8px;
+  right:18px;
+  left:18px;
+  height:4px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,rgba(255,222,148,.24),transparent);
+  opacity:.72;
+}
+.sectionEyebrow{
+  color:#bd8fff;
+  text-shadow:0 0 14px rgba(151,96,255,.46);
+}
+.sectionHead h2{color:#fffaf0;text-shadow:0 1px 12px rgba(255,222,161,.06)}
+.pickCount{color:rgba(255,221,152,.58)}
+.worthShelf{
+  border-color:rgba(153,111,255,.14);
+  background:linear-gradient(145deg,rgba(16,13,32,.56),rgba(8,8,18,.30));
+}
+.liveCard,.watchCard,.serviceCard,.libraryCard{
+  border-color:rgba(216,179,107,.20);
+  box-shadow:0 12px 28px rgba(0,0,0,.24),0 0 0 1px rgba(120,87,220,.035);
+}
+.liveCard:hover,.watchCard:hover,.serviceCard:hover{
+  border-color:rgba(172,130,255,.48);
+  box-shadow:0 16px 34px rgba(0,0,0,.3),0 0 22px rgba(120,76,230,.12);
+}
+.serviceMark{
+  border-color:rgba(255,224,157,.18);
+  background:linear-gradient(145deg,rgba(255,227,162,.08),rgba(110,69,220,.10));
+}
+
+@media(max-width:1050px){
+  .hero{min-height:330px}
+  .heroCopy{max-width:570px}
+  .signal{right:30px;opacity:.62}
+}
+@media(max-width:820px){
+  .room{padding:10px}
+  .hero{min-height:390px;padding:27px 24px}
+  .heroCopy{margin-top:45px}
+  .hero h1{font-size:48px}
+  .signal{right:-36px;bottom:56px;width:156px;height:156px}
+  .footer{right:24px;left:24px}
+}
+
+/* 17.18c final cascade: rendered architecture replaces the diagrammatic SVG. */
+.hero{
+  min-height:318px;
+  background-image:
+    linear-gradient(90deg,rgba(3,3,13,.70) 0%,rgba(4,4,16,.49) 48%,rgba(5,3,18,.18) 76%),
+    url("/streaming-theater/movie-palace-hero.webp");
+  background-size:100% 100%;
+  background-position:center;
+  background-repeat:no-repeat;
+  border-color:rgba(224,184,99,.48);
+  box-shadow:inset 0 0 0 3px rgba(24,12,40,.68),inset 0 0 70px rgba(40,18,83,.20),0 15px 38px rgba(26,12,58,.20);
+}
+.hero:before,.hero:after{display:none}
+.heroCopy{margin-top:48px;margin-left:116px;max-width:660px}
+.eyebrow{margin-left:116px}
+.glowOne{inset:0;width:auto;height:auto;border-radius:0;background:linear-gradient(90deg,rgba(1,2,10,.52),transparent 70%);filter:none}
+.glowTwo{display:none}
+.signal{top:70px;right:88px;background:rgba(7,5,24,.61)}
+.footer{bottom:15px}
+.tonight{
+  isolation:isolate;
+  min-height:520px;
+  background:
+    linear-gradient(90deg,rgba(4,5,15,.97) 0%,rgba(5,5,17,.94) 46%,rgba(7,5,20,.59) 73%,rgba(7,5,20,.43)),
+    url("/streaming-theater/movie-palace-balcony.webp") center top / 100% 285px no-repeat,
+    linear-gradient(145deg,#060713,#100a21 64%,#170d2c);
+}
+.tonight:before{display:none}
+.tonight:after{content:"";position:absolute;z-index:0;top:0;right:0;left:0;height:285px;pointer-events:none;border-bottom:1px solid rgba(219,178,100,.34);box-shadow:inset 0 -30px 44px rgba(5,5,16,.68)}
+.tonight>.sectionHead,.tonight .worthShelf{position:relative;z-index:1}
+.tonight>.sectionHead{max-width:46%;min-height:150px}
+.tonight .worthShelf{background:rgba(5,5,16,.84);backdrop-filter:blur(5px)}
+@media(max-width:1050px){.heroCopy,.eyebrow{margin-left:48px}.tonight>.sectionHead{max-width:62%}}
+@media(max-width:820px){.hero{min-height:390px;background-size:auto 100%;background-position:center}.heroCopy,.eyebrow{margin-left:0}.tonight{background-size:auto 230px}.tonight>.sectionHead{max-width:100%;min-height:120px}}
+
+/* Sprint 17.18d — let the palace read clearly without sacrificing contrast. */
+.hero{
+  background-image:
+    linear-gradient(90deg,rgba(2,2,10,.34) 0%,rgba(3,3,13,.18) 49%,rgba(5,3,18,.06) 78%),
+    url("/streaming-theater/movie-palace-hero.webp");
+  box-shadow:
+    inset 0 0 0 3px rgba(24,12,40,.46),
+    inset 0 0 42px rgba(40,18,83,.09),
+    0 15px 38px rgba(26,12,58,.20),
+    0 0 26px rgba(116,73,220,.10);
+}
+.glowOne{
+  background:linear-gradient(90deg,rgba(1,2,10,.70) 0%,rgba(1,2,10,.47) 43%,rgba(1,2,10,.10) 72%,transparent 86%);
+}
+.hero h1{filter:drop-shadow(0 3px 12px rgba(0,0,0,.88))}
+.lede,.eyebrow,.kicker{text-shadow:0 2px 9px rgba(0,0,0,.92)}
+.signal{
+  border-color:rgba(255,222,151,.38);
+  background:rgba(7,5,24,.48);
+  box-shadow:0 0 38px rgba(119,74,255,.30),0 0 0 7px rgba(255,220,147,.035),inset 0 0 44px rgba(63,39,143,.20);
+}
+
+.tonight{
+  background:
+    linear-gradient(90deg,rgba(4,5,15,.84) 0%,rgba(5,5,17,.70) 44%,rgba(7,5,20,.23) 70%,rgba(7,5,20,.10)),
+    url("/streaming-theater/movie-palace-balcony.webp") center top / 100% 350px no-repeat,
+    linear-gradient(145deg,#060713,#100a21 64%,#170d2c);
+}
+.tonight:after{
+  height:350px;
+  border-bottom-color:rgba(229,188,103,.46);
+  box-shadow:inset 0 -24px 34px rgba(5,5,16,.48);
+}
+.tonight>.sectionHead{max-width:43%;min-height:190px}
+.tonight .worthShelf{
+  border-color:rgba(216,179,107,.30);
+  background:rgba(5,5,16,.78);
+  box-shadow:0 16px 36px rgba(0,0,0,.30),inset 0 1px rgba(255,227,162,.08);
+}
+@media(max-width:1050px){.tonight>.sectionHead{max-width:58%}}
+@media(max-width:820px){.tonight{background-size:auto 265px}.tonight:after{height:265px}.tonight>.sectionHead{max-width:100%;min-height:140px}}
+
+/* Sprint 17.18e — clean hero: the architecture and projector beam remain,
+   while the circular play/ON medallion is intentionally removed. */
+.signal{display:none}
+
+/* Sprint 17.18g — prevent every Worth Watching shelf heading from being
+   pinched by the shelf's clipped border and give stacked shelves breathing room. */
+.worthShelf + .worthShelf{margin-top:14px}
+.worthShelfHead{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  padding:17px 15px 12px;
+}
+.worthShelfHead span{
+  display:block;
+  margin:0 0 8px;
+  color:rgba(205,178,255,.82);
+  font-size:10px;
+  font-weight:850;
+  line-height:1.35;
+  letter-spacing:.15em;
+}
+.worthShelfHead h3{
+  margin:0;
+  line-height:1.2;
+}
+.worthShelfHead p{
+  margin:9px 0 0;
+  line-height:1.45;
+}
+.worthShelfHead small{
+  flex:0 0 auto;
+  padding-bottom:2px;
+  line-height:1.3;
+}
+.worthShelf .liveCardRow{padding:0 15px 15px}
+
+@media(max-width:700px){
+  .worthShelfHead{align-items:flex-start;flex-direction:column;padding:15px 13px 10px}
+  .worthShelfHead small{padding-bottom:0}
+  .worthShelf .liveCardRow{padding:0 13px 13px}
 }
