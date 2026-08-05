@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import styles from "./quick-launch.module.css";
+import "./quick-executive.css";
 
 type Shortcut = {
   id: string;
@@ -178,7 +179,7 @@ export default function QuickLaunchPage() {
   }
 
   return (
-    <main className="app-shell">
+    <main className="app-shell quick-executive-shell">
       <Sidebar activePage="quick" />
 
       <section className="content-stage" aria-label="Quick Launch">
@@ -321,3 +322,4 @@ export default function QuickLaunchPage() {
     </main>
   );
 }
+

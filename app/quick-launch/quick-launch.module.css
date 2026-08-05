@@ -215,6 +215,122 @@
   font-size: 10px;
 }
 
+/* Sprint 17.20b — executive Work Desk density pass. */
+.page {
+  background:
+    radial-gradient(circle at 86% 4%,rgba(66,92,147,.13),transparent 24%),
+    repeating-linear-gradient(90deg,rgba(122,78,42,.022) 0 1px,transparent 1px 92px),
+    linear-gradient(145deg,rgba(7,11,17,.98),rgba(14,20,29,.97) 58%,rgba(8,13,19,.99));
+}
+
+.headerActions button:first-child {
+  border-color:rgba(206,158,81,.48);
+  background:linear-gradient(180deg,#34476d,#1d2a43);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 7px 16px rgba(0,0,0,.27);
+}
+
+.headerActions button:last-child {
+  color:rgba(231,224,210,.66);
+}
+
+.list {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+
+.list::before {
+  content:"WORK DESK";
+  grid-column:1/-1;
+  padding:0 4px 2px;
+  color:#c99e59;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.18em;
+}
+
+.row {
+  min-height:132px;
+  padding:18px 16px;
+  border:1px solid rgba(166,126,70,.25);
+  border-left:3px solid rgba(72,102,161,.66);
+  background:
+    radial-gradient(circle at 88% 12%,rgba(65,91,143,.11),transparent 28%),
+    linear-gradient(135deg,rgba(25,33,46,.96),rgba(12,17,25,.94));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    inset 0 -22px 45px rgba(0,0,0,.12),
+    0 9px 22px rgba(0,0,0,.24);
+}
+
+.row::before {
+  content:"";
+  position:absolute;
+  inset:7px;
+  pointer-events:none;
+  border:1px solid rgba(190,147,79,.08);
+  border-radius:8px;
+}
+
+.row:last-child:nth-child(odd) {
+  grid-column:1/-1;
+}
+
+.row:hover {
+  transform:translateY(-2px);
+  border-color:rgba(203,157,83,.43);
+  border-left-color:#c4964c;
+  background:
+    radial-gradient(circle at 88% 12%,rgba(77,105,162,.16),transparent 30%),
+    linear-gradient(135deg,rgba(31,41,57,.98),rgba(15,21,31,.97));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 15px 30px rgba(0,0,0,.32);
+}
+
+.identity { align-self:center; }
+.logoHolder {
+  width:44px;
+  height:44px;
+  border-radius:12px;
+}
+.logoHolder img {
+  inset:7px;
+  width:28px;
+  height:28px;
+}
+.identity strong { font-size:15px; }
+.identity small { margin-top:6px; }
+
+.actions {
+  align-self:center;
+}
+
+.editorRow {
+  grid-column:1/-1;
+  min-height:88px;
+}
+
+.footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-top:14px;
+}
+
+.footer::after {
+  content:"PRIVATE EXECUTIVE DESK • ST. LOUIS";
+  color:rgba(203,159,88,.45);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.12em;
+}
+
+@media (max-width:900px) {
+  .list { grid-template-columns:1fr; }
+  .list::before,.row:last-child:nth-child(odd),.editorRow { grid-column:1; }
+  .row { min-height:96px; }
+}
+
 @media (max-width: 760px) {
   .header,
   .row {
@@ -234,4 +350,126 @@
     grid-template-columns: 1fr;
     padding: 12px 0;
   }
+}
+
+/* Sprint 17.20a — executive-office Quick Launch foundation. */
+.page {
+  min-height:100%;
+  padding:32px 34px 26px;
+  border:1px solid rgba(176,129,61,.48);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 86% 4%,rgba(66,92,147,.14),transparent 24%),
+    linear-gradient(145deg,rgba(7,11,17,.97),rgba(14,20,29,.96) 58%,rgba(8,13,19,.98));
+  box-shadow:
+    inset 0 0 0 6px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(218,171,94,.12),
+    0 26px 60px rgba(0,0,0,.48);
+}
+
+.page::before {
+  content:"";
+  position:absolute;
+  inset:9px;
+  pointer-events:none;
+  border:1px solid rgba(192,145,75,.16);
+  border-radius:15px;
+}
+
+.header {
+  position:relative;
+  z-index:1;
+  align-items:center;
+  padding:0 8px 22px;
+  border-bottom:1px solid rgba(190,145,76,.22);
+}
+
+.eyebrow { color:#d2a762; }
+.header h1 {
+  margin:5px 0 6px;
+  color:#f2e7d2;
+  font-size:clamp(44px,4.4vw,62px);
+  text-shadow:0 3px 18px rgba(0,0,0,.55);
+}
+.subhead { color:rgba(226,222,212,.52); }
+
+.header button,
+.actions button,
+.actions a,
+.editorRow button {
+  border-color:rgba(193,146,76,.28);
+  color:#ead9b9;
+  background:linear-gradient(180deg,rgba(35,44,58,.86),rgba(18,24,34,.92));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 5px 14px rgba(0,0,0,.20);
+}
+
+.header button:hover,
+.actions button:hover,
+.actions a:hover,
+.editorRow button:hover {
+  border-color:rgba(219,173,96,.55);
+  background:linear-gradient(180deg,rgba(47,59,78,.94),rgba(23,30,42,.96));
+}
+
+.list {
+  position:relative;
+  z-index:1;
+  margin-top:18px;
+  border-top:0;
+  display:grid;
+  gap:9px;
+}
+
+.row,
+.editorRow {
+  min-height:68px;
+  border:1px solid rgba(157,123,75,.18);
+  border-radius:13px;
+  background:
+    linear-gradient(90deg,rgba(21,28,39,.90),rgba(13,18,26,.86)),
+    radial-gradient(circle at 5% 50%,rgba(58,91,157,.12),transparent 24%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 7px 18px rgba(0,0,0,.18);
+}
+
+.row {
+  padding:0 14px;
+  border-left:3px solid rgba(71,102,164,.55);
+}
+
+.row:hover {
+  border-color:rgba(195,149,77,.34);
+  border-left-color:#b88c49;
+  background:linear-gradient(90deg,rgba(30,40,56,.96),rgba(15,21,30,.92));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 11px 23px rgba(0,0,0,.25);
+}
+
+.logoHolder {
+  width:36px;
+  height:36px;
+  border-color:rgba(196,151,80,.25);
+  border-radius:10px;
+  color:#d9b778;
+  background:linear-gradient(145deg,#273a65,#17233d);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 5px 12px rgba(0,0,0,.25);
+}
+.logoFallback { color:#d9b778; }
+.identity strong { color:#f1eee8; font-size:14px; }
+.identity small { color:rgba(221,222,224,.40); }
+
+.actionMenu {
+  border-color:rgba(197,151,80,.28);
+  background:rgba(9,14,21,.98);
+  box-shadow:0 18px 38px rgba(0,0,0,.55);
+}
+
+.editorRow { padding:10px 12px; }
+.editorRow input {
+  border-color:rgba(190,146,78,.23);
+  background:rgba(255,255,255,.045);
+}
+.footer {
+  position:relative;
+  z-index:1;
+  padding:16px 8px 0;
+  color:rgba(217,199,165,.32);
 }
