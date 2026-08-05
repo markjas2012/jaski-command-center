@@ -1,1 +1,190 @@
-.section{margin:20px 0 8px;padding:24px;border:1px solid rgba(39,59,96,.10);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.76),rgba(237,244,253,.88));box-shadow:0 18px 44px rgba(48,67,106,.07)}.heading{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}.kicker{margin:0;color:#5274bc;font-size:9px;font-weight:950;letter-spacing:.17em}.heading h2{margin:7px 0 5px;color:#17213c;font-family:Georgia,serif;font-size:30px;font-weight:500}.subhead{margin:0;color:#6c7790;font-size:11px}.live{flex:0 0 auto;border:1px solid rgba(70,101,168,.16);border-radius:999px;background:rgba(255,255,255,.70);color:#5574b7;padding:7px 10px;font-size:8px;font-weight:900;letter-spacing:.13em}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:18px}.card{min-height:188px;padding:17px;border:1px solid rgba(25,39,68,.08);border-radius:18px;color:#17213c;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}.card:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(48,66,101,.10);border-color:rgba(70,101,168,.16)}.watch{background:linear-gradient(145deg,#ffffff,#edf3ff)}.listen{background:linear-gradient(145deg,#ffffff,#f2edf8)}.explore{background:linear-gradient(145deg,#ffffff,#edf6f2)}.cardTop{display:flex;justify-content:space-between;gap:10px;color:#70809e;font-size:7px;font-weight:950;letter-spacing:.14em}.cardBody h3{margin:24px 0 8px;font-size:18px;line-height:1.25}.cardBody p{margin:0;color:#67738c;font-size:10px;line-height:1.5}.cardFooter{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-top:22px;color:#7b879d;font-size:8px}.cardFooter strong{color:#4e6eb5;font-size:9px}.loading{margin-top:18px;padding:22px;border:1px dashed rgba(39,59,96,.13);border-radius:14px;color:#768198;font-size:11px}.updated{margin:10px 2px 0;color:#8b94a6;font-size:8px}@media(max-width:900px){.grid{grid-template-columns:1fr}.card{min-height:145px}}@media(max-width:640px){.heading{flex-direction:column}}
+.section {
+  margin: 10px 0 0;
+  padding: 13px 16px 10px;
+  border: 1px solid rgba(75, 55, 35, 0.34);
+  border-top: 4px solid #725039;
+  border-radius: 19px;
+  background:
+    linear-gradient(135deg, rgba(248, 242, 227, 0.96), rgba(227, 216, 195, 0.92)),
+    url("/home-lodge/topographic-lines.svg") center / 680px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 15px 30px rgba(53, 39, 26, 0.16);
+}
+.heading { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.kicker { margin:0; color:#476b50; font-size:9px; font-weight:950; letter-spacing:.17em; }
+.heading h2 { margin:3px 0 0; color:#223128; font-family:Georgia,serif; font-size:23px; line-height:1.05; font-weight:500; }
+.subhead { display:none; }
+.live { flex:0 0 auto; border:1px solid rgba(92,68,41,.22); border-radius:999px; background:rgba(255,249,234,.7); color:#6d5838; padding:5px 8px; font-size:8px; font-weight:900; letter-spacing:.13em; }
+.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; margin-top:9px; }
+.card { min-height:119px; padding:11px 13px; border:1px solid rgba(72,54,35,.18); border-radius:14px; color:#233128; text-decoration:none; display:flex; flex-direction:column; justify-content:space-between; transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease; }
+.card:hover { transform:translateY(-2px); box-shadow:0 12px 25px rgba(49,36,24,.14); border-color:rgba(55,85,63,.34); }
+.watch { background:linear-gradient(145deg,#fbf6e9,#e8dcc4); border-top:4px solid #70472f; }
+.listen { background:linear-gradient(145deg,#f8f2e2,#dfe2cd); border-top:4px solid #3f6549; }
+.explore { background:linear-gradient(145deg,#faf5e8,#e9ddbe); border-top:4px solid #b28a43; }
+.cardTop { display:flex; justify-content:space-between; gap:10px; color:#756a58; font-size:7px; font-weight:950; letter-spacing:.14em; }
+.cardBody h3 { margin:10px 0 4px; color:#26332b; font-size:14px; line-height:1.18; }
+.cardBody p { margin:0; color:#716c60; font-size:8px; line-height:1.3; }
+.cardFooter { display:flex; justify-content:space-between; align-items:end; gap:12px; margin-top:8px; color:#827765; font-size:7px; }
+.cardFooter strong { color:#36573f; font-size:8px; }
+.loading { margin-top:10px; padding:15px; border:1px dashed rgba(79,59,37,.24); border-radius:12px; color:#766d5e; font-size:10px; }
+.updated { margin:5px 2px 0; color:#8a806e; font-size:7px; }
+@media (max-width:900px) { .grid{grid-template-columns:1fr}.card{min-height:145px} }
+@media (max-width:640px) { .heading{flex-direction:column;align-items:flex-start} }
+
+/* Sprint 17.19c — curated lodge-library finish. */
+.section {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(79, 57, 35, .38);
+  border-top-color: #6b4932;
+  background:
+    linear-gradient(115deg, rgba(255, 251, 239, .28), transparent 34%),
+    linear-gradient(135deg, rgba(247, 240, 222, .97), rgba(221, 209, 184, .94)),
+    url("/home-lodge/topographic-lines.svg") center / 620px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .78),
+    inset 0 -18px 34px rgba(91, 66, 38, .045),
+    0 16px 30px rgba(53, 38, 25, .17);
+}
+.section::before {
+  content:"";
+  position:absolute;
+  inset:7px;
+  pointer-events:none;
+  border:1px solid rgba(120, 87, 48, .10);
+  border-radius:12px;
+}
+.heading,.grid,.loading,.updated { position:relative; z-index:1; }
+.kicker { color:#496b50; text-shadow:0 1px 0 rgba(255,255,255,.5); }
+.live {
+  border-color:rgba(141,103,55,.28);
+  background:linear-gradient(180deg,rgba(255,250,237,.88),rgba(226,214,188,.82));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+}
+.card {
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(75,54,34,.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    0 7px 16px rgba(57,41,26,.08);
+}
+.card::after {
+  content:"";
+  position:absolute;
+  right:-20px;
+  bottom:-28px;
+  width:92px;
+  height:92px;
+  border:1px solid rgba(66,91,68,.08);
+  border-radius:50%;
+  box-shadow:0 0 0 10px rgba(66,91,68,.025),0 0 0 22px rgba(66,91,68,.02);
+  pointer-events:none;
+}
+.card > * { position:relative; z-index:1; }
+.watch { background:linear-gradient(145deg,#fcf7ea,#e5d8bf); border-top-color:#68422f; }
+.listen { background:linear-gradient(145deg,#f9f3e2,#dbe0c8); border-top-color:#3d6247; }
+.explore { background:linear-gradient(145deg,#faf5e6,#eadcb8); border-top-color:#aa823b; }
+.cardTop { color:#6e6351; }
+.cardBody h3 { color:#243129; }
+.cardFooter strong { color:#31533b; }
+
+/* Sprint 17.19d — lodge bulletin-board cohesion. */
+.section {
+  border-color: rgba(76, 50, 29, .48);
+  border-top-color: #5e3b29;
+  background:
+    linear-gradient(90deg, rgba(92, 59, 33, .07), transparent 5%, transparent 95%, rgba(92, 59, 33, .07)),
+    linear-gradient(135deg, rgba(239, 227, 201, .98), rgba(205, 188, 157, .96)),
+    url("/home-lodge/topographic-lines.svg") center / 600px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.68),
+    inset 0 0 0 6px rgba(248, 239, 217, .22),
+    inset 0 -18px 38px rgba(83, 54, 30, .055),
+    0 16px 31px rgba(48, 32, 21, .20);
+}
+.section::after {
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:4px;
+  pointer-events:none;
+  background:linear-gradient(90deg,#4b3024,#8b6544 34%,#b28a43 50%,#8b6544 66%,#4b3024);
+}
+.heading h2 { color:#26342b; }
+.card {
+  border-color:rgba(71,47,28,.31);
+  border-radius:12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    inset 0 -10px 22px rgba(87,58,31,.035),
+    0 8px 17px rgba(52,35,22,.12);
+}
+.card::before {
+  content:"";
+  position:absolute;
+  top:7px;
+  left:50%;
+  width:5px;
+  height:5px;
+  z-index:2;
+  border-radius:50%;
+  background:#9b7844;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 2px 3px rgba(60,39,21,.25);
+  opacity:.72;
+}
+.watch {
+  background:
+    linear-gradient(145deg,rgba(250,241,219,.99),rgba(222,204,169,.97)),
+    url("/home-lodge/topographic-lines.svg") center / 310px auto;
+}
+.listen {
+  background:
+    linear-gradient(145deg,rgba(238,237,211,.99),rgba(202,211,180,.97)),
+    url("/home-lodge/topographic-lines.svg") center / 310px auto;
+}
+.explore {
+  background:
+    linear-gradient(145deg,rgba(246,234,204,.99),rgba(224,204,158,.97)),
+    url("/home-lodge/topographic-lines.svg") center / 310px auto;
+}
+.cardTop { padding-top:2px; }
+.cardBody h3 { text-shadow:0 1px 0 rgba(255,255,255,.45); }
+
+/* Sprint 17.19e — dark leather cabinet with inset parchment notices. */
+.section {
+  border:2px solid rgba(42,22,13,.94);
+  border-top:2px solid rgba(45,24,14,.96);
+  background:
+    linear-gradient(rgba(55,31,21,.97),rgba(38,22,16,.98)),
+    url("/home-lodge/woodgrain.svg") center / 430px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(196,145,70,.37),
+    inset 0 0 0 6px rgba(12,6,4,.20),
+    0 9px 20px rgba(4,2,1,.34);
+}
+.section::after {
+  height:2px;
+  background:linear-gradient(90deg,#51301f,#9b6e39 35%,#c49a4e 50%,#9b6e39 65%,#51301f);
+}
+.kicker { color:#d3aa58; text-shadow:none; }
+.heading h2 { color:#f2e2c4; text-shadow:0 2px 7px rgba(0,0,0,.32); }
+.live {
+  border-color:rgba(207,161,79,.42);
+  color:#e7c57c;
+  background:linear-gradient(#384b36,#263629);
+}
+.card {
+  border:2px solid rgba(67,40,23,.74);
+  background:
+    linear-gradient(145deg,rgba(247,232,204,.99),rgba(222,201,164,.98)),
+    url("/home-lodge/topographic-lines.svg") center / 310px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(186,138,68,.32),
+    0 6px 13px rgba(4,2,1,.28);
+}
+.watch,.listen,.explore { border-top-color:rgba(75,45,26,.82); }
+.updated { color:#c4ad83; }

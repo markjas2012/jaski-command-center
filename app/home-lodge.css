@@ -1,0 +1,1010 @@
+/* Sprint 17.19a — Luxury Lodge homepage foundation.
+   Scoped to the homepage shell so every other room remains untouched. */
+
+.home-lodge-shell {
+  --lodge-ink: #1e2b24;
+  --lodge-muted: #6c6d5f;
+  --lodge-pine: #304c3a;
+  --lodge-pine-bright: #476b50;
+  --lodge-leather: #70472f;
+  --lodge-walnut: #3c281e;
+  --lodge-brass: #b28a43;
+  --lodge-brass-soft: #d6bd82;
+  --lodge-parchment: #f2ead6;
+  --lodge-cream: #f8f3e8;
+  --lodge-line: rgba(63, 48, 33, 0.18);
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(90deg, rgba(32, 47, 39, 0.08), transparent 24%, transparent 76%, rgba(32, 47, 39, 0.08)),
+    #d8d2c4;
+}
+
+.home-lodge-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(31, 26, 21, 0.11), rgba(31, 26, 21, 0.11)),
+    url("/home-lodge/woodgrain.svg") center / 680px auto repeat;
+  opacity: 0.52;
+}
+
+.home-lodge-shell .sidebar {
+  border: 1px solid rgba(83, 65, 43, 0.28);
+  background:
+    linear-gradient(rgba(250, 246, 235, 0.94), rgba(238, 229, 209, 0.95)),
+    url("/home-lodge/topographic-lines.svg") center / 420px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.86),
+    inset -1px 0 0 rgba(126, 91, 51, 0.12),
+    0 18px 42px rgba(46, 34, 24, 0.16);
+}
+
+.home-lodge-shell .brand-icon {
+  border: 1px solid rgba(218, 191, 129, 0.75);
+  background: linear-gradient(145deg, #4f7558, #284533);
+  box-shadow: 0 8px 18px rgba(43, 70, 51, 0.28);
+}
+
+.home-lodge-shell .brand-name,
+.home-lodge-shell .navigation-label,
+.home-lodge-shell .sidebar-footer {
+  color: var(--lodge-ink);
+}
+
+.home-lodge-shell .brand-subtitle,
+.home-lodge-shell .navigation-link {
+  color: #5e665f;
+}
+
+.home-lodge-shell .navigation-divider {
+  background: rgba(81, 62, 42, 0.14);
+}
+
+.home-lodge-shell .navigation-link:hover {
+  color: var(--lodge-pine);
+  background: rgba(77, 105, 80, 0.09);
+}
+
+.home-lodge-shell .navigation-link.active {
+  color: #fffaf0;
+  border: 1px solid rgba(214, 189, 130, 0.35);
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.08), transparent 50%),
+    linear-gradient(145deg, #46694f, #2e4938);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 10px 22px rgba(44, 70, 52, 0.24);
+}
+
+.home-lodge-shell .content-stage {
+  border: 1px solid rgba(74, 53, 34, 0.30);
+  background:
+    linear-gradient(rgba(244, 237, 221, 0.91), rgba(229, 219, 199, 0.94)),
+    url("/home-lodge/topographic-lines.svg") center / 720px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    0 22px 54px rgba(47, 35, 25, 0.19);
+}
+
+.home-lodge-shell .dashboard {
+  color: var(--lodge-ink);
+}
+
+.home-lodge-shell .dashboard-header {
+  position: relative;
+  min-height: 84px;
+  align-items: center;
+  padding: 2px 4px 8px;
+}
+
+.home-lodge-shell .dashboard-header::after {
+  content: "PRIVATE LODGE • ST. LOUIS";
+  align-self: center;
+  border: 1px solid rgba(91, 67, 39, 0.28);
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: #715c3d;
+  background: rgba(246, 236, 211, 0.64);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .15em;
+}
+
+.home-lodge-shell .dashboard-eyebrow,
+.home-lodge-shell .card-kicker {
+  color: var(--lodge-pine-bright);
+}
+
+.home-lodge-shell .dashboard-header h1 {
+  color: #223128;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -.045em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
+}
+
+.home-lodge-shell .dashboard-date,
+.home-lodge-shell .weather-temperature-row p,
+.home-lodge-shell .today-calendar-card p:not(.card-kicker),
+.home-lodge-shell .home-utility-card small,
+.home-lodge-shell .ritual-heading > p {
+  color: var(--lodge-muted);
+}
+
+.home-lodge-shell .dashboard-divider,
+.home-lodge-shell .ritual-compact {
+  border-color: rgba(92, 68, 41, 0.20);
+}
+
+.home-lodge-shell .weather-compact,
+.home-lodge-shell .today-calendar-card,
+.home-lodge-shell .home-utility-card {
+  border: 1px solid rgba(92, 67, 39, 0.28);
+  background:
+    linear-gradient(135deg, rgba(250,246,234,.94), rgba(228,219,198,.88)),
+    url("/home-lodge/topographic-lines.svg") center / 520px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.74),
+    0 12px 26px rgba(55, 42, 28, 0.12);
+}
+
+.home-lodge-shell .weather-compact {
+  border-left: 4px solid var(--lodge-pine);
+  background:
+    linear-gradient(115deg, rgba(247,241,224,.96), rgba(219,222,199,.88)),
+    url("/home-lodge/topographic-lines.svg") center / 480px auto;
+}
+
+.home-lodge-shell .today-calendar-card {
+  border-top: 3px solid var(--lodge-brass);
+}
+
+.home-lodge-shell .home-utility-card {
+  border-top: 3px solid var(--lodge-leather);
+}
+
+.home-lodge-shell .weather-icon-wrap,
+.home-lodge-shell .utility-mark {
+  color: #fff8e8;
+  background: linear-gradient(145deg, #4e7457, #2c4937);
+  box-shadow:
+    inset 0 0 0 1px rgba(232, 209, 157, 0.38),
+    0 8px 18px rgba(44, 68, 51, 0.20);
+}
+
+.home-lodge-shell .weather-compact-stats div {
+  border: 1px solid rgba(93, 70, 42, 0.16);
+  background: rgba(255, 250, 237, 0.50);
+}
+
+.home-lodge-shell .weather-compact-stats span {
+  color: #7d705c;
+}
+
+.home-lodge-shell .weather-radar-link,
+.home-lodge-shell .calendar-actions a,
+.home-lodge-shell .home-utility-card b,
+.home-lodge-shell .ritual-reflection a,
+.home-lodge-shell .ritual-reading b {
+  color: var(--lodge-pine);
+}
+
+.home-lodge-shell .calendar-actions a,
+.home-lodge-shell .home-utility-card a,
+.home-lodge-shell .home-utility-card button {
+  border-color: rgba(92, 68, 41, 0.17);
+  background: rgba(255, 251, 241, 0.52);
+}
+
+.home-lodge-shell .home-utility-card a:hover {
+  border-color: rgba(48, 76, 58, 0.32);
+  background: rgba(255, 250, 236, 0.90);
+}
+
+.home-lodge-shell .ritual-reflection,
+.home-lodge-shell .ritual-reading {
+  border: 1px solid rgba(91, 67, 39, 0.25);
+  background:
+    linear-gradient(135deg, rgba(248,242,226,.94), rgba(231,222,202,.90)),
+    url("/home-lodge/topographic-lines.svg") center / 520px auto;
+  box-shadow: 0 10px 24px rgba(54, 40, 27, .10);
+}
+
+.home-lodge-shell .ritual-reflection {
+  border-left: 4px solid var(--lodge-pine);
+}
+
+.home-lodge-shell .ritual-reading {
+  border-left: 4px solid var(--lodge-brass);
+}
+
+.home-lodge-shell .ritual-cross {
+  color: #fff7e8;
+  background: linear-gradient(145deg, #8b6737, #5d4329);
+  box-shadow: inset 0 0 0 1px rgba(234, 204, 140, .35);
+}
+
+/* Sprint 17.19f — final cascade repair. Keep this block last. */
+.home-lodge-shell {
+  background:
+    linear-gradient(rgba(24, 15, 10, .18), rgba(24, 15, 10, .18)),
+    url("/home-lodge/lodge-room-background.webp") center / cover fixed;
+}
+
+.home-lodge-shell .content-stage {
+  border-color: rgba(54, 30, 18, .96);
+  background:
+    radial-gradient(circle at 50% 0, rgba(113, 75, 40, .14), transparent 34%),
+    linear-gradient(rgba(43, 25, 17, .96), rgba(29, 17, 12, .98)),
+    url("/home-lodge/woodgrain.svg") center / 520px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(206, 158, 80, .52),
+    inset 0 0 0 7px rgba(16, 9, 6, .42),
+    inset 0 0 55px rgba(7, 3, 2, .45),
+    0 24px 60px rgba(10, 5, 3, .48);
+}
+
+.home-lodge-shell .dashboard-header {
+  border-color: rgba(37, 19, 11, .96);
+  background:
+    linear-gradient(90deg, rgba(50, 28, 19, .99), rgba(62, 36, 24, .96) 50%, rgba(43, 24, 17, .99)),
+    url("/home-lodge/woodgrain.svg") center / 430px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(224, 181, 102, .20),
+    inset 0 -3px 0 rgba(140, 92, 43, .46),
+    0 10px 24px rgba(5, 2, 1, .34);
+}
+
+.home-lodge-shell .weather-compact,
+.home-lodge-shell .today-calendar-card,
+.home-lodge-shell .home-utility-card {
+  border: 3px solid rgba(58, 33, 19, .92);
+  color: #2a241c;
+  background:
+    linear-gradient(135deg, rgba(247, 233, 204, .99), rgba(223, 202, 166, .99)),
+    url("/home-lodge/topographic-lines.svg") center / 430px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(186, 139, 69, .46),
+    inset 0 0 0 5px rgba(255, 248, 228, .18),
+    0 9px 18px rgba(4, 2, 1, .34);
+}
+
+.home-lodge-shell .weather-compact {
+  border-left: 3px solid rgba(58, 33, 19, .92);
+}
+
+.home-lodge-shell .weather-compact .card-kicker,
+.home-lodge-shell .weather-temperature-row h2,
+.home-lodge-shell .weather-temperature-row p,
+.home-lodge-shell .weather-radar-link,
+.home-lodge-shell .home-utility-card .card-kicker {
+  color: #334a39;
+}
+
+.home-lodge-shell .weather-compact-stats div {
+  border-color: rgba(107, 75, 39, .22);
+  color: #2b2b24;
+  background: rgba(247, 232, 203, .64);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.home-lodge-shell .weather-icon-wrap,
+.home-lodge-shell .utility-mark {
+  color: #ddb667;
+  background: linear-gradient(145deg, #344d38, #1f3327);
+}
+
+.home-lodge-shell .home-utility-card::after {
+  border-color: rgba(126, 86, 42, .14);
+}
+
+.home-lodge-shell .home-utility-card a,
+.home-lodge-shell .home-utility-card button {
+  border-color: rgba(101, 70, 37, .28);
+  color: #2a332b;
+  background: linear-gradient(100deg, rgba(245, 230, 200, .93), rgba(221, 201, 166, .91));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
+}
+
+.home-lodge-shell .ritual-compact {
+  margin-top: 11px;
+  padding: 10px 10px 8px;
+  border: 2px solid rgba(49, 27, 17, .94);
+  border-radius: 14px;
+  background:
+    linear-gradient(rgba(48, 27, 18, .97), rgba(35, 20, 14, .99)),
+    url("/home-lodge/woodgrain.svg") center / 430px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(200, 151, 76, .30),
+    inset 0 0 0 5px rgba(10, 5, 3, .20),
+    0 8px 18px rgba(5, 2, 1, .28);
+}
+
+.home-lodge-shell .ritual-heading .card-kicker {
+  color: #d4aa58;
+}
+
+.home-lodge-shell .ritual-heading h2,
+.home-lodge-shell .ritual-heading > p {
+  color: #f0e1c3;
+  text-shadow: 0 2px 7px rgba(0,0,0,.30);
+}
+
+.home-lodge-shell .ritual-reflection,
+.home-lodge-shell .ritual-reading {
+  border: 2px solid rgba(58, 33, 19, .88);
+  background:
+    linear-gradient(135deg, rgba(245, 230, 201, .99), rgba(219, 197, 160, .98)),
+    url("/home-lodge/topographic-lines.svg") center / 410px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(188, 141, 71, .36),
+    0 7px 14px rgba(5, 2, 1, .27);
+}
+
+/* Sprint 17.19e — faithful material hierarchy from the approved rendering. */
+.home-lodge-shell {
+  background:
+    linear-gradient(rgba(24, 15, 10, .18), rgba(24, 15, 10, .18)),
+    url("/home-lodge/lodge-room-background.webp") center / cover fixed;
+}
+
+.home-lodge-shell::before {
+  background:
+    linear-gradient(rgba(26, 16, 10, .12), rgba(26, 16, 10, .12)),
+    url("/home-lodge/lodge-room-background.webp") center / cover fixed;
+  opacity: 1;
+}
+
+.home-lodge-shell .sidebar {
+  border: 3px solid rgba(67, 39, 22, .86);
+  background:
+    linear-gradient(rgba(245, 231, 202, .96), rgba(222, 203, 168, .97)),
+    url("/home-lodge/topographic-lines.svg") center / 370px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(210, 170, 99, .55),
+    inset 0 0 0 6px rgba(255, 248, 229, .24),
+    inset 0 -70px 90px rgba(95, 67, 37, .055),
+    0 18px 42px rgba(17, 10, 7, .40);
+}
+
+.home-lodge-shell .content-stage {
+  border: 4px solid rgba(54, 30, 18, .95);
+  background:
+    radial-gradient(circle at 50% 0, rgba(113, 75, 40, .16), transparent 34%),
+    linear-gradient(rgba(43, 25, 17, .94), rgba(29, 17, 12, .96)),
+    url("/home-lodge/woodgrain.svg") center / 520px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(206, 158, 80, .52),
+    inset 0 0 0 7px rgba(16, 9, 6, .42),
+    inset 0 0 55px rgba(7, 3, 2, .45),
+    0 24px 60px rgba(10, 5, 3, .48);
+}
+
+.home-lodge-shell .content-stage::before {
+  inset: 9px;
+  border-color: rgba(202, 154, 79, .24);
+  box-shadow:
+    inset 0 0 0 2px rgba(12, 7, 5, .36),
+    inset 0 0 42px rgba(0, 0, 0, .20);
+}
+
+.home-lodge-shell .content-stage::after {
+  border-color: rgba(218, 173, 92, .32);
+}
+
+.home-lodge-shell .dashboard-header {
+  border-color: rgba(37, 19, 11, .96);
+  background:
+    linear-gradient(90deg, rgba(50, 28, 19, .98), rgba(62, 36, 24, .95) 50%, rgba(43, 24, 17, .98)),
+    url("/home-lodge/woodgrain.svg") center / 430px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(224, 181, 102, .20),
+    inset 0 -3px 0 rgba(140, 92, 43, .46),
+    0 10px 24px rgba(5, 2, 1, .34);
+}
+
+.home-lodge-shell .dashboard-header::before {
+  border-color: rgba(219, 174, 93, .28);
+}
+
+.home-lodge-shell .dashboard-eyebrow,
+.home-lodge-shell .dashboard-header::after {
+  color: #d9b76f;
+}
+
+.home-lodge-shell .weather-compact,
+.home-lodge-shell .today-calendar-card,
+.home-lodge-shell .home-utility-card {
+  border: 3px solid rgba(58, 33, 19, .92);
+  color: #2a241c;
+  background:
+    linear-gradient(135deg, rgba(247, 233, 204, .98), rgba(223, 202, 166, .98)),
+    url("/home-lodge/topographic-lines.svg") center / 430px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(186, 139, 69, .46),
+    inset 0 0 0 5px rgba(255, 248, 228, .18),
+    0 9px 18px rgba(4, 2, 1, .34);
+}
+
+.home-lodge-shell .weather-compact {
+  border-left-width: 3px;
+}
+
+.home-lodge-shell .weather-compact::after {
+  opacity: .11;
+  filter: sepia(1) saturate(.7) brightness(.55);
+}
+
+.home-lodge-shell .weather-compact .card-kicker,
+.home-lodge-shell .weather-temperature-row h2,
+.home-lodge-shell .weather-temperature-row p,
+.home-lodge-shell .weather-radar-link {
+  color: #29362c;
+}
+
+.home-lodge-shell .weather-compact .card-kicker,
+.home-lodge-shell .today-calendar-card .card-kicker,
+.home-lodge-shell .home-utility-card .card-kicker {
+  color: #4b5f4e;
+}
+
+.home-lodge-shell .weather-icon-wrap {
+  color: #ddb667;
+  background: linear-gradient(145deg, #344d38, #1f3327);
+  box-shadow:
+    inset 0 0 0 1px rgba(226, 192, 119, .38),
+    0 6px 12px rgba(43, 27, 15, .25);
+}
+
+.home-lodge-shell .weather-compact-stats div {
+  border-color: rgba(107, 75, 39, .22);
+  background: rgba(247, 232, 203, .62);
+  color: #2b2b24;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.home-lodge-shell .home-utility-card a,
+.home-lodge-shell .home-utility-card button {
+  border-color: rgba(101, 70, 37, .28);
+  color: #2a332b;
+  background: linear-gradient(100deg, rgba(245, 230, 200, .92), rgba(221, 201, 166, .90));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
+}
+
+.home-lodge-shell .home-utility-card::after {
+  border-color: rgba(126, 86, 42, .14);
+}
+
+.home-lodge-shell .ritual-compact {
+  padding: 10px 10px 8px;
+  border: 1px solid rgba(202, 152, 76, .26);
+  background:
+    linear-gradient(rgba(48, 27, 18, .96), rgba(35, 20, 14, .98)),
+    url("/home-lodge/woodgrain.svg") center / 430px auto;
+  box-shadow:
+    inset 0 0 0 4px rgba(10, 5, 3, .18),
+    0 8px 18px rgba(5, 2, 1, .25);
+}
+
+.home-lodge-shell .ritual-heading .card-kicker {
+  color: #d4aa58;
+}
+
+.home-lodge-shell .ritual-heading h2,
+.home-lodge-shell .ritual-heading > p {
+  color: #f0e1c3;
+}
+
+.home-lodge-shell .ritual-reflection,
+.home-lodge-shell .ritual-reading {
+  border: 2px solid rgba(58, 33, 19, .88);
+  background:
+    linear-gradient(135deg, rgba(245, 230, 201, .99), rgba(219, 197, 160, .98)),
+    url("/home-lodge/topographic-lines.svg") center / 410px auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(188, 141, 71, .36),
+    0 7px 14px rgba(5, 2, 1, .27);
+}
+
+@media (max-width: 900px) {
+  .home-lodge-shell,
+  .home-lodge-shell::before {
+    background-position: center;
+  }
+}
+
+@media (min-width: 1400px) and (min-height: 800px) {
+  .home-lodge-shell .dashboard-header {
+    min-height: 68px;
+  }
+
+  .home-lodge-shell .dashboard-header h1 {
+    font-size: 35px;
+  }
+
+  .home-lodge-shell .weather-compact,
+  .home-lodge-shell .today-calendar-card,
+  .home-lodge-shell .home-utility-card {
+    min-height: 184px;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-lodge-shell .dashboard-header::after {
+    display: none;
+  }
+}
+
+/* Sprint 17.19b — material and depth refinement. */
+.home-lodge-shell .content-stage {
+  background:
+    linear-gradient(rgba(241, 233, 214, 0.91), rgba(222, 211, 188, 0.94)),
+    url("/home-lodge/topographic-lines.svg") center / 600px auto;
+}
+
+.home-lodge-shell .dashboard-header {
+  overflow: hidden;
+  min-height: 82px;
+  margin: -2px -2px 10px;
+  padding: 12px 18px 13px;
+  border: 1px solid rgba(26, 28, 23, 0.72);
+  border-radius: 16px;
+  background:
+    linear-gradient(90deg, rgba(22, 39, 29, .95), rgba(48, 43, 31, .92) 55%, rgba(34, 48, 36, .95)),
+    url("/home-lodge/fieldstone.svg") center / 510px auto,
+    url("/home-lodge/woodgrain.svg") center / 560px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(231, 207, 151, .22),
+    inset 0 -3px 0 rgba(178, 138, 67, .40),
+    0 13px 30px rgba(43, 32, 23, .20);
+}
+
+.home-lodge-shell .dashboard-header h1 {
+  color: #fff8e9;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .38);
+}
+
+.home-lodge-shell .dashboard-eyebrow {
+  color: #d6bd82;
+}
+
+.home-lodge-shell .dashboard-date {
+  color: rgba(247, 237, 215, .74);
+}
+
+.home-lodge-shell .dashboard-header::after {
+  border-color: rgba(214, 189, 130, .42);
+  color: #e7d3a5;
+  background: rgba(21, 31, 25, .62);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04);
+}
+
+.home-lodge-shell .dashboard-divider {
+  display: none;
+}
+
+.home-lodge-shell .weather-compact {
+  border-color: rgba(31, 57, 41, .72);
+  border-left: 5px solid #d1ad62;
+  color: #fff8e8;
+  background:
+    linear-gradient(120deg, rgba(38, 70, 49, .98), rgba(48, 76, 55, .93) 62%, rgba(28, 50, 38, .97)),
+    url("/home-lodge/topographic-lines.svg") right center / 430px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .12),
+    0 14px 30px rgba(36, 55, 41, .22);
+}
+
+.home-lodge-shell .weather-compact .card-kicker,
+.home-lodge-shell .weather-temperature-row h2,
+.home-lodge-shell .weather-temperature-row p,
+.home-lodge-shell .weather-radar-link {
+  color: #fff8e8;
+}
+
+.home-lodge-shell .weather-compact .card-kicker {
+  color: #dcc58f;
+}
+
+.home-lodge-shell .weather-icon-wrap {
+  color: #fff8e8;
+  background: linear-gradient(145deg, #8d6a38, #5a4028);
+  box-shadow:
+    inset 0 0 0 1px rgba(242, 217, 162, .40),
+    0 8px 20px rgba(12, 25, 17, .28);
+}
+
+.home-lodge-shell .weather-compact-stats div {
+  border-color: rgba(232, 211, 166, .28);
+  background: rgba(249, 239, 215, .92);
+  color: #28372e;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55);
+}
+
+.home-lodge-shell .weather-compact-stats span {
+  color: #756548;
+}
+
+.home-lodge-shell .today-calendar-card {
+  border-top: 4px solid var(--lodge-brass);
+  background:
+    linear-gradient(145deg, rgba(250, 244, 228, .98), rgba(229, 218, 194, .94)),
+    url("/home-lodge/topographic-lines.svg") center / 440px auto;
+}
+
+.home-lodge-shell .home-utility-card {
+  border-color: rgba(65, 39, 26, .72);
+  border-top: 4px solid #c39b53;
+  color: #fff7e6;
+  background:
+    linear-gradient(145deg, rgba(102, 62, 42, .97), rgba(62, 38, 29, .98)),
+    url("/home-lodge/woodgrain.svg") center / 400px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(241, 210, 153, .16),
+    0 14px 30px rgba(54, 35, 25, .22);
+}
+
+.home-lodge-shell .home-utility-card .card-kicker {
+  color: #e3c98f;
+}
+
+.home-lodge-shell .home-utility-card a,
+.home-lodge-shell .home-utility-card button {
+  border-color: rgba(222, 194, 139, .25);
+  color: #2b382f;
+  background: linear-gradient(100deg, rgba(249, 241, 221, .96), rgba(229, 216, 190, .94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .60);
+}
+
+.home-lodge-shell .home-utility-card b {
+  color: #29382f;
+}
+
+.home-lodge-shell .home-utility-card small {
+  color: #766b58;
+}
+
+.home-lodge-shell .utility-mark {
+  background: linear-gradient(145deg, #4f7457, #293f31);
+}
+
+.home-lodge-shell .ritual-compact {
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.home-lodge-shell .ritual-reflection,
+.home-lodge-shell .ritual-reading {
+  background:
+    linear-gradient(135deg, rgba(250, 244, 229, .98), rgba(225, 213, 190, .94)),
+    url("/home-lodge/topographic-lines.svg") center / 440px auto;
+}
+
+@media (min-width: 1400px) and (min-height: 800px) {
+  .home-lodge-shell .dashboard-header {
+    min-height: 76px;
+  }
+}
+
+/* Sprint 17.19c — architectural polish and lodge-library detail. */
+.home-lodge-shell .content-stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(115deg, rgba(255, 250, 235, .20), transparent 28%),
+    linear-gradient(rgba(239, 231, 212, .92), rgba(218, 207, 184, .95)),
+    url("/home-lodge/topographic-lines.svg") center / 640px auto;
+}
+
+.home-lodge-shell .content-stage::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  z-index: 0;
+  pointer-events: none;
+  border: 1px solid rgba(118, 84, 47, .10);
+  border-radius: 20px;
+  box-shadow: inset 0 0 40px rgba(78, 55, 34, .06);
+}
+
+.home-lodge-shell .dashboard {
+  position: relative;
+  z-index: 1;
+}
+
+.home-lodge-shell .dashboard-header {
+  isolation: isolate;
+  border-color: rgba(199, 162, 91, .42);
+  background:
+    linear-gradient(90deg, rgba(17, 37, 27, .96), rgba(48, 39, 28, .91) 50%, rgba(22, 44, 31, .96)),
+    url("/home-lodge/fieldstone.svg") center / 420px auto,
+    url("/home-lodge/woodgrain.svg") center / 480px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(247, 221, 166, .28),
+    inset 0 -4px 0 rgba(153, 111, 48, .52),
+    inset 12px 0 30px rgba(7, 22, 14, .22),
+    inset -12px 0 30px rgba(7, 22, 14, .22),
+    0 14px 28px rgba(43, 31, 21, .24);
+}
+
+.home-lodge-shell .dashboard-header::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid rgba(218, 185, 116, .20);
+  border-radius: 11px;
+  background: url("/home-lodge/brass-corners.svg") center / 100% 100% no-repeat;
+}
+
+.home-lodge-shell .dashboard-header h1 {
+  letter-spacing: -.035em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .48);
+}
+
+.home-lodge-shell .dashboard-header::after {
+  padding: 6px 12px 5px;
+  border-color: rgba(226, 194, 126, .52);
+  background: linear-gradient(180deg, rgba(41, 54, 42, .82), rgba(22, 33, 26, .82));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .08),
+    0 4px 14px rgba(0, 0, 0, .20);
+}
+
+.home-lodge-shell .weather-compact {
+  position: relative;
+  overflow: hidden;
+  border-left-color: #d7b56b;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(203, 178, 111, .13), transparent 28%),
+    linear-gradient(120deg, rgba(40, 73, 51, .99), rgba(54, 82, 59, .95) 58%, rgba(25, 48, 35, .99)),
+    url("/home-lodge/topographic-lines.svg") right center / 390px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .14),
+    inset -22px -18px 45px rgba(9, 27, 17, .16),
+    0 15px 30px rgba(34, 53, 39, .25);
+}
+
+.home-lodge-shell .weather-compact::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: -16px;
+  width: 200px;
+  height: 96px;
+  pointer-events: none;
+  opacity: .15;
+  background: url("/home-lodge/pine-ridge.svg") right bottom / contain no-repeat;
+}
+
+.home-lodge-shell .weather-compact > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-lodge-shell .weather-compact-stats div {
+  border-color: rgba(211, 187, 132, .34);
+  background: linear-gradient(135deg, rgba(248, 240, 217, .94), rgba(228, 219, 192, .91));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .65),
+    0 5px 12px rgba(13, 31, 20, .10);
+}
+
+.home-lodge-shell .today-calendar-card {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .78),
+    inset 0 -14px 30px rgba(114, 87, 50, .04),
+    0 14px 28px rgba(57, 42, 27, .15);
+}
+
+.home-lodge-shell .calendar-actions a {
+  border-left: 3px solid rgba(178, 138, 67, .42);
+  transition: transform .16s ease, background .16s ease;
+}
+
+.home-lodge-shell .calendar-actions a:hover {
+  transform: translateX(2px);
+  background: rgba(255, 250, 236, .94);
+}
+
+.home-lodge-shell .home-utility-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(105, 65, 44, .98), rgba(57, 34, 27, .99)),
+    url("/home-lodge/woodgrain.svg") center / 340px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(244, 215, 161, .18),
+    inset 12px 0 26px rgba(35, 18, 14, .16),
+    0 15px 30px rgba(52, 33, 24, .26);
+}
+
+.home-lodge-shell .home-utility-card::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  pointer-events: none;
+  border: 1px solid rgba(223, 190, 128, .16);
+  border-radius: 10px;
+}
+
+.home-lodge-shell .home-utility-card a,
+.home-lodge-shell .home-utility-card button {
+  position: relative;
+  z-index: 1;
+  border-left: 3px solid rgba(178, 138, 67, .46);
+  background: linear-gradient(100deg, rgba(250, 243, 224, .97), rgba(220, 206, 179, .95));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .72),
+    0 3px 8px rgba(35, 20, 15, .16);
+  transition: transform .16s ease, filter .16s ease;
+}
+
+.home-lodge-shell .home-utility-card a:hover,
+.home-lodge-shell .home-utility-card button:hover {
+  transform: translateX(-2px);
+  filter: brightness(1.035);
+}
+
+.home-lodge-shell .utility-mark {
+  border: 1px solid rgba(225, 198, 141, .32);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .16),
+    0 3px 7px rgba(32, 24, 17, .22);
+}
+
+.home-lodge-shell .ritual-compact {
+  position: relative;
+}
+
+.home-lodge-shell .ritual-compact::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(107, 77, 43, .34) 12%, rgba(178, 138, 67, .48) 50%, rgba(107, 77, 43, .34) 88%, transparent);
+}
+
+.home-lodge-shell .ritual-reflection,
+.home-lodge-shell .ritual-reading {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .70),
+    0 11px 22px rgba(55, 40, 26, .12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-lodge-shell .calendar-actions a,
+  .home-lodge-shell .home-utility-card a,
+  .home-lodge-shell .home-utility-card button {
+    transition: none;
+  }
+}
+
+/* Sprint 17.19d — whole-room cohesion pass. */
+.home-lodge-shell {
+  background:
+    linear-gradient(90deg, rgba(31, 46, 37, .13), transparent 25%, transparent 75%, rgba(55, 35, 23, .13)),
+    #c9c0ae;
+}
+
+.home-lodge-shell .sidebar {
+  border-color: rgba(91, 64, 36, .34);
+  background:
+    linear-gradient(rgba(248, 241, 224, .95), rgba(226, 215, 193, .97)),
+    url("/home-lodge/topographic-lines.svg") center / 390px auto;
+  box-shadow:
+    inset 4px 0 0 rgba(178, 138, 67, .16),
+    inset -1px 0 0 rgba(89, 62, 35, .16),
+    0 18px 42px rgba(45, 32, 22, .20);
+}
+
+.home-lodge-shell .brand-icon {
+  border-color: rgba(225, 194, 126, .82);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 18px rgba(43, 70, 51, .30),
+    0 0 0 3px rgba(112, 71, 47, .07);
+}
+
+.home-lodge-shell .navigation-label {
+  color: #5f4931;
+}
+
+.home-lodge-shell .navigation-link {
+  border-left: 2px solid transparent;
+}
+
+.home-lodge-shell .navigation-link:hover {
+  border-left-color: rgba(178, 138, 67, .38);
+}
+
+.home-lodge-shell .navigation-link.active {
+  border-left-color: #d0ad65;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    inset 4px 0 10px rgba(221, 188, 117, .08),
+    0 10px 22px rgba(44, 70, 52, .25);
+}
+
+.home-lodge-shell .content-stage {
+  border-color: rgba(74, 49, 29, .44);
+  background:
+    linear-gradient(90deg, rgba(91, 60, 35, .09), transparent 5%, transparent 95%, rgba(91, 60, 35, .09)),
+    linear-gradient(rgba(232, 221, 198, .95), rgba(205, 192, 166, .97)),
+    url("/home-lodge/topographic-lines.svg") center / 640px auto;
+  box-shadow:
+    inset 0 0 0 7px rgba(244, 235, 215, .26),
+    inset 0 0 0 8px rgba(91, 61, 35, .11),
+    inset 0 0 52px rgba(71, 47, 28, .08),
+    0 22px 54px rgba(43, 30, 20, .24);
+}
+
+.home-lodge-shell .content-stage::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  pointer-events: none;
+  border: 1px solid rgba(177, 137, 69, .24);
+  border-radius: 23px;
+}
+
+.home-lodge-shell .dashboard-header {
+  margin-bottom: 11px;
+}
+
+.home-lodge-shell .today-calendar-card {
+  background:
+    linear-gradient(145deg, rgba(247, 238, 216, .99), rgba(218, 202, 172, .96)),
+    url("/home-lodge/topographic-lines.svg") center / 410px auto;
+}
+
+.home-lodge-shell .ritual-compact {
+  margin-top: 11px;
+  padding: 11px 0 2px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(91, 62, 38, .045), transparent 78%);
+}
+
+.home-lodge-shell .ritual-heading .card-kicker {
+  color: #9b783e;
+}
+
+.home-lodge-shell .ritual-heading h2 {
+  color: #26352b;
+  text-shadow: 0 1px 0 rgba(255,255,255,.45);
+}
+
+.home-lodge-shell .ritual-reflection,
+.home-lodge-shell .ritual-reading {
+  border-color: rgba(83, 56, 33, .34);
+  background:
+    linear-gradient(135deg, rgba(242, 231, 205, .99), rgba(208, 193, 162, .96)),
+    url("/home-lodge/topographic-lines.svg") center / 420px auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .70),
+    inset 0 -10px 22px rgba(94, 64, 37, .05),
+    0 12px 24px rgba(51, 35, 23, .15);
+}
+
+.home-lodge-shell .ritual-reflection {
+  border-left-color: #365c43;
+}
+
+.home-lodge-shell .ritual-reading {
+  border-left-color: #b0863e;
+}
+
+.home-lodge-shell .ritual-cross {
+  border: 1px solid rgba(231, 202, 141, .38);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.13),
+    0 5px 12px rgba(65, 40, 23, .18);
+}
