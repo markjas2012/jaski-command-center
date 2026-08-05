@@ -1,0 +1,29 @@
+/* Sprint 17.22a — route-scoped clubhouse shell */
+.golf-clubhouse-shell{
+  min-height:100vh;
+  padding:clamp(18px,2.8vw,50px);
+  gap:clamp(18px,2vw,32px);
+  background:
+    radial-gradient(circle at 50% 0,rgba(182,132,55,.13),transparent 34%),
+    linear-gradient(145deg,#0e1710,#17271b 58%,#10170f);
+}
+.golf-clubhouse-shell>.sidebar{
+  position:relative;
+  overflow:hidden;
+  border:2px solid #76502c!important;
+  background:
+    repeating-linear-gradient(90deg,rgba(84,54,25,.018) 0 1px,transparent 1px 8px),
+    linear-gradient(145deg,#f1e6cb,#ddd0af)!important;
+  box-shadow:inset 0 0 0 4px rgba(255,255,255,.24),0 18px 46px rgba(0,0,0,.36)!important;
+}
+.golf-clubhouse-shell>.sidebar:after{
+  content:"";position:absolute;inset:8px;pointer-events:none;
+  border:1px dashed rgba(107,73,38,.23);border-radius:18px
+}
+.golf-clubhouse-shell .navigation-link.active{
+  color:#f4e4bd!important;
+  border:1px solid #a67d37!important;
+  background:linear-gradient(145deg,#285640,#173524)!important;
+  box-shadow:inset 0 0 0 2px rgba(229,199,132,.08),0 6px 14px rgba(0,0,0,.24)!important
+}
+.golf-clubhouse-shell .content-stage{overflow:visible;background:transparent!important}
