@@ -275,9 +275,15 @@ export default function GolfRoom() {
           <h1>Golf Room.</h1>
           <p className={styles.heroCopy}>This week on Tour, the tournaments that matter most, and the season-long chase to East Lake.</p>
         </div>
-        <div className={styles.heroMark} aria-hidden="true">
-          <img src="https://www.liblogo.com/img-logo/pg7180p07c-pga-tour-logo-pga-tour-logo-png-transparent-amp-svg-vector-freebie-supply.png" alt="" />
-        </div>
+        <a
+          className={styles.heroMark}
+          href="https://www.pga.com/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Open PGA.com"
+        >
+          <img src="https://www.liblogo.com/img-logo/pg7180p07c-pga-tour-logo-pga-tour-logo-png-transparent-amp-svg-vector-freebie-supply.png" alt="PGA" />
+        </a>
         <div className={styles.heroFooter}><span>SPRINT 14 · ROOM 03</span><span>PGA · WGC ONLY.</span></div>
       </section>
 
@@ -313,12 +319,6 @@ export default function GolfRoom() {
                 ) : null}
               </div>
             )}
-          </div>
-          <div className={styles.quickGrid}>
-            <a href="https://www.pgatour.com/" target="_blank" rel="noreferrer"><img src="https://www.liblogo.com/img-logo/pg7180p07c-pga-tour-logo-pga-tour-logo-png-transparent-amp-svg-vector-freebie-supply.png" alt="PGA TOUR"/><span><strong>PGA TOUR</strong><small>Schedule, leaderboard &amp; results</small></span><i>↗</i></a>
-            <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noreferrer"><b>L</b><span><strong>LEADERBOARD</strong><small>This week on the PGA Tour</small></span><i>↗</i></a>
-            <a href="https://www.pgatour.com/fedexcup" target="_blank" rel="noreferrer"><FedExCupMark compact /><span><strong>FEDEX CUP</strong><small>Season-long points race</small></span><i>↗</i></a>
-            <a href="https://www.pgatour.com/tournaments" target="_blank" rel="noreferrer"><b>M</b><span><strong>MAJORS</strong><small>The four that matter most</small></span><i>↗</i></a>
           </div>
         </article>
 
