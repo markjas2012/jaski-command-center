@@ -287,11 +287,10 @@ export default function LiveDashboard() {
 
         <nav className="home-utility-card" aria-label="Daily tools">
           <p className="card-kicker">Daily tools</p>
-          <a href="/remote"><span className="utility-mark">R</span><span><strong>Remote</strong><small>Control your rooms</small></span><b>→</b></a>
           <a href="/quick-launch"><span className="utility-mark">Q</span><span><strong>Quick Launch</strong><small>Your favorite shortcuts</small></span><b>→</b></a>
           <a href="/notes"><span className="utility-mark">N</span><span><strong>Notes</strong><small>Open your notebook</small></span><b>→</b></a>
           <a href="https://www.audible.com/library/" target="_blank" rel="noreferrer"><span className="utility-mark">A</span><span><strong>Audible</strong><small>Your audiobook library</small></span><b>↗</b></a>
-          <button type="button" className="utility-placeholder" title="Grocery list connection coming later"><span className="utility-mark">G</span><span><strong>Grocery List</strong><small>Connection coming later</small></span><b>·</b></button>
+          <a href="https://www.icloud.com/reminders/" target="_blank" rel="noreferrer"><span className="utility-mark">G</span><span><strong>Grocery List</strong><small>Open Apple Reminders</small></span><b>↗</b></a>
         </nav>
       </section>
 

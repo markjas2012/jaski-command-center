@@ -14,6 +14,7 @@ type TmdbTitle = {
   vote_average?: number;
   vote_count?: number;
   media_type?: "movie" | "tv";
+  popularity?: number;
 };
 
 type TmdbDetails = TmdbTitle & {
@@ -85,6 +86,17 @@ function formatDate(value?: string): string | undefined {
   const date = new Date(`${value}T12:00:00`);
   if (Number.isNaN(date.getTime())) return undefined;
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(date);
+}
+
+function utcDayIndex() {
+  const now = new Date();
+  return Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) / 86_400_000);
+}
+
+function rotatingDailyThree<T>(items: T[]): T[] {
+  if (items.length <= 3) return items.slice(0, 3);
+  const start = (utcDayIndex() * 3) % items.length;
+  return [0, 1, 2].map((offset) => items[(start + offset) % items.length]);
 }
 
 
@@ -181,9 +193,11 @@ async function loadTelevisionShelves(): Promise<{ network: Pick[]; streaming: Pi
     .slice(0, 3)
     .map((entry) => pickFrom(entry.item, 'TV', 'tv', entry.network));
 
-  const [trendingPage2, trendingPage3, onAirPage1, onAirPage2] = await Promise.all([
+  const [trendingPage2, trendingPage3, airingToday1, airingToday2, onAirPage1, onAirPage2] = await Promise.all([
     tmdb<{ results: TmdbTitle[] }>('/trending/tv/week?language=en-US&page=2'),
     tmdb<{ results: TmdbTitle[] }>('/trending/tv/week?language=en-US&page=3'),
+    tmdb<{ results: TmdbTitle[] }>('/tv/airing_today?language=en-US&timezone=America%2FChicago&page=1'),
+    tmdb<{ results: TmdbTitle[] }>('/tv/airing_today?language=en-US&timezone=America%2FChicago&page=2'),
     tmdb<{ results: TmdbTitle[] }>('/tv/on_the_air?language=en-US&page=1'),
     tmdb<{ results: TmdbTitle[] }>('/tv/on_the_air?language=en-US&page=2'),
   ]);
@@ -192,6 +206,8 @@ async function loadTelevisionShelves(): Promise<{ network: Pick[]; streaming: Pi
     ...trending.results,
     ...(trendingPage2?.results ?? []),
     ...(trendingPage3?.results ?? []),
+    ...(airingToday1?.results ?? []),
+    ...(airingToday2?.results ?? []),
     ...(onAirPage1?.results ?? []),
     ...(onAirPage2?.results ?? []),
   ];
@@ -217,15 +233,11 @@ async function loadTelevisionShelves(): Promise<{ network: Pick[]; streaming: Pi
     }))
     .filter((entry) => Boolean(entry.network));
 
-  const curatedNetworkIds = new Set(
-    curateThree(linearEntries.map((entry) => entry.item))
-      .map((item) => item.id)
-  );
-
-  const network = linearEntries
-    .filter((entry) => curatedNetworkIds.has(entry.item.id))
+  const rankedNetwork = linearEntries
     .sort((a, b) => curationScore(b.item) - curationScore(a.item))
-    .slice(0, 3)
+    .slice(0, 12);
+
+  const network = rotatingDailyThree(rankedNetwork)
     .map((entry) => pickFrom(entry.item, "TV", "tv", entry.network));
 
   return { network, streaming };

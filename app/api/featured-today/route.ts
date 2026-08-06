@@ -4,7 +4,22 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-const BUILD = "17.14c";
+const BUILD = "17.26a";
+
+const TMDB_BASE = "https://api.themoviedb.org/3";
+
+type TmdbTitle = {
+  id: number;
+  title?: string;
+  name?: string;
+  overview?: string;
+  release_date?: string;
+  first_air_date?: string;
+  vote_average?: number;
+  vote_count?: number;
+  popularity?: number;
+  media_type?: "movie" | "tv";
+};
 
 type Story = {
   title: string;
@@ -27,36 +42,6 @@ type ExploreTopic = {
   query: string;
   terms: string[];
 };
-
-const WATCH_BLOCKED_SOURCES = [
-  "screenhub",
-  "screenhub australia",
-  "the manual",
-  "comingsoon",
-  "comicbookmovie",
-  "bingeworthy",
-  "yahoo shopping",
-  "msn shopping",
-  "screen rant",
-  "we got this covered",
-  "bgr",
-];
-
-const WATCH_PREFERRED_SOURCES = [
-  "variety",
-  "deadline",
-  "the hollywood reporter",
-  "hollywood reporter",
-  "indiewire",
-  "vulture",
-  "entertainment weekly",
-  "rolling stone",
-  "the wrap",
-  "av club",
-  "reuters",
-  "associated press",
-  "ap news",
-];
 
 const TRUSTED_SOURCE_BOOSTS: Record<string, number> = {
   "reuters": 14,
@@ -104,22 +89,6 @@ const JUNK_TERMS = [
   "review roundup",
   "explained ending",
   "every movie and show",
-];
-
-const WATCH_BOOST = [
-  "streaming",
-  "netflix",
-  "prime video",
-  "max",
-  "hulu",
-  "disney+",
-  "peacock",
-  "movie",
-  "series",
-  "tv",
-  "premiere",
-  "release",
-  "new on",
 ];
 
 const LISTEN_BOOST = [
@@ -250,16 +219,6 @@ function isJunk(story: Story) {
   return JUNK_TERMS.some((term) => haystack.includes(term));
 }
 
-function isWatchBlocked(story: Story) {
-  const source = sourceName(story);
-  return WATCH_BLOCKED_SOURCES.some((name) => source.includes(name));
-}
-
-function isWatchPreferred(story: Story) {
-  const source = sourceName(story);
-  return WATCH_PREFERRED_SOURCES.some((name) => source.includes(name));
-}
-
 function scoreStory(story: Story, boosts: string[]) {
   const haystack = `${story.title} ${story.source || ""}`.toLowerCase();
   let score = sourceBoost(story);
@@ -289,15 +248,6 @@ function ranked(stories: Story[], boosts: string[]) {
   return stories
     .filter((story) => !isJunk(story))
     .sort((a, b) => scoreStory(b, boosts) - scoreStory(a, boosts));
-}
-
-function chooseWatch(stories: Story[]) {
-  const clean = ranked(stories, WATCH_BOOST).filter(
-    (story) => !isWatchBlocked(story)
-  );
-
-  const preferred = clean.filter(isWatchPreferred);
-  return preferred[0] || clean[0];
 }
 
 function normalizedTitle(title: string) {
@@ -337,6 +287,69 @@ function utcDayIndex() {
   return Math.floor(dayStart / 86_400_000);
 }
 
+function tmdbHeaders(): HeadersInit | undefined {
+  const token = process.env.TMDB_READ_ACCESS_TOKEN?.trim();
+  return token ? { Authorization: `Bearer ${token}`, accept: "application/json" } : undefined;
+}
+
+function tmdbApiKey(): string | undefined {
+  return process.env.TMDB_API_KEY?.trim() || undefined;
+}
+
+async function tmdb<T>(path: string): Promise<T | null> {
+  const headers = tmdbHeaders();
+  const apiKey = tmdbApiKey();
+  if (!headers && !apiKey) return null;
+
+  const separator = path.includes("?") ? "&" : "?";
+  const url = apiKey
+    ? `${TMDB_BASE}${path}${separator}api_key=${encodeURIComponent(apiKey)}`
+    : `${TMDB_BASE}${path}`;
+
+  try {
+    const response = await fetch(url, { headers, cache: "no-store" });
+    if (!response.ok) return null;
+    return (await response.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
+function tmdbWatchScore(item: TmdbTitle) {
+  const votes = Math.log10((item.vote_count ?? 0) + 1);
+  const rating = (item.vote_average ?? 0) * Math.min(1, votes / 2.5);
+  return (item.popularity ?? 0) + rating * 4;
+}
+
+async function dailyWatchPick(): Promise<FeatureItem | null> {
+  const data = await tmdb<{ results: TmdbTitle[] }>(
+    "/trending/all/day?language=en-US"
+  );
+
+  const candidates = (data?.results ?? [])
+    .filter((item) => item.media_type === "movie" || item.media_type === "tv")
+    .filter((item) => Boolean(item.title || item.name))
+    .filter((item) => (item.vote_count ?? 0) >= 20)
+    .sort((a, b) => tmdbWatchScore(b) - tmdbWatchScore(a))
+    .slice(0, 10);
+
+  if (!candidates.length) return null;
+
+  const item = candidates[utcDayIndex() % candidates.length];
+  const mediaType = item.media_type === "tv" ? "tv" : "movie";
+  const title = item.title || item.name || "Today's streaming pick";
+  const date = item.release_date || item.first_air_date;
+
+  return {
+    lane: "WATCH",
+    title: `Watch tonight: ${title}`,
+    detail: "A fresh daily pick from what is trending now.",
+    href: `https://www.themoviedb.org/${mediaType}/${item.id}`,
+    source: "TMDB Daily",
+    date,
+  };
+}
+
 function fallbackItems(): FeatureItem[] {
   return [
     {
@@ -370,10 +383,8 @@ export async function GET(request: NextRequest) {
     const exploreTopic =
       EXPLORE_ROTATION[utcDayIndex() % EXPLORE_ROTATION.length];
 
-    const [watchStories, listenStories, exploreStories] = await Promise.all([
-      news(
-        '("new on streaming" OR "streaming premiere" OR "new movie streaming" OR "new TV streaming") (Variety OR Deadline OR "Hollywood Reporter" OR IndieWire OR Vulture OR "Entertainment Weekly") when:7d'
-      ),
+    const [watch, listenStories, exploreStories] = await Promise.all([
+      dailyWatchPick(),
       news(
         '("Grateful Dead" OR "Dead & Company" OR Phish OR "Umphrey\'s McGee" OR Goose OR jamband) (JamBase OR Relix OR "Live For Live Music" OR Jambands) when:7d'
       ),
@@ -381,7 +392,6 @@ export async function GET(request: NextRequest) {
     ]);
 
     const usedTitles: string[] = [];
-    const watch = chooseWatch(watchStories);
     if (watch) usedTitles.push(watch.title);
 
     const listen = chooseDistinct(listenStories, LISTEN_BOOST, usedTitles);
@@ -390,16 +400,7 @@ export async function GET(request: NextRequest) {
     const explore = chooseDistinct(exploreStories, exploreTopic.terms, usedTitles);
 
     const items: FeatureItem[] = [
-      watch
-        ? {
-            lane: "WATCH",
-            title: watch.title,
-            detail: "A current streaming story from a preferred entertainment source.",
-            href: watch.link,
-            source: watch.source || "Streaming",
-            date: watch.date,
-          }
-        : fallbackItems()[0],
+      watch || fallbackItems()[0],
       listen
         ? {
             lane: "LISTEN",
