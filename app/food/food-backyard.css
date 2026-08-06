@@ -1,0 +1,30 @@
+.food-backyard-shell{
+  --bbq-cream:#eee6d1;
+  --bbq-ink:#18221c;
+  --bbq-green:#16261d;
+  --bbq-gold:#c39b4c;
+  --bbq-cedar:#5d351d;
+  gap:18px!important;
+  padding:24px!important;
+  background:
+    linear-gradient(90deg,rgba(9,15,10,.9),rgba(17,28,19,.7)),
+    url('/food-backyard/backyard-kettle-hero.webp') center/cover fixed!important;
+}
+.food-backyard-shell>.content-stage{padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.food-backyard-shell>aside{
+  background:
+    linear-gradient(rgba(246,240,221,.94),rgba(235,225,198,.96)),
+    repeating-linear-gradient(90deg,transparent 0 4px,rgba(92,65,35,.035) 5px)!important;
+  border:4px solid #5c371f!important;
+  outline:1px solid #c9a75e!important;
+  box-shadow:0 22px 48px rgba(0,0,0,.42),inset 0 0 0 2px rgba(255,255,255,.55)!important;
+  color:#28372d!important;
+}
+.food-backyard-shell>aside a{color:#33433a!important}
+.food-backyard-shell>aside a[aria-current="page"]{
+  color:#f5e7bd!important;
+  border-color:#b58a3d!important;
+  background:linear-gradient(135deg,#243c2c,#14271c)!important;
+  box-shadow:0 10px 22px rgba(31,50,36,.3),inset 0 0 0 1px rgba(231,198,116,.18)!important;
+}
+@media(max-width:900px){.food-backyard-shell{padding:12px!important;background-attachment:scroll!important}}
