@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./StreamingRoom.module.css";
 
 type Pick = {
@@ -63,16 +64,27 @@ export function CardGrid({ picks }: { picks: Pick[] }) {
 }
 
 function CardDetailModal({ pick, onClose }: { pick: Pick; onClose: () => void }) {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <>
       <div
         className={styles.detailBackdrop}
@@ -133,6 +145,7 @@ function CardDetailModal({ pick, onClose }: { pick: Pick; onClose: () => void })
           )}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 }
