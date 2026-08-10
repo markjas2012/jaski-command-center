@@ -4,9 +4,9 @@ import theme from "./jam-festival.module.css";
 
 export default function JamPage() {
   return (
-    <div className={`app-shell ${theme.festivalShell}`}>
+    <div className={`app-shell ${theme.lodgeShell}`}>
       <Sidebar activePage="jam" />
-      <section className={`content-shell ${theme.festival}`}>
+      <section className={`content-shell ${theme.lodge}`}>
         <JamHero />
       </section>
     </div>

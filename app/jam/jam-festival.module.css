@@ -1,992 +1,584 @@
-.festival {
-  --jam-ink: #19372b;
-  --jam-green: #3d7438;
-  --jam-moss: #6d8a35;
-  --jam-sun: #f0bd45;
-  --jam-coral: #db714f;
-  --jam-purple: #76518a;
-  --jam-paper: #f2e4bd;
-  --jam-paper-deep: #ddc88e;
+.lodge {
+  --cream: #f1e4c6;
+  --paper: #ead9b5;
+  --ink: #24170f;
+  --walnut: #2b170d;
+  --walnut-mid: #4a2b18;
+  --leather: #6c3c20;
+  --brass: #b28a43;
+  --forest: #1e3828;
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(circle at 78% 9%, rgba(190, 127, 57, .22), transparent 24%),
-    linear-gradient(180deg, rgba(17, 35, 29, .96) 0 300px, rgba(29, 54, 37, .95) 620px, rgba(18, 38, 27, .98) 100%),
-    url("/jam-festival/festival-backdrop.svg") top center / 100% auto repeat-y;
+    radial-gradient(circle at 12% 8%, rgba(153, 101, 47, .16), transparent 28%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.016) 0 1px, transparent 1px 88px),
+    linear-gradient(145deg, #1c100a, #29180e 50%, #15100b);
+  box-shadow: inset 0 0 90px rgba(0,0,0,.52);
 }
 
-/* Sprint 17.17m: hand-built transition and weathered festival handbills. */
-.festival :global(section[class*="hero"] + section[class*="deadHub"]),
-.festival :global(section[class*="hero"] + [class*="deadHub"]) { margin-top: -27px !important; }
-
-.festival :global(section[class*="hero"] + section[class*="deadHub"])::before,
-.festival :global(section[class*="hero"] + [class*="deadHub"])::before {
-  top: 0 !important; height: 43px !important;
-  background: radial-gradient(circle at 17px 50%,#130c08 0 4px,#75583b 5px 7px,transparent 8px),radial-gradient(circle at calc(100% - 17px) 50%,#130c08 0 4px,#75583b 5px 7px,transparent 8px),linear-gradient(90deg,rgba(15,8,4,.5),transparent 14% 86%,rgba(15,8,4,.5)),url("/jam-festival/reclaimed-barn-wall.webp") center 8%/820px auto !important;
-  box-shadow: 0 9px 13px rgba(8,5,3,.66),inset 0 2px rgba(231,181,112,.2),inset 0 -5px rgba(25,13,7,.54) !important;
-}
-
-.festival :global(section[class*="hero"] + section[class*="deadHub"] [class*="heroHead"]),
-.festival :global(section[class*="hero"] + [class*="deadHub"] [class*="heroHead"]) {
-  width: 360px !important; max-width: calc(100% - 42px) !important;
-  margin: 76px 0 30px 42px !important; padding: 15px 28px 13px !important;
-  border: 0 !important; border-radius: 2px !important;
-  clip-path: polygon(1% 6%,98% 0,100% 91%,95% 100%,2% 96%,0 18%) !important;
-  background: radial-gradient(circle at 14px 16px,#1b120c 0 3px,#73563b 4px 6px,transparent 7px),radial-gradient(circle at calc(100% - 15px) calc(100% - 14px),#1b120c 0 3px,#73563b 4px 6px,transparent 7px),linear-gradient(95deg,rgba(194,156,101,.9),rgba(224,199,151,.92) 48%,rgba(169,130,82,.9)),url("/jam-festival/reclaimed-barn-wall.webp") center 35%/660px auto !important;
-  box-shadow: 7px 11px 16px rgba(8,5,3,.56),inset 0 0 21px rgba(70,40,19,.23) !important;
-  transform: rotate(-.55deg) !important;
-}
-
-.festival :global(section[class*="deadHub"] [class*="heroHead"] > div > span),
-.festival :global(section[class*="deadHub"] [class*="heroHead"] > span),
-.festival :global(section[class*="deadHub"] [class*="heroHead"] > small) { display: none !important; }
-.festival :global(section[class*="deadHub"] [class*="heroHead"] h2) { margin: 0 !important; color: #342317 !important; text-shadow: 0 1px rgba(255,240,202,.28) !important; }
-.festival :global(section[class*="deadHub"] [class*="heroHead"] p) { margin: 3px 0 0 !important; color: #3d3020 !important; }
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article) {
-  border: 1px solid rgba(69,40,20,.68) !important; border-top: 2px solid rgba(129,70,38,.74) !important; border-radius: 1px !important;
-  clip-path: polygon(.8% 1%,98.8% 0,100% 4%,99.4% 96%,97% 100%,2% 99%,0 95%,.4% 6%) !important;
-  background-color: #e2c999 !important;
-  background-image: radial-gradient(ellipse at 16% 14%,rgba(112,67,28,.11),transparent 31%),radial-gradient(ellipse at 86% 78%,rgba(98,57,24,.1),transparent 34%),radial-gradient(circle at 13px 13px,#16100b 0 3px,#684c33 4px 6px,transparent 7px),radial-gradient(circle at calc(100% - 13px) 13px,#16100b 0 3px,#684c33 4px 6px,transparent 7px),radial-gradient(circle at 13px calc(100% - 13px),#16100b 0 3px,#684c33 4px 6px,transparent 7px),radial-gradient(circle at calc(100% - 13px) calc(100% - 13px),#16100b 0 3px,#684c33 4px 6px,transparent 7px),repeating-linear-gradient(2deg,transparent 0 8px,rgba(78,52,27,.035) 9px 10px),linear-gradient(145deg,#f0ddb8 0%,#e6cea0 56%,#d4b47e 100%) !important;
-  box-shadow: 5px 8px 0 rgba(48,28,15,.26),10px 17px 24px rgba(8,5,3,.52),inset 0 0 30px rgba(91,53,25,.15) !important;
-}
-
-@media (max-width: 900px) {
-  .festival :global(section[class*="hero"] + section[class*="deadHub"]),.festival :global(section[class*="hero"] + [class*="deadHub"]) { margin-top: -18px !important; }
-  .festival :global(section[class*="hero"] + section[class*="deadHub"] [class*="heroHead"]),.festival :global(section[class*="hero"] + [class*="deadHub"] [class*="heroHead"]) { margin: 58px 14px 22px !important; }
-}
-
-/* Bring the navigation into the same room instead of leaving one blue element. */
-.festivalShell :global(.sidebar) {
-  border-color: rgba(79,105,54,.24);
+/* Sprint 17.17s — close the pale global-shell gutter beside the dark sidebar. */
+.lodgeShell {
   background:
-    linear-gradient(rgba(251,246,223,.94), rgba(238,228,191,.95)),
-    url("/jam-festival/festival-backdrop.svg") 18% top / auto 100%;
-  box-shadow: 12px 0 34px rgba(63,75,39,.12), inset 0 0 28px rgba(118,89,42,.08);
-}
-.festivalShell :global(.brand-icon) {
-  background: linear-gradient(145deg, #4e8c45, #2f6336);
-  box-shadow: 0 8px 18px rgba(50,95,48,.24);
-}
-.festivalShell :global(.navigation-link.active) {
-  color: #fffaf0;
-  background: linear-gradient(90deg, #4b8a42, #719b3b);
-  box-shadow: 0 9px 22px rgba(66,111,46,.22);
+    linear-gradient(90deg, #120c08 0 272px, #1a100b 272px 100%) !important;
 }
 
-.festival::before {
-  position: absolute;
+.lodgeShell::before {
+  position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 14% 9%, rgba(238,190,107,.12), transparent 18%),
-    radial-gradient(circle at 83% 18%, rgba(255,184,61,.14), transparent 23%),
-    repeating-linear-gradient(112deg, transparent 0 72px, rgba(213,194,122,.025) 73px 75px);
+    radial-gradient(circle at 18% 8%, rgba(145, 94, 45, .12), transparent 27%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 72px),
+    linear-gradient(145deg, #140d09, #21140d 55%, #100b08);
   content: "";
 }
 
-/* Preserve the existing data components; reskin only inside the Jam route. */
-.festival :global(main[class*="room"]) {
-  position: relative;
-  padding: 20px 18px 34px;
-  color: var(--jam-ink);
-}
-
-.festival :global(main[class*="room"])::before {
-  position: absolute;
-  top: 175px;
-  right: 22px;
-  left: 22px;
-  height: 14px;
-  opacity: .72;
-  background: repeating-linear-gradient(90deg, #d45158 0 36px, #efb73f 36px 72px, #4d8b63 72px 108px, #72518c 108px 144px);
-  clip-path: polygon(0 0, 3% 100%, 6% 0, 9% 100%, 12% 0, 15% 100%, 18% 0, 21% 100%, 24% 0, 27% 100%, 30% 0, 33% 100%, 36% 0, 39% 100%, 42% 0, 45% 100%, 48% 0, 51% 100%, 54% 0, 57% 100%, 60% 0, 63% 100%, 66% 0, 69% 100%, 72% 0, 75% 100%, 78% 0, 81% 100%, 84% 0, 87% 100%, 90% 0, 93% 100%, 96% 0, 100% 100%);
-  content: "";
-}
-
-/* Festival entrance banner */
-.festival :global(section[class*="hero"]) {
-  min-height: 330px;
-  align-items: flex-start;
-  justify-content: center;
-  margin: 0 12px 24px;
-  padding: 14px 76px 30px;
-  overflow: visible;
-  border: 8px solid #75502d;
-  border-radius: 10px;
-  color: var(--jam-ink);
+.lodgeShell :global(.sidebar) {
+  border: 2px solid rgba(105,72,34,.5);
+  color: #2c2419;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.02), rgba(24,54,35,.08)),
-    url("/jam-festival/festival-stage-refined.webp") center 48% / cover no-repeat;
-  box-shadow: 0 13px 0 rgba(65,45,26,.28), 0 25px 42px rgba(46,64,27,.24), inset 0 0 32px rgba(20,45,27,.28);
+    linear-gradient(rgba(247,238,214,.97), rgba(222,205,170,.98)),
+    repeating-linear-gradient(0deg, transparent 0 7px, rgba(87,63,31,.035) 8px 9px);
+  box-shadow: 10px 0 32px rgba(20,12,7,.3), inset 0 0 0 5px rgba(255,250,230,.4), inset 0 0 28px rgba(91,60,25,.11);
 }
-
-.festival :global(section[class*="hero"])::before,
-.festival :global(section[class*="hero"])::after {
+.lodgeShell :global(.sidebar)::after {
   position: absolute;
-  top: -22px;
-  bottom: -30px;
-  width: 18px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #4d321f, #b17a42 42%, #5a3922);
-  box-shadow: inset 2px 0 rgba(255,255,255,.2), 5px 7px 12px rgba(46,38,24,.25);
+  inset: 10px;
+  pointer-events: none;
+  border: 1px dashed rgba(96,67,35,.27);
+  border-radius: 18px;
   content: "";
 }
-.festival :global(section[class*="hero"])::before { left: -14px; transform: rotate(-1.5deg); }
-.festival :global(section[class*="hero"])::after { right: -14px; transform: rotate(1.5deg); }
+.lodgeShell :global(.brand-icon) {
+  background: linear-gradient(145deg, #35583d, #193223);
+  box-shadow: 0 7px 14px rgba(32,48,31,.28), inset 0 0 0 2px rgba(206,177,105,.25);
+}
+.lodgeShell :global(.navigation-link.active) {
+  color: #fff3d2;
+  background: linear-gradient(90deg, #244831, #31583b);
+  box-shadow: 0 8px 18px rgba(40,50,30,.24), inset 0 0 0 1px rgba(190,151,69,.5);
+}
 
-.festival :global(section[class*="hero"] h1) {
+.lodge :global(main[class*="room"]) {
+  min-height: 100%;
+  padding: 18px 18px 38px;
+  color: var(--cream);
+}
+
+/* Photographic lodge music console. */
+.lodge :global(section[class*="hero"]) {
   position: relative;
-  z-index: 2;
-  width: min(1050px, 78vw);
-  min-width: 0;
-  aspect-ratio: 1800 / 266;
-  margin: -4px auto 0;
+  min-height: 278px;
+  margin: 0 0 18px;
   padding: 0;
   overflow: hidden;
-  border: 0;
-  border-radius: 0;
-  color: transparent;
-  background: url("/jam-festival/jam-room-psychedelic-banner.webp") center / 100% 100% no-repeat;
-  box-shadow: 0 12px 22px rgba(46,38,24,.32);
-  font-size: 0;
-  line-height: 0;
-  text-indent: -9999px;
-  transform: rotate(-.15deg);
+  border: 9px ridge #5a351e;
+  border-radius: 16px;
+  background: url("/jam-lodge/music-library-hero.webp") center / cover no-repeat;
+  box-shadow: 0 20px 38px rgba(0,0,0,.42), inset 0 0 0 2px rgba(206,169,89,.48), inset 0 0 40px rgba(0,0,0,.32);
 }
-
-/* Canvas bulletin boards shared by every Jam component. */
-.festival :global(main[class*="room"] > section:not([class*="hero"])),
-.festival :global(main[class*="room"] > div) {
-  position: relative;
-  border: 7px solid rgba(91,62,35,.86) !important;
-  border-radius: 14px !important;
-  color: var(--jam-ink) !important;
-  background:
-    linear-gradient(rgba(245,230,192,.96), rgba(229,209,158,.97)),
-    repeating-linear-gradient(0deg, transparent 0 5px, rgba(105,82,44,.05) 6px 7px) !important;
-  box-shadow: 0 18px 34px rgba(46,64,27,.22), inset 0 0 34px rgba(106,75,32,.12) !important;
-}
-
-/* The content components sit one level below several wrapper sections. */
-.festival :global(section[class*="deadHub"]),
-.festival :global(section[class*="shell"]),
-.festival :global(section[class*="wrap"]) {
-  position: relative;
-  border: 9px ridge #80603a !important;
-  border-radius: 13px !important;
-  color: var(--jam-ink) !important;
-  background:
-    linear-gradient(rgba(244,229,190,.97), rgba(226,205,151,.98)),
-    repeating-linear-gradient(0deg, transparent 0 6px, rgba(99,75,39,.05) 7px 8px) !important;
-  box-shadow:
-    0 18px 30px rgba(53,64,34,.22),
-    inset 0 0 0 2px rgba(248,231,178,.6),
-    inset 0 0 42px rgba(120,83,35,.13) !important;
-}
-
-.festival :global(section[class*="deadHub"])::before,
-.festival :global(section[class*="shell"])::before,
-.festival :global(section[class*="wrap"])::before {
+.lodge :global(section[class*="hero"])::before {
   position: absolute;
-  top: -7px;
-  right: 18px;
-  left: 18px;
-  height: 12px;
+  inset: 10px;
+  pointer-events: none;
+  border: 1px solid rgba(201,165,83,.52);
   border-radius: 8px;
-  background: linear-gradient(90deg, #5c3a22, #bf8b4e 18%, #6e4829 38%, #c99a5b 62%, #5a3922);
-  box-shadow: inset 0 2px rgba(255,255,255,.2), 0 3px 4px rgba(52,35,21,.18);
   content: "";
 }
-
-.festival :global(main[class*="room"] > section:nth-of-type(3n)) {
-  transform: rotate(.12deg);
-}
-.festival :global(main[class*="room"] > section:nth-of-type(3n + 1)) {
-  transform: rotate(-.1deg);
-}
-
-.festival :global(main[class*="room"] h2),
-.festival :global(main[class*="room"] h3),
-.festival :global(main[class*="room"] h4),
-.festival :global(main[class*="room"] strong) { color: #19372b !important; }
-
-.festival :global(main[class*="room"] p),
-.festival :global(main[class*="room"] small),
-.festival :global(main[class*="room"] span) { color: #5d694b; }
-
-.festival :global(main[class*="room"] a),
-.festival :global(main[class*="room"] b) { color: #356a39 !important; }
-
-/* Inner cards: sun-faded posters mounted to the boards. */
-.festival :global(main[class*="room"] article),
-.festival :global(main[class*="room"] a[class*="story"]),
-.festival :global(main[class*="room"] a[class*="card"]),
-.festival :global(main[class*="room"] div[class*="group"]) {
-  border-color: rgba(70,82,45,.28) !important;
-  color: var(--jam-ink) !important;
-  background:
-    linear-gradient(145deg, rgba(255,249,226,.88), rgba(232,217,179,.91)),
-    repeating-linear-gradient(6deg, transparent 0 8px, rgba(70,82,45,.035) 9px 10px) !important;
-  box-shadow: 0 7px 13px rgba(55,60,36,.11), inset 0 0 18px rgba(130,91,42,.08) !important;
-}
-
-.festival :global(main[class*="room"] [class*="featureLink"]),
-.festival :global(main[class*="room"] [class*="recording"]),
-.festival :global(main[class*="room"] [class*="setBlock"]),
-.festival :global(main[class*="room"] [class*="showCard"]),
-.festival :global(main[class*="room"] [class*="exclusive"]),
-.festival :global(main[class*="room"] [class*="newsList"] a),
-.festival :global(main[class*="room"] [class*="exclusiveItems"] > a) {
-  border-color: rgba(75,98,50,.25) !important;
-  color: var(--jam-ink) !important;
-  background:
-    linear-gradient(145deg, rgba(255,250,228,.94), rgba(235,220,180,.95)),
-    repeating-linear-gradient(4deg, transparent 0 7px, rgba(89,74,43,.04) 8px 9px) !important;
-  box-shadow: 0 4px 8px rgba(66,65,38,.08) !important;
-}
-
-.festival :global(main[class*="room"] li),
-.festival :global(main[class*="room"] [class*="setBlock"] span),
-.festival :global(main[class*="room"] [class*="featureLink"] span),
-.festival :global(main[class*="room"] [class*="newsList"] strong),
-.festival :global(main[class*="room"] [class*="recording"] strong) {
-  color: #314536 !important;
-}
-
-.festival :global(main[class*="room"] [class*="featureLink"] small),
-.festival :global(main[class*="room"] [class*="sourceRow"] span),
-.festival :global(main[class*="room"] [class*="showMeta"]),
-.festival :global(main[class*="room"] [class*="locationLine"]) {
-  color: #68705a !important;
-}
-
-.festival :global(main[class*="room"] article:nth-child(3n + 1)) { border-top: 4px solid var(--jam-coral) !important; }
-.festival :global(main[class*="room"] article:nth-child(3n + 2)) { border-top: 4px solid var(--jam-purple) !important; }
-.festival :global(main[class*="room"] article:nth-child(3n)) { border-top: 4px solid var(--jam-moss) !important; }
-
-.festival :global(main[class*="room"] a:hover) {
-  filter: saturate(1.12);
-}
-
-/* Hand-painted labels and buttons. */
-.festival :global(main[class*="room"] p[class]),
-.festival :global(main[class*="room"] [class*="source"]),
-.festival :global(main[class*="room"] [class*="featureLabel"]) {
-  color: #7d3f55 !important;
-}
-
-.festival :global(main[class*="room"] [class*="crown"]),
-.festival :global(main[class*="room"] [class*="dateBadge"]),
-.festival :global(main[class*="room"] [class*="year"]) {
-  border-color: rgba(71,105,48,.34) !important;
-  color: #345f36 !important;
-  background: rgba(239,203,86,.22) !important;
-}
-
-/* Grateful Dead hub: three handmade festival notice boards tied to one rail. */
-.festival :global(section[class*="deadHub"] > div[class*="grid"]) {
-  position: relative;
-  gap: 16px !important;
-  padding: 12px 12px 15px !important;
-  border-radius: 10px;
-  background:
-    linear-gradient(90deg, rgba(91,61,31,.9), rgba(183,132,70,.94) 3%, rgba(104,70,36,.9) 6%, transparent 6% 94%, rgba(104,70,36,.9) 94% 97%, rgba(183,132,70,.94) 97%),
-    repeating-linear-gradient(90deg, transparent 0 49px, rgba(83,55,29,.12) 50px 51px);
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article) {
-  position: relative;
-  overflow: hidden;
-  border-right: 2px solid rgba(96,67,35,.35) !important;
-  border-bottom: 5px solid #7b5937 !important;
-  border-left: 2px solid rgba(96,67,35,.35) !important;
-  border-radius: 14px 14px 7px 7px !important;
-  box-shadow:
-    0 12px 16px rgba(61,49,28,.16),
-    inset 0 0 28px rgba(118,82,38,.12) !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article)::before {
+.lodge :global(section[class*="hero"] h1) {
   position: absolute;
-  top: 7px;
-  right: 9px;
-  width: 11px;
-  height: 11px;
-  z-index: 3;
-  border: 2px solid rgba(88,57,28,.55);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #f3d79a 0 18%, #9d6c38 48%, #49301d 100%);
-  box-shadow: 0 2px 3px rgba(55,35,19,.32);
-  content: "";
+  top: 50%;
+  left: 50%;
+  width: 48%;
+  margin: 0;
+  color: #c8a05d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5.1vw, 82px);
+  font-weight: 600;
+  letter-spacing: .09em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 2px 0 #2c170c, 0 4px 8px rgba(0,0,0,.75), 0 -1px 0 rgba(255,221,147,.32);
+  transform: translate(-50%, -50%);
 }
 
-/* The refined magic-mushroom garden beneath the Deadcast panel. */
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)) {
-  min-height: 322px;
-  padding-bottom: 188px !important;
-  background-image:
-    url("/jam-festival/mushroom-garden.webp"),
-    linear-gradient(145deg, rgba(255,249,226,.9), rgba(232,217,179,.94)) !important;
-  background-repeat: no-repeat !important;
-  background-position: center calc(100% - 8px), center !important;
-  background-size: 214px auto, auto !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2))::after {
-  position: absolute;
-  right: 12%;
-  bottom: 9px;
-  left: 12%;
-  height: 8px;
-  border-radius: 50%;
-  opacity: .28;
-  background: #31482d;
-  filter: blur(5px);
-  content: "";
-}
-
-/* Wildflower beds visually finish the history and family boards. */
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3)) {
-  padding-bottom: 72px !important;
-  background-image:
-    url("/jam-festival/wildflower-border.webp"),
-    linear-gradient(145deg, rgba(255,249,226,.92), rgba(232,217,179,.95)) !important;
-  background-repeat: no-repeat !important;
-  background-position: center bottom, center !important;
-  background-size: 100% 92px, auto !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3))::after {
-  position: absolute;
-  right: 24px;
-  bottom: 42px;
-  width: 58px;
-  height: 58px;
-  border: 8px double rgba(110,73,133,.24);
-  border-radius: 50% 44% 53% 42%;
-  content: "";
-  transform: rotate(18deg);
-}
-
-/* Compact the long archive content without hiding any songs or actions. */
-.festival :global(section[class*="deadHub"] [class*="setlist"]),
-.festival :global(section[class*="deadHub"] [class*="setList"]) {
-  line-height: 1.24 !important;
-}
-.festival :global(section[class*="deadHub"] [class*="setlist"] li),
-.festival :global(section[class*="deadHub"] [class*="setList"] li) {
-  margin-block: 1px !important;
-}
-
-/* Band-specific, hand-painted backdrop marks for the next two featured sections. */
-.festival :global(main[class*="room"] > section:nth-of-type(3)) {
-  background:
-    url("/jam-festival/phish-iconography.svg") right 34px top 22px / 300px auto no-repeat,
-    linear-gradient(rgba(244,229,190,.97), rgba(226,205,151,.98)),
-    repeating-linear-gradient(0deg, transparent 0 6px, rgba(99,75,39,.05) 7px 8px) !important;
-}
-
-.festival :global(main[class*="room"] > section:nth-of-type(4)) {
-  background:
-    url("/jam-festival/panic-iconography.svg") right 28px top 18px / 310px auto no-repeat,
-    linear-gradient(rgba(244,229,190,.97), rgba(226,205,151,.98)),
-    repeating-linear-gradient(0deg, transparent 0 6px, rgba(99,75,39,.05) 7px 8px) !important;
-}
-
-.festival :global(main[class*="room"] > section:nth-of-type(3) > div[class*="grid"]),
-.festival :global(main[class*="room"] > section:nth-of-type(4) > div[class*="grid"]) {
+/* Walnut archive cabinetry shared by every live Jam section. */
+.lodge :global(main[class*="room"] > section:not([class*="hero"])),
+.lodge :global(section[class*="deadHub"]),
+.lodge :global(section[class*="shell"]),
+.lodge :global(section[class*="wrap"]) {
   position: relative;
-  z-index: 1;
+  border: 8px ridge #57331d !important;
+  border-radius: 15px !important;
+  color: var(--cream) !important;
+  background:
+    radial-gradient(circle at 84% 12%, rgba(177,128,62,.10), transparent 30%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.018) 0 1px, transparent 1px 70px),
+    linear-gradient(145deg, #321c10, #1d120c 68%, #160e09) !important;
+  box-shadow: 0 16px 30px rgba(0,0,0,.34), inset 0 0 0 2px rgba(184,139,66,.2), inset 0 0 42px rgba(0,0,0,.3) !important;
 }
+.lodge :global(main[class*="room"] > section:not([class*="hero"]))::before,
+.lodge :global(section[class*="deadHub"])::before,
+.lodge :global(section[class*="shell"])::before,
+.lodge :global(section[class*="wrap"])::before {
+  position: absolute;
+  inset: 8px;
+  z-index: 0;
+  pointer-events: none;
+  border: 1px solid rgba(184,139,66,.25);
+  border-radius: 8px;
+  content: "";
+}
+.lodge :global(main[class*="room"] > section:not([class*="hero"]) > *),
+.lodge :global(section[class*="deadHub"] > *),
+.lodge :global(section[class*="shell"] > *),
+.lodge :global(section[class*="wrap"] > *) { position: relative; z-index: 1; }
 
-/* Small hand-painted category plaques similar to the approved rendering. */
-.festival :global(section[class*="deadHub"] [class*="heroHead"] p),
-.festival :global(section[class*="deadHub"] [class*="panelHead"] > div > p),
-.festival :global(section[class*="shell"] [class*="head"] p),
-.festival :global(section[class*="wrap"] [class*="heading"] p) {
+.lodge :global(main[class*="room"] h2),
+.lodge :global(main[class*="room"] h3),
+.lodge :global(main[class*="room"] h4) { color: #f0dfb9 !important; }
+.lodge :global(main[class*="room"] p),
+.lodge :global(main[class*="room"] small),
+.lodge :global(main[class*="room"] span) { color: #c8b48d; }
+.lodge :global(main[class*="room"] a),
+.lodge :global(main[class*="room"] b) { color: #d5b66f !important; }
+
+/* Grateful Dead archive: landscape feature, art and setlist side by side. */
+.lodge :global(section[class*="deadHub"]) { padding: 22px !important; }
+.lodge :global(section[class*="deadHub"] [class*="heroHead"]) {
+  margin: 0 8px 14px;
+  padding: 11px 14px !important;
+  border: 1px solid rgba(183,141,73,.32) !important;
+  border-radius: 7px;
+  background: linear-gradient(90deg, rgba(79,44,23,.88), rgba(43,25,15,.7));
+}
+.lodge :global(section[class*="deadHub"] [class*="heroHead"] p),
+.lodge :global(section[class*="deadHub"] [class*="panelHead"] p),
+.lodge :global(section[class*="shell"] [class*="head"] p),
+.lodge :global(section[class*="wrap"] [class*="heading"] p) {
   display: inline-flex;
-  padding: 5px 10px;
-  border-radius: 3px 3px 7px 3px;
-  color: #fff8e6 !important;
-  background: linear-gradient(90deg, #315f37, #4a793d);
-  box-shadow: 2px 3px 0 rgba(61,50,28,.18);
+  margin: 0;
+  padding: 5px 9px;
+  border-radius: 3px;
+  color: #f5e8c7 !important;
+  background: linear-gradient(90deg, #234531, #345b3f);
+  box-shadow: inset 0 0 0 1px rgba(207,172,94,.3);
   letter-spacing: .13em;
 }
-
-/* Softer psychedelic flourishes without sacrificing readability. */
-.festival :global(main[class*="room"] > section:nth-last-child(2))::after {
+.lodge :global(section[class*="deadHub"] [class*="crown"]) { display: none !important; }
+.lodge :global(section[class*="deadHub"] > div[class*="grid"]) {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 14px !important;
+  padding: 0 8px 8px !important;
+}
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article) {
+  position: relative;
+  min-width: 0;
+  padding: 18px !important;
+  overflow: hidden;
+  border: 2px solid #74502c !important;
+  border-radius: 9px !important;
+  color: var(--ink) !important;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 8px, rgba(94,67,37,.035) 9px 10px),
+    linear-gradient(145deg, #f1e4c5, #ddc89c) !important;
+  box-shadow: 0 10px 18px rgba(0,0,0,.25), inset 0 0 24px rgba(112,76,34,.1) !important;
+}
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article)::before,
+.lodge :global(main[class*="room"] article)::before {
   position: absolute;
-  right: 20px;
-  bottom: 12px;
-  width: 92px;
-  height: 92px;
-  border: 9px double rgba(118,81,138,.17);
-  border-radius: 50% 45% 54% 42%;
+  top: 8px;
+  right: 9px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f4d893, #9c6c34 55%, #3d2515);
+  box-shadow: 0 1px 3px rgba(0,0,0,.4);
   content: "";
-  transform: rotate(18deg);
 }
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:first-child) {
+  grid-column: 1 / -1;
+  display: grid !important;
+  grid-template-columns: minmax(240px,.72fr) minmax(330px,1.05fr) minmax(300px,1.1fr);
+  gap: 16px;
+  align-items: stretch;
+  min-height: 0 !important;
+  padding-bottom: 18px !important;
+}
+.lodge :global(section[class*="deadHub"] article:first-child [class*="panelHead"]),
+.lodge :global(section[class*="deadHub"] article:first-child [class*="venue"]),
+.lodge :global(section[class*="deadHub"] article:first-child [class*="recording"]) { grid-column: 1; }
+.lodge :global(section[class*="deadHub"] article:first-child [class*="showVisual"]) {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  margin: 0 !important;
+  border: 5px solid #432719 !important;
+  border-radius: 7px !important;
+  background: #20130d !important;
+  box-shadow: 0 8px 15px rgba(0,0,0,.25) !important;
+}
+.lodge :global(section[class*="deadHub"] article:first-child [class*="showVisual"] img) {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  max-height: 255px;
+  object-fit: cover;
+}
+.lodge :global(section[class*="deadHub"] article:first-child [class*="setlist"]),
+.lodge :global(section[class*="deadHub"] article:first-child [class*="setList"]) {
+  grid-column: 3;
+  grid-row: 1 / span 4;
+  margin: 0 !important;
+  padding: 14px !important;
+  overflow: hidden;
+  border: 1px solid rgba(91,61,29,.25) !important;
+  border-radius: 7px;
+  background: rgba(255,249,228,.42);
+}
+.lodge :global(section[class*="deadHub"] article:first-child [class*="setlist"] ol),
+.lodge :global(section[class*="deadHub"] article:first-child [class*="setList"] ol) {
+  columns: 2 !important;
+  column-gap: 20px !important;
+}
+.lodge :global(section[class*="deadHub"] article:first-child [class*="sourceRow"]),
+.lodge :global(section[class*="deadHub"] article:first-child [class*="actions"]) { grid-column: 1 / -1; }
 
-/* Sprint 17.17j: dark festival boards, with parchment reserved for content cards. */
-.festival :global(main[class*="room"] > section:not([class*="hero"])),
-.festival :global(section[class*="deadHub"]),
-.festival :global(section[class*="shell"]),
-.festival :global(section[class*="wrap"]) {
-  color: #f4e8c8 !important;
+/* Inner content remains parchment/leather and readable. */
+.lodge :global(main[class*="room"] article),
+.lodge :global(main[class*="room"] a[class*="story"]),
+.lodge :global(main[class*="room"] a[class*="card"]),
+.lodge :global(main[class*="room"] [class*="featureLink"]),
+.lodge :global(main[class*="room"] [class*="recording"]),
+.lodge :global(main[class*="room"] [class*="showCard"]),
+.lodge :global(main[class*="room"] [class*="exclusive"]),
+.lodge :global(main[class*="room"] [class*="newsList"] a),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a) {
+  border-color: rgba(92,62,31,.27) !important;
+  color: var(--ink) !important;
   background:
-    radial-gradient(circle at 12% 8%, rgba(116, 145, 76, .16), transparent 30%),
-    radial-gradient(circle at 88% 92%, rgba(126, 75, 39, .19), transparent 34%),
-    repeating-linear-gradient(0deg, transparent 0 7px, rgba(232, 210, 151, .022) 8px 9px),
-    linear-gradient(145deg, #294936 0%, #1e382b 52%, #172b22 100%) !important;
-  box-shadow:
-    0 18px 34px rgba(13, 25, 18, .42),
-    inset 0 0 0 2px rgba(226, 190, 112, .15),
-    inset 0 0 52px rgba(6, 17, 11, .34) !important;
+    repeating-linear-gradient(0deg, transparent 0 7px, rgba(94,67,37,.032) 8px 9px),
+    linear-gradient(145deg, rgba(251,243,218,.97), rgba(222,202,158,.98)) !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,.13), inset 0 0 18px rgba(109,75,34,.08) !important;
+}
+.lodge :global(main[class*="room"] article h3),
+.lodge :global(main[class*="room"] article h4),
+.lodge :global(main[class*="room"] article strong),
+.lodge :global(main[class*="room"] article li),
+.lodge :global(main[class*="room"] article span) { color: #2f271b !important; }
+.lodge :global(main[class*="room"] article small),
+.lodge :global(main[class*="room"] article [class*="location"]),
+.lodge :global(main[class*="room"] article [class*="sourceRow"] span) { color: #71634b !important; }
+.lodge :global(main[class*="room"] article a),
+.lodge :global(main[class*="room"] article b) { color: #31563a !important; }
+.lodge :global(main[class*="room"] [class*="year"]),
+.lodge :global(main[class*="room"] [class*="dateBadge"]) {
+  border-color: rgba(92,62,31,.35) !important;
+  color: #55351f !important;
+  background: rgba(191,151,72,.22) !important;
 }
 
-/* Preserve each band's painted identity over the new darker boards. */
-.festival :global(main[class*="room"] > section:nth-of-type(3)) {
-  background:
-    url("/jam-festival/phish-iconography.svg") right 34px top 22px / 300px auto no-repeat,
-    radial-gradient(circle at 12% 8%, rgba(116, 145, 76, .15), transparent 30%),
-    linear-gradient(145deg, #294936, #172b22) !important;
+/* Phish, Panic and live boards retain identity through restrained lodge accents. */
+.lodge :global(main[class*="room"] > section:nth-of-type(3)) {
+  background: radial-gradient(circle at 92% 15%, rgba(69,94,126,.18), transparent 28%), linear-gradient(145deg,#321c10,#17100b) !important;
 }
-
-.festival :global(main[class*="room"] > section:nth-of-type(4)) {
-  background:
-    url("/jam-festival/panic-iconography.svg") right 28px top 18px / 310px auto no-repeat,
-    radial-gradient(circle at 88% 15%, rgba(145, 91, 75, .15), transparent 30%),
-    linear-gradient(145deg, #294936, #172b22) !important;
+.lodge :global(main[class*="room"] > section:nth-of-type(4)) {
+  background: radial-gradient(circle at 91% 15%, rgba(121,46,70,.17), transparent 28%), linear-gradient(145deg,#321c10,#17100b) !important;
 }
+.lodge :global(main[class*="room"] a:hover) { filter: brightness(1.06) saturate(1.04); }
 
-/* Show groups are part of the board; only the individual event cards stay paper. */
-.festival :global(section[class*="wrap"] div[class*="group"]) {
-  border-color: rgba(217, 185, 111, .28) !important;
-  color: #f4e8c8 !important;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 7px, rgba(232, 210, 151, .02) 8px 9px),
-    linear-gradient(145deg, rgba(31, 57, 43, .98), rgba(20, 39, 30, .99)) !important;
-  box-shadow: inset 0 0 26px rgba(4, 13, 8, .34), 0 8px 16px rgba(8, 20, 13, .25) !important;
+@media (max-width: 1120px) {
+  .lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:first-child) {
+    grid-template-columns: minmax(230px,.7fr) minmax(320px,1fr);
+  }
+  .lodge :global(section[class*="deadHub"] article:first-child [class*="setlist"]),
+  .lodge :global(section[class*="deadHub"] article:first-child [class*="setList"]) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
 }
-
-/* Board titles become warm canvas ink; card typography remains dark and readable. */
-.festival :global(section[class*="deadHub"] [class*="heroHead"] h2),
-.festival :global(section[class*="deadHub"] [class*="heroHead"] small),
-.festival :global(section[class*="shell"] > [class*="head"] h2),
-.festival :global(section[class*="shell"] > [class*="head"] small),
-.festival :global(section[class*="wrap"] > [class*="heading"] h2),
-.festival :global(section[class*="wrap"] > [class*="heading"] small),
-.festival :global(section[class*="wrap"] [class*="groupHead"] h3) {
-  color: #f5e8c7 !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, .34);
-}
-
-.festival :global(section[class*="deadHub"] [class*="heroHead"] span),
-.festival :global(section[class*="shell"] > [class*="head"] span),
-.festival :global(section[class*="wrap"] > [class*="heading"] span),
-.festival :global(section[class*="wrap"] [class*="groupHead"] span),
-.festival :global(section[class*="wrap"] [class*="groupHead"] a) {
-  color: #d8c58f !important;
-}
-
-@media (max-width: 900px) {
-  .festival :global(section[class*="hero"]) { min-height: 260px; margin-inline: 4px; padding-inline: 34px; }
-  .festival :global(section[class*="hero"] h1) { width: 82vw; min-width: 0; padding: 0; }
-  .festival :global(main[class*="room"] > section:not([class*="hero"])) { border-width: 4px !important; }
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)) { min-height: 300px; background-size: 195px auto, auto !important; }
-}
-
-@media (max-width: 620px) {
-  .festival :global(main[class*="room"]) { padding: 12px 8px 24px; }
-  .festival :global(section[class*="hero"]) { min-height: 205px; padding: 10px 18px 20px; background-position: center bottom; }
-  .festival :global(section[class*="hero"] h1) { min-width: 0; width: 94%; padding: 0; font-size: 0; }
-  .festival :global(section[class*="deadHub"] > div[class*="grid"]) { padding: 10px 8px 16px !important; }
-  .festival :global(main[class*="room"] > section:nth-of-type(3)),
-  .festival :global(main[class*="room"] > section:nth-of-type(4)) { background-size: 210px auto, auto, auto !important; }
+@media (max-width: 760px) {
+  .lodge :global(main[class*="room"]) { padding: 10px 8px 24px; }
+  .lodge :global(section[class*="hero"]) { min-height: 210px; background-position: 52% center; }
+  .lodge :global(section[class*="hero"] h1) { width: 60%; font-size: 34px; }
+  .lodge :global(section[class*="deadHub"] > div[class*="grid"]) { grid-template-columns: 1fr !important; }
+  .lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:first-child) { grid-template-columns: 1fr; }
+  .lodge :global(section[class*="deadHub"] article:first-child [class*="showVisual"]),
+  .lodge :global(section[class*="deadHub"] article:first-child [class*="setlist"]),
+  .lodge :global(section[class*="deadHub"] article:first-child [class*="setList"]) { grid-column: 1; grid-row: auto; }
+  .lodge :global(section[class*="deadHub"] article:first-child [class*="sourceRow"]),
+  .lodge :global(section[class*="deadHub"] article:first-child [class*="actions"]) { grid-column: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .festival :global(main[class*="room"] > section) { transform: none !important; }
+  .lodge :global(main[class*="room"] *) { scroll-behavior: auto !important; }
 }
 
-/* Sprint 17.17k: authentic reclaimed-barn notice boards. */
-.festival :global(main[class*="room"] > section:not([class*="hero"])),
-.festival :global(section[class*="deadHub"]),
-.festival :global(section[class*="shell"]),
-.festival :global(section[class*="wrap"]) {
-  border-color: #352316 !important;
-  border-style: solid !important;
-  color: #f3e6c8 !important;
-  background:
-    linear-gradient(rgba(24, 15, 9, .12), rgba(24, 15, 9, .2)),
-    url("/jam-festival/reclaimed-barn-wall.webp") center / cover repeat-y !important;
-  box-shadow:
-    0 20px 38px rgba(10, 7, 4, .52),
-    inset 0 0 0 2px rgba(157, 105, 55, .38),
-    inset 0 0 0 8px rgba(43, 27, 16, .74),
-    inset 0 0 46px rgba(8, 5, 3, .42) !important;
+/* Sprint 17.17q — compact collector's listening archive. */
+.lodge :global(main[class*="room"] > section:not([class*="hero"])) {
+  margin-top: 16px !important;
+  padding: 18px !important;
 }
 
-/* Rough-sawn timber cap replaces the polished decorative rail. */
-.festival :global(section[class*="deadHub"])::before,
-.festival :global(section[class*="shell"])::before,
-.festival :global(section[class*="wrap"])::before {
-  top: -10px;
-  right: 12px;
-  left: 12px;
-  height: 17px;
-  border: 1px solid rgba(25, 14, 8, .88);
-  border-radius: 2px;
-  background:
-    linear-gradient(90deg, rgba(18, 10, 6, .28), transparent 18% 82%, rgba(18, 10, 6, .3)),
-    url("/jam-festival/reclaimed-barn-wall.webp") center 20% / 760px auto !important;
-  box-shadow: 0 4px 7px rgba(11, 7, 4, .5), inset 0 1px rgba(222, 172, 105, .16);
-}
-
-/* The Dead hub grid is now wall, not a separate painted UI panel. */
-.festival :global(section[class*="deadHub"] > div[class*="grid"]) {
-  gap: 24px !important;
-  padding: 18px 20px 24px !important;
-  background: transparent !important;
-}
-
-/* Aged handbills fastened directly to the boards. */
-.festival :global(main[class*="room"] article),
-.festival :global(main[class*="room"] a[class*="story"]),
-.festival :global(main[class*="room"] a[class*="card"]),
-.festival :global(main[class*="room"] [class*="showCard"]),
-.festival :global(main[class*="room"] [class*="exclusive"]),
-.festival :global(main[class*="room"] [class*="newsList"] a),
-.festival :global(main[class*="room"] [class*="exclusiveItems"] > a) {
-  border: 1px solid rgba(84, 55, 29, .58) !important;
-  border-radius: 2px 5px 3px 4px !important;
-  color: #2d2a20 !important;
-  background:
-    radial-gradient(circle at 12px 12px, #17130f 0 3px, #544535 4px, transparent 6px),
-    radial-gradient(circle at calc(100% - 12px) 12px, #17130f 0 3px, #544535 4px, transparent 6px),
-    radial-gradient(circle at 12px calc(100% - 12px), #17130f 0 3px, #544535 4px, transparent 6px),
-    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #17130f 0 3px, #544535 4px, transparent 6px),
-    repeating-linear-gradient(4deg, transparent 0 8px, rgba(91, 66, 34, .025) 9px 10px),
-    linear-gradient(145deg, #f3e6c7 0%, #e7d2a7 100%) !important;
-  box-shadow:
-    2px 4px 0 rgba(58, 36, 20, .18),
-    6px 12px 18px rgba(12, 8, 5, .38),
-    inset 0 0 24px rgba(105, 70, 32, .12) !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article) {
-  overflow: hidden;
-  border: 1px solid rgba(73, 45, 23, .7) !important;
-  border-top: 2px solid rgba(116, 69, 35, .72) !important;
-  border-radius: 2px 5px 3px 4px !important;
-  padding-bottom: 28px !important;
-  background:
-    radial-gradient(circle at 12px 12px, #17130f 0 3px, #5d4d39 4px, transparent 6px),
-    radial-gradient(circle at calc(100% - 12px) 12px, #17130f 0 3px, #5d4d39 4px, transparent 6px),
-    radial-gradient(circle at 12px calc(100% - 12px), #17130f 0 3px, #5d4d39 4px, transparent 6px),
-    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #17130f 0 3px, #5d4d39 4px, transparent 6px),
-    repeating-linear-gradient(3deg, transparent 0 9px, rgba(86, 61, 30, .026) 10px 11px),
-    linear-gradient(145deg, #f5e8ca, #e6d0a3) !important;
-  box-shadow: 3px 5px 0 rgba(49, 29, 16, .2), 8px 15px 22px rgba(9, 6, 4, .44) !important;
-}
-
-/* Remove the illustrative reserve art from the notice-board pass. */
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3)) {
-  min-height: 0;
-  padding-bottom: 28px !important;
-  background-size: auto !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article)::before {
-  display: none;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2))::after,
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3))::after {
-  display: none;
-}
-
-/* Heading reads as an old painted plank attached to the wall. */
-.festival :global(section[class*="deadHub"] [class*="heroHead"]),
-.festival :global(section[class*="shell"] > [class*="head"]),
-.festival :global(section[class*="wrap"] > [class*="heading"]) {
-  width: fit-content;
-  max-width: calc(100% - 28px);
-  margin: 14px 18px 8px !important;
-  padding: 10px 20px 11px !important;
-  border: 1px solid rgba(44, 26, 14, .72);
-  border-radius: 2px;
-  background:
-    linear-gradient(rgba(229, 212, 174, .9), rgba(194, 165, 114, .91)),
-    url("/jam-festival/reclaimed-barn-wall.webp") center / 760px auto;
-  box-shadow: 4px 7px 12px rgba(10, 6, 4, .38), inset 0 0 18px rgba(83, 53, 25, .14);
-  transform: rotate(-.25deg);
-}
-
-.festival :global(section[class*="deadHub"] [class*="heroHead"] h2),
-.festival :global(section[class*="deadHub"] [class*="heroHead"] small),
-.festival :global(section[class*="shell"] > [class*="head"] h2),
-.festival :global(section[class*="shell"] > [class*="head"] small),
-.festival :global(section[class*="wrap"] > [class*="heading"] h2),
-.festival :global(section[class*="wrap"] > [class*="heading"] small) {
-  color: #31271b !important;
-  text-shadow: 0 1px rgba(255, 247, 218, .34) !important;
-}
-
-/* Structural groups remain exposed barn boards. */
-.festival :global(section[class*="wrap"] div[class*="group"]) {
-  border-color: rgba(46, 28, 15, .72) !important;
-  background:
-    linear-gradient(rgba(23, 14, 8, .12), rgba(23, 14, 8, .2)),
-    url("/jam-festival/reclaimed-barn-wall.webp") center / cover !important;
-  box-shadow: inset 0 0 25px rgba(7, 4, 2, .35), 0 9px 18px rgba(7, 4, 2, .32) !important;
-}
-
-@media (max-width: 900px) {
-  .festival :global(section[class*="deadHub"] > div[class*="grid"]) { gap: 16px !important; padding: 14px !important; }
-}
-/* Sprint 17.17l: join the stage opening and barn notice board into one build. */
-.festival :global(main[class*="room"]) { gap: 0 !important; }
-
-.festival :global(section[class*="hero"]) {
+/* Walnut record-bin rails separate the collections without adding page height. */
+.lodge :global(main[class*="room"] > section:not([class*="hero"]))::after {
+  position: absolute;
+  right: 16px;
+  bottom: -11px;
+  left: 16px;
   z-index: 3;
-  margin-bottom: 0 !important;
-  border-bottom: 0 !important;
-  border-radius: 10px 10px 0 0 !important;
-  box-shadow: 0 10px 26px rgba(18,12,7,.32), inset 0 0 32px rgba(20,45,27,.28) !important;
-}
-.festival :global(section[class*="hero"])::before,
-.festival :global(section[class*="hero"])::after {
-  bottom: -50px !important;
-  width: 22px !important;
-  border-radius: 5px 5px 1px 1px !important;
-  background: linear-gradient(90deg,rgba(24,13,7,.48),transparent 24% 72%,rgba(21,12,7,.5)),url("/jam-festival/reclaimed-barn-wall.webp") center/430px auto !important;
-  box-shadow: inset 2px 0 rgba(225,177,111,.16),inset -3px 0 rgba(20,11,6,.42),5px 7px 12px rgba(20,12,7,.42) !important;
-}
-.festival :global(section[class*="hero"] + section[class*="deadHub"]),
-.festival :global(section[class*="hero"] + [class*="deadHub"]) {
-  z-index: 2;
-  margin-top: 0 !important;
-  border-top: 0 !important;
-  border-radius: 0 0 8px 8px !important;
-}
-.festival :global(section[class*="hero"] + section[class*="deadHub"])::before,
-.festival :global(section[class*="hero"] + [class*="deadHub"])::before {
-  top: -2px !important;
-  right: -2px !important;
-  left: -2px !important;
-  z-index: 8 !important;
-  height: 38px !important;
-  border: 2px solid #24150c !important;
-  border-radius: 1px !important;
-  background: radial-gradient(circle at 15px 50%,#17100b 0 4px,#6d5136 5px 7px,transparent 8px),radial-gradient(circle at calc(100% - 15px) 50%,#17100b 0 4px,#6d5136 5px 7px,transparent 8px),linear-gradient(90deg,rgba(17,9,5,.42),transparent 16% 84%,rgba(17,9,5,.42)),url("/jam-festival/reclaimed-barn-wall.webp") center 12%/920px auto !important;
-  box-shadow: 0 8px 12px rgba(8,5,3,.58),inset 0 2px rgba(222,171,105,.18),inset 0 -4px rgba(28,15,8,.46) !important;
-}
-.festival :global(section[class*="hero"] + section[class*="deadHub"] [class*="heroHead"]),
-.festival :global(section[class*="hero"] + [class*="deadHub"] [class*="heroHead"]) {
-  margin-top: 58px !important;
-  background: linear-gradient(94deg,rgba(214,190,146,.88),rgba(177,143,95,.82)),url("/jam-festival/reclaimed-barn-wall.webp") center 38%/620px auto !important;
+  height: 13px;
+  pointer-events: none;
+  border: 1px solid rgba(196,151,75,.35);
+  border-radius: 2px 2px 7px 7px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 76px, rgba(236,194,111,.13) 77px 78px),
+    linear-gradient(#5b351d, #27150c 58%, #130b07);
+  box-shadow: 0 7px 12px rgba(0,0,0,.42), inset 0 1px rgba(255,220,145,.18);
+  content: "";
 }
 
-/* Remove the prior floral and mushroom decoration from every readable surface. */
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3)) {
+/* The Dead collection becomes a compact setlist folio with two companion drawers. */
+.lodge :global(section[class*="deadHub"]) {
+  padding: 16px !important;
+  background:
+    radial-gradient(circle at 92% 10%, rgba(45,89,61,.17), transparent 25%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.016) 0 1px, transparent 1px 70px),
+    linear-gradient(145deg, #321c10, #1b100a 70%, #120b07) !important;
+}
+.lodge :global(section[class*="deadHub"] [class*="heroHead"]) {
+  position: relative;
+  margin: 0 4px 12px;
+  padding: 10px 14px 10px 20px !important;
+  border: 1px solid rgba(190,151,75,.42) !important;
+  border-left: 7px solid #315b40 !important;
+  background:
+    linear-gradient(90deg, rgba(75,40,21,.94), rgba(38,22,14,.86)),
+    repeating-linear-gradient(90deg, transparent 0 48px, rgba(255,255,255,.025) 49px 50px) !important;
+  box-shadow: inset 0 0 22px rgba(0,0,0,.2), 0 6px 12px rgba(0,0,0,.18);
+}
+.lodge :global(section[class*="deadHub"] [class*="heroHead"])::after {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  color: rgba(215,180,105,.5);
+  font-family: Georgia, serif;
+  font-size: 18px;
+  letter-spacing: .35em;
+  content: "GD  •  ARCHIVE  01";
+}
+.lodge :global(section[class*="deadHub"] > div[class*="grid"]) {
+  gap: 12px !important;
+  padding: 0 4px 4px !important;
+}
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article) {
+  padding: 14px 16px !important;
+  border: 1px solid #75502d !important;
+  border-radius: 5px !important;
+  background:
+    radial-gradient(circle at 13px 13px, rgba(94,60,25,.2) 0 2px, transparent 3px),
+    repeating-linear-gradient(0deg, transparent 0 22px, rgba(92,68,39,.08) 23px 24px),
+    linear-gradient(145deg, #f1e5c8, #deca9e) !important;
+  box-shadow: 0 7px 13px rgba(0,0,0,.28), inset 0 0 20px rgba(104,67,28,.08) !important;
+}
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:first-child) {
+  grid-template-columns: minmax(205px,.62fr) minmax(270px,.9fr) minmax(280px,1fr);
+  gap: 13px;
+  min-height: 210px !important;
+  max-height: 292px;
+  padding: 14px !important;
+}
+.lodge :global(section[class*="deadHub"] article:first-child [class*="showVisual"] img) {
+  min-height: 184px;
+  max-height: 214px;
+}
+.lodge :global(section[class*="deadHub"] article:first-child [class*="setlist"]),
+.lodge :global(section[class*="deadHub"] article:first-child [class*="setList"]) {
+  max-height: 214px;
+  background:
+    linear-gradient(90deg, transparent 0 25px, rgba(151,66,54,.18) 26px 27px, transparent 28px),
+    repeating-linear-gradient(0deg, transparent 0 20px, rgba(61,84,101,.12) 21px 22px),
+    #f5e9ce !important;
+}
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(n+2)) {
+  min-height: 122px !important;
+  max-height: 168px;
+  overflow: hidden;
+}
+
+/* Ticket-stub language for headlines and links. */
+.lodge :global(main[class*="room"] [class*="featureLink"]),
+.lodge :global(main[class*="room"] [class*="newsList"] a),
+.lodge :global(main[class*="room"] [class*="recording"]) {
+  position: relative;
+  border-left: 4px double rgba(73,91,65,.42) !important;
+  border-radius: 2px !important;
+  background:
+    radial-gradient(circle at 100% 50%, #352015 0 5px, transparent 6px),
+    repeating-linear-gradient(0deg, transparent 0 17px, rgba(91,67,38,.045) 18px 19px),
+    linear-gradient(145deg, #fbf1d6, #dfc99c) !important;
+}
+
+/* Phish: navy archive cloth, pale setlist stock and a subtle donut stamp. */
+.lodge :global(main[class*="room"] > section:nth-of-type(3)) {
+  border-color: #543b25 !important;
+  background:
+    radial-gradient(circle at 88% 18%, transparent 0 39px, rgba(112,157,192,.16) 40px 49px, transparent 50px),
+    radial-gradient(circle at 88% 18%, rgba(55,93,125,.18), transparent 155px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.018) 0 1px, transparent 1px 72px),
+    linear-gradient(145deg,#273e51,#17242e 52%,#10171c) !important;
+}
+.lodge :global(main[class*="room"] > section:nth-of-type(3) [class*="head"]) {
+  border-left: 7px solid #6f9dbc;
+  padding-left: 16px !important;
+}
+.lodge :global(main[class*="room"] > section:nth-of-type(3) article) {
+  border-top: 3px solid #6f9dbc !important;
+}
+
+/* Panic: oxblood record sleeve with warm brass and moonlit line work. */
+.lodge :global(main[class*="room"] > section:nth-of-type(4)) {
+  border-color: #5b3826 !important;
+  background:
+    radial-gradient(circle at 90% 17%, rgba(229,201,144,.09) 0 50px, transparent 51px),
+    radial-gradient(circle at 90% 17%, rgba(120,46,65,.2), transparent 175px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.016) 0 1px, transparent 1px 72px),
+    linear-gradient(145deg,#4a2130,#27131b 56%,#150d0f) !important;
+}
+.lodge :global(main[class*="room"] > section:nth-of-type(4) [class*="head"]) {
+  border-left: 7px solid #9f425d;
+  padding-left: 16px !important;
+}
+.lodge :global(main[class*="room"] > section:nth-of-type(4) article) {
+  border-top: 3px solid #9f425d !important;
+}
+
+/* Keep every archive card dense enough to scan like a record-library drawer. */
+.lodge :global(main[class*="room"] > section:nth-of-type(n+3) [class*="grid"]) {
+  gap: 11px !important;
+}
+.lodge :global(main[class*="room"] > section:nth-of-type(n+3) article) {
   min-height: 0 !important;
-  padding-bottom: 24px !important;
-  background-color: #ead8b2 !important;
-  background-image: radial-gradient(circle at 12px 12px,#17130f 0 3px,#5d4d39 4px,transparent 6px),radial-gradient(circle at calc(100% - 12px) 12px,#17130f 0 3px,#5d4d39 4px,transparent 6px),radial-gradient(circle at 12px calc(100% - 12px),#17130f 0 3px,#5d4d39 4px,transparent 6px),radial-gradient(circle at calc(100% - 12px) calc(100% - 12px),#17130f 0 3px,#5d4d39 4px,transparent 6px),linear-gradient(145deg,#f3e6c8,#dfc698) !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  background-size: auto !important;
-}
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1))::after,
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2))::after,
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3))::after,
-.festival :global(section[class*="deadHub"] [class*="recording"])::before,
-.festival :global(section[class*="deadHub"] [class*="recording"])::after,
-.festival :global(section[class*="deadHub"] [class*="featureLink"])::before,
-.festival :global(section[class*="deadHub"] [class*="featureLink"])::after {
-  display: none !important;
-  content: none !important;
-}
-.festival :global(section[class*="deadHub"] [class*="recording"]),
-.festival :global(section[class*="deadHub"] [class*="featureLink"]),
-.festival :global(section[class*="deadHub"] [class*="newsList"]),
-.festival :global(section[class*="deadHub"] [class*="exclusiveItems"]) {
-  background-image: none !important;
+  padding: 14px !important;
 }
 
-@media (max-width: 900px) {
-  .festival :global(section[class*="hero"] + section[class*="deadHub"])::before,
-  .festival :global(section[class*="hero"] + [class*="deadHub"])::before { height: 28px !important; }
-  .festival :global(section[class*="hero"] + section[class*="deadHub"] [class*="heroHead"]),
-  .festival :global(section[class*="hero"] + [class*="deadHub"] [class*="heroHead"]) { margin-top: 44px !important; }
-}
-
-/* Sprint 17.17m: final cascade for one continuous, hand-built festival wall. */
-.festival :global(section[class*="hero"] + section[class*="deadHub"]),
-.festival :global(section[class*="hero"] + [class*="deadHub"]) {
-  margin-top: -42px !important;
-}
-
-.festival :global(section[class*="hero"] + section[class*="deadHub"])::before,
-.festival :global(section[class*="hero"] + [class*="deadHub"])::before {
-  top: 0 !important;
-  height: 46px !important;
-  background: radial-gradient(circle at 17px 50%,#130c08 0 4px,#75583b 5px 7px,transparent 8px),radial-gradient(circle at calc(100% - 17px) 50%,#130c08 0 4px,#75583b 5px 7px,transparent 8px),linear-gradient(90deg,rgba(15,8,4,.5),transparent 14% 86%,rgba(15,8,4,.5)),url("/jam-festival/reclaimed-barn-wall.webp") center 8%/820px auto !important;
-  box-shadow: 0 9px 13px rgba(8,5,3,.66),inset 0 2px rgba(231,181,112,.2),inset 0 -5px rgba(25,13,7,.54) !important;
-}
-
-.festival :global(section[class*="hero"] + section[class*="deadHub"] [class*="heroHead"]),
-.festival :global(section[class*="hero"] + [class*="deadHub"] [class*="heroHead"]) {
-  width: 390px !important;
-  max-width: calc(100% - 42px) !important;
-  margin: 78px 0 30px 42px !important;
-  padding: 11px 28px 10px !important;
-  border: 0 !important;
-  border-radius: 1px !important;
-  clip-path: polygon(1% 7%,98% 0,100% 90%,95% 100%,2% 96%,0 18%) !important;
-  background: radial-gradient(circle at 14px 15px,#1b120c 0 3px,#73563b 4px 6px,transparent 7px),radial-gradient(circle at calc(100% - 15px) calc(100% - 13px),#1b120c 0 3px,#73563b 4px 6px,transparent 7px),linear-gradient(95deg,rgba(151,111,70,.96),rgba(199,166,115,.94) 48%,rgba(133,93,57,.96)),url("/jam-festival/reclaimed-barn-wall.webp") center 35%/660px auto !important;
-  box-shadow: 7px 11px 16px rgba(8,5,3,.56),inset 0 0 21px rgba(55,30,15,.28) !important;
-  transform: rotate(-.45deg) !important;
-}
-
-.festival :global(section[class*="deadHub"] [class*="heroHead"] > div > span),
-.festival :global(section[class*="deadHub"] [class*="heroHead"] > span),
-.festival :global(section[class*="deadHub"] [class*="heroHead"] > small) {
-  display: none !important;
-}
-.festival :global(section[class*="deadHub"] [class*="heroHead"] h2) {
-  margin: 0 !important;
-  color: #2e1d12 !important;
-  text-shadow: 0 1px rgba(255,235,190,.25) !important;
-}
-.festival :global(section[class*="deadHub"] [class*="heroHead"] p) {
-  margin: 2px 0 0 !important;
-  color: #352719 !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article) {
-  border: 1px solid rgba(69,40,20,.68) !important;
-  border-top: 2px solid rgba(129,70,38,.74) !important;
-  border-radius: 1px !important;
-  clip-path: polygon(.8% 1%,98.8% 0,100% 4%,99.4% 96%,97% 100%,2% 99%,0 95%,.4% 6%) !important;
-  background-color: #e2c999 !important;
-  background-image: radial-gradient(ellipse at 16% 14%,rgba(112,67,28,.11),transparent 31%),radial-gradient(ellipse at 86% 78%,rgba(98,57,24,.1),transparent 34%),radial-gradient(circle at 13px 13px,#16100b 0 3px,#684c33 4px 6px,transparent 7px),radial-gradient(circle at calc(100% - 13px) 13px,#16100b 0 3px,#684c33 4px 6px,transparent 7px),radial-gradient(circle at 13px calc(100% - 13px),#16100b 0 3px,#684c33 4px 6px,transparent 7px),radial-gradient(circle at calc(100% - 13px) calc(100% - 13px),#16100b 0 3px,#684c33 4px 6px,transparent 7px),repeating-linear-gradient(2deg,transparent 0 8px,rgba(78,52,27,.035) 9px 10px),linear-gradient(145deg,#f0ddb8 0%,#e6cea0 56%,#d4b47e 100%) !important;
-  box-shadow: 5px 8px 0 rgba(48,28,15,.26),10px 17px 24px rgba(8,5,3,.52),inset 0 0 30px rgba(91,53,25,.15) !important;
-}
-
-@media (max-width: 900px) {
-  .festival :global(section[class*="hero"] + section[class*="deadHub"]),
-  .festival :global(section[class*="hero"] + [class*="deadHub"]) { margin-top: -24px !important; }
-  .festival :global(section[class*="hero"] + section[class*="deadHub"] [class*="heroHead"]),
-  .festival :global(section[class*="hero"] + [class*="deadHub"] [class*="heroHead"]) { margin: 62px 14px 22px !important; }
-}
-
-/* Sprint 17.17n: landscape history handbill with two supporting notices below. */
-.festival :global(section[class*="deadHub"] > div[class*="grid"]) {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 22px !important;
-  align-items: stretch !important;
-  padding: 4px 42px 42px !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)) {
-  grid-column: 1 / -1 !important;
-  display: grid !important;
-  grid-template-columns: minmax(250px, .78fr) minmax(300px, 1.22fr) !important;
-  grid-template-rows: auto auto 1fr auto !important;
-  column-gap: 28px !important;
-  min-height: 292px !important;
-  padding: 27px 30px 24px !important;
-  clip-path: polygon(.4% 2%,99.1% 0,100% 5%,99.5% 96%,98% 100%,1.3% 99%,0 94%,.5% 5%) !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="panelHead"]),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="venue"]),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="recording"]),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="note"]) {
-  grid-column: 1 !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="showVisual"]) {
-  grid-column: 2 !important;
-  grid-row: 1 / span 4 !important;
-  align-self: stretch !important;
-  min-height: 220px !important;
-  margin: 0 !important;
-  border: 2px solid rgba(71,43,24,.58) !important;
-  border-radius: 4px !important;
-  box-shadow: 0 8px 18px rgba(46,27,14,.22), inset 0 0 0 1px rgba(255,244,212,.32) !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="showVisual"] img) {
-  width: 100% !important;
-  height: 100% !important;
-  max-height: none !important;
-  object-fit: cover !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setlist"]),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setList"]) {
-  grid-column: 1 / -1 !important;
-  margin-top: 20px !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="sourceRow"]),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="actions"]) {
-  grid-column: 1 / -1 !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)),
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3)) {
-  min-height: 250px !important;
-  padding: 24px 27px 23px !important;
-}
-
-.festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2) [class*="featureLink"]) {
-  min-height: 132px !important;
-}
-
-@media (max-width: 1100px) {
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)) {
-    grid-template-columns: minmax(220px, .9fr) minmax(260px, 1.1fr) !important;
+@media (max-width: 1120px) {
+  .lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:first-child) {
+    max-height: none;
   }
 }
 
-@media (max-width: 820px) {
-  .festival :global(section[class*="deadHub"] > div[class*="grid"]) {
-    grid-template-columns: 1fr !important;
-    padding: 4px 14px 24px !important;
-  }
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)) {
-    grid-column: auto !important;
-    display: block !important;
-    min-height: 0 !important;
-    padding: 23px 22px !important;
-  }
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="showVisual"]) {
-    min-height: 0 !important;
-    margin-top: 16px !important;
-  }
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(2)),
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(3)) {
-    min-height: 0 !important;
+@media (max-width: 760px) {
+  .lodge :global(section[class*="deadHub"] [class*="heroHead"])::after { display: none; }
+  .lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:first-child),
+  .lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(n+2)) {
+    max-height: none;
   }
 }
 
-/* Sprint 17.17o: compact the history feature into details, artwork and setlist. */
-@media (min-width: 821px) {
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)) {
-    grid-template-columns: minmax(220px, .72fr) minmax(300px, 1.08fr) minmax(310px, 1.05fr) !important;
-    grid-template-rows: auto auto 1fr auto !important;
-    column-gap: 22px !important;
-    row-gap: 0 !important;
-    min-height: 0 !important;
-    padding: 24px 28px 20px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="panelHead"]) {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="venue"]) {
-    grid-column: 1 !important;
-    grid-row: 2 !important;
-    margin-top: 14px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="recording"]),
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="note"]) {
-    grid-column: 1 !important;
-    grid-row: 3 !important;
-    align-self: stretch !important;
-    min-height: 0 !important;
-    margin-top: 14px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="showVisual"]) {
-    grid-column: 2 !important;
-    grid-row: 1 / span 3 !important;
-    min-height: 226px !important;
-    max-height: 258px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setlist"]),
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setList"]) {
-    grid-column: 3 !important;
-    grid-row: 1 / span 3 !important;
-    align-self: stretch !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 8px 0 0 4px !important;
-    border-top: 0 !important;
-    overflow: hidden !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setlistHead"]),
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setListHead"]) {
-    margin-bottom: 7px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setlist"] ol),
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setList"] ol) {
-    columns: 2 !important;
-    column-gap: 24px !important;
-    margin-top: 5px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setlist"] li),
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setList"] li) {
-    margin-bottom: 2px !important;
-    font-size: 8px !important;
-    line-height: 1.18 !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setSections"]) {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 9px 18px !important;
-    margin-top: 6px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="setSection"] h4) {
-    margin-bottom: 4px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="sourceRow"]) {
-    grid-column: 1 / 3 !important;
-    grid-row: 4 !important;
-    align-self: end !important;
-    margin-top: 14px !important;
-    padding-top: 9px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="actions"]) {
-    grid-column: 3 !important;
-    grid-row: 4 !important;
-    align-self: end !important;
-    justify-content: flex-end !important;
-    margin-top: 14px !important;
-  }
-
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="actions"] a) {
-    padding: 7px 9px !important;
-  }
+/* Sprint 17.17r — listening-room cohesion and guaranteed card contrast. */
+.lodgeShell :global(.sidebar) {
+  border: 7px ridge #53331f;
+  color: #ead9b5;
+  background:
+    radial-gradient(circle at 24% 4%, rgba(157,105,52,.14), transparent 25%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.015) 0 1px, transparent 1px 46px),
+    linear-gradient(155deg, #321d12, #1b110c 58%, #100b08);
+  box-shadow:
+    10px 0 30px rgba(0,0,0,.46),
+    inset 0 0 0 2px rgba(193,151,77,.25),
+    inset 0 0 34px rgba(0,0,0,.4);
+}
+.lodgeShell :global(.sidebar)::after {
+  inset: 11px;
+  border-color: rgba(202,165,91,.35);
+}
+.lodgeShell :global(.sidebar) :global(.brand-name),
+.lodgeShell :global(.sidebar) :global(.navigation-label),
+.lodgeShell :global(.sidebar) :global(.navigation-link) {
+  color: #ead9b5;
+}
+.lodgeShell :global(.sidebar) :global(.brand-subtitle),
+.lodgeShell :global(.sidebar) :global(.navigation-link) span,
+.lodgeShell :global(.sidebar) :global(.navigation-link) small {
+  color: #bca985;
+}
+.lodgeShell :global(.sidebar) :global(.brand-icon) {
+  border: 1px solid rgba(209,171,91,.5);
+  color: #f2dfae;
+  background: linear-gradient(145deg, #35563d, #172c20);
+  box-shadow: 0 7px 16px rgba(0,0,0,.38), inset 0 0 0 2px rgba(214,178,98,.14);
+}
+.lodgeShell :global(.sidebar) :global(.navigation-link) {
+  border: 1px solid rgba(202,165,91,.13);
+  border-radius: 9px;
+}
+.lodgeShell :global(.sidebar) :global(.navigation-link):hover {
+  border-color: rgba(202,165,91,.38);
+  background: rgba(255,244,215,.055);
+}
+.lodgeShell :global(.sidebar) :global(.navigation-link.active) {
+  border-color: rgba(218,181,98,.56);
+  color: #fff0c8;
+  background: linear-gradient(90deg, #254632, #34583e);
+  box-shadow: 0 8px 18px rgba(0,0,0,.32), inset 0 0 0 1px rgba(235,196,108,.18);
+}
+.lodgeShell :global(.sidebar) :global(.navigation-link.active) span {
+  color: #fff0c8;
 }
 
-@media (min-width: 821px) and (max-width: 1180px) {
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1)) {
-    grid-template-columns: minmax(190px, .68fr) minmax(250px, 1fr) minmax(270px, 1fr) !important;
-    column-gap: 16px !important;
-  }
-  .festival :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(1) [class*="showVisual"]) {
-    min-height: 210px !important;
-  }
+/* Explicit ink rules prevent component-level white text from disappearing on parchment. */
+.lodge :global(main[class*="room"] a[class*="story"]),
+.lodge :global(main[class*="room"] a[class*="card"]),
+.lodge :global(main[class*="room"] a[class*="showCard"]),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a) {
+  color: #24170f !important;
+}
+.lodge :global(main[class*="room"] a[class*="story"] h3),
+.lodge :global(main[class*="room"] a[class*="card"] h4),
+.lodge :global(main[class*="room"] a[class*="showCard"] strong),
+.lodge :global(main[class*="room"] a[class*="showCard"] [class*="showArtist"]),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a strong) {
+  color: #2c2115 !important;
+  text-shadow: none !important;
+}
+.lodge :global(main[class*="room"] a[class*="story"] p),
+.lodge :global(main[class*="room"] a[class*="story"] span),
+.lodge :global(main[class*="room"] a[class*="story"] small),
+.lodge :global(main[class*="room"] a[class*="card"] p),
+.lodge :global(main[class*="room"] a[class*="card"] span),
+.lodge :global(main[class*="room"] a[class*="card"] small),
+.lodge :global(main[class*="room"] a[class*="card"] strong),
+.lodge :global(main[class*="room"] a[class*="showCard"] span),
+.lodge :global(main[class*="room"] a[class*="showCard"] small),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a span),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a small) {
+  color: #665842 !important;
+  text-shadow: none !important;
+}
+.lodge :global(main[class*="room"] a[class*="story"] b),
+.lodge :global(main[class*="room"] a[class*="card"] b),
+.lodge :global(main[class*="room"] a[class*="showCard"] b),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a b) {
+  color: #31583d !important;
+  text-shadow: none !important;
+}
+.lodge :global(main[class*="room"] a[class*="story"] [class*="source"]),
+.lodge :global(main[class*="room"] a[class*="card"] [class*="meta"] span) {
+  color: #76502b !important;
+}
+
+/* Slightly stronger paper stock improves contrast in the lower live boards. */
+.lodge :global(main[class*="room"] a[class*="story"]),
+.lodge :global(main[class*="room"] a[class*="card"]),
+.lodge :global(main[class*="room"] a[class*="showCard"]),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a) {
+  background:
+    radial-gradient(circle at 100% 50%, #302016 0 5px, transparent 6px),
+    repeating-linear-gradient(0deg, transparent 0 18px, rgba(92,67,38,.055) 19px 20px),
+    linear-gradient(145deg, #fff4d8, #dfc99c) !important;
+  filter: none;
 }
