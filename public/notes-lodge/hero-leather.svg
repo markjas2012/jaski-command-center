@@ -1,0 +1,46 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="900"
+  height="260"
+  viewBox="0 0 900 260"
+>
+  <defs>
+    <filter id="hide" x="-10%" y="-20%" width="120%" height="140%">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency=".018 .09"
+        numOctaves="5"
+        seed="31"
+        result="grain"
+      />
+      <feColorMatrix
+        in="grain"
+        values=".34 0 0 0 .08 0 .23 0 0 .045 0 0 .15 0 .025 0 0 0 .62 0"
+        result="tone"
+      />
+      <feBlend in="SourceGraphic" in2="tone" mode="soft-light" />
+    </filter>
+    <radialGradient id="warm" cx="38%" cy="15%" r="85%">
+      <stop stop-color="#76503a" />
+      <stop offset=".46" stop-color="#493024" />
+      <stop offset="1" stop-color="#21140f" />
+    </radialGradient>
+  </defs>
+  <rect width="900" height="260" fill="url(#warm)" filter="url(#hide)" />
+  <g fill="none" stroke="#c19a7350" stroke-width="1">
+    <path
+      d="M18 73c79-37 116 23 194-6s124-13 190 8 132-19 213-4 133 19 267-8"
+    />
+    <path d="M2 166c75-24 139 25 231-1s153-30 237-4 160-6 232-1 121 29 198 4" />
+    <path
+      d="M96 19c17 41 5 74 32 105s15 69 46 112M729 7c-25 47-2 75-38 111s-19 76-45 130"
+      opacity=".45"
+    />
+  </g>
+  <g fill="none" stroke="#1a0e0a66" stroke-width="1.4">
+    <path
+      d="M19 77c79-37 116 23 194-6s124-13 190 8 132-19 213-4 133 19 267-8"
+    />
+    <path d="M2 170c75-24 139 25 231-1s153-30 237-4 160-6 232-1 121 29 198 4" />
+  </g>
+</svg>

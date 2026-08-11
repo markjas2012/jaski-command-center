@@ -1,0 +1,56 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="64"
+  height="42"
+  viewBox="0 0 64 42"
+>
+  <defs>
+    <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#fff0a0" />
+      <stop offset=".24" stop-color="#bf8731" />
+      <stop offset=".52" stop-color="#5b3714" />
+      <stop offset=".78" stop-color="#d6a94d" />
+      <stop offset="1" stop-color="#3b230e" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-30%" width="150%" height="170%">
+      <feDropShadow
+        dx="2.5"
+        dy="2.5"
+        stdDeviation="1.6"
+        flood-color="#000"
+        flood-opacity=".65"
+      />
+    </filter>
+  </defs>
+  <circle cx="50" cy="21" r="8.5" fill="#22150b" opacity=".5" />
+  <circle
+    cx="50"
+    cy="19"
+    r="7.2"
+    fill="#181009"
+    stroke="#a97d35"
+    stroke-width="1.7"
+  />
+  <path
+    d="M51 13.5H16C7 13.5 7 26.5 16 26.5h35"
+    fill="none"
+    stroke="#160d07"
+    stroke-width="7"
+    stroke-linecap="round"
+    filter="url(#shadow)"
+  />
+  <path
+    d="M51 11.8H16C7 11.8 7 24.8 16 24.8h35"
+    fill="none"
+    stroke="url(#brass)"
+    stroke-width="3.6"
+    stroke-linecap="round"
+  />
+  <path
+    d="M16 12.4C9 12.4 9 24.1 16 24.1"
+    fill="none"
+    stroke="#ffe79a"
+    stroke-width=".7"
+    opacity=".72"
+  />
+</svg>

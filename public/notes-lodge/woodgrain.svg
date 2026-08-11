@@ -1,0 +1,26 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="420"
+  height="420"
+  viewBox="0 0 420 420"
+>
+  <rect width="420" height="420" fill="#2a170d" />
+  <filter id="w">
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency=".012 .08"
+      numOctaves="4"
+      seed="22"
+    />
+    <feDisplacementMap in="SourceGraphic" scale="24" />
+  </filter>
+  <g filter="url(#w)" fill="none" stroke="#7a4320" stroke-opacity=".45">
+    <path
+      d="M-30 30Q100 5 450 42M-20 83Q160 57 450 98M-20 149Q210 120 450 159M-20 224Q170 199 450 231M-20 309Q180 279 450 317M-20 382Q190 354 450 390"
+    />
+    <path
+      d="M80 0q-32 90 0 180t0 240M315 0q26 100-2 205t6 215"
+      stroke-opacity=".22"
+    />
+  </g>
+</svg>

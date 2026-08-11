@@ -1,0 +1,25 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="520"
+  height="260"
+  viewBox="0 0 520 260"
+>
+  <filter id="g">
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency=".7 .22"
+      numOctaves="3"
+      seed="17"
+    />
+    <feColorMatrix
+      values=".22 0 0 0 .15 0 .17 0 0 .10 0 0 .12 0 .07 0 0 0 .34 0"
+    />
+  </filter>
+  <rect width="520" height="260" filter="url(#g)" opacity=".38" />
+  <path
+    d="M0 39C70 26 131 56 207 37S362 16 520 43M0 143c99-25 153 17 262-4s178-19 258 3"
+    fill="none"
+    stroke="#fff"
+    stroke-opacity=".025"
+  />
+</svg>
