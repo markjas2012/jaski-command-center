@@ -582,3 +582,53 @@
     linear-gradient(145deg, #fff4d8, #dfc99c) !important;
   filter: none;
 }
+
+/* Sprint 17.27d — cabinet border finish.
+   The Dead feature is wrapped by deadSection and deadHub. Only the inner
+   archive cabinet should draw woodwork; the outer wrapper remains structural. */
+.lodge :global(main[class*="room"] > section[class*="deadSection"]) {
+  overflow: visible !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.lodge :global(main[class*="room"] > section[class*="deadSection"])::before,
+.lodge :global(main[class*="room"] > section[class*="deadSection"])::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* The old record-bin sill overhung every band cabinet and read as a second,
+   broken border between Dead, Phish and Panic. */
+.lodge :global(main[class*="room"] > section:not([class*="hero"]))::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Keep ticket stock and ruling, but remove the punched semicircle that was
+   appearing as a stray dark end-cap on recordings and news rows. */
+.lodge :global(main[class*="room"] [class*="featureLink"]),
+.lodge :global(main[class*="room"] [class*="recording"]),
+.lodge :global(main[class*="room"] [class*="setBlock"]),
+.lodge :global(main[class*="room"] [class*="showCard"]),
+.lodge :global(main[class*="room"] [class*="exclusive"]),
+.lodge :global(main[class*="room"] [class*="newsList"] a),
+.lodge :global(main[class*="room"] [class*="exclusiveItems"] > a),
+.lodge :global(main[class*="room"] a[class*="story"]),
+.lodge :global(main[class*="room"] a[class*="card"]) {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 18px, rgba(92,67,38,.055) 19px 20px),
+    linear-gradient(145deg, #fff4d8, #dfc99c) !important;
+}
+
+/* Sprint 17.27e — the compact archive previously masked the lower companion
+   drawers at 168px. Let Deadcast and Dead Family size to their live content. */
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:nth-child(n+2)) {
+  height: auto !important;
+  min-height: 168px !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-self: stretch;
+}
