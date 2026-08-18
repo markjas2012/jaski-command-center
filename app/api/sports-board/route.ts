@@ -79,6 +79,11 @@ const feeds = [
     fallback: "https://www.ncaa.com/scoreboard/football/fbs",
   },
   {
+    league: "NCAA MBB",
+    url: "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard",
+    fallback: "https://www.ncaa.com/scoreboard/basketball-men/d1",
+  },
+  {
     league: "NBA",
     url: "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
     fallback: "https://www.nba.com/schedule",
@@ -92,6 +97,26 @@ const feeds = [
     league: "MLS",
     url: "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
     fallback: "https://www.mlssoccer.com/schedule/scores",
+  },
+  {
+    league: "PGA",
+    url: "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard",
+    fallback: "https://www.pgatour.com/leaderboard",
+  },
+  {
+    league: "UFC",
+    url: "https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard",
+    fallback: "https://www.ufc.com/events",
+  },
+  {
+    league: "TENNIS",
+    url: "https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard",
+    fallback: "https://www.espn.com/tennis/schedule",
+  },
+  {
+    league: "TENNIS",
+    url: "https://site.api.espn.com/apis/site/v2/sports/tennis/wta/scoreboard",
+    fallback: "https://www.espn.com/tennis/schedule",
   },
 ];
 
@@ -195,12 +220,12 @@ function teamLogos(event: EspnEvent) {
   const competitors = event.competitions?.[0]?.competitors || [];
 
   return competitors
-    .map((competitor) => {
-      const team = competitor.team;
-      return team?.logo || team?.logos?.[0]?.href || "";
-    })
-    .filter((value): value is string => Boolean(value))
-    .slice(0, 2);
+  .map((competitor) => {
+    const team = competitor.team;
+    return team?.logo || team?.logos?.[0]?.href || "";
+  })
+  .filter((value): value is string => Boolean(value))
+  .slice(0, 2);
 }
 
 async function loadFeed(feed: typeof feeds[number]): Promise<CandidateGame[]> {
@@ -222,7 +247,7 @@ async function loadFeed(feed: typeof feeds[number]): Promise<CandidateGame[]> {
     const events: EspnEvent[] = Array.isArray(json?.events) ? json.events : [];
 
     return events
-      .map((event) => {
+    .map((event): CandidateGame | null => {
         const unavailable = isUnavailable(event);
         const bucket = unavailable ? null : classify(event);
         if (!bucket) return null;
