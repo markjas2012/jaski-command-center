@@ -33,6 +33,9 @@
   "exclude": [
   "node_modules",
   "sprint-backups",
-  ".sprint_backups"
+  ".sprint_backups",
+  "_sprint-backups",
+  "_sprint_backups",
+  "SPRINT_*_FILES"
 ]
 }
