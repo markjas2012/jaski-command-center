@@ -11,7 +11,8 @@ type SidebarProps = {
     | "food"
     | "quick"
     | "notes"
-    | "bbq";
+    | "bbq"
+    | "books";
 };
 
 const interestLinks = [
