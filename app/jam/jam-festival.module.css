@@ -632,3 +632,10 @@
   overflow: visible !important;
   align-self: stretch;
 }
+  /* Sprint 17.27f — let the Today in Dead History cabinet grow after artwork loads */
+.lodge :global(section[class*="deadHub"] > div[class*="grid"] > article:first-child) {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-self: stretch;
+}
