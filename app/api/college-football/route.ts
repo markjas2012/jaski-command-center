@@ -156,7 +156,7 @@ function teamBlock(schedule: AnyObject, teamId: string) {
   };
 }
 
-function mergeTeam(primary: AnyObject, fallback: AnyObject) {
+function mergeTeam(primary: AnyObject | null, fallback: AnyObject) {
   return {
     ...fallback,
     ...primary,
@@ -191,8 +191,8 @@ export async function GET() {
     return NextResponse.json({
       updatedAt: new Date().toISOString(),
       mode: "preseason-aware",
-      ohioState: mergeTeam(osuBlock, PRESEASON_FALLBACK.ohioState),
-      mizzou: mergeTeam(mizBlock, PRESEASON_FALLBACK.mizzou),
+      ohioState: mergeTeam(osuBlock ?? {}, PRESEASON_FALLBACK.ohioState),
+      mizzou: mergeTeam(mizBlock ?? {}, PRESEASON_FALLBACK.mizzou),
       secGames: secGames.length ? secGames : PRESEASON_FALLBACK.secGames,
       note: "Preseason-aware college football data",
     });
