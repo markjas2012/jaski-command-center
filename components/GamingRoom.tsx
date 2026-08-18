@@ -39,9 +39,9 @@ type Release = {
 const scoreUpcomingGame = (game: RawgGame) => {
   let score = 0;
 
-  const name = game.name?.toLowerCase() ?? "";
-  const genres = (game.genres ?? []).map((genre) => genre.name.toLowerCase());
-  const platforms = (game.parent_platforms ?? []).map((platform) => platform.platform.name.toLowerCase());
+  const name = (game.name?.toLowerCase() ?? "");
+  const genres = (game.genres ?? []).map((genre) => (genre.name ?? "").toLowerCase());
+  const platforms = (game.parent_platforms ?? []).map((platform) => platform.platform?.name?.toLowerCase() ?? "");
 
   // Prefer broadly relevant console / PC releases.
   if (platforms.some((platform) => ["playstation", "xbox", "pc", "nintendo"].includes(platform))) score += 4;
