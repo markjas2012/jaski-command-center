@@ -15,6 +15,10 @@ export type TeamCardData = {
   network?: string;
   score?: string;
   latestResult?: string;
+  latestResultAt?: string;
+  latestTeamScore?: string;
+  latestOpponentScore?: string;
+  latestOpponentAbbr?: string;
   eventUrl?: string;
   source: 'espn';
   fetchedAt: string;
@@ -160,7 +164,7 @@ async function eventsFor(cfg: TeamConfig): Promise<any[]> {
   return events.sort((a, b) => (eventDate(a)?.getTime() ?? 0) - (eventDate(b)?.getTime() ?? 0));
 }
 
-function latestCompleted(events: any[], cfg: TeamConfig, now: Date): string | undefined {
+function latestCompleted(events: any[], cfg: TeamConfig, now: Date) {
   const done = events.filter(e => stateOf(e) === 'post' && (eventDate(e)?.getTime() ?? 0) <= now.getTime());
   const e = done[done.length - 1];
   if (!e) return undefined;
@@ -168,7 +172,13 @@ function latestCompleted(events: any[], cfg: TeamConfig, now: Date): string | un
   if (!m.mineScore || !m.oppScore || !m.opponentAbbr) return undefined;
   const a = Number(m.mineScore), b = Number(m.oppScore);
   const wl = Number.isFinite(a) && Number.isFinite(b) ? (a > b ? 'W' : a < b ? 'L' : 'T') : '';
-  return `${wl ? wl + ' ' : ''}${m.mineScore}-${m.oppScore} vs ${m.opponentAbbr}`;
+  return {
+    summary: `${wl ? wl + ' ' : ''}${m.mineScore}-${m.oppScore} vs ${m.opponentAbbr}`,
+    at: eventDate(e)?.toISOString(),
+    mineScore: m.mineScore,
+    opponentScore: m.oppScore,
+    opponentAbbr: m.opponentAbbr,
+  };
 }
 
 function chooseEvent(events: any[], now: Date): any | undefined {
@@ -189,11 +199,24 @@ function chooseEvent(events: any[], now: Date): any | undefined {
 function toCard(cfg: TeamConfig, events: any[]): TeamCardData {
   const now = new Date();
   const selected = chooseEvent(events, now);
-  const latestResult = latestCompleted(events, cfg, now);
+  const latest = latestCompleted(events, cfg, now);
   const fetchedAt = now.toISOString();
 
   if (!selected) {
-    return { key: cfg.key, name: cfg.name, shortName: cfg.shortName, state: 'unknown', label: 'NO GAME', latestResult, source: 'espn', fetchedAt };
+    return {
+      key: cfg.key,
+      name: cfg.name,
+      shortName: cfg.shortName,
+      state: 'unknown',
+      label: 'NO GAME',
+      latestResult: latest?.summary,
+      latestResultAt: latest?.at,
+      latestTeamScore: latest?.mineScore,
+      latestOpponentScore: latest?.opponentScore,
+      latestOpponentAbbr: latest?.opponentAbbr,
+      source: 'espn',
+      fetchedAt,
+    };
   }
 
   const d = eventDate(selected);
@@ -212,12 +235,19 @@ function toCard(cfg: TeamConfig, events: any[]): TeamCardData {
     label,
     opponent: m.opponent,
     opponentAbbr: m.opponentAbbr,
-    homeAway: m.homeAway,
+    homeAway:
+  m.homeAway === "home" || m.homeAway === "away"
+    ? m.homeAway
+    : undefined,
     startTime: d?.toISOString(),
     status: statusText(selected),
     network: network(selected),
     score: sc,
-    latestResult,
+    latestResult: latest?.summary,
+    latestResultAt: latest?.at,
+    latestTeamScore: latest?.mineScore,
+    latestOpponentScore: latest?.opponentScore,
+    latestOpponentAbbr: latest?.opponentAbbr,
     eventUrl: eventUrl(selected),
     source: 'espn',
     fetchedAt,
