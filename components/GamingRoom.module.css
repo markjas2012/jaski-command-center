@@ -426,3 +426,63 @@
   background:linear-gradient(90deg,#3bd8ff,rgba(59,216,255,.14),transparent);
   box-shadow:0 0 10px rgba(59,216,255,.22)
 }
+
+/* Sprint 17.23c — luxury lodge man-cave Arcade */
+.room{
+  padding:13px;
+  border:2px solid #5f4529;
+  border-radius:26px;
+  background:
+    linear-gradient(rgba(20,13,9,.78),rgba(14,10,8,.88)),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 54px),
+    linear-gradient(145deg,#311d12,#15110e 58%,#2a1b12);
+  box-shadow:inset 0 0 0 5px #120d0a,inset 0 0 0 7px rgba(191,145,70,.28),0 24px 64px rgba(0,0,0,.55)
+}
+.room:before{opacity:.18;mask-image:none;background-size:37px 35px}
+.hero,.panel{border-color:rgba(190,147,79,.34);box-shadow:inset 0 0 0 1px rgba(255,226,153,.06),0 14px 34px rgba(0,0,0,.36)}
+.compactHero{
+  min-height:306px;
+  padding:30px 34px;
+  border:2px solid #6f512d;
+  border-radius:20px;
+  background:
+    linear-gradient(90deg,rgba(10,7,5,.52) 0%,rgba(10,7,5,.13) 34%,rgba(10,7,5,.08) 62%,rgba(10,7,5,.40) 100%),
+    url("/gaming-arcade/luxury-lodge-arcade.webp") center/cover no-repeat;
+  box-shadow:inset 0 0 0 6px rgba(12,8,5,.46),inset 0 0 0 8px rgba(207,160,82,.25),0 14px 38px rgba(0,0,0,.50)
+}
+.compactHero:after{inset:10px;border:1px solid rgba(219,174,94,.38);border-radius:11px;box-shadow:inset 0 0 34px rgba(0,0,0,.30)}
+.compactHero:before{content:"PRIVATE GAME ROOM";right:43%;bottom:16px;color:rgba(224,184,100,.50);font:800 8px/1 Georgia,serif;letter-spacing:.22em;transform:none}
+.gridGlow{display:none}
+.heroBar{min-height:246px}
+.compactHeroCopy{
+  width:min(510px,37%);padding:23px 22px;border-left:3px solid rgba(208,164,85,.70);
+  background:linear-gradient(90deg,rgba(16,10,7,.84),rgba(16,10,7,.46) 67%,transparent);
+  box-shadow:-18px 0 34px rgba(0,0,0,.18)
+}
+.eyebrow{color:#d4ac62;text-shadow:0 2px 8px #000}
+.compactHeroCopy h1{
+  width:auto;margin:9px 0 12px;color:#f3e7c6;
+  font-family:Georgia,"Times New Roman",serif;font-size:clamp(43px,4vw,66px);font-weight:500;
+  font-stretch:normal;line-height:.94;letter-spacing:-.045em;text-transform:none;
+  -webkit-text-stroke:0;text-shadow:0 3px 18px #000,0 1px 0 rgba(255,255,255,.10)
+}
+.compactHeroCopy h1:after{width:82%;height:1px;margin-top:13px;background:linear-gradient(90deg,#cfa45d,rgba(207,164,93,.15),transparent);box-shadow:none}
+.compactHeroCopy .lede{color:rgba(245,233,204,.76);font-family:Georgia,"Times New Roman",serif;font-weight:400}
+.playniteLaunch{
+  width:min(410px,30vw);border:1px solid rgba(211,168,91,.55);border-radius:14px;
+  background:linear-gradient(145deg,rgba(70,37,24,.94),rgba(27,19,15,.97));
+  box-shadow:inset 0 0 0 2px rgba(239,204,135,.07),inset 0 0 34px rgba(0,0,0,.24),0 13px 32px rgba(0,0,0,.46)
+}
+.playniteLaunch:hover{border-color:#d9b66e;box-shadow:inset 0 0 0 2px rgba(239,204,135,.10),0 15px 34px rgba(0,0,0,.48)}
+.playniteIcon{border-color:#b98c48;background:linear-gradient(145deg,#4d684a,#22372d);color:#f0d994}
+.playniteLaunch small{color:#d9b76d}.playniteLaunch strong{color:#f2e5c4}.playniteLaunch p{color:rgba(240,226,194,.58)}.playniteLaunch b{color:#dfbd74}
+.panel{border-radius:18px;background:linear-gradient(145deg,rgba(49,29,20,.98),rgba(20,17,14,.99))}
+.newsPanel,.releasePanel{background-image:linear-gradient(rgba(45,28,20,.84),rgba(20,17,14,.92)),url("/gaming-textures/scratched-metal.webp")}
+.newsPanel .sectionEyebrow,.sectionEyebrow{color:#d3ab61;text-shadow:none}.sectionHead h2{color:#f0e2bf}
+.fightPanel{border-color:rgba(185,139,69,.34);background-image:linear-gradient(rgba(21,17,14,.42),rgba(14,12,10,.66)),url("/gaming-textures/chainlink-wall.webp")}
+
+/* Final cleanup: keep the fight-night environment, remove the oversized wordmark. */
+.fightPanel:before{content:none!important;display:none!important;background:none!important}
+.releasePanel .sectionEyebrow{color:#d3ab61}
+@media(max-width:1100px){.compactHeroCopy{width:41%}.playniteLaunch{width:350px}}
+@media(max-width:820px){.compactHero{min-height:430px;background-position:58% center}.heroBar{min-height:365px}.compactHeroCopy{width:auto}.playniteLaunch{width:100%}}

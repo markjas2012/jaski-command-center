@@ -1,81 +1,57 @@
-/* Sprint 17.23a — route-scoped underground arcade shell */
+/* Sprint 17.23c — route-scoped luxury lodge arcade shell */
 .arcade-room-shell{
   min-height:100vh;
-  padding:clamp(18px,2.7vw,48px);
-  gap:clamp(18px,2vw,30px);
+  padding:clamp(28px,4.8vw,86px);
+  gap:clamp(18px,2.2vw,34px);
   background:
-    radial-gradient(circle at 82% 6%,rgba(0,190,255,.08),transparent 27%),
-    repeating-linear-gradient(112deg,rgba(255,255,255,.012) 0 1px,transparent 1px 26px),
-    linear-gradient(145deg,#080b0c,#111413 56%,#090b0c)
+    linear-gradient(rgba(18,12,8,.44),rgba(12,9,7,.66)),
+    radial-gradient(circle at 16% 20%,rgba(166,103,46,.22),transparent 30%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.016) 0 1px,transparent 1px 62px),
+    linear-gradient(135deg,#25170f,#0f1110 48%,#28190f);
+  background-attachment:fixed;
 }
 .arcade-room-shell>.sidebar{
   position:relative;
   overflow:hidden;
-  border:2px solid #343c3d!important;
-  border-radius:22px!important;
-  color:#d6e6ef!important;
+  border:2px solid #72542d!important;
+  border-radius:24px!important;
+  color:#30291f!important;
   background:
-    radial-gradient(circle at 16px 16px,#7b817c 0 2px,#242827 2.5px 5px,transparent 5.5px),
-    radial-gradient(circle at calc(100% - 16px) 16px,#7b817c 0 2px,#242827 2.5px 5px,transparent 5.5px),
-    repeating-linear-gradient(7deg,rgba(255,255,255,.014) 0 1px,transparent 1px 17px),
-    linear-gradient(155deg,#171c1e,#0b0f11 65%,#151819)!important;
+    linear-gradient(rgba(246,238,214,.93),rgba(224,211,176,.95)),
+    repeating-linear-gradient(0deg,rgba(92,70,35,.025) 0 1px,transparent 1px 7px)!important;
   box-shadow:
-    inset 0 0 0 5px rgba(0,0,0,.45),
-    inset -3px 0 rgba(62,209,255,.16),
-    0 18px 48px rgba(0,0,0,.50)!important
+    inset 0 0 0 5px rgba(255,250,226,.55),
+    inset 0 0 0 7px rgba(119,88,39,.18),
+    0 22px 54px rgba(0,0,0,.52)!important;
 }
 .arcade-room-shell>.sidebar:before{
-  content:"";
-  position:absolute;
-  z-index:0;
-  inset:8px;
-  pointer-events:none;
-  border:1px solid rgba(92,216,255,.17);
-  border-radius:14px;
-  box-shadow:inset 3px 0 rgba(54,204,255,.27)
+  content:"";position:absolute;z-index:0;inset:11px;pointer-events:none;
+  border:1px dashed rgba(93,67,31,.25);border-radius:15px;
 }
 .arcade-room-shell>.sidebar>*{position:relative;z-index:1}
-.arcade-room-shell .sidebar-brand{padding-bottom:16px;border-bottom:1px solid rgba(121,205,229,.12)}
+.arcade-room-shell .sidebar-brand{padding-bottom:17px;border-bottom:1px solid rgba(78,61,35,.17)}
 .arcade-room-shell .brand-icon{
-  border:1px solid rgba(85,207,255,.42)!important;
-  background:linear-gradient(145deg,#183d4d,#0c1d27)!important;
-  color:#8ce5ff!important;
-  box-shadow:inset 0 0 16px rgba(0,204,255,.10),0 0 15px rgba(0,195,255,.09)!important
+  border:1px solid #b69758!important;background:linear-gradient(145deg,#486044,#1e352c)!important;
+  color:#f7edcd!important;box-shadow:inset 0 0 15px rgba(0,0,0,.20),0 8px 16px rgba(60,42,18,.22)!important;
 }
-.arcade-room-shell .brand-name{color:#f0f7f9!important;letter-spacing:.16em}
-.arcade-room-shell .brand-subtitle,.arcade-room-shell .navigation-label{color:#7f9aa6!important}
+.arcade-room-shell .brand-name{color:#2a271f!important;letter-spacing:.14em}
+.arcade-room-shell .brand-subtitle,.arcade-room-shell .navigation-label{color:#6e6655!important}
 .arcade-room-shell .navigation-link{
-  min-height:43px;
-  margin-bottom:6px;
-  border:1px solid rgba(143,160,160,.18)!important;
-  border-radius:7px!important;
-  color:#cad7dc!important;
-  background:linear-gradient(145deg,rgba(34,40,41,.80),rgba(13,17,19,.90))!important;
-  box-shadow:inset 0 0 14px rgba(0,0,0,.25),0 3px 7px rgba(0,0,0,.24)!important
+  min-height:45px;margin-bottom:6px;border:1px solid rgba(96,75,43,.16)!important;border-radius:9px!important;
+  color:#36382f!important;background:rgba(255,252,235,.20)!important;box-shadow:none!important;
 }
-.arcade-room-shell .navigation-link:hover{border-color:rgba(64,198,234,.34)!important;color:#effbff!important}
+.arcade-room-shell .navigation-link:hover{border-color:rgba(70,83,54,.36)!important;background:rgba(255,252,235,.48)!important}
 .arcade-room-shell .navigation-link.active{
-  border-color:#21bce8!important;
-  color:#66ddff!important;
-  background:linear-gradient(145deg,#123a4b,#081c27)!important;
-  box-shadow:inset 0 0 22px rgba(0,196,255,.13),0 0 16px rgba(0,180,255,.14)!important
+  border-color:#b6944e!important;color:#fff5d8!important;
+  background:linear-gradient(145deg,#4b6246,#233c31)!important;
+  box-shadow:inset 0 0 18px rgba(0,0,0,.14),0 9px 18px rgba(61,46,25,.22)!important;
 }
-.arcade-room-shell .navigation-icon{color:#95a8ae!important}
-.arcade-room-shell .navigation-link.active .navigation-icon{color:#6de4ff!important}
+.arcade-room-shell .navigation-icon{color:#6c6659!important}
+.arcade-room-shell .navigation-link.active .navigation-icon{color:#e6c875!important}
 .arcade-room-shell .sidebar-footer{
-  display:grid;
-  width:48px;
-  height:48px;
-  place-items:center;
-  margin:0 auto 5px;
-  border:2px solid #394748;
-  border-radius:50%;
-  background:radial-gradient(circle,#143b4b,#080d11 68%);
-  box-shadow:inset 0 0 0 4px #0b0d0e,0 0 16px rgba(0,198,255,.13)
+  display:grid;width:48px;height:48px;place-items:center;margin:0 auto 5px;border:2px solid #81642f;border-radius:50%;
+  background:radial-gradient(circle,#334b38,#17271e 68%);box-shadow:inset 0 0 0 4px #e6d7ad,0 7px 18px rgba(50,36,18,.28)
 }
-.arcade-room-shell .sidebar-footer:before{content:"N";color:#62dfff;font:500 20px/1 Georgia,serif;text-shadow:0 0 10px rgba(55,213,255,.50)}
+.arcade-room-shell .sidebar-footer:before{content:"N";color:#e7c870;font:500 20px/1 Georgia,serif}
 .arcade-room-shell .content-stage{overflow:visible;background:transparent!important}
-
-@media(max-width:900px){
-  .arcade-room-shell{padding:10px;gap:10px}
-}
+@media(max-width:900px){.arcade-room-shell{padding:12px;gap:12px}}
