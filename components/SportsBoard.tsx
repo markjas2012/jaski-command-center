@@ -80,7 +80,7 @@ function Section({
           >
             <div className={styles.topline}>
               <span>{game.league}</span>
-              <b>{game.bucket === "next" || game.bucket === "today" ? (formatCentralStart(game.start) || centralizeEspnLabel(game.status)) : centralizeEspnLabel(game.status)}</b>
+              <b>{game.bucket === "COMING UP" || game.bucket === "TODAY" ? (formatCentralStart(game.start) || centralizeEspnLabel(game.status)) : centralizeEspnLabel(game.status)}</b>
             </div>
             <div className={styles.matchup}>
               {game.logos?.length ? (
