@@ -1,47 +1,204 @@
-.deadHub{margin-top:14px;padding:26px;border:1px solid rgba(216,154,161,.18);border-radius:22px;background:radial-gradient(circle at 86% 8%,rgba(121,38,52,.22),transparent 30%),linear-gradient(145deg,#17161b,#120f13);box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
-.heroHead{display:flex;justify-content:space-between;align-items:end;gap:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.07)}
-.heroHead p,.panelHead p{margin:0;color:#d99ca5;font-size:9px;font-weight:900;letter-spacing:.17em}.heroHead h2{margin:7px 0 0;font-family:Georgia,serif;font-size:32px;font-weight:500}
-.crown{padding:8px 11px;border:1px solid rgba(216,154,161,.2);border-radius:999px;background:#21171b;color:#e1a7b0;font-size:9px;font-weight:900;letter-spacing:.1em;white-space:nowrap}
-.grid{display:grid;grid-template-columns:1.35fr .9fr .95fr;gap:10px;margin-top:16px}.panel{min-width:0;padding:18px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:linear-gradient(145deg,#19171c,#141216)}
-.panelHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.panelHead h3{margin:5px 0 0;font-family:Georgia,serif;font-size:20px;font-weight:500;line-height:1.18}
-.year{display:grid;place-items:center;min-width:58px;height:36px;padding:0 10px;border:1px solid rgba(216,154,161,.16);border-radius:11px;background:#20191d;color:#e0a8b0;font-family:Georgia,serif;font-size:16px}
-.venue{display:grid;gap:3px;margin-top:16px}.venue strong{font-family:Georgia,serif;font-size:17px;font-weight:500}.venue span,.note{color:#8e898e;font-size:9px}.note{margin:9px 0 0;line-height:1.5}
-.highlights{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}.highlights span{padding:5px 8px;border:1px solid rgba(255,255,255,.07);border-radius:999px;background:#121216;color:#c5bfc3;font-size:8px}
-.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}.actions a,.textLink{padding:9px 11px;border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#b79aa0;font-size:8px;font-weight:800;text-decoration:none}.actions .primary{border-color:rgba(216,154,161,.22);background:#241a1e;color:#e3aab2}
-.featureLink{min-height:154px;display:flex;flex-direction:column;margin-top:16px;padding:14px;border:1px solid rgba(216,154,161,.13);border-radius:13px;background:#121216;color:#f6f2eb;text-decoration:none}.featureLink small{color:#9e7a80;font-size:8px;font-weight:800}.featureLink strong{margin-top:8px;font-family:Georgia,serif;font-size:16px;line-height:1.25}.featureLink span{display:-webkit-box;margin-top:7px;overflow:hidden;color:#817c81;font-size:8px;line-height:1.45;-webkit-box-orient:vertical;-webkit-line-clamp:3}.featureLink b{margin-top:auto;padding-top:12px;color:#dda5ad;font-size:9px}.textLink{display:inline-block;margin-top:10px}
-.newsList{display:grid;gap:7px;margin-top:16px}.newsList a{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;min-height:54px;padding:11px 12px;border:1px solid rgba(255,255,255,.06);border-radius:11px;background:#121216;color:#f2ece7;text-decoration:none}.newsList strong{font-family:Georgia,serif;font-size:12px;font-weight:500;line-height:1.25}.newsList span{color:#d79da5;font-size:8px;white-space:nowrap}.featureLink:hover,.newsList a:hover,.actions a:hover,.textLink:hover{border-color:rgba(216,154,161,.3)}
-@media(max-width:1050px){.grid{grid-template-columns:1fr 1fr}.history{grid-column:1/-1}}@media(max-width:700px){.deadHub{padding:20px}.heroHead{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}.history{grid-column:auto}}
+.deadHub{
+  margin-top:14px;
+  padding:22px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:22px;
+  background:radial-gradient(circle at 86% 8%,rgba(121,38,52,.22),transparent 30%),linear-gradient(145deg,#17161b,#120f13);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
 
+.heroHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:18px;
+  padding:0 2px 16px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.heroHead p{margin:0;color:#d99ca5;font-size:9px;font-weight:900;letter-spacing:.17em}
+.heroHead h2{margin:7px 0 2px;font-family:Georgia,serif;font-size:32px;font-weight:500}
+.heroHead span{color:#d6b68a}
+.crown{color:#b28b4c!important;font-family:Georgia,serif;font-size:14px;letter-spacing:.22em;white-space:nowrap}
 
-/* Sprint 13.3 — Dead History + Setlist */
-.recording{display:grid;gap:4px;margin-top:13px;padding:10px 11px;border:1px solid rgba(216,154,161,.12);border-radius:11px;background:#121216}
-.recording span,.setlistHead span{color:#b98990;font-size:7px;font-weight:900;letter-spacing:.13em}
-.recording strong{font-family:Georgia,serif;font-size:13px;font-weight:500;line-height:1.25}
-.setlist{margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
-.setlistHead{display:flex;justify-content:space-between;gap:12px;align-items:center}
-.setlistHead small{color:#7f797d;font-size:7px}
-.setlist ol{margin:8px 0 0 18px;padding:0;columns:2;column-gap:24px}
-.setlist li{break-inside:avoid;margin:0 0 4px;color:#d5d0d3;font-size:9px;line-height:1.25}
-@media(max-width:700px){.setlist ol{columns:1}}
+.mainGrid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:12px!important;
+  align-items:stretch!important;
+  margin-top:14px;
+}
 
+.historyCard,.hubCard{
+  box-sizing:border-box;
+  min-width:0!important;
+  width:100%!important;
+  height:100%!important;
+  border:1px solid rgba(67,51,28,.35);
+  border-radius:4px;
+  background:repeating-linear-gradient(0deg,rgba(91,79,54,.08) 0,rgba(91,79,54,.08) 1px,transparent 1px,transparent 27px),#f1e7c8;
+  color:#2d2518;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+}
 
-/* Sprint 13.6 — Dead.net show layer + Archive.org audio layer */
-.showVisual{position:relative;display:block;margin-top:13px;overflow:hidden;border:1px solid rgba(216,154,161,.14);border-radius:12px;background:#101014;text-decoration:none}
-.showVisual img{display:block;width:100%;max-height:180px;object-fit:cover;opacity:.88}
-.showVisual span{position:absolute;left:10px;bottom:9px;padding:4px 7px;border-radius:999px;background:rgba(12,10,13,.82);color:#e0a8b0;font-size:7px;font-weight:900;letter-spacing:.12em}
-.sourceRow{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px;padding-top:11px;border-top:1px solid rgba(255,255,255,.06)}
-.sourceRow span{padding:4px 7px;border:1px solid rgba(216,154,161,.11);border-radius:999px;color:#8f898e;font-size:6px;font-weight:900;letter-spacing:.11em}
+.historyCard{padding:16px!important}
 
+.historyInner{
+  display:grid!important;
+  grid-template-columns:minmax(220px,38%) minmax(0,62%)!important;
+  gap:24px!important;
+  width:100%!important;
+  min-width:0!important;
+  height:100%!important;
+  align-items:stretch!important;
+}
 
-/* Sprint 13.9 Revised — verified set-break presentation layered on locked 13.8 */
-.setSections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:8px}
-.setSection{min-width:0}
-.setSection h4{margin:0 0 7px;color:#d99aa3;font-size:7px;font-weight:900;letter-spacing:.14em}
-.setSection ol{margin:0 0 0 18px;padding:0;columns:1}
-.setSection li{break-inside:avoid;margin:0 0 4px;color:#d5d0d3;font-size:9px;line-height:1.25}
-.setSection:last-child:nth-child(3){grid-column:1 / -1}
-@media(max-width:700px){.setSections{grid-template-columns:1fr}.setSection:last-child:nth-child(3){grid-column:auto}}
+.historyInfo{
+  display:flex!important;
+  min-width:0!important;
+  flex-direction:column!important;
+  padding-right:18px!important;
+  border-right:1px solid rgba(79,62,36,.22)!important;
+}
 
-/* Sprint 13.17 — readability / contrast pass */
-.deadHub{border-color:rgba(255,255,255,.15)!important}
-.panel{border-color:rgba(255,255,255,.13)!important}
+.kicker{
+  display:inline-block;
+  width:max-content;
+  max-width:100%;
+  padding:4px 8px 3px;
+  border-radius:2px;
+  background:#34563f;
+  color:#fff5d5;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.dateRow{display:flex;align-items:flex-start;gap:10px;margin-top:8px}
+.dateRow h3{margin:0;font-family:Georgia,serif;font-size:30px;font-weight:600;line-height:1.05}
+.year{flex:0 0 auto;padding:5px 8px;border:1px solid rgba(77,59,35,.30);border-radius:5px;font-family:Georgia,serif;font-size:13px}
+
+.venueBlock{display:grid;gap:4px;margin-top:22px}
+.venueBlock>span,.sources span{font-family:"Courier New",monospace;font-size:6px;font-weight:700;letter-spacing:.08em;color:#5f563f}
+.venueBlock strong{font-family:"Courier New",monospace;font-size:14px;line-height:1.18;text-transform:uppercase}
+.venueBlock small{font-family:"Courier New",monospace;font-size:8px;color:#665b47}
+
+.historyLinks{margin-top:auto;padding-top:22px}
+.sources{display:flex;flex-wrap:wrap;gap:7px 12px;padding-top:8px;border-top:1px solid rgba(79,62,36,.22)}
+.actions{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin-top:9px!important;padding-top:8px!important;border-top:1px dashed rgba(74,60,38,.20)!important}
+.actions a,.textLink{color:#34563f;font-size:7px;font-weight:800;text-decoration:none}
+.actions a{padding:7px 9px;border:1px solid rgba(52,86,63,.20);border-radius:9px}
+.actions .primary{background:#2b1b22;color:#8bb193}
+
+/* Deliberately named songsPanel / songsHead instead of setlist*.
+   This avoids the legacy jam-festival global [class*="setlist"] selectors. */
+.songsPanel{
+  box-sizing:border-box!important;
+  display:flex!important;
+  min-width:0!important;
+  width:100%!important;
+  height:100%!important;
+  flex-direction:column!important;
+  padding:2px 2px 0!important;
+  margin:0!important;
+  grid-column:auto!important;
+  grid-row:auto!important;
+}
+
+.songsHead{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  width:100%!important;
+  padding-bottom:8px!important;
+  border-bottom:1px solid rgba(79,62,36,.20)!important;
+}
+
+.songsHead span,.songsHead small{
+  padding:4px 8px 3px;
+  border:1px solid rgba(79,62,36,.20);
+  border-radius:6px;
+  background:rgba(255,250,228,.28);
+  font-family:"Courier New",monospace;
+  font-weight:700;
+}
+.songsHead span{font-size:8px}
+.songsHead small{font-size:7px;color:#5f563f}
+
+.songGrid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:0 28px!important;
+  width:100%!important;
+  min-width:0!important;
+  margin-top:12px!important;
+}
+
+.songGrid ol{
+  box-sizing:border-box!important;
+  min-width:0!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0 0 0 26px!important;
+  columns:1!important;
+  column-count:1!important;
+}
+
+.songGrid ol+ol{
+  padding-left:32px!important;
+  border-left:1px solid rgba(79,62,36,.16)!important;
+}
+
+.songGrid li{
+  margin:0 0 7px!important;
+  padding:0 2px!important;
+  font-family:Georgia,serif!important;
+  font-size:13px!important;
+  font-weight:600!important;
+  line-height:1.18!important;
+  color:#30291d!important;
+  white-space:normal!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  break-inside:avoid!important;
+}
+
+.emptySongs{
+  margin:14px 0 0;
+  font-family:"Courier New",monospace;
+  font-size:9px;
+  line-height:1.4;
+  color:#706650;
+}
+
+.hubCard{display:flex!important;flex-direction:column!important;padding:14px!important}
+.hubCard section{min-width:0}
+.hubCard h3{margin:6px 0 0;font-family:Georgia,serif;font-size:20px;font-weight:500}
+.featureLink{display:flex;min-height:112px;flex-direction:column;margin-top:10px;padding:12px;border:1px solid rgba(79,62,36,.20);background:rgba(255,250,228,.24);color:#2d2518;text-decoration:none;box-shadow:0 5px 16px rgba(91,70,35,.10)}
+.featureLink small{font-size:7px}
+.featureLink strong{margin-top:6px;font-family:Georgia,serif;font-size:14px}
+.featureLink span{margin-top:4px;font-size:8px;color:#665b47}
+.featureLink b{margin-top:auto;padding-top:8px;color:#34563f;font-size:8px}
+.textLink{display:inline-block;margin-top:10px}
+.divider{height:1px;margin:14px 0;background:rgba(79,62,36,.24)}
+.newsList{display:grid;gap:5px;margin-top:10px}
+.newsList a{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;min-height:38px;padding:8px 10px;border:1px solid rgba(79,62,36,.18);background:rgba(255,250,228,.24);color:#2d2518;text-decoration:none}
+.newsList strong{font-family:Georgia,serif;font-size:11px;font-weight:500}
+.newsList span{color:#34563f;font-size:7px}
+
+@media(max-width:1050px){
+  .mainGrid{grid-template-columns:1fr!important}
+  .historyCard,.hubCard{height:auto!important}
+}
+
+@media(max-width:760px){
+  .deadHub{padding:18px}
+  .heroHead{align-items:flex-start;flex-direction:column}
+  .historyInner{grid-template-columns:1fr!important}
+  .historyInfo{padding-right:0!important;padding-bottom:14px!important;border-right:0!important;border-bottom:1px solid rgba(79,62,36,.22)!important}
+  .dateRow{display:block}
+  .year{display:inline-block;margin-top:8px}
+  .historyLinks{margin-top:18px;padding-top:0}
+  .songGrid{grid-template-columns:1fr!important}
+  .songGrid ol+ol{padding-left:26px!important;border-left:0!important}
+}
