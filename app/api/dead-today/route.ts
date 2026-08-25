@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+export const maxDuration = 45;
 
 type ArchiveDoc = {
   identifier?: string;
@@ -307,7 +308,7 @@ function extractDeadNetSetlist(html: string) {
       if (/^(venue|dead comment|show archive)$/i.test(raw)) break;
 
       const title = raw
-        .replace(/^[-•*]\s*/, "")
+        .replace(/^[-â€¢*]\s*/, "")
         .replace(/\s+/g, " ")
         .trim();
 
@@ -346,33 +347,55 @@ function extractDeadNetImage(html: string) {
   return "";
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function deadNetShow(resolvedDate: string) {
   const href = deadNetShowHref(resolvedDate);
   if (!href) return { href: "", setlist: [], image: "", fetched: false };
 
-  try {
-    const res = await fetch(href, {
-      cache: "no-store",
-      headers: {
-        Accept: "text/html,application/xhtml+xml",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) JaskiCommandCenter/13.8",
-      },
-    });
+  const attempts = 3;
 
-    if (!res.ok) {
-      return { href, setlist: [], image: "", fetched: false };
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
+
+      const res = await fetch(href, {
+        cache: "no-store",
+        signal: controller.signal,
+        headers: {
+          Accept: "text/html,application/xhtml+xml",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) JaskiCommandCenter/13.30",
+        },
+      });
+
+      clearTimeout(timeout);
+
+      if (res.ok) {
+        const html = await res.text();
+        const setlist = extractDeadNetSetlist(html);
+
+        if (setlist.length >= 5) {
+          return {
+            href,
+            setlist,
+            image: extractDeadNetImage(html),
+            fetched: true,
+          };
+        }
+      }
+    } catch {
+      // Retry below.
     }
 
-    const html = await res.text();
-    return {
-      href,
-      setlist: extractDeadNetSetlist(html),
-      image: extractDeadNetImage(html),
-      fetched: true,
-    };
-  } catch {
-    return { href, setlist: [], image: "", fetched: false };
+    if (attempt < attempts) {
+      await sleep(attempt * 1500);
+    }
   }
+
+  return { href, setlist: [], image: "", fetched: false };
 }
 
 
@@ -382,7 +405,7 @@ type SectionedSong = {
 };
 
 const SET_BREAK_OVERRIDES: Record<string, { set2StartsAt: string; encoreStartsAt?: string }> = {
-  // Red Rocks — July 28, 1982
+  // Red Rocks â€” July 28, 1982
   "1982-07-28": {
     set2StartsAt: "Man Smart/Woman Smarter",
     encoreStartsAt: "Baby Blue",
@@ -437,7 +460,7 @@ export async function GET() {
         location: "",
         href: searchHref,
         searchHref,
-        note: "No featured recording surfaced automatically. Browse every show attached to today’s date.",
+        note: "No featured recording surfaced automatically. Browse every show attached to todayâ€™s date.",
         recordings: 0,
         highlights: [],
         setlist: [],
@@ -467,7 +490,15 @@ export async function GET() {
     //
     // Dead.net often provides a clean song list without explicit set headings.
     // Preserve its song list and layer verified set-break metadata on top when known.
-    const setlist = applyKnownSetBreaks(resolvedDate, official.setlist);
+    const deadNetTracks = official.setlist;
+    const rawSetlist = deadNetTracks.length >= 5 ? deadNetTracks : archiveTracks;
+    const setlistSource =
+      deadNetTracks.length >= 5
+        ? "Dead.net"
+        : archiveTracks.length >= 5
+          ? "Archive.org"
+          : "";
+    const setlist = applyKnownSetBreaks(resolvedDate, rawSetlist);
 
     return NextResponse.json({
       showDate,
@@ -480,12 +511,12 @@ export async function GET() {
       showImage: official.image,
       deadNetFetched: official.fetched,
       note: setlist.length
-        ? `${setlist.length} songs · setlist from Dead.net.`
+        ? `${setlist.length} songs Â· setlist from Dead.net.`
         : "Dead.net setlist is temporarily unavailable. The featured Archive recording is still ready to play.",
       recordings: usable.length,
       highlights: highlightsFromSetlist(setlist),
       setlist,
-      setlistSource: setlist.length ? "Dead.net" : "",
+      setlistSource,
       archiveTrackCount: archiveTracks.length,
       recordingTitle,
       audioSource: cleanText(meta?.metadata?.source || pick.source || ""),
@@ -498,7 +529,7 @@ export async function GET() {
       location: "",
       href: searchHref,
       searchHref,
-      note: "The Archive lookup is temporarily unavailable. Browse every show attached to today’s date.",
+      note: "The Archive lookup is temporarily unavailable. Browse every show attached to todayâ€™s date.",
       recordings: 0,
       highlights: [],
       setlist: [],
@@ -513,3 +544,4 @@ export async function GET() {
     });
   }
 }
+
