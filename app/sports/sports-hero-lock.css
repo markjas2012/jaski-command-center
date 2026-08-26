@@ -1,0 +1,307 @@
+/* Sprint 14.3S — Sports hero specificity fix
+   Loaded after sports-clubhouse.css.
+   This intentionally uses MORE specificity than the legacy 17.21c/e/f/g/i
+   structural selectors, because those selectors also use !important. */
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] {
+  all: revert !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  isolation: isolate !important;
+  display: block !important;
+  width: 100% !important;
+  height: 292px !important;
+  min-height: 292px !important;
+  max-height: 292px !important;
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(210,166,83,.58) !important;
+  border-radius: 22px !important;
+  background:
+    linear-gradient(90deg,rgba(5,8,13,.88) 0%,rgba(5,8,13,.52) 43%,rgba(5,8,13,.10) 78%),
+    linear-gradient(0deg,rgba(5,8,13,.92),transparent 58%),
+    url('/sports-clubhouse/st-louis-venues.webp') center 48% / cover no-repeat !important;
+  box-shadow:
+    inset 0 0 0 5px rgba(8,9,11,.58),
+    inset 0 0 0 9px rgba(197,147,62,.08),
+    0 18px 45px rgba(0,0,0,.44) !important;
+  color: #f5e3bf !important;
+  font-family: inherit !important;
+}
+
+/* Remove the old synthetic ST. LOUIS SPORTS / HOME TEAM title. */
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero]::before {
+  content: none !important;
+  display: none !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+}
+
+/* Keep only a quiet inner clubhouse frame. */
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero]::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 10px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border: 1px solid rgba(218,174,91,.30) !important;
+  border-radius: 15px !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+/* COPY: beat > :first-child rules */
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy],
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :first-child[data-sports-hero-copy] {
+  all: revert !important;
+  box-sizing: border-box !important;
+  position: absolute !important;
+  z-index: 3 !important;
+  display: block !important;
+  left: 46px !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: min(680px,62%) !important;
+  max-width: 680px !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: translateY(-58%) !important;
+  text-align: left !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] > p:first-child {
+  all: revert !important;
+  display: block !important;
+  margin: 0 0 11px !important;
+  color: #e2b55c !important;
+  font-family: inherit !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .20em !important;
+  text-transform: uppercase !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] > h1 {
+  all: revert !important;
+  display: block !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  color: #f5e3bf !important;
+  font-family: Georgia,"Times New Roman",serif !important;
+  font-size: clamp(50px,4.25vw,68px) !important;
+  font-weight: 600 !important;
+  line-height: .97 !important;
+  letter-spacing: -.025em !important;
+  text-align: left !important;
+  text-shadow: 0 3px 2px #05070a,0 8px 26px rgba(0,0,0,.90) !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] > p:last-child {
+  all: revert !important;
+  display: block !important;
+  max-width: 610px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #ddd1bc !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  text-align: left !important;
+}
+
+/* BADGE: beat > :nth-child(2), score-strip grid and end-bay rules */
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-badge],
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :nth-child(2)[data-sports-hero-badge] {
+  all: revert !important;
+  box-sizing: border-box !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: none !important;
+  right: 42px !important;
+  top: 34px !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: 104px !important;
+  min-width: 104px !important;
+  max-width: 104px !important;
+  height: 104px !important;
+  min-height: 104px !important;
+  max-height: 104px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  grid-template-columns: none !important;
+  align-self: auto !important;
+  border: 1px solid rgba(219,176,91,.58) !important;
+  border-radius: 50% !important;
+  background: rgba(7,11,17,.76) !important;
+  color: #e8c77e !important;
+  text-align: center !important;
+  font-family: inherit !important;
+  font-size: 7px !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  letter-spacing: .14em !important;
+  box-shadow: inset 0 0 0 8px rgba(218,174,91,.04),0 0 30px rgba(220,164,57,.12) !important;
+  transform: none !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-badge]::before,
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-badge]::after {
+  content: none !important;
+  display: none !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-badge] > span {
+  all: revert !important;
+  display: block !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  text-align: center !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-badge] > span:first-child {
+  color: #fff1d5 !important;
+  font-family: Georgia,"Times New Roman",serif !important;
+  font-size: 34px !important;
+  font-weight: 600 !important;
+  line-height: .9 !important;
+  letter-spacing: 0 !important;
+  margin: 0 0 5px !important;
+}
+
+/* FOOTER: beat > :last-child end-bay rules */
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-footer],
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :last-child[data-sports-hero-footer] {
+  all: revert !important;
+  box-sizing: border-box !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex: none !important;
+  left: 46px !important;
+  right: 46px !important;
+  bottom: 20px !important;
+  top: auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 12px 0 0 !important;
+  overflow: visible !important;
+  align-self: auto !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(218,174,91,.28) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #b6a98f !important;
+  font-family: inherit !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .12em !important;
+  text-align: left !important;
+  transform: none !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-footer]::before,
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-footer]::after {
+  content: none !important;
+  display: none !important;
+}
+
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-footer] > span {
+  all: revert !important;
+  display: inline !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: inherit !important;
+}
+
+/* Do not allow broad legacy SportsRoom hero rules to generate decorations on children. */
+html body .app-shell.sports-clubhouse-shell [data-sports-hero-copy]::before,
+html body .app-shell.sports-clubhouse-shell [data-sports-hero-copy]::after {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width:900px) {
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] {
+    height: 286px !important;
+    min-height: 286px !important;
+    max-height: 286px !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] {
+    left: 32px !important;
+    width: 66% !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] > h1 {
+    font-size: clamp(44px,7vw,58px) !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-badge] {
+    right: 30px !important;
+    width: 92px !important;
+    min-width: 92px !important;
+    max-width: 92px !important;
+    height: 92px !important;
+    min-height: 92px !important;
+    max-height: 92px !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-footer] {
+    left: 32px !important;
+    right: 32px !important;
+  }
+}
+
+@media (max-width:650px) {
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] {
+    height: 315px !important;
+    min-height: 315px !important;
+    max-height: 315px !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] {
+    left: 24px !important;
+    right: 24px !important;
+    width: auto !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] > h1 {
+    font-size: 44px !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-badge] {
+    display: none !important;
+  }
+  html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-footer] {
+    left: 24px !important;
+    right: 24px !important;
+    gap: 10px !important;
+  }
+}
