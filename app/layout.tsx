@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./shell-lock.css";
 
 export const metadata: Metadata = {
   title: "Jaski Command Center",
