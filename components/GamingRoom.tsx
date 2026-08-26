@@ -1,4 +1,4 @@
-import styles from "./GamingRoom.module.css";
+﻿import styles from "./GamingRoom.module.css";
 
 type NewsItem = {
   source: string;
@@ -68,11 +68,11 @@ const scoreUpcomingGame = (game: RawgGame) => {
 
 const FALLBACK_RELEASES: Release[] = [
   { id: "fallback-1", date: "AUG 04", title: "Beast of Reincarnation", platforms: ["PS5", "XBOX", "PC"], note: "Action RPG", image: null, href: "https://rawg.io/" },
-  { id: "fallback-2", date: "AUG 06", title: "Marvel Tōkon: Fighting Souls", platforms: ["PS5", "PC"], note: "Fighting", image: null, href: "https://rawg.io/" },
+  { id: "fallback-2", date: "AUG 06", title: "Marvel TÅkon: Fighting Souls", platforms: ["PS5", "PC"], note: "Fighting", image: null, href: "https://rawg.io/" },
   { id: "fallback-3", date: "AUG 13", title: "Madden NFL 27", platforms: ["PS5", "XBOX", "SWITCH 2", "PC"], note: "Sports", image: null, href: "https://rawg.io/" },
   { id: "fallback-4", date: "AUG 27", title: "Metal Gear Solid Master Collection Vol. 2", platforms: ["PS5", "XBOX", "SWITCH 2", "SWITCH", "PC"], note: "Collection", image: null, href: "https://rawg.io/" },
   { id: "fallback-5", date: "AUG 27", title: "Star Wars: Zero Company", platforms: ["PS5", "XBOX", "PC"], note: "Tactics", image: null, href: "https://rawg.io/" },
-  { id: "fallback-6", date: "SEP 15", title: "Marvel’s Wolverine", platforms: ["PS5"], note: "Action", image: null, href: "https://rawg.io/" },
+  { id: "fallback-6", date: "SEP 15", title: "Marvelâ€™s Wolverine", platforms: ["PS5"], note: "Action", image: null, href: "https://rawg.io/" },
 ];
 
 function formatReleaseDate(value?: string | null) {
@@ -159,7 +159,7 @@ const news: NewsItem[] = [
   {
     source: "PLAYSTATION",
     label: "STORY TRAILER",
-    headline: "Marvel’s Wolverine sharpens the focus for September",
+    headline: "Marvelâ€™s Wolverine sharpens the focus for September",
     summary: "Insomniac revealed a new story trailer, more character details, and the score behind its September 15 PS5 release.",
     href: "https://blog.playstation.com/2026/07/23/marvels-wolverine-story-trailer-new-art-composer-details-and-more/",
     art: "wolverine",
@@ -178,7 +178,7 @@ const news: NewsItem[] = [
     source: "NINTENDO",
     label: "SWITCH 2",
     headline: "Splatoon Raiders opens a new single-player hunt",
-    summary: "Nintendo’s new Switch 2 exclusive sends players to the Spirhalite Islands with Deep Cut for a treasure-focused solo adventure.",
+    summary: "Nintendoâ€™s new Switch 2 exclusive sends players to the Spirhalite Islands with Deep Cut for a treasure-focused solo adventure.",
     href: "https://www.nintendo.com/us/whatsnew/",
     art: "splatoon",
     artLabel: "RAIDERS / OUT NOW",
@@ -200,14 +200,14 @@ export default async function GamingRoom() {
             <h1>Jaski Arcade</h1>
             <p className={styles.lede}>What matters, what is next, and one front door to play.</p>
           </div>
-          <a className={styles.playniteLaunch} href="https://playnite.link/" target="_blank" rel="noreferrer">
-            <span className={styles.playniteIcon}>P</span>
+          <a className={styles.playniteLaunch} href="https://es-de.org/" target="_blank" rel="noreferrer">
+            <span className={styles.playniteIcon}>ES</span>
             <div>
               <small>JASKI GAME SERVER</small>
-              <strong>Launch Playnite</strong>
-              <p>Your controller-first arcade.</p>
+              <strong>EmulationStation-DE</strong>
+              <p>Your controller-first game library.</p>
             </div>
-            <b>OPEN ↗</b>
+            <b>OPEN â†—</b>
           </a>
         </div>
       </section>
@@ -238,7 +238,7 @@ export default async function GamingRoom() {
                 <div className={styles.newsTop}><span>{item.source}</span><span>{item.label}</span></div>
                 <h3>{item.headline}</h3>
                 <p>{item.summary}</p>
-                <span className={styles.readMore}>READ STORY ↗</span>
+                <span className={styles.readMore}>READ STORY â†—</span>
               </div>
             </a>
           ))}
@@ -266,7 +266,7 @@ export default async function GamingRoom() {
             <h3>Find the next bracket.</h3>
             <p>Major events and community tournaments for Mortal Kombat, Killer Instinct, Street Fighter, Tekken, and more.</p>
             <div className={styles.gameTags}><span>MK</span><span>KI</span><span>SF</span><span>TEKKEN</span><span>SOULCALIBUR</span></div>
-            <strong className={styles.fightAction}>BROWSE EVENTS ↗</strong>
+            <strong className={styles.fightAction}>BROWSE EVENTS â†—</strong>
           </a>
 
           <div className={`${styles.fightCard} ${styles.eventHubsCard}`}>
@@ -275,16 +275,16 @@ export default async function GamingRoom() {
             <p>Tier boards, tournament results, and the changes shaping the fighting games you follow.</p>
             <div className={styles.eventHubsLinks}>
               <a href="https://www.eventhubs.com/tiers/" target="_blank" rel="noreferrer">
-                <span><small>RANKINGS</small>Tier Lists</span><b>↗</b>
+                <span><small>RANKINGS</small>Tier Lists</span><b>â†—</b>
               </a>
               <a href="https://www.eventhubs.com/news/" target="_blank" rel="noreferrer">
-                <span><small>RESULTS + NEWS</small>FGC Headlines</span><b>↗</b>
+                <span><small>RESULTS + NEWS</small>FGC Headlines</span><b>â†—</b>
               </a>
             </div>
             <a className={styles.eventHubsLaunch} href="https://www.eventhubs.com/" target="_blank" rel="noreferrer">
               <span className={styles.eventHubsIcon}>E</span>
               <span><small>FIGHTING GAME HUB</small><strong>Open EventHubs</strong></span>
-              <b>OPEN ↗</b>
+              <b>OPEN â†—</b>
             </a>
           </div>
 
@@ -293,16 +293,16 @@ export default async function GamingRoom() {
             <h3>Enter the arena.</h3>
             <p>Jump directly to the fighting-game directories currently worth checking.</p>
             <div className={styles.twitchLinks}>
-              <a href="https://www.twitch.tv/directory/category/mortal-kombat-1" target="_blank" rel="noreferrer">Mortal Kombat <span>↗</span></a>
-              <a href="https://www.twitch.tv/directory/category/street-fighter-6" target="_blank" rel="noreferrer">Street Fighter 6 <span>↗</span></a>
-              <a href="https://www.twitch.tv/directory/category/tekken-8" target="_blank" rel="noreferrer">Tekken 8 <span>↗</span></a>
+              <a href="https://www.twitch.tv/directory/category/mortal-kombat-1" target="_blank" rel="noreferrer">Mortal Kombat <span>â†—</span></a>
+              <a href="https://www.twitch.tv/directory/category/street-fighter-6" target="_blank" rel="noreferrer">Street Fighter 6 <span>â†—</span></a>
+              <a href="https://www.twitch.tv/directory/category/tekken-8" target="_blank" rel="noreferrer">Tekken 8 <span>â†—</span></a>
             </div>
           </div>
         </div>
       </section>
 
       <section className={`${styles.panel} ${styles.releasePanel}`}>
-        <div className={styles.releaseMarks} aria-hidden="true"><span>♛</span><b>ϟ</b></div>
+        <div className={styles.releaseMarks} aria-hidden="true"><span>â™›</span><b>ÏŸ</b></div>
         <div className={styles.sectionHead}>
           <div>
             <p className={styles.sectionEyebrow}>UPCOMING RELEASES</p>
@@ -333,10 +333,11 @@ export default async function GamingRoom() {
         </div>
         <div className={styles.releaseSource}>
           <span>{live ? "LIVE RELEASE DATA" : "FALLBACK RELEASE LIST"}</span>
-          <a href="https://rawg.io/" target="_blank" rel="noreferrer">Data & artwork via RAWG ↗</a>
+          <a href="https://rawg.io/" target="_blank" rel="noreferrer">Data & artwork via RAWG â†—</a>
         </div>
       </section>
 
     </main>
   );
 }
+

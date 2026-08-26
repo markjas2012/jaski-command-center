@@ -1,4 +1,4 @@
-/* Sprint 17.21a — St. Louis Clubhouse foundation. Scoped to /sports. */
+﻿/* Sprint 17.21a â€” St. Louis Clubhouse foundation. Scoped to /sports. */
 .sports-clubhouse-shell {
   --club-ink: #0b0e13;
   --club-panel: #11151c;
@@ -162,9 +162,9 @@
   .sports-clubhouse-shell [class*="SportsRoom_badge"] { display: none; }
 }
 
-/* 17.21b — Turbopack CSS-module selector repair.
+/* 17.21b â€” Turbopack CSS-module selector repair.
    Current Next builds emit names such as SportsRoom-module__hash__hero. */
-.sports-clubhouse-shell :is([class*="SportsRoom"][class*="hero"], [class*="sports-room"][class*="hero"]) {
+.sports-clubhouse-shell :is([class*="SportsRoom"][class$="__hero"], [class*="sports-room"][class$="__hero"]) {
   position: relative !important;
   isolation: isolate;
   min-height: 330px !important;
@@ -178,17 +178,17 @@
     url('/sports-clubhouse/st-louis-venues.webp') center / cover no-repeat !important;
   box-shadow: inset 0 0 0 5px rgba(9,10,12,.55), 0 18px 45px rgba(0,0,0,.42) !important;
 }
-.sports-clubhouse-shell :is([class*="SportsRoom"][class*="hero"], [class*="sports-room"][class*="hero"])::before {
+.sports-clubhouse-shell :is([class*="SportsRoom"][class$="__hero"], [class*="sports-room"][class$="__hero"])::before {
   content: ""; position: absolute; inset: 10px; z-index: -1; pointer-events: none;
   border: 1px solid rgba(218,174,91,.28); border-radius: 15px;
 }
-.sports-clubhouse-shell [class*="SportsRoom"][class*="heroCopy"] { padding: 42px 36px 110px !important; }
+.sports-clubhouse-shell [class*="SportsRoom"][class$="__heroCopy"] { padding: 42px 36px 110px !important; }
 .sports-clubhouse-shell [class*="SportsRoom"][class*="eyebrow"] { color: #e2b55c !important; }
-.sports-clubhouse-shell [class*="SportsRoom"][class*="hero"] h1 {
+.sports-clubhouse-shell [class*="SportsRoom"][class$="__hero"] h1 {
   color: #fff4dc !important; font-size: clamp(42px,5vw,72px) !important;
   line-height: .96 !important; text-shadow: 0 4px 24px rgba(0,0,0,.9);
 }
-.sports-clubhouse-shell [class*="SportsRoom"][class*="heroFooter"] {
+.sports-clubhouse-shell [class*="SportsRoom"][class$="__heroFooter"] {
   left: 22px !important; right: 22px !important; bottom: 18px !important;
   border: 1px solid rgba(218,174,91,.3) !important; border-radius: 12px !important;
   background: rgba(5,8,13,.84) !important; backdrop-filter: blur(10px);
@@ -242,7 +242,7 @@
   background: linear-gradient(145deg,#181d26,#10141b) !important;
 }
 
-/* 17.21c — structural targeting for the newer local live-finals build */
+/* 17.21c â€” structural targeting for the newer local live-finals build */
 .sports-clubhouse-shell .content-shell > main > section:first-child {
   position: relative !important;
   isolation: isolate;
@@ -381,7 +381,7 @@
   .sports-clubhouse-shell .content-shell > main > section:first-child::before { width: 90%; font-size: 36px; }
 }
 
-/* 17.21i — end bays fill the complete scoreboard ribbon vertically. */
+/* 17.21i â€” end bays fill the complete scoreboard ribbon vertically. */
 .sports-clubhouse-shell .content-shell > main > section:first-child > :nth-child(2),
 .sports-clubhouse-shell [class*="SportsScoreStrip"][class*="finals"] {
   height: 64px !important;
@@ -409,7 +409,7 @@
   }
 }
 
-/* 17.21h — shared component class; both end bays now have one box model. */
+/* 17.21h â€” shared component class; both end bays now have one box model. */
 .sports-clubhouse-shell [class*="SportsScoreStrip"][class*="endBay"] {
   flex: 0 0 184px !important;
   width: 184px !important;
@@ -430,7 +430,7 @@
   }
 }
 
-/* 17.21g — exact scoreboard end-bay parity */
+/* 17.21g â€” exact scoreboard end-bay parity */
 .sports-clubhouse-shell .content-shell > main > section:first-child {
   --scoreboard-end-bay: clamp(158px,11.2vw,184px);
 }
@@ -471,7 +471,7 @@
   .sports-clubhouse-shell .content-shell > main > section:first-child { --scoreboard-end-bay: 142px; }
 }
 
-/* 17.21f — lock-ready cleanup */
+/* 17.21f â€” lock-ready cleanup */
 .sports-clubhouse-shell .content-shell > main > section:first-child::before {
   top: 35px;
   font-size: clamp(25px,2.38vw,39px);
@@ -545,7 +545,7 @@
   .sports-clubhouse-shell .content-shell > main > section:first-child > :nth-child(2) { display: flex !important; }
 }
 
-/* 17.21e — final clubhouse refinement */
+/* 17.21e â€” final clubhouse refinement */
 .sports-clubhouse-shell [class*="SportsRoom"][class*="room"],
 .sports-clubhouse-shell .content-shell > main {
   padding-bottom: 12px !important;
@@ -663,7 +663,7 @@
   .sports-clubhouse-shell .content-shell > main > section:first-child::before { top: 28px; font-size: 29px; }
 }
 
-/* 17.21d — proportion and finish pass */
+/* 17.21d â€” proportion and finish pass */
 .sports-clubhouse-shell .content-shell > main > section:first-child {
   min-height: 280px !important;
   padding: 166px 22px 16px !important;
@@ -672,7 +672,7 @@
     url('/sports-clubhouse/st-louis-venues.webp') center 47% / cover no-repeat !important;
 }
 .sports-clubhouse-shell .content-shell > main > section:first-child::before {
-  content: "ST. LOUIS SPORTS  ·  HOME TEAM";
+  content: "ST. LOUIS SPORTS  Â·  HOME TEAM";
   top: 48px;
   width: 92%;
   color: #f1dfb9;
@@ -743,7 +743,7 @@
   .sports-clubhouse-shell .content-shell > main > section:first-child::before { top: 40px; font-size: 32px; }
 }
 
-/* 17.21j — FINAL CASCADE RULE. Keep this block at the literal file end. */
+/* 17.21j â€” FINAL CASCADE RULE. Keep this block at the literal file end. */
 .sports-clubhouse-shell .content-shell > main > section:first-child > :nth-child(2),
 .sports-clubhouse-shell [class*="SportsScoreStrip"][class*="finals"] {
   height: 64px !important;
@@ -778,3 +778,4 @@
     height:58px !important;min-height:58px !important;max-height:58px !important;
   }
 }
+
