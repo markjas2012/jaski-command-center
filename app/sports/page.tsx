@@ -1,6 +1,7 @@
 import Sidebar from "../../components/Sidebar";
 import SportsRoom from "../../components/SportsRoom";
 import "./sports-clubhouse.css";
+import "./sports-hero-lock.css";
 
 export default function SportsPage() {
   return (
