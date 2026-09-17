@@ -182,6 +182,46 @@ async function fetchTeamSchedule(cfg: TeamConfig, season?: number, league = cfg.
   return Array.isArray(data?.events) ? data.events : [];
 }
 
+function cityScheduleFallback(now: Date): any[] {
+  // ESPN's public CITY schedule is currently visible on its Fixtures page but
+  // the Site API schedule payload can omit future MLS fixtures. Keep a narrow
+  // official-2026 fallback so the card never goes blank when that happens.
+  // Dates/times are UTC; 00:30Z = 7:30 PM CT on the prior calendar date.
+  const rows = [
+    ['2026-09-20T00:30:00Z', 'Toronto FC', 'TOR', 'home'],
+    ['2026-09-27T00:30:00Z', 'Red Bull New York', 'RBNY', 'away'],
+    ['2026-10-12T00:00:00Z', 'LA Galaxy', 'LA', 'home'],
+    ['2026-10-15T00:30:00Z', 'Vancouver Whitecaps', 'VAN', 'home'],
+    ['2026-10-17T21:30:00Z', 'Minnesota United FC', 'MIN', 'away'],
+    ['2026-10-25T01:30:00Z', 'Real Salt Lake', 'RSL', 'away'],
+    ['2026-10-29T00:30:00Z', 'Portland Timbers', 'POR', 'home'],
+    ['2026-11-08T01:00:00Z', 'Houston Dynamo FC', 'HOU', 'away'],
+  ] as const;
+
+  return rows
+    .filter(([date]) => new Date(date).getTime() > now.getTime() - 60_000)
+    .map(([date, opponent, abbr, homeAway], index) => ({
+      id: `city-official-2026-${index}-${date}`,
+      date,
+      name: homeAway === 'home' ? `Toronto FC at St. Louis CITY SC`.replace('Toronto FC', opponent) : `St. Louis CITY SC at ${opponent}`,
+      status: { type: { state: 'pre', shortDetail: 'Scheduled' } },
+      competitions: [{
+        date,
+        status: { type: { state: 'pre', shortDetail: 'Scheduled' } },
+        competitors: homeAway === 'home'
+          ? [
+              { homeAway: 'home', team: { id: '21812', abbreviation: 'STL', displayName: 'St. Louis CITY SC' } },
+              { homeAway: 'away', team: { id: `city-fallback-${abbr}`, abbreviation: abbr, displayName: opponent } },
+            ]
+          : [
+              { homeAway: 'home', team: { id: `city-fallback-${abbr}`, abbreviation: abbr, displayName: opponent } },
+              { homeAway: 'away', team: { id: '21812', abbreviation: 'STL', displayName: 'St. Louis CITY SC' } },
+            ],
+        broadcasts: [{ names: ['Apple TV'] }],
+      }],
+    }));
+}
+
 async function eventsFor(cfg: TeamConfig): Promise<any[]> {
   const now = new Date();
   const currentYear = Number(new Intl.DateTimeFormat('en-US', {
@@ -223,6 +263,16 @@ async function eventsFor(cfg: TeamConfig): Promise<any[]> {
     const pastStart = new Date(now.getTime() - 14 * DAY_MS);
     const nearEnd = new Date(now.getTime() + 60 * DAY_MS);
     events = await fetchWindow(cfg, pastStart, nearEnd);
+  }
+
+  // CITY's ESPN Site API has been returning completed cup matches while omitting
+  // its future MLS fixtures. Merge the verified 2026 club schedule only when no
+  // future CITY event is present. Live ESPN data always wins when it is healthy.
+  if (cfg.key === 'city') {
+    const hasFuture = events.some(e =>
+      stateOf(e) === 'pre' && (eventDate(e)?.getTime() ?? 0) > now.getTime() - 60_000
+    );
+    if (!hasFuture) events = dedupe([...events, ...cityScheduleFallback(now)]);
   }
 
   return events
