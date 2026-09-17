@@ -1,0 +1,53 @@
+/*
+  Sidebar geometry lock.
+  Keeps navigation in the same horizontal position and width across themed pages.
+  Visual page-specific colors/borders can still override appearance.
+*/
+
+.app-shell {
+  grid-template-columns: 220px minmax(0, 1fr) !important;
+  align-items: start;
+}
+
+.sidebar {
+  box-sizing: border-box;
+  width: 220px !important;
+  min-width: 220px !important;
+  max-width: 220px !important;
+  position: sticky !important;
+  top: 18px !important;
+  align-self: start !important;
+  height: calc(100vh - 36px) !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+.sidebar-brand,
+.sidebar-navigation,
+.navigation-group,
+.navigation-link {
+  width: 100%;
+  min-width: 0;
+}
+
+.navigation-link {
+  transform: none !important;
+}
+
+.navigation-link:hover {
+  transform: none !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sidebar {
+    position: static !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+}

@@ -4,7 +4,7 @@ import BookRoom from "../../components/BookRoom";
 export default function BooksPage() {
   return (
     <main className="app-shell">
-      <Sidebar activePage="books" />
+      <Sidebar />
       <section className="content-stage" aria-label="Books">
         <BookRoom />
       </section>

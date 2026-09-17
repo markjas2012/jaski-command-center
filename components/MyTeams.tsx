@@ -235,20 +235,19 @@ export default function MyTeams() {
               <h3>{item.headline}</h3>
               <p>{item.detail}</p>
 
-              {(item.record || item.recent) ? (
+              {item.record ? (
                 <div className={styles.meta}>
-                  {item.record ? (
-                    <span>
-                      <small>RECORD</small>
-                      <b>{item.record}</b>
-                    </span>
-                  ) : null}
-                  {item.recent ? (
-                    <span>
-                      <small>LAST</small>
-                      <b>{item.recent}</b>
-                    </span>
-                  ) : null}
+                  <span>
+                    <small>RECORD</small>
+                    <b>{item.record}</b>
+                  </span>
+                </div>
+              ) : null}
+
+              {item.recent ? (
+                <div className={styles.latestResult}>
+                  <small>LAST</small>
+                  <b>{item.recent}</b>
                 </div>
               ) : null}
             </div>

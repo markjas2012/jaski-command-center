@@ -1,0 +1,21 @@
+"use client";
+
+import MyTeams from "./MyTeams";
+import WorthWatching from "./WorthWatching";
+import SportsBoard from "./SportsBoard";
+import SportsNews from "./SportsNews";
+import SportsScoreStrip from "./SportsScoreStrip";
+import styles from "./SportsRoom.module.css";
+
+export default function SportsRoom() {
+  return (
+    <main className={styles.room}>
+      <SportsScoreStrip />
+
+      <MyTeams />
+      <WorthWatching />
+      <SportsBoard />
+      <SportsNews />
+    </main>
+  );
+}

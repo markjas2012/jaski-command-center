@@ -1,0 +1,15 @@
+.shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 20px;
+  padding: 22px;
+  color: #f6edda;
+  background:
+    radial-gradient(circle at 85% 10%, rgba(149, 113, 53, .16), transparent 30%),
+    linear-gradient(135deg, #17120d, #261a11 52%, #101611);
+}
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; padding: 12px; }
+}

@@ -2,6 +2,7 @@ import Sidebar from "../components/Sidebar";
 import LiveDashboard from "../components/LiveDashboard";
 import "./home-lodge.css";
 import "./home-lodge-final.css";
+import "./home-lodge-hero.css";
 
 export default function Home() {
   return (

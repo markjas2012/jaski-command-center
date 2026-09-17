@@ -2063,3 +2063,64 @@ textarea {
   .weather-temperature-row h2{font-size:44px}
   .ritual-reflection blockquote{font-size:20px}
 }
+
+/* =========================================================
+   SPRINT 17.15b — ONE-SCREEN HOMEPAGE
+   Desktop-only density pass. Other rooms and smaller screens
+   keep their existing layouts and natural page scrolling.
+   ========================================================= */
+@media (min-width:1400px) and (min-height:800px){
+  body:has(.dashboard){overflow:hidden}
+  body:has(.dashboard) .app-shell{height:100vh;min-height:0;gap:12px;padding:10px}
+  body:has(.dashboard) .sidebar{top:10px;height:calc(100vh - 20px)}
+  body:has(.dashboard) .content-stage{height:calc(100vh - 20px);min-height:0;overflow:hidden}
+  body:has(.dashboard) .dashboard{height:100%;padding:20px 28px 16px}
+  body:has(.dashboard) .dashboard-header h1{margin-top:3px;font-size:38px;line-height:1.05}
+  body:has(.dashboard) .dashboard-date{margin-top:5px;font-size:13px}
+  body:has(.dashboard) .dashboard-divider{margin:14px 0}
+
+  body:has(.dashboard) .home-command-grid{grid-template-columns:minmax(0,1.5fr) minmax(250px,.72fr) minmax(270px,.74fr);gap:12px}
+  body:has(.dashboard) .weather-compact,
+  body:has(.dashboard) .today-calendar-card,
+  body:has(.dashboard) .home-utility-card{min-height:196px;border-radius:20px}
+  body:has(.dashboard) .weather-compact{padding:16px 18px}
+  body:has(.dashboard) .weather-compact-main{gap:13px}
+  body:has(.dashboard) .weather-compact .weather-icon-wrap{width:58px;height:58px;flex-basis:58px;border-radius:18px}
+  body:has(.dashboard) .weather-compact .weather-icon-wrap svg{width:32px;height:32px}
+  body:has(.dashboard) .weather-temperature-row{gap:10px;margin-top:2px}
+  body:has(.dashboard) .weather-temperature-row h2{font-size:42px}
+  body:has(.dashboard) .weather-temperature-row p{font-size:12px}
+  body:has(.dashboard) .weather-compact-stats{gap:6px;margin:12px 0 9px}
+  body:has(.dashboard) .weather-compact-stats div{padding:7px 9px;border-radius:10px}
+  body:has(.dashboard) .weather-compact-stats strong{margin-top:2px;font-size:10px}
+
+  body:has(.dashboard) .today-calendar-card{padding:17px 18px}
+  body:has(.dashboard) .today-calendar-card h2{margin:4px 0 2px;font-size:29px}
+  body:has(.dashboard) .today-calendar-card p:not(.card-kicker){font-size:11px}
+  body:has(.dashboard) .calendar-actions{gap:5px}
+  body:has(.dashboard) .calendar-actions a{padding:7px 9px;border-radius:9px;font-size:9px}
+
+  body:has(.dashboard) .home-utility-card{gap:4px;padding:14px 15px}
+  body:has(.dashboard) .home-utility-card>.card-kicker{margin-bottom:0}
+  body:has(.dashboard) .home-utility-card a,
+  body:has(.dashboard) .home-utility-card button{min-height:31px;grid-template-columns:26px minmax(0,1fr) auto;gap:7px;padding:3px 7px;border-radius:9px}
+  body:has(.dashboard) .utility-mark{width:26px;height:26px;border-radius:8px;font-size:10px}
+  body:has(.dashboard) .home-utility-card span:nth-child(2){gap:0}
+  body:has(.dashboard) .home-utility-card strong{font-size:10px}
+  body:has(.dashboard) .home-utility-card small{font-size:7px}
+  body:has(.dashboard) .home-utility-card b{font-size:10px}
+
+  body:has(.dashboard) .ritual-compact{margin-top:10px;padding-top:10px}
+  body:has(.dashboard) .ritual-heading{align-items:center;margin-bottom:7px}
+  body:has(.dashboard) .ritual-heading h2{margin-top:1px;font-size:21px}
+  body:has(.dashboard) .ritual-heading>p{font-size:10px}
+  body:has(.dashboard) .ritual-compact-grid{gap:10px}
+  body:has(.dashboard) .ritual-reflection,
+  body:has(.dashboard) .ritual-reading{min-height:78px;border-radius:15px}
+  body:has(.dashboard) .ritual-reflection{gap:16px;padding:12px 16px}
+  body:has(.dashboard) .ritual-reflection blockquote{margin:5px 0 0;font-size:16px;line-height:1.18}
+  body:has(.dashboard) .ritual-reading{grid-template-columns:32px minmax(0,1fr) auto;gap:9px;padding:11px 13px}
+  body:has(.dashboard) .ritual-cross{width:32px;height:32px;border-radius:10px;font-size:15px}
+  body:has(.dashboard) .ritual-reading span:nth-child(2){gap:2px}
+  body:has(.dashboard) .ritual-reading strong{font-size:14px}
+}

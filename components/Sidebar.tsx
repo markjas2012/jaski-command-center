@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "./SidebarStability.css";
 
 type SidebarProps = {
   activePage?:
@@ -29,9 +30,7 @@ export default function Sidebar({ activePage = "home" }: SidebarProps) {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <div className="brand-icon" aria-hidden="true">
-          J
-        </div>
+        <div className="brand-icon" aria-hidden="true">J</div>
         <div>
           <p className="brand-name">JASKI</p>
           <p className="brand-subtitle">Personal Command Center</p>
@@ -47,9 +46,7 @@ export default function Sidebar({ activePage = "home" }: SidebarProps) {
               className={`navigation-link ${link.page === activePage ? "active" : ""}`}
               href={link.href}
             >
-              <span className="navigation-icon" aria-hidden="true">
-                {link.icon}
-              </span>
+              <span className="navigation-icon" aria-hidden="true">{link.icon}</span>
               <span>{link.label}</span>
             </Link>
           ))}

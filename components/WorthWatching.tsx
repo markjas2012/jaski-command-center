@@ -57,10 +57,14 @@ const CENTRAL_TZ = "America/Chicago";
 const leagueWeight: Record<string, number> = {
   NFL: 42,
   NCAA: 36,
+  "NCAA MBB": 36,
   MLB: 32,
   NHL: 30,
   NBA: 30,
   MLS: 28,
+  PGA: 34,
+  UFC: 38,
+  TENNIS: 31,
 };
 
 const identity: Record<StlTeam["key"], { league: string; mark: string; fallbackUrl: string; logo: string }> = {
@@ -160,16 +164,19 @@ function rankTeam(team: StlTeam, now: number): Pick | null {
 }
 
 function rankBoardGame(game: BoardGame): Pick | null {
-  if (game.bucket === "COMING UP") return null;
-
-  const local = isStLouisText(`${game.title} ${game.detail}`);
   const live = game.bucket === "LIVE";
   const today = game.bucket === "TODAY";
+  const when = startMs(game.start);
+  const daysAway = when === Number.MAX_SAFE_INTEGER
+    ? Number.MAX_SAFE_INTEGER
+    : Math.max(0, (when - Date.now()) / 86_400_000);
+
+  if (game.bucket === "COMING UP" && daysAway > 7) return null;
 
   let score = leagueWeight[game.league] ?? 12;
   if (live) score += 120;
   if (today) score += 65;
-  if (local) score += 120;
+  if (game.bucket === "COMING UP") score += Math.max(8, 34 - daysAway * 4);
 
   return {
     id: `board-${game.league}-${game.title}-${game.start ?? game.status}`,
@@ -178,7 +185,7 @@ function rankBoardGame(game: BoardGame): Pick | null {
     status: live ? "LIVE NOW" : today ? "TODAY" : game.status,
     detail: game.detail,
     href: game.href,
-    reason: local ? "ST. LOUIS FIRST" : live ? "LIVE NOW" : "ON TODAY",
+    reason: live ? "LIVE NOW" : today ? "ON TODAY" : "COMING SOON",
     score,
     start: game.start,
     logos: game.logos,
@@ -275,12 +282,11 @@ export default function WorthWatching() {
     const now = Date.now();
     const candidates: Pick[] = [];
 
-    for (const team of stl?.teams ?? []) {
-      const pick = rankTeam(team, now);
-      if (pick) candidates.push(pick);
-    }
-
+    // My Teams already owns Cardinals, Blues, CITY SC, and Mizzou.
+    // Worth Watching is reserved for unrelated national games.
     for (const game of sports?.games ?? []) {
+      if (isStLouisText(`${game.title} ${game.detail}`)) continue;
+
       const pick = rankBoardGame(game);
       if (pick) candidates.push(pick);
     }
@@ -291,9 +297,25 @@ export default function WorthWatching() {
     });
 
     const unique: Pick[] = [];
+    const selectedLeagues = new Set<string>();
+
+    // First pass: create the broadest possible three-sport mix.
     for (const candidate of candidates) {
-      if (!unique.some((item) => sameGame(item, candidate))) unique.push(candidate);
+      if (selectedLeagues.has(candidate.league)) continue;
+      if (!unique.some((item) => sameGame(item, candidate))) {
+        unique.push(candidate);
+        selectedLeagues.add(candidate.league);
+      }
       if (unique.length === 3) break;
+    }
+
+    // Second pass: if fewer than three sports are active, fill remaining
+    // space with the best non-duplicate events available.
+    if (unique.length < 3) {
+      for (const candidate of candidates) {
+        if (!unique.some((item) => sameGame(item, candidate))) unique.push(candidate);
+        if (unique.length === 3) break;
+      }
     }
 
     return unique;

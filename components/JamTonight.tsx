@@ -20,6 +20,23 @@ type Feed = {
   local: LiveItem[];
 };
 
+const NUGS_DISCOVERY: LiveItem[] = [
+  {
+    artist: "Browse upcoming livestreams",
+    venue: "The complete Nugs live schedule",
+    source: "Nugs",
+    href: "https://www.nugs.net/watch-live-music/",
+    action: "Watch",
+  },
+  {
+    artist: "Explore recent concert releases",
+    venue: "New shows added to the archive",
+    source: "Nugs",
+    href: "https://www.nugs.net/recentlyadded.html",
+    action: "Watch",
+  },
+];
+
 function Card({ item, featured = false }: { item: LiveItem; featured?: boolean }) {
   return (
     <a className={`${styles.card} ${featured ? styles.featured : ""}`} href={item.href} target="_blank" rel="noreferrer">
@@ -37,6 +54,8 @@ function Card({ item, featured = false }: { item: LiveItem; featured?: boolean }
 
 export default function JamTonight() {
   const [feed, setFeed] = useState<Feed | null>(null);
+  const liveNugs = (feed?.nugs || []).slice(0, 3);
+  const nugsCards = [...liveNugs, ...NUGS_DISCOVERY].slice(0, 3);
 
   useEffect(() => {
     let active = true;
@@ -68,9 +87,8 @@ export default function JamTonight() {
             <a href="https://www.nugs.net/watch-live-music/" target="_blank" rel="noreferrer">See all streams ↗</a>
           </div>
           <div className={styles.grid}>
-            {(feed?.nugs || []).slice(0, 5).map((item, index) => <Card key={item.href + item.date} item={item} featured={index === 0} />)}
+            {nugsCards.map((item, index) => <Card key={`${item.href}-${item.artist}`} item={item} featured={index === 0} />)}
           </div>
-          {!feed?.nugs?.length ? <p className={styles.empty}>No upcoming Nugs streams were verified right now.</p> : null}
         </div>
 
         <div className={styles.group}>

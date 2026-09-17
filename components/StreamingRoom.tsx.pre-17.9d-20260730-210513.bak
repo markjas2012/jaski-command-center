@@ -1,0 +1,157 @@
+import styles from "./StreamingRoom.module.css";
+
+const worthWatching = [
+  { title: "Movies", subtitle: "Feature films worth the time." },
+  { title: "Network Television", subtitle: "Current television worth tuning in for." },
+  { title: "Documentaries", subtitle: "Nonfiction worth sitting down for." },
+  { title: "Streaming Shows", subtitle: "The strongest series across your services." },
+];
+
+export default function StreamingRoom() {
+  return (
+    <div className={styles.room}>
+      <section className={styles.hero}>
+        <div className={styles.glowOne} aria-hidden="true" />
+        <div className={styles.glowTwo} aria-hidden="true" />
+        <div className={styles.eyebrow}>YOUR ENTERTAINMENT / ONE PLACE</div>
+        <div className={styles.heroCopy}>
+          <p className={styles.kicker}>STREAMING</p>
+          <h1>What are we watching?</h1>
+          <p className={styles.lede}>
+            Your services, your library, and the things actually worth watching — without browsing ten apps first.
+          </p>
+        </div>
+        <div className={styles.signal} aria-hidden="true">
+          <span className={styles.signalRing} />
+          <span className={styles.play}>▶</span>
+          <strong>ON</strong>
+          <small>JASKI STREAMING</small>
+        </div>
+        <div className={styles.footer}>
+          <span>SPRINT 17.9D · NO PLACEHOLDERS</span>
+          <span>LESS BROWSING. MORE WATCHING.</span>
+        </div>
+      </section>
+
+      <section className={styles.tonight}>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.sectionEyebrow}>WORTH WATCHING</p>
+            <h2>Worth your time.</h2>
+            <p className={styles.sectionCopy}>
+              Movies, network television, documentaries, and streaming shows — four clean shelves.
+            </p>
+          </div>
+          <span className={styles.pickCount}>LIVE DATA ONLY</span>
+        </div>
+
+        <div className={styles.worthShelves}>
+          {worthWatching.map((group) => (
+            <section className={styles.worthShelf} key={group.title}>
+              <div className={styles.worthShelfHead}>
+                <div>
+                  <span>WORTH WATCHING</span>
+                  <h3>{group.title}</h3>
+                  <p>{group.subtitle}</p>
+                </div>
+                <small>3 PICKS</small>
+              </div>
+
+              <div className={styles.liveUnavailable}>
+                <div>
+                  <span>LIVE SOURCE REQUIRED</span>
+                  <strong>No current picks are being shown.</strong>
+                  <p>
+                    This shelf will populate only from a verified live recommendation source. Static or guessed titles are intentionally hidden.
+                  </p>
+                </div>
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.newComing}>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.sectionEyebrow}>NEW & COMING</p>
+            <h2>What’s next.</h2>
+            <p className={styles.sectionCopy}>New releases, returning seasons, and premieres across your services.</p>
+          </div>
+          <span className={styles.pickCount}>LIVE DATA ONLY</span>
+        </div>
+
+        <div className={styles.liveUnavailable}>
+          <div>
+            <span>LIVE SOURCE REQUIRED</span>
+            <strong>No upcoming releases are being shown.</strong>
+            <p>
+              What’s Next will display only verified current premieres, releases, seasons, or episodes. Sample dates and placeholder titles have been removed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.services}>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.sectionEyebrow}>MY SERVICES</p>
+            <h2>Where you watch.</h2>
+            <p className={styles.sectionCopy}>Your streaming shelf — one clean place to jump into the services you already use.</p>
+          </div>
+          <span className={styles.pickCount}>12 SERVICES</span>
+        </div>
+
+        <div className={styles.serviceGrid}>
+          {[
+            ["YouTube TV","LIVE TV","https://tv.youtube.com/","/streaming-logos/youtubetv.svg"],
+            ["YouTube","VIDEO","https://www.youtube.com/","/streaming-logos/youtube.svg"],
+            ["Paramount+","STREAMING","https://www.paramountplus.com/","/streaming-logos/paramountplus.svg"],
+            ["Max","STREAMING","https://www.max.com/","/streaming-logos/max.svg"],
+            ["Disney+","STREAMING","https://www.disneyplus.com/","/streaming-logos/disneyplus.svg"],
+            ["Hulu","STREAMING","https://www.hulu.com/","/streaming-logos/hulu.svg"],
+            ["ESPN","SPORTS","https://www.espn.com/watch/","/streaming-logos/espn.svg"],
+            ["Discovery+","STREAMING","https://www.discoveryplus.com/","/streaming-logos/discoveryplus.svg"],
+            ["Peacock","STREAMING","https://www.peacocktv.com/","/streaming-logos/peacock.svg"],
+            ["Prime Video","STREAMING","https://www.primevideo.com/","/streaming-logos/primevideo.svg"],
+            ["Netflix","STREAMING","https://www.netflix.com/","/streaming-logos/netflix.svg"],
+            ["Apple TV","LIBRARY + TV","https://tv.apple.com/","/streaming-logos/appletv.svg"],
+          ].map(([name,kind,href,logo]) => (
+            <a className={styles.serviceCard} href={href} target="_blank" rel="noreferrer" key={name}>
+              <span className={styles.serviceMark}><img src={logo} alt="" aria-hidden="true" /></span>
+              <span className={styles.serviceText}><strong>{name}</strong><small>{kind}</small></span>
+              <span className={styles.serviceArrow}>↗</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.libraryShelf}>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.sectionEyebrow}>FROM YOUR LIBRARY</p>
+            <h2>Already yours.</h2>
+            <p className={styles.sectionCopy}>Movies and shows you own — separate from whatever happens to be streaming this month.</p>
+          </div>
+          <span className={styles.pickCount}>5 OWNED</span>
+        </div>
+
+        <div className={styles.libraryGrid}>
+          {[
+            ["The Dark Knight","APPLE TV",styles.libraryOne],
+            ["Gladiator","PRIME VIDEO",styles.libraryTwo],
+            ["The Godfather","APPLE TV",styles.libraryThree],
+            ["Heat","PRIME VIDEO",styles.libraryFour],
+            ["Top Gun: Maverick","APPLE TV",styles.libraryFive],
+          ].map(([title,service,art]) => (
+            <article className={`${styles.libraryCard} ${art}`} key={title}>
+              <div className={styles.libraryShade} />
+              <div className={styles.libraryTop}><span>{service}</span><span className={styles.ownedBadge}>OWNED</span></div>
+              <div className={styles.libraryBottom}><small>MOVIE</small><h3>{title}</h3><span>Purchased</span></div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}

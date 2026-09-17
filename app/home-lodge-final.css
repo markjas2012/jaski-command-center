@@ -245,3 +245,38 @@
     padding: 42px 82px 46px !important;
   }
 }
+
+/* Sprint 14.7 — Daily Ritual becomes a useful daily card without changing shell geometry. */
+.home-lodge-shell .ritual-actions {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  min-width: 0;
+}
+.home-lodge-shell .ritual-actions .ritual-reading {
+  min-height: 0;
+}
+.home-lodge-shell .ritual-reflection blockquote + p {
+  margin: 6px 0 0;
+  max-width: 760px;
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: .78;
+}
+@media (max-width: 980px) {
+  .home-lodge-shell .ritual-actions { grid-template-rows: auto; }
+}
+
+
+/* Sprint 14.7.1 — allow the expanded Daily Ritual to remain fully reachable. */
+@media (min-width: 901px) {
+  main.home-lodge-shell.app-shell > .content-stage {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-gutter: stable;
+  }
+  .home-lodge-shell .dashboard {
+    min-height: max-content;
+    padding-bottom: 12px;
+  }
+}

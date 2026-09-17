@@ -41,6 +41,8 @@ type WeatherState = {
 type Reflection = {
   source: string;
   quote: string;
+  prompt: string;
+  action: string;
   linkLabel: string;
   href: string;
 };
@@ -49,10 +51,13 @@ const ST_LOUIS_WEATHER_URL =
   "https://api.open-meteo.com/v1/forecast?latitude=38.6270&longitude=-90.1994&current=temperature_2m,apparent_temperature,weather_code,is_day,relative_humidity_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago&forecast_days=1";
 
 const reflections: Reflection[] = [
-  { source: "Marcus Aurelius", quote: "You have power over your mind — not outside events. Realize this, and you will find strength.", linkLabel: "Read Meditations", href: "https://www.gutenberg.org/ebooks/2680" },
-  { source: "Marcus Aurelius", quote: "The happiness of your life depends upon the quality of your thoughts.", linkLabel: "Read Meditations", href: "https://www.gutenberg.org/ebooks/2680" },
-  { source: "Epictetus", quote: "It is not things themselves that trouble us, but our judgments about them.", linkLabel: "Explore Stoicism", href: "https://www.gutenberg.org/ebooks/45109" },
-  { source: "Seneca", quote: "It is not that we have a short time to live, but that we waste much of it.", linkLabel: "Read Seneca", href: "https://www.gutenberg.org/ebooks/41476" },
+  { source: "Marcus Aurelius", quote: "The happiness of your life depends upon the quality of your thoughts.", prompt: "Give your attention to what you can actually influence today.", action: "Choose the one thing that would make today feel well spent — and do it before the day gets noisy.", linkLabel: "Read Meditations", href: "https://www.gutenberg.org/ebooks/2680" },
+  { source: "Epictetus", quote: "It is not things themselves that trouble us, but our judgments about them.", prompt: "Separate the event from the story you are telling yourself about it.", action: "When something irritates you today, wait one minute before deciding what it means.", linkLabel: "Read Epictetus", href: "https://www.gutenberg.org/ebooks/45109" },
+  { source: "Seneca", quote: "While we are postponing, life speeds by.", prompt: "A small thing finished is worth more than a perfect thing postponed.", action: "Finish one lingering five-minute task before opening another project.", linkLabel: "Read Seneca", href: "https://www.gutenberg.org/ebooks/41476" },
+  { source: "Psalm 118:24", quote: "This is the day the Lord has made; let us rejoice in it and be glad.", prompt: "Treat today as something received, not merely something to get through.", action: "Name one thing you are grateful for before moving into the rest of the day.", linkLabel: "Today’s Mass readings", href: "https://bible.usccb.org/readings/calendar" },
+  { source: "St. Francis de Sales", quote: "Be who you are and be that well.", prompt: "You do not need to solve everything today. Do the work that belongs to today well.", action: "Pick one responsibility and give it your full attention for the next 20 minutes.", linkLabel: "Daily readings", href: "https://bible.usccb.org/readings/calendar" },
+  { source: "Proverbs 16:3", quote: "Entrust your works to the Lord, and your plans will succeed.", prompt: "Begin with intention, then let the work itself become the next step.", action: "Write down today’s top priority in one sentence before you start it.", linkLabel: "Daily readings", href: "https://bible.usccb.org/readings/calendar" },
+  { source: "St. Augustine", quote: "Patience is the companion of wisdom.", prompt: "Not every problem improves by being hurried.", action: "Give one person or problem more patience than you normally would today.", linkLabel: "Daily readings", href: "https://bible.usccb.org/readings/calendar" },
 ];
 
 function describeWeather(code: number) {
@@ -310,15 +315,23 @@ export default function LiveDashboard() {
             <div>
               <p className="card-kicker">Today’s reflection · {reflection.source}</p>
               <blockquote>{reflection.quote}</blockquote>
+              <p>{reflection.prompt}</p>
             </div>
             <a href={reflection.href} target="_blank" rel="noreferrer">{reflection.linkLabel} ↗</a>
           </article>
 
-          <a className="ritual-reading" href="https://bible.usccb.org/readings/calendar" target="_blank" rel="noreferrer">
-            <span className="ritual-cross" aria-hidden="true">✝</span>
-            <span><small>Today’s Catholic reading</small><strong>Daily Mass Readings</strong></span>
-            <b>↗</b>
-          </a>
+          <div className="ritual-actions">
+            <div className="ritual-reading">
+              <span className="ritual-cross" aria-hidden="true">✓</span>
+              <span><small>One thing for today</small><strong>{reflection.action}</strong></span>
+            </div>
+
+            <a className="ritual-reading" href="https://bible.usccb.org/readings/calendar" target="_blank" rel="noreferrer">
+              <span className="ritual-cross" aria-hidden="true">✝</span>
+              <span><small>Today’s Catholic reading</small><strong>Daily Mass Readings</strong></span>
+              <b>↗</b>
+            </a>
+          </div>
         </div>
       </section>
     </div>

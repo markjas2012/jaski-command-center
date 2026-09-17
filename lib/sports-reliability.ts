@@ -31,12 +31,13 @@ type TeamConfig = {
   sport: string;
   league: string;
   espnTeamId: string;
+  extraLeagues?: string[];
 };
 
 const TEAMS: TeamConfig[] = [
   { key: 'cardinals', name: 'St. Louis Cardinals', shortName: 'Cardinals', sport: 'baseball', league: 'mlb', espnTeamId: '24' },
   { key: 'blues', name: 'St. Louis Blues', shortName: 'Blues', sport: 'hockey', league: 'nhl', espnTeamId: '19' },
-  { key: 'city', name: 'St. Louis CITY SC', shortName: 'CITY SC', sport: 'soccer', league: 'usa.1', espnTeamId: '21812' },
+  { key: 'city', name: 'St. Louis CITY SC', shortName: 'CITY SC', sport: 'soccer', league: 'usa.1', espnTeamId: '21812', extraLeagues: ['usa.open', 'concacaf.leagues.cup'] },
   { key: 'mizzou', name: 'Missouri Tigers', shortName: 'Mizzou', sport: 'football', league: 'college-football', espnTeamId: '142' },
 ];
 
@@ -82,7 +83,12 @@ function teamAbbr(c: any): string | undefined {
 
 function score(c: any): string | undefined {
   const v = c?.score;
-  return v === undefined || v === null || v === '' ? undefined : String(v);
+  if (v === undefined || v === null || v === '') return undefined;
+  if (typeof v === 'string' || typeof v === 'number') return String(v);
+  // ESPN team schedules sometimes return score as an object instead of the
+  // scoreboard's primitive value. Normalize both schemas here.
+  const nested = v?.displayValue ?? v?.value ?? v?.score ?? v?.total;
+  return nested === undefined || nested === null || nested === '' ? undefined : String(nested);
 }
 
 function record(c: any): string | undefined {
@@ -124,7 +130,13 @@ function describeMatch(event: any, cfg: TeamConfig) {
 
 async function fetchJson(url: string): Promise<any | undefined> {
   try {
-    const r = await fetch(url, { next: { revalidate: 120 }, headers: { Accept: 'application/json' } });
+    const r = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': 'Mozilla/5.0 (compatible; JaskiCommandCenter/14.7)',
+      },
+    });
     if (!r.ok) return undefined;
     return await r.json();
   } catch {
@@ -149,19 +161,59 @@ function dedupe(events: any[]): any[] {
   });
 }
 
+async function fetchTeamSchedule(cfg: TeamConfig, season?: number, league = cfg.league): Promise<any[]> {
+  const suffix = season ? `?season=${season}` : '';
+  const url = `https://site.api.espn.com/apis/site/v2/sports/${cfg.sport}/${league}/teams/${cfg.espnTeamId}/schedule${suffix}`;
+  const data = await fetchJson(url);
+  return Array.isArray(data?.events) ? data.events : [];
+}
+
 async function eventsFor(cfg: TeamConfig): Promise<any[]> {
   const now = new Date();
-  const pastStart = new Date(now.getTime() - 8 * DAY_MS);
-  const nearEnd = new Date(now.getTime() + 45 * DAY_MS);
-  let events = await fetchWindow(cfg, pastStart, nearEnd);
+  const currentYear = Number(new Intl.DateTimeFormat('en-US', {
+    timeZone: CENTRAL_TZ,
+    year: 'numeric',
+  }).format(now));
 
-  // Out-of-season schedules (NHL/CFB especially) may begin farther out.
-  const future = events.filter(e => (eventDate(e)?.getTime() ?? 0) >= now.getTime() - 6 * 60 * 60 * 1000);
-  if (!future.length) {
-    const farEnd = new Date(now.getTime() + 180 * DAY_MS);
-    events = dedupe([...events, ...(await fetchWindow(cfg, now, farEnd))]);
+  // Team schedule is substantially more reliable than scanning a league-wide
+  // scoreboard in a serverless production environment. The unqualified schedule
+  // lets ESPN choose the active season; adjacent season calls cover NHL/CFB
+  // season-boundary behavior and late-year schedule publication.
+  const leagues = [cfg.league, ...(cfg.extraLeagues ?? [])];
+  const scheduleSets = await Promise.all(
+    leagues.flatMap(league => [
+      fetchTeamSchedule(cfg, undefined, league),
+      fetchTeamSchedule(cfg, currentYear, league),
+      fetchTeamSchedule(cfg, currentYear + 1, league),
+    ])
+  );
+
+  let events = dedupe(scheduleSets.flat());
+
+  // Soccer cup schedules are not always exposed through a team's schedule
+  // resource. Merge a small competition scoreboard window for CITY so Open
+  // Cup/Leagues Cup results survive even if one ESPN resource is sparse.
+  if (cfg.extraLeagues?.length) {
+    const start = new Date(now.getTime() - 21 * DAY_MS);
+    const end = new Date(now.getTime() + 60 * DAY_MS);
+    const cupWindows = await Promise.all(cfg.extraLeagues.map(async league => {
+      const cupCfg = { ...cfg, league };
+      return fetchWindow(cupCfg, start, end);
+    }));
+    events = dedupe([...events, ...cupWindows.flat()]);
   }
-  return events.sort((a, b) => (eventDate(a)?.getTime() ?? 0) - (eventDate(b)?.getTime() ?? 0));
+
+  // Last-resort scoreboard fallback. This keeps the room useful if ESPN changes
+  // one team's schedule endpoint while leaving its league scoreboard online.
+  if (!events.length) {
+    const pastStart = new Date(now.getTime() - 14 * DAY_MS);
+    const nearEnd = new Date(now.getTime() + 60 * DAY_MS);
+    events = await fetchWindow(cfg, pastStart, nearEnd);
+  }
+
+  return events
+    .filter((e: any) => competitors(e).some((c: any) => teamId(c) === cfg.espnTeamId))
+    .sort((a, b) => (eventDate(a)?.getTime() ?? 0) - (eventDate(b)?.getTime() ?? 0));
 }
 
 function latestCompleted(events: any[], cfg: TeamConfig, now: Date) {
@@ -173,7 +225,7 @@ function latestCompleted(events: any[], cfg: TeamConfig, now: Date) {
   const a = Number(m.mineScore), b = Number(m.oppScore);
   const wl = Number.isFinite(a) && Number.isFinite(b) ? (a > b ? 'W' : a < b ? 'L' : 'T') : '';
   return {
-    summary: `${wl ? wl + ' ' : ''}${m.mineScore}-${m.oppScore} vs ${m.opponentAbbr}`,
+    summary: `${wl ? wl + ' ' : ''}${m.mineScore}-${m.oppScore} ${m.homeAway === 'away' ? '@' : 'vs'} ${m.opponentAbbr}`,
     at: eventDate(e)?.toISOString(),
     mineScore: m.mineScore,
     opponentScore: m.oppScore,

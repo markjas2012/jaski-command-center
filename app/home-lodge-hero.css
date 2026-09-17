@@ -1,0 +1,61 @@
+/* Sprint 17.19j — rich leather homepage hero and protected corner insets. */
+.home-lodge-shell .dashboard-header {
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 82px;
+  padding: 13px 30px 13px 42px;
+  border: 3px solid #2b180f;
+  background:
+    linear-gradient(96deg,rgba(12,6,4,.72),transparent 30%,rgba(216,168,105,.07) 53%,rgba(8,4,3,.66)),
+    url("/home-lodge/dashboard-leather.svg") center/cover no-repeat;
+  box-shadow:
+    inset 0 0 0 1px rgba(205,161,83,.78),
+    inset 0 0 0 6px rgba(24,12,8,.78),
+    inset 0 14px 18px rgba(229,181,116,.09),
+    inset 0 -15px 23px rgba(8,3,2,.64),
+    0 11px 24px rgba(5,2,1,.40);
+}
+
+.home-lodge-shell .dashboard-header::before {
+  inset: 8px;
+  z-index: -1;
+  border: 1px dashed rgba(213,170,100,.48);
+  border-radius: 10px;
+  background: url("/home-lodge/brass-corners.svg") center/100% 100% no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(20,9,6,.48);
+}
+
+.home-lodge-shell .dashboard-eyebrow,
+.home-lodge-shell .dashboard-date {
+  position: relative;
+  z-index: 2;
+  margin-left: 0;
+}
+
+.home-lodge-shell .dashboard-eyebrow {
+  color: #d7b56d;
+  text-shadow: 0 1px 2px rgba(0,0,0,.72);
+}
+
+.home-lodge-shell .dashboard-header h1 {
+  position: relative;
+  z-index: 2;
+  color: #fff7e6;
+  text-shadow: 0 2px 1px #160b07,0 5px 13px rgba(0,0,0,.54);
+}
+
+.home-lodge-shell .dashboard-date {
+  color: rgba(242,224,191,.78);
+  text-shadow: 0 1px 2px rgba(0,0,0,.72);
+}
+
+.home-lodge-shell .dashboard-header::after {
+  margin-right: 2px;
+  border-color: rgba(220,181,108,.58);
+  color: #ead19a;
+  background: linear-gradient(180deg,rgba(42,57,43,.88),rgba(19,31,23,.9));
+}
+
+@media (max-width:900px) {
+  .home-lodge-shell .dashboard-header { padding-left: 32px; }
+}
