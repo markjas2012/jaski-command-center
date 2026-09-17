@@ -129,19 +129,33 @@ function describeMatch(event: any, cfg: TeamConfig) {
 }
 
 async function fetchJson(url: string): Promise<any | undefined> {
-  try {
-    const r = await fetch(url, {
-      cache: 'no-store',
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': 'Mozilla/5.0 (compatible; JaskiCommandCenter/14.7)',
-      },
-    });
-    if (!r.ok) return undefined;
-    return await r.json();
-  } catch {
-    return undefined;
+  // ESPN tightened its edge rules in 2026. In particular, browser-shaped
+  // User-Agent headers can be rejected even when the same endpoint works
+  // with a plain server request. Vercel was therefore getting empty sports
+  // cards while localhost still appeared healthy.
+  //
+  // Keep the request intentionally minimal and try ESPN's site.web host as
+  // a second first-party path if the traditional site.api host is rejected.
+  const candidates = [
+    url,
+    url.replace('https://site.api.espn.com/', 'https://site.web.api.espn.com/'),
+  ].filter((value, index, all) => all.indexOf(value) === index);
+
+  for (const candidate of candidates) {
+    try {
+      const r = await fetch(candidate, {
+        cache: 'no-store',
+        headers: { Accept: 'application/json' },
+      });
+      if (!r.ok) continue;
+      const data = await r.json();
+      if (data) return data;
+    } catch {
+      // Try the next ESPN first-party host.
+    }
   }
+
+  return undefined;
 }
 
 async function fetchWindow(cfg: TeamConfig, start: Date, end: Date): Promise<any[]> {
