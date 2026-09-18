@@ -2,7 +2,6 @@
 
 import MyTeams from "./MyTeams";
 import SportsBoard from "./SportsBoard";
-import SportsHeroScore from "./SportsHeroScore";
 import styles from "./SportsRoom.module.css";
 
 export default function SportsRoom() {
@@ -15,9 +14,7 @@ export default function SportsRoom() {
           <p className={styles.lede}>
             St. Louis first. Then the games worth your time. No wall of scores.
           </p>
-
-          <SportsHeroScore />
-        </div>
+</div>
 
         <div className={styles.badge} data-sports-hero-badge aria-hidden="true">
           <span className={styles.badgeLetter}>S</span>

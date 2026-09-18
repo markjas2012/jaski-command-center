@@ -1,4 +1,4 @@
-/* Sprint 14.3S — Sports hero specificity fix
+﻿/* Sprint 14.3S â€” Sports hero specificity fix
    Loaded after sports-clubhouse.css.
    This intentionally uses MORE specificity than the legacy 17.21c/e/f/g/i
    structural selectors, because those selectors also use !important. */
@@ -305,3 +305,14 @@ html body .app-shell.sports-clubhouse-shell [data-sports-hero-copy]::after {
     gap: 10px !important;
   }
 }
+
+
+
+/* SPRINT 14.7.6 â€” HERO SCORE REMOVED / CLEAN COMPACT HERO */
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy]{
+  transform:translateY(-48%)!important;
+}
+html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-footer]{
+  padding-top:9px!important;
+}
+

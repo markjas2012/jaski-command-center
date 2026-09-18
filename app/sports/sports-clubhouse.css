@@ -779,3 +779,93 @@
   }
 }
 
+
+
+
+/* SPRINT 14.7.5 â€” 75% COMPACT SPORTS CARDS + CLEAN CARDINALS */
+.sports-clubhouse-shell [class*="MyTeams"][class*="wrap"]{
+  padding:14px 16px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="heading"]{
+  margin-bottom:8px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="grid"]{
+  gap:7px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="card"]{
+  grid-template-columns:125px 1fr auto!important;
+  gap:12px!important;
+  min-height:0!important;
+  height:86px!important;
+  padding:9px 12px!important;
+  border-radius:12px!important;
+  outline-offset:-4px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="mark"]{
+  width:42px!important;height:42px!important;border-radius:12px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="state"]{margin-bottom:3px!important}
+.sports-clubhouse-shell [class*="MyTeams"][class*="game"] h3{
+  margin-bottom:3px!important;font-size:20px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="game"] p{line-height:1.2!important}
+.sports-clubhouse-shell [class*="MyTeams"][class*="latestResult"]{
+  margin-top:6px!important;padding-top:5px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="meta"]{
+  margin-top:5px!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="meta"] span{
+  padding:3px 6px!important;
+}
+
+/* Cardinals: one calm, solid field â€” no cream split, rings, stripes, or texture. */
+.sports-clubhouse-shell [class*="MyTeams"][class*="card"]:nth-child(1){
+  background:#7a2028!important;
+  border-color:#a95858!important;
+  color:#fff1df!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="card"]:nth-child(1)::after{
+  content:none!important;display:none!important;background:none!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="card"]:nth-child(1) :is(h3,p,strong,b,span,small){
+  color:#fff1df!important;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="card"]:nth-child(1) [class*="identity"] :is(strong,small){
+  color:#fff1df!important;
+}
+
+/* League links / Tonight's Board: roughly 75% less vertical bulk. */
+.sports-clubhouse-shell .content-shell > main > section:nth-of-type(3){
+  padding:34px 12px 10px!important;
+}
+.sports-clubhouse-shell .content-shell > main > section:nth-of-type(3)::before{
+  top:5px!important;padding:3px 28px!important;font-size:12px!important;
+}
+.sports-clubhouse-shell [class*="SportsBoard"][class*="board"]{
+  padding:12px!important;
+}
+.sports-clubhouse-shell [class*="SportsBoard"][class*="heading"]{
+  margin-bottom:8px!important;
+}
+.sports-clubhouse-shell [class*="SportsBoard"][class*="utility"]{
+  min-height:0!important;margin-top:7px!important;padding:8px 10px!important;border-radius:11px!important;
+}
+.sports-clubhouse-shell [class*="SportsBoard"][class*="utility"] h3{
+  margin-bottom:2px!important;font-size:18px!important;
+}
+.sports-clubhouse-shell [class*="SportsBoard"][class*="utility"] p{
+  margin-bottom:3px!important;
+}
+.sports-clubhouse-shell [class*="SportsBoard"][class*="utilityLinks"]{gap:5px!important}
+.sports-clubhouse-shell [class*="SportsBoard"][class*="utilityLinks"] a{
+  padding:5px 8px!important;border-radius:8px!important;
+}
+
+@media(max-width:950px){
+ .sports-clubhouse-shell [class*="MyTeams"][class*="card"]{height:auto!important;min-height:82px!important}
+}
+@media(max-width:650px){
+ .sports-clubhouse-shell [class*="MyTeams"][class*="card"]{grid-template-columns:1fr!important;height:auto!important}
+}
+
