@@ -3,7 +3,6 @@
 import DeadTodayCard from "./DeadTodayCard";
 import PhishFeature from "./PhishFeature";
 import WidespreadPanicFeature from "./WidespreadPanicFeature";
-import JamLive from "./JamLive";
 import JamTonight from "./JamTonight";
 import JamListen from "./JamListen";
 import styles from "./JamHero.module.css";
@@ -14,18 +13,10 @@ export default function JamHero() {
       <section className={styles.hero}>
         <h1>Jam Room.</h1>
       </section>
-
-      <section className={styles.deadSection}>
-        <DeadTodayCard />
-      </section>
-
+      <section className={styles.deadSection}><DeadTodayCard /></section>
       <PhishFeature />
-
       <WidespreadPanicFeature />
-      <JamLive />
-
       <JamTonight />
-
       <JamListen />
     </main>
   );

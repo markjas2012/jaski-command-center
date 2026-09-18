@@ -60,116 +60,31 @@ function ShowCard({ item, fallbackLabel }: { item?: Item | null; fallbackLabel: 
   );
 }
 
-function Exclusive({
-  label,
-  sub,
-  items,
-  href,
-}: {
-  label: string;
-  sub: string;
-  items: Item[];
-  href: string;
-}) {
-  return (
-    <article className={styles.exclusive}>
-      <div className={styles.exclusiveHead}>
-        <div>
-          <span>{label}</span>
-          <h3>{sub}</h3>
-        </div>
-        <a href={href} target="_blank" rel="noreferrer">Open nugs ↗</a>
-      </div>
-
-      <div className={styles.exclusiveItems}>
-        {(items.length ? items.slice(0, 2) : [null, null]).map((item, index) =>
-          item ? (
-            <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
-              <small>NUGS</small>
-              <strong>{item.artist || item.title}</strong>
-              <span>{[item.venue, item.location, item.date].filter(Boolean).join(" · ") || "Recently added"}</span>
-              <b>↗</b>
-            </a>
-          ) : (
-            <div className={styles.exclusivePlaceholder} key={index}>
-              <small>NUGS</small>
-              <strong>Recent exclusive</strong>
-              <span>Open nugs for the newest release.</span>
-            </div>
-          )
-        )}
-      </div>
-    </article>
-  );
-}
-
 export default function JamListen() {
   const [feed, setFeed] = useState<Feed | null>(null);
-
   useEffect(() => {
     let active = true;
-
     fetch("/api/jam-listen", { cache: "no-store" })
-      .then((res) => {
-        if (!res.ok) throw new Error(`jam-listen ${res.status}`);
-        return res.json();
-      })
+      .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data) => active && setFeed(data))
       .catch(() => active && setFeed(null));
-
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, []);
-
   const discovery = feed?.discovery?.length
     ? feed.discovery
     : rotatingArtists.map((artist) => feed?.latest?.[artist]).filter((item): item is Item => Boolean(item));
   const seen = new Set(discovery.map((item) => item.artist));
   const missing = rotatingArtists.filter((artist) => !seen.has(artist));
-
   return (
     <section className={styles.wrap}>
-      <div className={styles.heading}>
-        <div>
-          <p>LISTEN NOW</p>
-          <h2>Put something good on.</h2>
-        </div>
-        <span>{feed?.updatedAt ? `Updated ${feed.updatedAt}` : "Nugs video, audio & latest shows"}</span>
-      </div>
-
-      <div className={`${styles.exclusiveGrid} ${styles.compactListenNow}`}>
-        <Exclusive
-          label="NUGS.TV"
-          sub="Recent video exclusives."
-          items={feed?.video || []}
-          href="https://www.nugs.net/watch-live-music/"
-        />
-        <Exclusive
-          label="NUGS.NET"
-          sub="Recent audio exclusives."
-          items={feed?.audio || []}
-          href="https://www.nugs.net/recentlyadded.html"
-        />
-      </div>
-
       <div className={styles.latestHeading}>
-        <div>
-          <p>DISCOVER LIVE</p>
-          <h3>What else is playing?</h3>
-        </div>
-        <span>Newest verified shows first. Older results fall to the back.</span>
+        <div><p>DISCOVER LIVE</p><h3>What else is playing?</h3></div>
+        <span>Newest verified shows first.</span>
       </div>
-
       <div className={styles.rotatingGrid}>
-        {discovery.map((item) => (
-          <ShowCard key={item.artist} item={item} fallbackLabel={item.artist} />
-        ))}
-        {missing.map((artist) => (
-          <ShowCard key={artist} item={null} fallbackLabel={artist} />
-        ))}
+        {discovery.map((item) => <ShowCard key={item.artist} item={item} fallbackLabel={item.artist} />)}
+        {missing.map((artist) => <ShowCard key={artist} item={null} fallbackLabel={artist} />)}
       </div>
     </section>
   );
 }
-

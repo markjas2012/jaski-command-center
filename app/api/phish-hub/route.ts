@@ -370,16 +370,42 @@ function parseNews(html: string): News[] {
   return out;
 }
 
+function parseOfficialUpcoming(html: string): Show | null {
+  const today = new Date().toISOString().slice(0, 10);
+  const blocks = [...html.matchAll(/<a[^>]+href=["']([^"']*\/tours\/dates\/[^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)];
+  const candidates: Show[] = [];
+  for (const match of blocks) {
+    const href = new URL(match[1], "https://phish.com").toString();
+    const slug = href.match(/\/(?:mon|tue|wed|thu|fri|sat|sun)-(\d{4})-(\d{1,2})-(\d{1,2})-/i);
+    if (!slug) continue;
+    const iso = `${slug[1]}-${slug[2].padStart(2,"0")}-${slug[3].padStart(2,"0")}`;
+    if (iso < today) continue;
+    const chunkStart = Math.max(0, (match.index ?? 0) - 1000);
+    const chunk = html.slice(chunkStart, Math.min(html.length, (match.index ?? 0) + match[0].length + 1800));
+    const plain = decode(chunk);
+    const venue = decode(match[2]).replace(/details|tickets|sold out|livestream/gi," ").replace(/\s+/g," ").trim();
+    const loc = plain.match(/\b([A-Z][A-Za-z .'-]+),\s*([A-Z]{2})\b/);
+    candidates.push({date:normalizeDate(iso),venue,location:loc?`${loc[1].trim()}, ${loc[2]}`:"",href,songs:[],sets:[],source:"Phish.com"});
+  }
+  return candidates.sort((a,b)=>(isoDate(a.date||"")).localeCompare(isoDate(b.date||"")))[0] || null;
+}
+async function upcomingFromOfficial(): Promise<Show | null> {
+  try { return parseOfficialUpcoming(await fetchText("https://phish.com/tours/")); } catch { return null; }
+}
+
 export async function GET() {
-  const [apiLatest, newsHtml] = await Promise.all([
+  const [apiLatest, newsHtml, next] = await Promise.all([
     latestFromApi().catch(() => null),
     fetchText(NEWS).catch(() => ""),
+    upcomingFromOfficial(),
   ]);
 
   const latest = await enrichFromPhishInPage(apiLatest);
 
   return NextResponse.json({
     latest,
+    next,
+    upcoming: next ? [next] : [],
     news: newsHtml ? parseNews(newsHtml) : [],
     links: {
       setlists: latest?.href || PHISHNET_SETLISTS,

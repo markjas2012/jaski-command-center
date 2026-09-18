@@ -10,6 +10,7 @@ type News = { title: string; href: string; date?: string };
 
 const SITE = "https://widespreadpanic.com";
 const PAST = `${SITE}/shows/past/`;
+const UPCOMING = `${SITE}/shows/`;
 const NEWS = `${SITE}/news/`;
 const EC = "https://www.everydaycompanion.com/setlists/mostrecent.asp";
 const NUGS = "https://www.nugs.net/widespread-panic-concerts-live-downloads-in-mp3-flac-or-online-music-streaming/";
@@ -168,16 +169,47 @@ async function getLatest(): Promise<Show | null> {
   try { return parseEverydayCompanion(await fetchText(EC)); } catch { return null; }
 }
 
+function parseUpcoming(html: string): Show | null {
+  const today = new Date().toISOString().slice(0, 10);
+  const matches = [...html.matchAll(/href=["']([^"']*\/shows\/(\d{4}-\d{2}-\d{2})-[^"']+)["']/gi)];
+  const candidates: Show[] = [];
+  for (const match of matches) {
+    const iso = match[2];
+    if (iso < today) continue;
+    const href = absolute(match[1]);
+    const start = Math.max(0,(match.index??0)-1000);
+    const chunk = html.slice(start,Math.min(html.length,(match.index??0)+match[0].length+1600));
+    const plain = decode(chunk);
+    const venueMatch = plain.match(/(?:Sep|Oct|Nov|Dec|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug)\s+\d{1,2}\s+([^]+?)(?:RSVP|Tickets|More Info)/i);
+    const cityState = plain.match(/\b([A-Z][A-Za-z .'-]+),\s*([A-Z]{2})(?:,|\s|$)/);
+    let venue = venueMatch ? venueMatch[1].replace(/\s+/g," ").trim() : "";
+    if(cityState && venue.includes(cityState[0])) venue=venue.split(cityState[0])[0].trim();
+    candidates.push({date:prettyDate(iso),venue,location:cityState?`${cityState[1].trim()}, ${cityState[2]}`:"",href,songs:[],sets:[],source:"WidespreadPanic.com"});
+  }
+  return candidates.sort((a,b)=>{
+    const ai=(a.date||"").split("/"); const bi=(b.date||"").split("/");
+    const A=ai.length===3?`${ai[2]}-${ai[0]}-${ai[1]}`:"";
+    const B=bi.length===3?`${bi[2]}-${bi[0]}-${bi[1]}`:"";
+    return A.localeCompare(B);
+  })[0] || null;
+}
+async function getUpcoming(): Promise<Show | null> {
+  try { return parseUpcoming(await fetchText(UPCOMING)); } catch { return null; }
+}
+
 export async function GET() {
-  const [latest, news] = await Promise.all([
+  const [latest, news, next] = await Promise.all([
     getLatest(),
     fetchText(NEWS).then(parseNews).catch(() => [] as News[]),
+    getUpcoming(),
   ]);
 
   return NextResponse.json({
     latest,
+    next,
+    upcoming: next ? [next] : [],
     news,
-    links: { shows: PAST, news: NEWS, nugs: NUGS, archive: EC },
+    links: { shows: PAST, tour: UPCOMING, news: NEWS, nugs: NUGS, archive: EC },
     updatedAt: new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(new Date()),
   }, { headers: { "Cache-Control": "no-store, max-age=0" } });
 }
