@@ -245,59 +245,17 @@ export default async function GamingRoom() {
         </div>
       </section>
 
-      <section className={`${styles.panel} ${styles.fightPanel}`}>
-        <div className={styles.fightDecor} aria-hidden="true">
-          <span className={styles.tourneyFlyer}>TOURNEY<br /><b>SAT 9PM</b><br />STREET FIGHTER<br />KILLER INSTINCT</span>
-          <span className={styles.rulesFlyer}>KEEP IT<br /><b>CASUAL</b><br /><small>NO SALT<br />NO CHEATING<br />JUST GAMES</small></span>
-          <span className={styles.smileySticker}>:)</span>
+      <section className={`${styles.panel} ${styles.fightLinksPanel}`}>
+        <div className={styles.fightLinksHead}>
+          <span>FIGHTING GAMES</span>
+          <strong>Quick links.</strong>
         </div>
-        <div className={styles.sectionHead}>
-          <div>
-            <p className={styles.sectionEyebrow}>FIGHT NIGHT</p>
-            <h2>The tournament desk.</h2>
-            <p className={styles.sectionCopy}>Fighting-game news, brackets, and live streams without the endless feed.</p>
-          </div>
-          <span className={styles.count}>FGC / ESPORTS</span>
-        </div>
-
-        <div className={styles.fightGrid}>
-          <a className={`${styles.fightCard} ${styles.fightFeatured}`} href="https://www.start.gg/search/tournaments" target="_blank" rel="noreferrer">
-            <div className={styles.fightTop}><span>TOURNAMENTS</span><b>START.GG</b></div>
-            <h3>Find the next bracket.</h3>
-            <p>Major events and community tournaments for Mortal Kombat, Killer Instinct, Street Fighter, Tekken, and more.</p>
-            <div className={styles.gameTags}><span>MK</span><span>KI</span><span>SF</span><span>TEKKEN</span><span>SOULCALIBUR</span></div>
-            <strong className={styles.fightAction}>BROWSE EVENTS â†—</strong>
-          </a>
-
-          <div className={`${styles.fightCard} ${styles.eventHubsCard}`}>
-            <div className={styles.fightTop}><span>FIGHT LAB</span><b>EVENTHUBS</b></div>
-            <h3>Know the matchup.</h3>
-            <p>Tier boards, tournament results, and the changes shaping the fighting games you follow.</p>
-            <div className={styles.eventHubsLinks}>
-              <a href="https://www.eventhubs.com/tiers/" target="_blank" rel="noreferrer">
-                <span><small>RANKINGS</small>Tier Lists</span><b>â†—</b>
-              </a>
-              <a href="https://www.eventhubs.com/news/" target="_blank" rel="noreferrer">
-                <span><small>RESULTS + NEWS</small>FGC Headlines</span><b>â†—</b>
-              </a>
-            </div>
-            <a className={styles.eventHubsLaunch} href="https://www.eventhubs.com/" target="_blank" rel="noreferrer">
-              <span className={styles.eventHubsIcon}>E</span>
-              <span><small>FIGHTING GAME HUB</small><strong>Open EventHubs</strong></span>
-              <b>OPEN â†—</b>
-            </a>
-          </div>
-
-          <div className={`${styles.fightCard} ${styles.twitchCard}`}>
-            <div className={styles.fightTop}><span>WATCH LIVE</span><b>TWITCH</b></div>
-            <h3>Enter the arena.</h3>
-            <p>Jump directly to the fighting-game directories currently worth checking.</p>
-            <div className={styles.twitchLinks}>
-              <a href="https://www.twitch.tv/directory/category/mortal-kombat-1" target="_blank" rel="noreferrer">Mortal Kombat <span>â†—</span></a>
-              <a href="https://www.twitch.tv/directory/category/street-fighter-6" target="_blank" rel="noreferrer">Street Fighter 6 <span>â†—</span></a>
-              <a href="https://www.twitch.tv/directory/category/tekken-8" target="_blank" rel="noreferrer">Tekken 8 <span>â†—</span></a>
-            </div>
-          </div>
+        <div className={styles.fightQuickLinks}>
+          <a href="https://www.start.gg/search/tournaments" target="_blank" rel="noreferrer">Start.gg ↗</a>
+          <a href="https://www.eventhubs.com/tiers/" target="_blank" rel="noreferrer">EventHubs ↗</a>
+          <a href="https://www.twitch.tv/directory/category/mortal-kombat-1" target="_blank" rel="noreferrer">Mortal Kombat on Twitch ↗</a>
+          <a href="https://www.twitch.tv/directory/category/street-fighter-6" target="_blank" rel="noreferrer">Street Fighter 6 on Twitch ↗</a>
+          <a href="https://www.twitch.tv/directory/category/tekken-8" target="_blank" rel="noreferrer">Tekken 8 on Twitch ↗</a>
         </div>
       </section>
 
