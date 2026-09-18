@@ -1,9 +1,7 @@
 "use client";
 
 import MyTeams from "./MyTeams";
-import WorthWatching from "./WorthWatching";
 import SportsBoard from "./SportsBoard";
-import SportsNews from "./SportsNews";
 import SportsHeroScore from "./SportsHeroScore";
 import styles from "./SportsRoom.module.css";
 
@@ -33,9 +31,7 @@ export default function SportsRoom() {
       </section>
 
       <MyTeams />
-      <WorthWatching />
       <SportsBoard />
-      <SportsNews />
     </main>
   );
 }

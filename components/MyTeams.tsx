@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./MyTeams.module.css";
 
 type ApiTeam = {
-  key: "cardinals" | "blues" | "city" | "mizzou";
+  key: "cardinals" | "blues" | "city" | "mizzou" | "buckeyes";
   name: string;
   shortName: string;
   record?: string;
@@ -69,6 +69,12 @@ const identity: Record<ApiTeam["key"], { league: string; mark: string; href: str
     logo: "https://a.espncdn.com/i/teamlogos/ncaa/500/142.png",
     href: "https://www.espn.com/college-football/team/_/id/142/missouri-tigers",
   },
+  buckeyes: {
+    league: "NCAA",
+    mark: "O",
+    logo: "https://a.espncdn.com/i/teamlogos/ncaa/500/194.png",
+    href: "https://www.espn.com/college-football/team/_/id/194/ohio-state-buckeyes",
+  },
 };
 
 const fallback: TeamCard[] = [
@@ -76,6 +82,7 @@ const fallback: TeamCard[] = [
   { key: "blues", team: "Blues", league: "NHL", mark: "STL", state: "OFF", headline: "Blues", detail: "Schedule data unavailable right now.", href: identity.blues.href },
   { key: "city", team: "CITY SC", league: "MLS", mark: "CITY", state: "OFF", headline: "CITY SC", detail: "Schedule data unavailable right now.", href: identity.city.href },
   { key: "mizzou", team: "Mizzou", league: "NCAA", mark: "M", state: "OFF", headline: "Mizzou", detail: "Schedule data unavailable right now.", href: identity.mizzou.href },
+  { key: "buckeyes", team: "Ohio State", league: "NCAA", mark: "O", state: "OFF", headline: "Ohio State", detail: "Schedule data unavailable right now.", href: identity.buckeyes.href },
 ];
 
 function formatWhen(iso?: string) {
@@ -95,7 +102,7 @@ function formatWhen(iso?: string) {
 function matchup(team: ApiTeam) {
   if (!team.opponentAbbr) return team.shortName;
 
-  const mine = team.key === "mizzou" ? "MIZ" : team.key === "city" ? "STL" : "STL";
+  const mine = team.key === "mizzou" ? "MIZ" : team.key === "buckeyes" ? "OSU" : "STL";
   return team.homeAway === "away"
     ? `${mine} @ ${team.opponentAbbr}`
     : `${team.opponentAbbr} @ ${mine}`;
@@ -175,7 +182,7 @@ export default function MyTeams() {
   const teams = useMemo(() => {
     if (!payload?.teams?.length) return fallback;
     const cards = payload.teams.map(toCard);
-    const order: ApiTeam["key"][] = ["cardinals", "blues", "city", "mizzou"];
+    const order: ApiTeam["key"][] = ["cardinals", "blues", "city", "mizzou", "buckeyes"];
     return cards.sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
   }, [payload]);
 
@@ -193,7 +200,7 @@ export default function MyTeams() {
           <h2>St. Louis first.</h2>
           <small>Next game, record, and the latest result when the feed has it.</small>
         </div>
-        <span>{updated ? `Updated ${updated}` : failed ? "Live feed temporarily unavailable" : "Cardinals · Blues · CITY SC · Mizzou"}</span>
+        <span>{updated ? `Updated ${updated}` : failed ? "Live feed temporarily unavailable" : "Cardinals · Blues · CITY SC · Mizzou · Ohio State"}</span>
       </div>
 
       <div className={styles.grid}>

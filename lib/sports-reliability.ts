@@ -1,4 +1,4 @@
-export type TeamKey = 'cardinals' | 'blues' | 'city' | 'mizzou';
+export type TeamKey = 'cardinals' | 'blues' | 'city' | 'mizzou' | 'buckeyes';
 
 export type TeamCardData = {
   key: TeamKey;
@@ -39,6 +39,7 @@ const TEAMS: TeamConfig[] = [
   { key: 'blues', name: 'St. Louis Blues', shortName: 'Blues', sport: 'hockey', league: 'nhl', espnTeamId: '19' },
   { key: 'city', name: 'St. Louis CITY SC', shortName: 'CITY SC', sport: 'soccer', league: 'usa.1', espnTeamId: '21812', extraLeagues: ['usa.open', 'concacaf.leagues.cup'] },
   { key: 'mizzou', name: 'Missouri Tigers', shortName: 'Mizzou', sport: 'football', league: 'college-football', espnTeamId: '142' },
+  { key: 'buckeyes', name: 'Ohio State Buckeyes', shortName: 'Ohio State', sport: 'football', league: 'college-football', espnTeamId: '194' },
 ];
 
 const CENTRAL_TZ = 'America/Chicago';
