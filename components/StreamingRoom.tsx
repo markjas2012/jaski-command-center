@@ -384,24 +384,20 @@ function LiveCards({ picks }: { picks: Pick[] }) {
 export default async function StreamingRoom() {
   const hasTmdb = Boolean(process.env.TMDB_READ_ACCESS_TOKEN?.trim() || process.env.TMDB_API_KEY?.trim());
 
-  const [movies, documentaries, television] = hasTmdb
-    ? await Promise.all([loadMovies(), loadDocumentaries(), loadTelevisionShelves()])
-    : [[], [], { network: [], streaming: [] }];
+  const [movies, television] = hasTmdb
+    ? await Promise.all([loadMovies(), loadTelevisionShelves()])
+    : [[], { network: [], streaming: [] }];
 
   const existingIds = new Set<number>([
     ...movies.map((pick) => pick.id),
-    ...documentaries.map((pick) => pick.id),
-    ...television.network.map((pick) => pick.id),
     ...television.streaming.map((pick) => pick.id),
   ]);
 
   const upcoming = hasTmdb ? await loadUpcoming(existingIds) : [];
 
   const shelves = [
-    { title: "Movies", subtitle: "Feature films worth the time.", picks: movies },
-    { title: "Network Television", subtitle: "Current television worth tuning in for.", picks: television.network },
-    { title: "Documentaries", subtitle: "Nonfiction worth sitting down for.", picks: documentaries },
     { title: "Streaming Shows", subtitle: "The strongest series across your services.", picks: television.streaming },
+    { title: "Movies", subtitle: "Feature films worth the time.", picks: movies },
   ];
 
   return (
@@ -432,7 +428,7 @@ export default async function StreamingRoom() {
           <div>
             <p className={styles.sectionEyebrow}>WORTH WATCHING</p>
             <h2>Worth your time.</h2>
-            <p className={styles.sectionCopy}>Movies, network television, documentaries, and streaming shows - four clean shelves.</p>
+            <p className={styles.sectionCopy}>Streaming shows and movies worth your time - two clean shelves.</p>
           </div>
           <span className={styles.pickCount}>{hasTmdb ? "LIVE - TMDB" : "TMDB TOKEN NEEDED"}</span>
         </div>
