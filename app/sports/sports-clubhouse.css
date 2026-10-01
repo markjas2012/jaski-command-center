@@ -795,8 +795,8 @@
 .sports-clubhouse-shell [class*="MyTeams"][class*="card"]{
   grid-template-columns:125px 1fr auto!important;
   gap:12px!important;
-  min-height:0!important;
-  height:86px!important;
+  min-height:86px!important;
+  height:auto!important;
   padding:9px 12px!important;
   border-radius:12px!important;
   outline-offset:-4px!important;
@@ -811,6 +811,16 @@
 .sports-clubhouse-shell [class*="MyTeams"][class*="game"] p{line-height:1.2!important}
 .sports-clubhouse-shell [class*="MyTeams"][class*="latestResult"]{
   margin-top:6px!important;padding-top:5px!important;
+  flex-wrap:wrap;
+  gap:4px 8px;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="latestResult"] small{
+  color:#b8c2d3;
+  font-size:12px;
+}
+.sports-clubhouse-shell [class*="MyTeams"][class*="latestResult"] b{
+  font-size:14px;
+  line-height:1.3;
 }
 .sports-clubhouse-shell [class*="MyTeams"][class*="meta"]{
   margin-top:5px!important;
@@ -868,4 +878,3 @@
 @media(max-width:650px){
  .sports-clubhouse-shell [class*="MyTeams"][class*="card"]{grid-template-columns:1fr!important;height:auto!important}
 }
-
