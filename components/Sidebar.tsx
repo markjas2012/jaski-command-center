@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThemeSwitch from "./ThemeSwitch";
 import "./SidebarStability.css";
 
 type SidebarProps = {
@@ -53,7 +54,7 @@ export default function Sidebar({ activePage = "home" }: SidebarProps) {
         </div>
       </nav>
 
-      <p className="sidebar-footer"></p>
+      <ThemeSwitch />
     </aside>
   );
 }

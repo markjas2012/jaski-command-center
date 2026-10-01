@@ -1,0 +1,229 @@
+/* Theme controls remain available in every room, including Original. */
+.theme-control { margin-top:auto; padding:20px 6px 4px; }
+.theme-control-label { display:block; margin-bottom:10px; font-size:12px; font-weight:700; letter-spacing:.1em; }
+.theme-switch { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; padding:10px; border:1px solid color-mix(in srgb,currentColor 22%,transparent); border-radius:12px; background:color-mix(in srgb,currentColor 5%,transparent); color:inherit; cursor:pointer; text-align:left; }
+.theme-switch-copy strong,.theme-switch-copy small { display:block; }
+.theme-switch-copy strong { font-size:14px; }
+.theme-switch-copy small { margin-top:3px; font-size:12px; color:inherit; opacity:.75; }
+.theme-switch-track { display:block; width:38px; height:22px; padding:3px; flex-shrink:0; border-radius:20px; background:#b4c2d2; }
+.theme-switch-track > span { display:block; width:16px; height:16px; border-radius:50%; background:white; box-shadow:0 1px 3px #24456533; transition:transform .15s; }
+.theme-switch[aria-checked="true"] .theme-switch-track { background:#2475d9; }
+.theme-switch[aria-checked="true"] .theme-switch-track > span { transform:translateX(16px); }
+.theme-switch:focus-visible { outline:3px solid #2475d9; outline-offset:3px; }
+
+/* An opt-in layer: removing the attribute restores each room's original CSS.
+   Attribute specificity beats room styles regardless of route CSS load order. */
+html[data-jaski-theme="blue-ice"] {
+  color-scheme:light;
+  --page-background:#edf4fb; --sidebar-background:#f6faff;
+  --sidebar-border:#d4e2f0; --card-background:#fff;
+  --text-primary:#19324c; --text-secondary:#536b83;
+  --accent:#2475d9; --accent-deep:#185cb3; --divider:#d4e2f0;
+  --shadow:0 4px 18px #24456509;
+}
+html[data-jaski-theme="blue-ice"] body { background:#edf4fb!important; color:#19324c!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell { background:#edf4fb!important; color:#19324c!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell > .sidebar {
+  background:#f6faff!important; border:1px solid #d4e2f0!important;
+  border-radius:16px!important; box-shadow:none!important; backdrop-filter:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(.content-shell,.content-stage,.dashboard,[class$="__room"],[class$="_room"]) {
+  background:transparent!important; color:#19324c!important; border:0!important; box-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(section,article,header,[class*="card" i],[class*="panel" i],[class*="board" i],[class*="shelf" i],[class*="wrap" i]):where(:not([class*="art" i]):not([class*="poster" i]):not([class*="image" i]):not([class*="cover" i]):not(.app-shell)) {
+  background-color:#fff!important; background-image:none!important;
+  border-color:#d4e2f0!important; outline:none!important;
+  box-shadow:none!important; text-shadow:none!important; color:#19324c!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(h1,h2,h3,h4,h5,h6,p,small,strong,b,span,label,td,th,li,a,summary) {
+  color:#19324c!important; text-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(h1,h2,h3,h4,h5,h6) {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  letter-spacing:-.025em!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(p,small,[class*="lede" i],[class*="subtitle" i]) { color:#536b83!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class*="eyebrow" i],[class*="kicker" i],[class*="state" i],.navigation-label) { color:#185cb3!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .navigation-link { border:0!important; background:transparent!important; border-radius:10px!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .navigation-link.active { background:#dcecff!important; color:#185cb3!important; box-shadow:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .navigation-link:hover { background:#e6f0fb!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(button,input,select,textarea) { color:#19324c!important; background:#f4f8fd!important; border-color:#a9bfd7!important; box-shadow:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(a,button,input,select,textarea):focus-visible { outline:3px solid #2475d9!important; outline-offset:3px!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class*="card" i],[class*="panel" i],[class*="wrap" i])::before,
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class*="card" i],[class*="panel" i],[class*="wrap" i])::after { content:none!important; }
+/* Keep real artwork and logos; remove ornamental room scenery. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__hero"],[class$="_hero"],.dashboard-header,[data-sports-hero]) {
+  display:block!important; position:relative!important;
+  background:#f7fbff!important; border:1px solid #d4e2f0!important;
+  border-radius:16px!important; height:auto!important; min-height:0!important; max-height:none!important;
+  padding:24px!important; box-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__hero"],[class$="_hero"],.dashboard-header,[data-sports-hero])::before,
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__hero"],[class$="_hero"],.dashboard-header,[data-sports-hero])::after { content:none!important; display:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__heroCopy"],[class$="_heroCopy"],[class$="__compactHeroCopy"],[data-sports-hero-copy]) {
+  position:static!important; display:block!important; width:auto!important;
+  max-width:760px!important; min-width:0!important; margin:0!important;
+  padding:0!important; transform:none!important; background:transparent!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__hero"],[class$="_hero"],[data-sports-hero]) h1 { font-size:clamp(28px,3vw,42px)!important; line-height:1.15!important; color:#19324c!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__heroMark"],[class$="__heroBadge"],[class$="__badge"],[class$="__heroFooter"],[class$="__heroStatus"],[class$="__gridGlow"],[class$="__glowOne"],[class$="__glowTwo"],[class$="__signal"]) { display:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="MyTeams"][class*="card"] { background:#fff!important; border:1px solid #d4e2f0!important; height:auto!important; min-height:86px!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="MyTeams"][class*="mark"] { background:#eef5fd!important; border-color:#d4e2f0!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="MyTeams"][class*="latestResult"] b { color:#185cb3!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .brand-icon { background:#2475d9!important; color:white!important; box-shadow:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-switch-track > span { background:white!important; }
+@media(prefers-reduced-motion:reduce) { .theme-switch-track > span { transition:none; } }
+
+/* Poster labels stay readable over their original imagery. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class*="Art"],[class*="poster" i],[class*="cover" i]) :is(span,p,small,strong,b) { color:#fff!important; text-shadow:0 1px 3px #000!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(section,article,header)::before,
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(section,article,header)::after { content:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([data-sports-hero-badge],[data-sports-hero-footer]) { display:none!important; }
+
+/* Blue Ice v2: neutralize the inherited lodge finishes, including pseudo scenery. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell {
+  background:linear-gradient(135deg,#d8eaff,#edf7ff 65%,#deefff)!important;
+  --cream:#e7f2ff; --paper:#e7f2ff; --ink:#19324c;
+  --walnut:#d3e6fa; --walnut-mid:#d3e6fa; --leather:#d3e6fa;
+  --brass:#2475d9; --forest:#2475d9;
+  --lodge-ink:#19324c; --lodge-muted:#536b83;
+  --lodge-pine:#2475d9; --lodge-pine-bright:#2475d9;
+  --lodge-leather:#d3e6fa; --lodge-walnut:#d3e6fa;
+  --lodge-brass:#2475d9; --lodge-brass-soft:#c8e2ff;
+  --lodge-parchment:#e7f2ff; --lodge-cream:#f4f9ff;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell::before,
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell::after,
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .sidebar::before,
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .sidebar::after { content:none!important; display:none!important; }
+/* Plain containers inherit their blue surface instead of wood or parchment.
+   Artwork containers keep their actual photos and covers. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell div:where(:where(:not([class*="art" i]):not([class*="poster" i]):not([class*="cover" i]):not([class*="image" i]):not([class*="thumb" i]):not([class*="logo" i]))) {
+  background:none!important; box-shadow:none!important; text-shadow:none!important;
+  border-color:#bdd5ee!important; outline:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(section,article,header,[class*="panel" i],[class*="card" i]):where(:not([class*="art" i]):not([class*="poster" i]):not([class*="image" i]):not([class*="cover" i])) {
+  background:#f4f9ff!important; border-style:solid!important; border-width:1px!important;
+  border-color:#bdd5ee!important; border-radius:12px!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(.weather-compact-stats > div,.ritual-reading,.ritual-action,[class*="__rows"],[class*="__row"],[class*="__summary"],[class*="__band"],[class*="__identity"]) {
+  background:#e1efff!important; box-shadow:none!important; border-color:#bdd5ee!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(.home-utility-card a,.calendar-actions a,[class*="__links"] a,[class*="__actions"] a) {
+  background:#e1efff!important; border:1px solid #bdd5ee!important;
+  color:#185cb3!important; box-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(.utility-mark,.weather-icon-wrap,[class*="__pill"],[class*="__tag"],[class*="__status"],[class*="__live"]) {
+  background:#cce3ff!important; color:#185cb3!important; border-color:#bdd5ee!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__hero"],[class$="_hero"],.dashboard-header,[data-sports-hero]) {
+  background:linear-gradient(110deg,#cce3ff,#edf7ff)!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class$="__hero"],[class$="_hero"],.dashboard-header) h1 {
+  position:static!important; transform:none!important; width:auto!important;
+  text-align:left!important; color:#185cb3!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .brand-icon {
+  display:grid!important; place-items:center!important; background:#2475d9!important;
+  border-radius:12px!important; color:#fff!important; font-size:18px!important;
+  filter:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-switch-track { background:#b4c2d2!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-switch[aria-checked="true"] .theme-switch-track { background:#2475d9!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-switch-track > span { background:#fff!important; }
+
+/* The appearance control uses the same finish as its surrounding sidebar. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-control {
+  padding:16px 6px 4px; border-top:1px solid #bdd5ee;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-switch {
+  background:#e1efff!important; border:1px solid #bdd5ee!important;
+  color:#185cb3!important; border-radius:10px!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-switch-copy strong {
+  color:#185cb3!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .theme-control-label {
+  color:#536b83!important; font-size:12px; letter-spacing:.08em;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is([class*="__crown"],[class*="__year"],[class*="__count"],[class*="__badge"]) {
+  background:#cce3ff!important; border:1px solid #bdd5ee!important;
+  color:#185cb3!important; box-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell :is(strong,b,em) { font-family:inherit!important; color:#19324c!important; }
+
+/* Blue Ice v3: preserve content photos while simplifying decorative scenery. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell .ritual-cross {
+  background:#2475d9!important; color:#fff!important;
+  border:1px solid #185cb3!important; box-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"][class*="primaryCard"]:nth-child(1) {
+  background:#f4f9ff url('/food-backyard/recipe-journal-still-life.webp') 50% 38px / 100% 69% no-repeat!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"][class*="primaryCard"]:nth-child(2) {
+  background:#f4f9ff url('/food-backyard/professional-kitchen-mode.webp') 50% 38px / 100% 69% no-repeat!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"][class*="cardCopy"] {
+  position:relative; background:#f4f9ff!important;
+  padding-top:12px!important; margin-top:260px!important;
+  border:0!important; border-radius:0!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="StreamingRoom"][class$="__liveCard"] {
+  background:#dcecff!important; border:1px solid #bdd5ee!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="StreamingRoom"][class$="__liveCardShade"] {
+  background:linear-gradient(180deg,rgba(0,0,0,.14),transparent 35%,rgba(0,0,0,.8))!important;
+  border:0!important; border-radius:0!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="StreamingRoom"][class$="__liveCard"] :is([class$="__liveCardTop"],[class$="__liveCardBottom"]) {
+  background:transparent!important; border:0!important; border-radius:0!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="StreamingRoom"][class$="__liveCard"] :is(h4,span,small) {
+  color:#fff!important; text-shadow:0 1px 3px #000!important;
+}
+/* Match the Sports lock's exact structural selectors so all:revert cannot win. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] {
+  display:block!important; height:auto!important; min-height:0!important;
+  max-height:none!important; padding:24px!important; overflow:visible!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] {
+  position:static!important; transform:none!important; display:block!important;
+  width:auto!important; height:auto!important; margin:0!important; padding:0!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] > h1 {
+  color:#185cb3!important; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  font-size:clamp(28px,3vw,42px)!important; line-height:1.15!important;
+  text-shadow:none!important; margin:8px 0!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > [data-sports-hero-copy] > p {
+  color:#536b83!important; text-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :is([data-sports-hero-badge],[data-sports-hero-footer]) { display:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="MyTeams"][class*="card"] [class*="identity"] :is(strong,small) { color:#19324c!important; }
+@media(max-width:1050px) {
+  html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"][class*="cardCopy"] { margin-top:210px!important; }
+}
+@media(max-width:680px) {
+  html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"][class*="cardCopy"] { margin-top:190px!important; }
+}
+
+/* Blue Ice v4: tidy Food photo cards and cinematic game banners. */
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"] [class*="primaryGrid"] { gap:16px!important; border:0!important; background:transparent!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"] [class*="primaryCard"]:nth-child(-n+2) { padding:18px!important; background-position:50% 44px!important; background-size:100% 220px!important; background-color:#fff!important; border:1px solid #bdd5ee!important; border-radius:14px!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"] [class*="primaryCard"]:nth-child(-n+2) [class*="cardCopy"] { margin-top:238px!important; padding:16px 0 0!important; background:transparent!important; border:0!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"] [class*="cardTopline"] { border:0!important; background:transparent!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"] [class*="open"] { color:#185cb3!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="FoodRoom"] [class*="localCard"] { background:#f6faff!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] :is([class*="newsCard"],[class*="releaseCard"]) { position:relative!important; display:flex!important; flex-direction:column!important; justify-content:flex-end!important; height:230px!important; min-height:230px!important; padding:0!important; overflow:hidden!important; clip-path:none!important; transform:none!important; border:1px solid #bdd5ee!important; border-radius:14px!important; isolation:isolate; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] :is([class*="newsArt"],[class*="releaseArt"]) { position:absolute!important; inset:0!important; width:100%!important; height:100%!important; border:0!important; filter:none!important; background-size:cover!important; background-position:center!important; z-index:-1!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] :is([class*="newsContent"],[class*="releaseBody"]) { position:static!important; flex:0 0 auto!important; padding:70px 16px 16px!important; text-align:center!important; border:0!important; background:linear-gradient(180deg,transparent,rgba(3,8,16,.94))!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] :is([class*="newsContent"],[class*="releaseBody"]) :is(h3,span,small,b) { color:#fff!important; text-shadow:0 1px 4px #000!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] :is([class*="newsCard"],[class*="releaseCard"]) h3 { max-width:100%!important; margin:0 0 8px!important; font-size:20px!important; font-weight:600!important; line-height:1.2!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] [class*="newsTop"] { position:absolute!important; top:14px!important; left:14px!important; right:14px!important; display:flex!important; justify-content:space-between!important; background:transparent!important; border:0!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] [class*="newsTop"] span { padding:6px 8px!important; background:rgba(8,8,22,.78)!important; border-radius:999px!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] [class*="releaseDate"] { position:absolute!important; top:14px!important; left:14px!important; bottom:auto!important; width:auto!important; padding:6px 8px!important; border:0!important; border-radius:999px!important; transform:none!important; background:rgba(8,8,22,.78)!important; color:#fff!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] [class*="badges"] { justify-content:center!important; background:transparent!important; border:0!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] [class*="badges"] span { background:rgba(8,8,22,.72)!important; border:0!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] :is([class*="artWord"],[class*="artMark"],[class*="readMore"],[class*="releaseMarks"]), [class*="GamingRoom"] [class*="newsCard"] p { display:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] [class*="newsContent"]::after { content:none!important; display:none!important; }
+html[data-jaski-theme="blue-ice"] body .app-shell.app-shell.app-shell [class*="GamingRoom"] [class*="playniteLaunch"] { background:#e1efff!important; box-shadow:none!important; border-color:#bdd5ee!important; }

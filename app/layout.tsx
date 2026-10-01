@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./shell-lock.css";
+import "./themes.css";
 
 export const metadata: Metadata = {
   title: "Jaski Command Center",
@@ -13,7 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('jaski-theme');document.documentElement.dataset.jaskiTheme=t==='blue-ice'?'blue-ice':'original'}catch(e){}` }} />
+      </head>
       <body>{children}</body>
     </html>
   );

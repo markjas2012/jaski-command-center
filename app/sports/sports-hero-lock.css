@@ -316,3 +316,58 @@ html body .app-shell.sports-clubhouse-shell .content-shell > main > section[data
   padding-top:9px!important;
 }
 
+
+/* Blue Ice: override the original hero lock at its source. */
+html[data-jaski-theme="blue-ice"] body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] {
+  display:block!important;
+  position:relative!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding:24px!important;
+  overflow:visible!important;
+  background:#e7f2ff!important;
+  border:1px solid #bdd5ee!important;
+  border-radius:12px!important;
+  box-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :first-child[data-sports-hero-copy] {
+  all:revert!important;
+  box-sizing:border-box!important;
+  display:block!important;
+  position:static!important;
+  width:auto!important;
+  max-width:760px!important;
+  min-width:0!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+  background:transparent!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :first-child[data-sports-hero-copy] > h1 {
+  all:revert!important;
+  display:block!important;
+  position:static!important;
+  margin:8px 0!important;
+  padding:0!important;
+  color:#185cb3!important;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  font-size:clamp(28px,3vw,42px)!important;
+  font-weight:600!important;
+  line-height:1.15!important;
+  letter-spacing:-.025em!important;
+  text-align:left!important;
+  text-shadow:none!important;
+  transform:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :first-child[data-sports-hero-copy] > p {
+  color:#536b83!important;
+  font-family:inherit!important;
+  text-shadow:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :nth-child(2)[data-sports-hero-badge],
+html[data-jaski-theme="blue-ice"] body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero] > :last-child[data-sports-hero-footer] {
+  display:none!important;
+}
+html[data-jaski-theme="blue-ice"] body .app-shell.sports-clubhouse-shell .content-shell > main > section[data-sports-hero]::after { content:none!important; display:none!important; }
