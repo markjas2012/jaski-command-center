@@ -1,0 +1,17 @@
+.shelf{margin:12px 0;padding:16px;border:1px solid rgba(220,190,100,.38);border-radius:14px;background:linear-gradient(145deg,rgba(43,31,20,.94),rgba(19,18,15,.97));color:#f7edcd}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.heading h2{margin:0;font:500 26px/1.2 Georgia,serif}
+.heading span{font-size:12px;letter-spacing:.08em;color:#dac17f}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.card{display:flex;flex-direction:column;align-items:flex-start;padding:16px;border:1px solid rgba(220,190,100,.28);border-radius:9px;background:rgba(0,0,0,.2)}
+.badge{display:grid;place-items:center;min-width:42px;height:42px;padding:0 8px;border:1px solid #b69b59;border-radius:8px;background:#304334;color:#ebd48c;font:22px Georgia,serif}
+.card h3{margin:12px 0 6px;font:500 19px/1.25 Georgia,serif}
+.card p{margin:0 0 18px;color:#d3c5aa;font-size:14px;line-height:1.4}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.actions a{display:inline-flex;align-items:center;min-height:40px;padding:8px 10px;border:1px solid #a78b4c;border-radius:6px;color:#fff2ca;text-decoration:none;font-size:14px;font-weight:600}
+.actions a:first-child{background:#344c39}
+.actions a:hover{background:#4a5d3b}
+.actions a:focus-visible{outline:3px solid #f9d67c;outline-offset:3px}
+@media(max-width:1350px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.heading{align-items:flex-start;flex-direction:column}}

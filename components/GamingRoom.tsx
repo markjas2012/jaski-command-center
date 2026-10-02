@@ -1,5 +1,7 @@
 ﻿import styles from "./GamingRoom.module.css";
 
+import GameManuals from "./GameManuals";
+
 type NewsItem = {
   source: string;
   label: string;
@@ -259,6 +261,8 @@ export default async function GamingRoom() {
         </div>
       </section>
 
+      <GameManuals />
+
       <section className={`${styles.panel} ${styles.releasePanel}`}>
         <div className={styles.releaseMarks} aria-hidden="true"><span>â™›</span><b>ÏŸ</b></div>
         <div className={styles.sectionHead}>
@@ -298,4 +302,3 @@ export default async function GamingRoom() {
     </main>
   );
 }
-
