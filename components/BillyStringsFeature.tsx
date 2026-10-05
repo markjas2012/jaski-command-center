@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import styles from "./WidespreadPanicFeature.module.css";
 
 type Show = { date?: string; venue?: string; title?: string; location?: string; href: string; fresh?: boolean };
-type Feed = { latest?: Record<string, Show | null> };
+type Feed = { latest?: Show | null; next?: Show | null };
 const recordings = "https://www.nugs.net/billy-strings-concerts-live-downloads-in-mp3-flac-or-online-music-streaming/";
 const tour = "https://www.billystrings.com/tour";
 
 function showDate(value?: string) {
+  const iso = value?.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (iso) return new Date(+iso[1], +iso[2] - 1, +iso[3]);
   const match = value?.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
   if (!match) return null;
   const year = +match[3] < 100 ? 2000 + +match[3] : +match[3];
@@ -20,18 +22,21 @@ export default function BillyStringsFeature() {
   const [feed, setFeed] = useState<Feed | null>(null);
   useEffect(() => {
     let active = true;
-    fetch("/api/jam-listen", { cache: "no-store" })
+    fetch("/api/billy-hub", { cache: "no-store" })
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data) => { if (active) setFeed(data); })
       .catch(() => { if (active) setFeed(null); });
     return () => { active = false; };
   }, []);
-  const candidate = feed?.latest?.["Billy Strings"];
+  const candidate = feed?.latest;
   const date = showDate(candidate?.date);
   const today = new Date();
   today.setHours(23, 59, 59, 999);
   // Scheduled recordings must not appear as already played shows.
   const latest = candidate && date && date <= today && candidate.fresh !== false ? candidate : null;
+  const next = feed?.next;
+  const nextDate = showDate(next?.date);
+  const nextLabel = nextDate ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(nextDate) : "Upcoming shows";
   const label = latest && date
     ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(date)
     : "Browse recordings";
@@ -42,11 +47,11 @@ export default function BillyStringsFeature() {
         <a className={styles.row} href={latest?.href || recordings} target="_blank" rel="noreferrer">
           <span>LATEST SHOW</span><strong>{label}</strong>
           <b>{latest?.venue || latest?.title || "Billy Strings on nugs"}</b>
-          <small>{latest?.location || "Live show recordings"}</small><em>Listen ↗</em>
+          <small>{latest?.location || "Live show recordings"}</small><em>View Show ↗</em>
         </a>
-        <a className={styles.row} href={tour} target="_blank" rel="noreferrer">
-          <span>NEXT SHOW</span><strong>Upcoming shows</strong><b>Billy Strings Tour</b>
-          <small>Official tour schedule</small><em>View Tour ↗</em>
+        <a className={styles.row} href={next?.href || tour} target="_blank" rel="noreferrer">
+          <span>NEXT SHOW</span><strong>{nextLabel}</strong><b>{next?.venue || "Billy Strings Tour"}</b>
+          <small>{next?.location || "Official tour schedule"}</small><em>View Tour ↗</em>
         </a>
       </div>
     </section>
