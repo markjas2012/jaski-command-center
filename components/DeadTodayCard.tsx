@@ -39,10 +39,6 @@ export default function DeadTodayCard() {
   },[]);
   return (
     <section className={styles.deadHub}>
-      <header className={styles.heroHead}>
-        <div><p>THE GRATEFUL DEAD</p><h2>Grateful Dead.</h2><span>The center of the Jam Room.</span></div>
-        <span className={styles.crown}>GD · ARCHIVE 01</span>
-      </header>
       <div className={styles.mainGrid}>
         <article className={styles.historyCard}>
           <span className={styles.kicker}>TODAY IN GRATEFUL DEAD HISTORY</span>

@@ -24,7 +24,7 @@ type Feed = {
 };
 
 const rotatingArtists = [
-  "Billy Strings",
+  "Tedeschi Trucks Band",
   "The String Cheese Incident",
   "The Disco Biscuits",
   "Joe Russo's Almost Dead",
@@ -71,7 +71,7 @@ export default function JamListen() {
     return () => { active = false; };
   }, []);
   const discovery = feed?.discovery?.length
-    ? feed.discovery
+    ? feed.discovery.filter((item) => item.artist.trim().toLowerCase() !== "billy strings")
     : rotatingArtists.map((artist) => feed?.latest?.[artist]).filter((item): item is Item => Boolean(item));
   const seen = new Set(discovery.map((item) => item.artist));
   const missing = rotatingArtists.filter((artist) => !seen.has(artist));

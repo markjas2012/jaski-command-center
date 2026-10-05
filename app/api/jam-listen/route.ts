@@ -15,6 +15,7 @@ type Item = {
 };
 
 const DISCOVERY_ARTISTS = [
+  "Tedeschi Trucks Band",
   "Billy Strings",
   "The String Cheese Incident",
   "The Disco Biscuits",
