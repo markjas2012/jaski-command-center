@@ -1,16 +1,8 @@
-﻿import styles from "./GamingRoom.module.css";
+import styles from "./GamingRoom.module.css";
 
 import GameManuals from "./GameManuals";
-
-type NewsItem = {
-  source: string;
-  label: string;
-  headline: string;
-  summary: string;
-  href: string;
-  art: "wolverine" | "halo" | "splatoon";
-  artLabel: string;
-};
+import { getGamingNews } from "../lib/gaming-news";
+import { upcomingGamePriority } from "../lib/gaming-preferences";
 
 type RawgPlatform = {
   platform?: { name?: string };
@@ -18,6 +10,7 @@ type RawgPlatform = {
 
 type RawgGame = {
   id: number;
+  added?: number;
   name: string;
   released?: string | null;
   background_image?: string | null;
@@ -38,44 +31,10 @@ type Release = {
 };
 
 
-const scoreUpcomingGame = (game: RawgGame) => {
-  let score = 0;
-
-  const name = (game.name?.toLowerCase() ?? "");
-  const genres = (game.genres ?? []).map((genre) => (genre.name ?? "").toLowerCase());
-  const platforms = (game.parent_platforms ?? []).map((platform) => platform.platform?.name?.toLowerCase() ?? "");
-
-  // Prefer broadly relevant console / PC releases.
-  if (platforms.some((platform) => ["playstation", "xbox", "pc", "nintendo"].includes(platform))) score += 4;
-
-  // Favor the genres that most often represent major commercial releases.
-  if (genres.some((genre) => ["action", "adventure", "role-playing-games-rpg", "shooter", "sports", "fighting", "racing", "strategy"].includes(genre))) score += 3;
-
-  // Small bias toward titles that look like established / premium releases.
-  if (name.includes("marvel")) score += 2;
-  if (name.includes("star wars")) score += 2;
-  if (name.includes("grand theft auto")) score += 3;
-  if (name.includes("metal gear")) score += 2;
-  if (name.includes("madden")) score += 2;
-  if (name.includes("mafia")) score += 2;
-
-  // De-prioritize obvious simulator / novelty / demo-style listings.
-  if (name.includes("simulator")) score -= 3;
-  if (name.includes("demo")) score -= 4;
-  if (name.includes("prologue")) score -= 3;
-
-  return score;
-};
+const scoreUpcomingGame = upcomingGamePriority;
 
 
-const FALLBACK_RELEASES: Release[] = [
-  { id: "fallback-1", date: "AUG 04", title: "Beast of Reincarnation", platforms: ["PS5", "XBOX", "PC"], note: "Action RPG", image: null, href: "https://rawg.io/" },
-  { id: "fallback-2", date: "AUG 06", title: "Marvel TÅkon: Fighting Souls", platforms: ["PS5", "PC"], note: "Fighting", image: null, href: "https://rawg.io/" },
-  { id: "fallback-3", date: "AUG 13", title: "Madden NFL 27", platforms: ["PS5", "XBOX", "SWITCH 2", "PC"], note: "Sports", image: null, href: "https://rawg.io/" },
-  { id: "fallback-4", date: "AUG 27", title: "Metal Gear Solid Master Collection Vol. 2", platforms: ["PS5", "XBOX", "SWITCH 2", "SWITCH", "PC"], note: "Collection", image: null, href: "https://rawg.io/" },
-  { id: "fallback-5", date: "AUG 27", title: "Star Wars: Zero Company", platforms: ["PS5", "XBOX", "PC"], note: "Tactics", image: null, href: "https://rawg.io/" },
-  { id: "fallback-6", date: "SEP 15", title: "Marvelâ€™s Wolverine", platforms: ["PS5"], note: "Action", image: null, href: "https://rawg.io/" },
-];
+const FALLBACK_RELEASES: Release[] = [];
 
 function formatReleaseDate(value?: string | null) {
   if (!value) return "TBA";
@@ -110,7 +69,7 @@ async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boole
   url.searchParams.set("key", apiKey);
   url.searchParams.set("dates", `${iso(today)},${iso(end)}`);
   url.searchParams.set("ordering", "-added");
-  url.searchParams.set("page_size", "40");
+  url.searchParams.set("page_size", "100");
   url.searchParams.set("exclude_additions", "true");
 
   const controller = new AbortController();
@@ -124,13 +83,14 @@ async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boole
     if (!response.ok) return { releases: FALLBACK_RELEASES, live: false };
     const data = (await response.json()) as { results?: RawgGame[] };
     const releases = (data.results ?? [])
-      .filter((game) => game.name && game.released && game.background_image)
+      .filter((game) => game.name && game.released && game.released >= iso(today) && game.background_image)
       .map((game) => ({ game, relevance: scoreUpcomingGame(game) }))
+      .filter(({ relevance }) => relevance > 0)
       .sort((a, b) => {
         if (b.relevance !== a.relevance) return b.relevance - a.relevance;
         return (a.game.released ?? "").localeCompare(b.game.released ?? "");
       })
-      .slice(0, 18)
+      .slice(0, 6)
       .sort((a, b) => (a.game.released ?? "").localeCompare(b.game.released ?? ""))
       .map(({ game }): Release => {
         const platforms = Array.from(new Set((game.platforms ?? []).map((item) => compactPlatform(item.platform?.name)).filter(Boolean))) as string[];
@@ -147,7 +107,7 @@ async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boole
       .filter((game) => game.platforms.length > 0)
       .slice(0, 6);
 
-    return releases.length >= 3
+    return releases.length > 0
       ? { releases, live: true }
       : { releases: FALLBACK_RELEASES, live: false };
   } catch {
@@ -157,40 +117,8 @@ async function getUpcomingReleases(): Promise<{ releases: Release[]; live: boole
   }
 }
 
-const news: NewsItem[] = [
-  {
-    source: "PLAYSTATION",
-    label: "STORY TRAILER",
-    headline: "Marvelâ€™s Wolverine sharpens the focus for September",
-    summary: "Insomniac revealed a new story trailer, more character details, and the score behind its September 15 PS5 release.",
-    href: "https://blog.playstation.com/2026/07/23/marvels-wolverine-story-trailer-new-art-composer-details-and-more/",
-    art: "wolverine",
-    artLabel: "LOGAN / SEP 15",
-  },
-  {
-    source: "XBOX",
-    label: "OUT NOW",
-    headline: "Halo: Campaign Evolved brings the original fight forward",
-    summary: "The Combat Evolved campaign has been rebuilt with updated visuals, refined controls, new prequel missions, and Game Pass support.",
-    href: "https://news.xbox.com/en-us/2026/07/24/next-week-on-xbox-new-games-for-july-27-to-31/",
-    art: "halo",
-    artLabel: "HALO / JUL 28",
-  },
-  {
-    source: "NINTENDO",
-    label: "SWITCH 2",
-    headline: "Splatoon Raiders opens a new single-player hunt",
-    summary: "Nintendoâ€™s new Switch 2 exclusive sends players to the Spirhalite Islands with Deep Cut for a treasure-focused solo adventure.",
-    href: "https://www.nintendo.com/us/whatsnew/",
-    art: "splatoon",
-    artLabel: "RAIDERS / OUT NOW",
-  },
-]
-
-
-
 export default async function GamingRoom() {
-  const { releases, live } = await getUpcomingReleases();
+  const [{ releases, live }, news] = await Promise.all([getUpcomingReleases(), getGamingNews()]);
 
   return (
     <main className={styles.room}>
@@ -219,9 +147,9 @@ export default async function GamingRoom() {
           <div>
             <p className={styles.sectionEyebrow}>MAJOR NEWS</p>
             <h2>What matters.</h2>
-            <p className={styles.sectionCopy}>A few major stories across console and PC gaming.</p>
+            <p className={styles.sectionCopy}>Major games, fighting, sports, and hardware from Xbox Wire and PlayStation Blog.</p>
           </div>
-          <span className={styles.count}>3 STORIES</span>
+          <span className={styles.count}>{news.length} STORIES</span>
         </div>
         <div className={styles.newsGrid}>
           {news.map((item, index) => (
@@ -232,7 +160,8 @@ export default async function GamingRoom() {
               rel="noreferrer"
               key={item.headline}
             >
-              <div className={`${styles.newsArt} ${styles[item.art]}`} aria-hidden="true">
+              <div className={styles.newsArt}
+                style={{ background: item.image ? `linear-gradient(180deg,transparent,rgba(3,8,16,.65)),url(${JSON.stringify(item.image)}) center/cover` : "linear-gradient(135deg,#18334f,#0a1424)" }} aria-hidden="true">
                 <span className={styles.artWord}>{item.artLabel}</span>
                 <i className={styles.artMark} />
               </div>
@@ -269,9 +198,9 @@ export default async function GamingRoom() {
           <div>
             <p className={styles.sectionEyebrow}>UPCOMING RELEASES</p>
             <h2>Coming soon.</h2>
-            <p className={styles.sectionCopy}>A cross-platform look at the next games worth knowing about.</p>
+            <p className={styles.sectionCopy}>Major releases, fighting games, and sports games worth watching.</p>
           </div>
-          <span className={styles.count}>3 PICKS</span>
+          <span className={styles.count}>{Math.min(releases.length, 3)} PICKS</span>
         </div>
         <div className={styles.releaseGrid}>
           {releases.slice(0, 3).map((game) => (
@@ -293,8 +222,9 @@ export default async function GamingRoom() {
             </a>
           ))}
         </div>
+        {!live && <p className={styles.sectionCopy}>No matching upcoming releases are available right now. <a href="https://rawg.io/games" target="_blank" rel="noreferrer">Browse current games ↗</a></p>}
         <div className={styles.releaseSource}>
-          <span>{live ? "LIVE RELEASE DATA" : "FALLBACK RELEASE LIST"}</span>
+          <span>{live ? "LIVE RELEASE DATA" : "RELEASE FEED UNAVAILABLE"}</span>
           <a href="https://rawg.io/" target="_blank" rel="noreferrer">Data & artwork via RAWG â†—</a>
         </div>
       </section>
@@ -302,3 +232,4 @@ export default async function GamingRoom() {
     </main>
   );
 }
+

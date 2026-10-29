@@ -1,3 +1,4 @@
+export const revalidate = 1800;
 import Sidebar from "../../components/Sidebar";
 import GamingRoom from "../../components/GamingRoom";
 import "./arcade-room.css";
